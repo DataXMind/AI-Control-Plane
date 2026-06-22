@@ -1,0 +1,31 @@
+version: 1
+
+model_profiles: {}
+
+agents:
+  agent1:
+    name: infra-antigravity
+    roles: [infra]
+    projects: [rust-gateway]
+    runner: antigravity
+    model_profile: claude-team-infra
+    capabilities: [k8s, git]
+    restrictions: []
+
+  agent2:
+    name: backend-vscode
+    roles: [backend]
+    projects: [rust-gateway]
+    runner: vscode
+    model_profile: claude-pro-backend
+    capabilities: [git]
+    restrictions: []
+
+  agent3:
+    name: reviewer-cli
+    roles: [reviewer]
+    projects: [rust-gateway]
+    runner: cli
+    model_profile: claude-team-review
+    capabilities: [git_read]
+    restrictions: [read_only]

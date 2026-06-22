@@ -1,0 +1,118 @@
+# Project registry — onboarded repos, environments, and role bindings.
+# Shipped defaults; override path via ACP_CONFIG_DIR at runtime.
+version: 1
+
+defaults:
+  environment: dev
+
+projects:
+  # ── Flagship Rust gateway (Milestone A) ──────────────────────────────────
+  rust-gateway:
+    display_name: Hybrid AI Gateway
+    repo: git@github.com:DataXMind/Hybrid-AI-Gateway.git
+    default_branch: main
+
+    environments:
+      dev:
+        k8s_cluster: dataxmind-dev-aks
+        namespace: rust-gateway-dev
+      stage:
+        k8s_cluster: dataxmind-stage-aks
+        namespace: rust-gateway-stage
+      prod:
+        k8s_cluster: dataxmind-prod-aks
+        namespace: rust-gateway-prod
+
+    roles:
+      infra:
+        description: Platform, K8s manifests, CI/CD, and deployment automation
+        allowed_paths:
+          - infra/
+          - k8s/
+          - deploy/
+          - helm/
+          - .github/workflows/
+          - docker/
+        branch_prefixes:
+          - infra/
+          - chore/
+          - fix/infra-
+        environments:
+          - dev
+          - stage
+
+      backend:
+        description: Rust gateway application code and integration tests
+        allowed_paths:
+          - src/
+          - crates/
+          - api/
+          - tests/
+          - benches/
+          - Cargo.toml
+          - Cargo.lock
+        branch_prefixes:
+          - feat/
+          - fix/
+          - refactor/
+          - perf/
+        environments:
+          - dev
+          - stage
+
+      reviewer:
+        description: Read-only review across all paths; no direct writes
+        allowed_paths:
+          - "**"
+        branch_prefixes: []
+        environments:
+          - dev
+          - stage
+          - prod
+
+  # ── Analytics workspace (Milestone B plug-in) ──────────────────────────────
+  datax-analytics:
+    display_name: DataX Analytics
+    repo: git@github.com:DataXMind/datax-analytics.git
+    default_branch: main
+
+    environments:
+      dev:
+        k8s_cluster: dataxmind-dev-aks
+        namespace: analytics-dev
+        warehouse: snowflake_dev
+      stage:
+        k8s_cluster: dataxmind-stage-aks
+        namespace: analytics-stage
+        warehouse: snowflake_stage
+      prod:
+        k8s_cluster: dataxmind-prod-aks
+        namespace: analytics-prod
+        warehouse: snowflake_prod
+
+    roles:
+      data-analyst:
+        description: Notebooks, SQL models, and dashboard definitions
+        allowed_paths:
+          - notebooks/
+          - sql/
+          - dbt/
+          - dashboards/
+          - data/schemas/
+        branch_prefixes:
+          - analysis/
+          - feat/data-
+          - report/
+        environments:
+          - dev
+          - stage
+
+      reviewer:
+        description: Read-only review of analytics artifacts; prod read for audit
+        allowed_paths:
+          - "**"
+        branch_prefixes: []
+        environments:
+          - dev
+          - stage
+          - prod

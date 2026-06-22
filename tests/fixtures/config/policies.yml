@@ -1,0 +1,59 @@
+# Test policies — PolicyRule format consumed by tests/conftest.py
+version: 1
+
+rules:
+  - name: rbac-backend
+    description: Backend developer RBAC
+    effect: allow
+    conditions:
+      rule_type: rbac
+      role: backend
+      allowed_actions:
+        - git_read
+        - git_commit
+        - git_push
+        - create_pr
+        - read_pr
+      denied_patterns:
+        - k8s_apply_*
+
+  - name: rbac-infra
+    description: Infra operator RBAC
+    effect: allow
+    conditions:
+      rule_type: rbac
+      role: infra
+      allowed_actions:
+        - git_read
+        - k8s_apply_*
+        - k8s_diff
+        - helm_upgrade
+      denied_patterns: []
+
+  - name: rbac-reviewer
+    description: Reviewer read-only RBAC
+    effect: allow
+    conditions:
+      rule_type: rbac
+      role: reviewer
+      allowed_actions:
+        - read_repo
+        - read_pr
+        - comment_pr
+      denied_patterns: []
+
+  - name: prod-k8s-approval
+    description: Production k8s apply requires approval
+    effect: allow
+    conditions:
+      rule_type: abac
+      environment: prod
+      action: k8s_apply_prod
+      requires_approval: true
+
+  - name: deny-pii
+    description: Deny access to PII-tagged data
+    effect: deny
+    conditions:
+      rule_type: abac
+      data_category: PII

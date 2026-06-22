@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-control-plane"
+version = "0.0.1"
+requires-python = ">=3.11"
+description = "AI control plane for multi-agent systems"
+authors = [{ name = "Richard Do" }]
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "pydantic>=2.0",
+    "fastapi>=0.110",
+    "uvicorn[standard]",
+    "typer[all]>=0.12",
+    "pyyaml>=6.0",
+    "structlog>=24.0",
+    "opentelemetry-sdk>=1.24",
+    "opentelemetry-exporter-otlp",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio",
+    "pytest-cov",
+    "mypy>=1.9",
+    "ruff>=0.4",
+    "pre-commit",
+]
+
+[project.scripts]
+agentctl = "ai_control_plane.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_control_plane"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+packages = ["ai_control_plane"]

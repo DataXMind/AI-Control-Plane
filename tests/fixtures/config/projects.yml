@@ -1,0 +1,30 @@
+version: 1
+
+defaults:
+  environment: dev
+
+projects:
+  rust-gateway:
+    display_name: Hybrid AI Gateway
+    repo: git@github.com:DataXMind/Hybrid-AI-Gateway.git
+    default_branch: main
+    environments:
+      dev:
+        k8s_cluster: test-dev
+      stage:
+        k8s_cluster: test-stage
+      prod:
+        k8s_cluster: test-prod
+    roles:
+      infra:
+        allowed_paths: [infra/]
+        branch_prefixes: [infra/]
+        environments: [dev, stage]
+      backend:
+        allowed_paths: [src/]
+        branch_prefixes: [feat/]
+        environments: [dev, stage]
+      reviewer:
+        allowed_paths: ["**"]
+        branch_prefixes: []
+        environments: [dev, stage, prod]

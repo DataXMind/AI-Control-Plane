@@ -1,0 +1,52 @@
+# ai-control-plane .cursorrules
+# Đọc ARCHITECTURE.md để hiểu đầy đủ context trước khi generate code.
+
+## Project identity
+- Python package: ai_control_plane (src/ layout)
+- CLI: agentctl (Typer)
+- API: FastAPI at api/server.py
+- Config: Pydantic v2 + PyYAML, path via ACP_CONFIG_DIR env var
+
+## Code generation rules
+
+ALWAYS:
+- Dùng Pydantic v2 syntax (model_config = ConfigDict(...), không class Config)
+- Type hint đầy đủ tất cả function signatures
+- Dùng structlog thay vì logging.getLogger
+- Async/await cho tất cả I/O operations
+- Docstring 1 dòng cho mỗi public class và function
+
+NEVER:
+- Import OSS agent frameworks (CrewAI, LangChain, AutoGen) vào bất kỳ core/ file nào
+- Viết Git logic trong Python (chỉ có trong TypeScript cyanheads fork)
+- Hardcode Redis connection string (phải qua env var hoặc constructor injection)
+- Default-allow khi policy evaluation fail (luôn fail-closed)
+- Import trực tiếp từ core/policies.py trong cli/ (phải qua api/ HTTP)
+
+## File ownership rules
+- core/models.py: source of truth cho types — import từ đây, không tạo duplicate
+- core/policies.py: pure logic, không I/O — test bằng cách inject mock QuotaStore
+- api/server.py: HTTP interface duy nhất cho TypeScript bridge
+- mcp/git_server.py: facade only — không business logic Git
+
+## Test requirements
+Mỗi file trong core/ phải có test file tương ứng trong tests/.
+Test file phải dùng fixtures từ conftest.py.
+Không mock PolicyEngine trong integration tests — dùng real instance với test yml.
+
+## Naming conventions
+- Classes: PascalCase
+- Functions/vars: snake_case
+- Constants: UPPER_SNAKE_CASE
+- Private: _leading_underscore
+- Config env vars: ACP_ prefix (ACP_CONFIG_DIR, ACP_API_HOST, ACP_LOG_LEVEL)
+
+## Error handling pattern
+- Domain errors: custom exceptions kế thừa từ ControlPlaneError base class
+- HTTP errors: HTTPException với status_code + detail JSON
+- MCP errors: McpError(code, message, data) — không raise raw exceptions
+- Luôn log trước khi raise: logger.error("...", exc_info=True)
+
+## Milestone guard
+Apex/ files ở Milestone A: chỉ được có __init__.py và stub files với NotImplementedError.
+Không viết logic thực trong apex/ cho đến khi Milestone C bắt đầu.

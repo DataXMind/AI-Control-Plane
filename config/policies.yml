@@ -1,0 +1,155 @@
+# Governance runtime — RBAC, ABAC, quotas, guardrails.
+# Evaluated by core.policies; exposed via api/server.py for PolicyClient.
+version: 1
+
+# ── RBAC — role-based allowed/denied action sets ─────────────────────────────
+rbac:
+  roles:
+    infra:
+      allowed_actions:
+        - git.read
+        - git.commit
+        - git.push
+        - k8s.diff
+        - k8s.apply
+        - helm.upgrade
+        - plan.generate
+      denied_actions:
+        - git.force_push
+        - k8s.delete_namespace
+        - prod.deploy_without_approval
+
+    backend:
+      allowed_actions:
+        - git.read
+        - git.commit
+        - git.push
+        - git.diff
+        - test.run
+        - build.rust
+        - cargo.clippy
+      denied_actions:
+        - git.force_push
+        - k8s.apply
+        - git.merge_to_main
+        - prod.deploy
+
+    reviewer:
+      allowed_actions:
+        - git.read
+        - git.diff
+        - comment.post
+        - approval.grant
+        - approval.deny
+      denied_actions:
+        - git.commit
+        - git.push
+        - k8s.apply
+        - k8s.delete
+        - quota.override
+
+# ── ABAC — attribute-based rules (environment, data class, role) ─────────────
+abac:
+  rules:
+    - id: Deny-prod-k8s
+      description: Block direct K8s mutations in production unless approved
+      effect: deny
+      actions:
+        - k8s.apply
+        - k8s.delete
+        - helm.upgrade
+      conditions:
+        environment: prod
+        approval_status: not_approved
+
+    - id: Restrict-PII
+      description: Deny read/write on PII-tagged paths outside reviewer role
+      effect: deny
+      actions:
+        - git.read
+        - git.commit
+      conditions:
+        data_class: pii
+        role_not_in:
+          - reviewer
+
+    - id: Allow-reviewer-read
+      description: Explicit allow for reviewer read-only access across projects
+      effect: allow
+      actions:
+        - git.read
+        - git.diff
+      conditions:
+        role: reviewer
+        read_only: true
+
+# ── Quotas — token and request budgets by profile, project, agent ────────────
+quotas:
+  by_model_profile:
+    claude-team-infra:
+      tokens_per_day: 500000
+      requests_per_minute: 30
+    claude-pro-backend:
+      tokens_per_day: 1000000
+      requests_per_minute: 60
+    claude-team-review:
+      tokens_per_day: 300000
+      requests_per_minute: 20
+
+  by_project:
+    rust-gateway:
+      tokens_per_day: 2000000
+      concurrent_tasks: 5
+    datax-analytics:
+      tokens_per_day: 800000
+      concurrent_tasks: 3
+
+  by_agent:
+    agent1:
+      tokens_per_day: 500000
+      k8s_applies_per_day: 10
+    agent2:
+      tokens_per_day: 1000000
+      git_pushes_per_day: 50
+    agent3:
+      tokens_per_day: 300000
+      reviews_per_day: 100
+
+# ── Guardrails — pre-execution checks and approval requirements ───────────────
+guardrails:
+  - id: Require-plan
+    description: Infra agents must submit a plan before k8s.apply or helm.upgrade
+    applies_to:
+      roles:
+        - infra
+      actions:
+        - k8s.apply
+        - helm.upgrade
+    requirement: plan_submitted
+    on_violation: deny
+
+  - id: Require-tests
+    description: Backend agents must pass tests before git.push
+    applies_to:
+      roles:
+        - backend
+      actions:
+        - git.push
+    requirement: tests_passed
+    on_violation: deny
+
+  - id: No-direct-merge
+    description: No agent may merge directly to default branch
+    applies_to:
+      roles:
+        - infra
+        - backend
+        - data-analyst
+      actions:
+        - git.merge
+        - git.push
+    requirement: branch_is_not_default
+    on_violation: deny
+
+kill_switch:
+  enabled: false

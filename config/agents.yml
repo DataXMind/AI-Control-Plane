@@ -1,0 +1,101 @@
+# Agent definitions and model profiles.
+# Agents bind to projects.yml roles and policies.yml guardrails.
+version: 1
+
+# ── Model profiles — provider accounts, token budgets, task allowlists ───────
+model_profiles:
+  claude-team-infra:
+    provider: anthropic
+    account_type: team
+    api_key_env: ANTHROPIC_API_KEY_INFRA
+    max_tokens_per_day: 500000
+    allowed_tasks:
+      - k8s.apply
+      - k8s.diff
+      - git.read
+      - git.commit
+      - git.push
+      - plan.generate
+
+  claude-pro-backend:
+    provider: anthropic
+    account_type: pro
+    api_key_env: ANTHROPIC_API_KEY_BACKEND
+    max_tokens_per_day: 1000000
+    allowed_tasks:
+      - git.read
+      - git.commit
+      - git.push
+      - git.diff
+      - test.run
+      - build.rust
+      - code.review.request
+
+  claude-team-review:
+    provider: anthropic
+    account_type: team
+    api_key_env: ANTHROPIC_API_KEY_REVIEW
+    max_tokens_per_day: 300000
+    allowed_tasks:
+      - git.read
+      - git.diff
+      - code.review
+      - comment.post
+      - approval.request
+
+# ── Registered agents — runner, roles, capabilities, restrictions ────────────
+agents:
+  agent1:
+    name: infra-antigravity
+    roles:
+      - infra
+    projects:
+      - rust-gateway
+    runner: antigravity
+    model_profile: claude-team-infra
+    capabilities:
+      - k8s
+      - git
+      - helm
+      - ci_cd
+    restrictions:
+      - no_prod_write
+      - require_plan_before_apply
+      - no_secrets_in_prompt
+
+  agent2:
+    name: backend-vscode
+    roles:
+      - backend
+    projects:
+      - rust-gateway
+    runner: vscode
+    model_profile: claude-pro-backend
+    capabilities:
+      - git
+      - rust_toolchain
+      - test_runner
+      - debugger
+    restrictions:
+      - no_prod_deploy
+      - no_direct_merge_to_main
+      - require_tests_pass
+
+  agent3:
+    name: reviewer-cli
+    roles:
+      - reviewer
+    projects:
+      - rust-gateway
+      - datax-analytics
+    runner: cli
+    model_profile: claude-team-review
+    capabilities:
+      - git_read
+      - diff_view
+      - comment
+      - approval_gate
+    restrictions:
+      - read_only
+      - no_git_write
+      - no_k8s_apply
