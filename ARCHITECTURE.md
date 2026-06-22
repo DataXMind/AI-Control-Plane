@@ -34,3 +34,6 @@ Milestone C: apex/ live — sense, analyze, predict, act, learn
 ### Fail-closed rule
 Nếu api/server.py unreachable → TypeScript PolicyClient DENY tool call.
 Không có fallback, không có default-allow.
+
+### Open source readiness
+See [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) for public-beta gates and release workflow.
