@@ -28,6 +28,7 @@ from ai_control_plane.api.schemas import (
     TaskRegisterRequest,
     TaskStatus,
 )
+from ai_control_plane.config.loader import load_policies
 from ai_control_plane.core.models import AgentIdentity, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
@@ -80,12 +81,33 @@ class AppState:
     approval_gate: ApprovalGate
     token_budget: TokenBudget
     quota_store: InMemoryQuotaStore
+    policy_rules_count: int = 0
     agent_registry: dict[str, dict[str, Any]] = field(
         default_factory=lambda: dict(_DEFAULT_AGENT_REGISTRY),
     )
     task_status_by_project: dict[str, TaskStatus] = field(default_factory=dict)
     project_limits: dict[str, float] = field(
         default_factory=lambda: dict(_DEFAULT_PROJECT_LIMITS),
+    )
+
+
+def build_policy_engine() -> PolicyEngine:
+    """Load PolicyEngine rules from ACP_CONFIG_DIR or shipped config/policies.yml."""
+    rules = load_policies()
+    logger.info("policy_rules_loaded count=%d", len(rules))
+    return PolicyEngine(rules=rules)
+
+
+def build_default_app_state() -> AppState:
+    """Construct default AppState with YAML-driven PolicyEngine (P0-2)."""
+    quota_store = InMemoryQuotaStore()
+    rules = load_policies()
+    return AppState(
+        policy_engine=PolicyEngine(rules=rules),
+        approval_gate=ApprovalGate(),
+        quota_store=quota_store,
+        token_budget=TokenBudget(quota_store, _DEFAULT_PROJECT_LIMITS),
+        policy_rules_count=len(rules),
     )
 
 
@@ -154,16 +176,7 @@ def _default_task_status(project_id: str) -> TaskStatus:
 
 def create_app(state: AppState | None = None) -> FastAPI:
     """Build the FastAPI application with fail-closed handlers."""
-    if state is None:
-        quota_store = InMemoryQuotaStore()
-        app_state = AppState(
-            policy_engine=PolicyEngine(rules=[]),
-            approval_gate=ApprovalGate(),
-            quota_store=quota_store,
-            token_budget=TokenBudget(quota_store, _DEFAULT_PROJECT_LIMITS),
-        )
-    else:
-        app_state = state
+    app_state = build_default_app_state() if state is None else state
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
