@@ -160,7 +160,7 @@ flowchart LR
 | Enforce floor over time | **Medium** — not configured yet (`fail_under` absent) |
 | Public beta signal | **Medium** — shows test discipline to contributors |
 
-**Current state:** Wired in `.github/workflows/ci.yml` but **disabled by default**. Milestone A intentionally avoided blocking on coverage %. Phase 2+ may set `CODECOV_ENABLED` and optional `fail_under` after baseline established.
+**Current state:** `CODECOV_ENABLED=true` and `CODECOV_TOKEN` configured on GitHub (2026-06-23). First upload OK for commit `83e3ab5` (~64.5% line coverage). CI upload on each push; no `fail_under` yet. See [`PHASE1_CONSOLIDATED_FOR_CLAUDE.md`](PHASE1_CONSOLIDATED_FOR_CLAUDE.md) §8.
 
 **Not a substitute for:** SMK-01..05, shipped parity tests, or policy integration tests.
 
@@ -212,4 +212,4 @@ v2 does not invalidate Claude audits — it **narrows** what "done" means for Mi
 
 **Last updated:** 2026-06-23  
 **Owner:** DataXMind maintainers  
-**Next human action:** Claude verdict P0-2b (YAML notation only); then Milestone B planning
+**Next human action:** Send [`PHASE1_CONSOLIDATED_FOR_CLAUDE.md`](PHASE1_CONSOLIDATED_FOR_CLAUDE.md) to Claude → Phase 2 pack + P0-2b verdict
