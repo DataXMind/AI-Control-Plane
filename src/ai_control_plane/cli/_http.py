@@ -1,7 +1,8 @@
-"""Shared HTTP helpers for CLI → api/server.py calls."""
+"""Shared HTTP helpers for CLI → api/server.py calls (async I/O, sync entrypoints)."""
 
 from __future__ import annotations
 
+import asyncio
 import os
 from typing import Any
 
@@ -29,11 +30,11 @@ def _client_headers(agent_id: str | None = None) -> dict[str, str]:
     return headers
 
 
-def post_policy_evaluate(request: PolicyEvalRequest) -> PolicyEvalResponse:
+async def _post_policy_evaluate_async(request: PolicyEvalRequest) -> PolicyEvalResponse:
     """Call POST /policy/evaluate; fail-closed on transport errors."""
-    with httpx.Client(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
         try:
-            response = client.post(
+            response = await client.post(
                 "/policy/evaluate",
                 json=request.model_dump(mode="json"),
                 headers=_client_headers(request.agent_id),
@@ -53,11 +54,15 @@ def post_policy_evaluate(request: PolicyEvalRequest) -> PolicyEvalResponse:
             raise RuntimeError(msg) from exc
 
 
-def get_project_status(project_id: str) -> TaskStatus:
-    """Call GET /status/{project_id}."""
-    with httpx.Client(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+def post_policy_evaluate(request: PolicyEvalRequest) -> PolicyEvalResponse:
+    """Sync wrapper for Typer commands."""
+    return asyncio.run(_post_policy_evaluate_async(request))
+
+
+async def _get_project_status_async(project_id: str) -> TaskStatus:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
         try:
-            response = client.get(f"/status/{project_id}")
+            response = await client.get(f"/status/{project_id}")
         except (httpx.TimeoutException, httpx.RequestError) as exc:
             msg = "status service unavailable"
             raise RuntimeError(msg) from exc
@@ -69,11 +74,15 @@ def get_project_status(project_id: str) -> TaskStatus:
         return TaskStatus.model_validate(response.json())
 
 
-def post_register_task(request: TaskRegisterRequest) -> TaskStatus:
-    """Call POST /tasks to register an assigned task with the control plane."""
-    with httpx.Client(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+def get_project_status(project_id: str) -> TaskStatus:
+    """Call GET /status/{project_id}."""
+    return asyncio.run(_get_project_status_async(project_id))
+
+
+async def _post_register_task_async(request: TaskRegisterRequest) -> TaskStatus:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
         try:
-            response = client.post(
+            response = await client.post(
                 "/tasks",
                 json=request.model_dump(mode="json"),
                 headers=_client_headers(request.agent_id),
@@ -87,6 +96,11 @@ def post_register_task(request: TaskRegisterRequest) -> TaskStatus:
             raise RuntimeError(msg)
 
         return TaskStatus.model_validate(response.json())
+
+
+def post_register_task(request: TaskRegisterRequest) -> TaskStatus:
+    """Call POST /tasks to register an assigned task with the control plane."""
+    return asyncio.run(_post_register_task_async(request))
 
 
 def format_json(data: dict[str, Any]) -> str:

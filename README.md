@@ -86,7 +86,7 @@ pytest tests/ -v
 ruff check src/ tests/
 ```
 
-Current gate: **72+ tests**, smoke + CI on `master`.
+Current gate: **82 tests**, smoke + CI on `master`.
 
 ## GitHub backlog
 

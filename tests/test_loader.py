@@ -10,6 +10,7 @@ from ai_control_plane.config.loader import (
     build_agent_registry,
     derive_allowed_patterns,
     derive_denied_patterns,
+    load_model_profiles,
     load_policies,
     load_project_token_limits,
     normalize_tool_name,
@@ -127,3 +128,19 @@ def test_build_agent_registry_from_fixtures() -> None:
 def test_load_project_token_limits_from_fixtures() -> None:
     limits = load_project_token_limits()
     assert limits["rust-gateway"] == 2_000_000.0
+
+
+def test_load_model_profiles_from_fixtures() -> None:
+    profiles = load_model_profiles()
+    assert "claude-pro-backend" in profiles
+    profile = profiles["claude-pro-backend"]
+    assert profile.provider == "anthropic"
+    assert profile.max_tokens_per_day == 150_000
+    assert "git.read" in profile.allowed_tasks
+
+
+def test_load_model_profiles_from_shipped_config(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("ACP_CONFIG_DIR", str(REPO_ROOT / "config"))
+    profiles = load_model_profiles()
+    assert "claude-team-infra" in profiles
+    assert profiles["claude-pro-backend"].max_tokens_per_day == 1_000_000

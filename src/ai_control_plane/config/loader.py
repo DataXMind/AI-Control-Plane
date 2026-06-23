@@ -9,7 +9,7 @@ from typing import Any, Literal
 import yaml  # type: ignore[import-untyped]
 
 from ai_control_plane.core.exceptions import ConfigError
-from ai_control_plane.core.models import AgentConfig, PolicyRule, ProjectConfig
+from ai_control_plane.core.models import AgentConfig, ModelProfile, PolicyRule, ProjectConfig
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
 
@@ -291,6 +291,28 @@ def load_agents_raw() -> dict[str, dict[str, Any]]:
         if isinstance(entry, dict):
             result[str(agent_id)] = dict(entry)
     return result
+
+
+def load_model_profiles() -> dict[str, ModelProfile]:
+    """Load model profile definitions from agents.yml into validated ModelProfile objects."""
+    data = _load_yaml("agents.yml")
+    profiles_raw = data.get("model_profiles", {})
+    if not isinstance(profiles_raw, dict):
+        return {}
+
+    profiles: dict[str, ModelProfile] = {}
+    for name, entry in profiles_raw.items():
+        if not isinstance(entry, dict):
+            continue
+        profiles[str(name)] = ModelProfile(
+            name=str(name),
+            provider=str(entry["provider"]),
+            account_type=str(entry["account_type"]),
+            api_key_env=str(entry["api_key_env"]),
+            max_tokens_per_day=int(entry["max_tokens_per_day"]),
+            allowed_tasks=[str(task) for task in entry.get("allowed_tasks", [])],
+        )
+    return profiles
 
 
 def load_agent(agent_id: str) -> AgentConfig:

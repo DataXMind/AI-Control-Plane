@@ -117,7 +117,7 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 ```bash
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
 pytest tests/ -v
-# Current: 72+ passed (smoke + core module tests)
+# Current: 82 passed (incl. MCP facade + schema unify + model profiles)
 curl -s http://localhost:8000/health | jq .
 # Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
 ```
@@ -127,9 +127,11 @@ curl -s http://localhost:8000/health | jq .
 1. ~~**Claude prompt tab 7** — telemetry hash-chain patch (#23)~~ ✅
 2. ~~SMK v2 + CI smoke gate (#25)~~ ✅
 3. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota`, `test_telemetry` ✅
-4. CI + pre-commit (#25–27), structlog (#19) — CI ✅; pre-commit ✅; structlog api/server ✅
-5. README runbook (#13) ✅; ARCHITECTURE sync (#14) — ongoing
-6. Close tracking issue #38
+4. MCP facade tests (#12 S7), schema unify (S5), loader profiles (S4 A1) ✅
+5. Debt: D2, D4, D6, Q9 ✅ — P0-2b deferred → `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`
+6. CI + pre-commit (#25–27), structlog (#19) ✅
+7. README runbook (#13), ARCHITECTURE sync (#14) ✅
+8. Close tracking issue #38 — **human** after CI green
 
 ---
 

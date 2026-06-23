@@ -91,11 +91,17 @@ def mock_policy_engine(sample_project_config: ProjectConfig) -> PolicyEngine:
 
 
 @pytest.fixture
-def client() -> TestClient:
-    """FastAPI TestClient with fixture config (ACP_CONFIG_DIR from autouse)."""
+def app():
+    """FastAPI application with fixture config (ACP_CONFIG_DIR from autouse)."""
     from ai_control_plane.api.server import create_app
 
-    return TestClient(create_app())
+    return create_app()
+
+
+@pytest.fixture
+def client(app) -> TestClient:
+    """FastAPI TestClient with fixture config (ACP_CONFIG_DIR from autouse)."""
+    return TestClient(app)
 
 
 @pytest.fixture(autouse=True)

@@ -139,6 +139,16 @@ MCP `GitMcpServer._emit_tool_call()` delegates to `TelemetryWriter` — no direc
 
 `AppState.telemetry_store` holds the shared in-process store for API/MCP wiring (no HTTP ingest endpoint in Milestone A).
 
+### In-memory runtime stores (Milestone A)
+
+| Store | Location | Persistence |
+|-------|----------|-------------|
+| `task_status_by_project` | `AppState` | **Lost on API restart** — document only; Milestone B (#20) |
+| `InMemoryQuotaStore` | `AppState.quota_store` | Lost on restart |
+| `InMemoryTelemetryStore` | `AppState.telemetry_store` | Lost on restart |
+
+Do not treat missing task status after reload as a bug in Milestone A PoC.
+
 
 
 ### Open source readiness
@@ -155,6 +165,7 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 ### Execution status (2026-06-22)
 
-P0 gate + Tab 7 + SMK v2 + CI + core module tests (#21–24): **complete**.
-Pre-commit + structlog (#19, #26–27) + README runbook (#13): **complete**. Close #38 pending human.
+P0 gate through Milestone A scaffold: **complete** (pending human close #38).
+S7 MCP tests, S4 model profiles loader, S5/D2/D4/D6/Q9 debt items: **complete**.
+P0-2b shipped YAML tool naming: **deferred** — see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`.
 

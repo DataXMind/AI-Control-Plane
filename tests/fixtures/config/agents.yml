@@ -1,6 +1,14 @@
 version: 1
 
-model_profiles: {}
+model_profiles:
+  claude-pro-backend:
+    provider: anthropic
+    account_type: pro
+    api_key_env: ANTHROPIC_API_KEY_BACKEND
+    max_tokens_per_day: 150000
+    allowed_tasks:
+      - git.read
+      - test.run
 
 agents:
   agent1:
