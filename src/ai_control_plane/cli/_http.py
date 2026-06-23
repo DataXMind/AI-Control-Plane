@@ -9,11 +9,14 @@ from typing import Any
 import httpx
 
 from ai_control_plane.api.schemas import (
+    ApprovalResolveRequest,
     PolicyEvalRequest,
     PolicyEvalResponse,
+    QuotaStatus,
     TaskRegisterRequest,
     TaskStatus,
 )
+from ai_control_plane.core.models import ApprovalDecision, TelemetryEvent
 
 DEFAULT_API_URL = "http://localhost:8000"
 API_TIMEOUT_SECONDS = 2.0
@@ -101,6 +104,74 @@ async def _post_register_task_async(request: TaskRegisterRequest) -> TaskStatus:
 def post_register_task(request: TaskRegisterRequest) -> TaskStatus:
     """Call POST /tasks to register an assigned task with the control plane."""
     return asyncio.run(_post_register_task_async(request))
+
+
+async def _post_policy_approve_async(body: ApprovalResolveRequest) -> ApprovalDecision:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        try:
+            response = await client.post(
+                "/policy/approve",
+                json=body.model_dump(mode="json"),
+            )
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "approval service unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"approval request failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        return ApprovalDecision.model_validate(response.json())
+
+
+def post_policy_approve(body: ApprovalResolveRequest) -> ApprovalDecision:
+    """Call POST /policy/approve."""
+    return asyncio.run(_post_policy_approve_async(body))
+
+
+async def _get_project_quota_async(project_id: str) -> QuotaStatus:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        try:
+            response = await client.get(f"/quota/{project_id}")
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "quota service unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"quota request failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        return QuotaStatus.model_validate(response.json())
+
+
+def get_project_quota(project_id: str) -> QuotaStatus:
+    """Call GET /quota/{project_id}."""
+    return asyncio.run(_get_project_quota_async(project_id))
+
+
+async def _get_telemetry_events_async(project_id: str | None = None) -> list[TelemetryEvent]:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        params = {"project_id": project_id} if project_id else None
+        try:
+            response = await client.get("/telemetry/events", params=params)
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "telemetry service unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"telemetry request failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        payload = response.json()
+        if not isinstance(payload, list):
+            msg = "invalid telemetry response"
+            raise RuntimeError(msg)
+        return [TelemetryEvent.model_validate(item) for item in payload]
+
+
+def get_telemetry_events(project_id: str | None = None) -> list[TelemetryEvent]:
+    """Call GET /telemetry/events."""
+    return asyncio.run(_get_telemetry_events_async(project_id))
 
 
 def format_json(data: dict[str, Any]) -> str:

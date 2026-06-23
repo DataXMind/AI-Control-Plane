@@ -73,7 +73,22 @@ def test_rate_limiter_rejects_invalid_capacity() -> None:
         RateLimiter(capacity=0.0, refill_rate=1.0)
 
 
-def test_redis_quota_store_not_implemented() -> None:
-    store = RedisQuotaStore()
-    with pytest.raises(NotImplementedError):
-        store.get("k")
+def test_redis_quota_store_roundtrip(monkeypatch: pytest.MonkeyPatch) -> None:
+    import sys
+    from types import ModuleType
+    from unittest.mock import MagicMock
+
+    fake_client = MagicMock()
+    fake_client.get.return_value = "15.0"
+    fake_client.incrbyfloat.return_value = 25.0
+    module = ModuleType("redis")
+    redis_cls = MagicMock()
+    redis_cls.from_url.return_value = fake_client
+    module.Redis = redis_cls
+    monkeypatch.setitem(sys.modules, "redis", module)
+
+    store = RedisQuotaStore("redis://localhost:6379/0")
+    assert store.get("quota:test") == 15.0
+    assert store.increment("quota:test", 10.0) == 25.0
+    store.reset("quota:test")
+    fake_client.delete.assert_called_with("quota:test")

@@ -95,3 +95,10 @@ def test_quota_reflects_configured_project_limit() -> None:
     body = response.json()
     assert body["project_id"] == "rust-gateway"
     assert body["tokens_remaining"] >= 100_000
+
+
+def test_telemetry_events_list_empty_by_default() -> None:
+    client = TestClient(create_app())
+    response = client.get("/telemetry/events")
+    assert response.status_code == 200
+    assert response.json() == []
