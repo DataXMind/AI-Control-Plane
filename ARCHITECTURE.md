@@ -156,6 +156,8 @@ Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 Milestone A: core/ + mcp/ + api/ + cli/assign + cli/status + apex/ stubs
 
+**CLI tests (MB-S1-4):** `tests/test_cli_assign.py`, `tests/test_cli_status.py` — `CliRunner` + `respx` mock `ACP_API_URL`; no direct `core/policies.py` import (Invariant #4).
+
 Milestone B: registry Redis backend + ABAC full + all 5 API endpoints + cli/approve + cli/quota
 
 Milestone C: apex/ live — sense, analyze, predict, act, learn

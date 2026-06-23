@@ -27,6 +27,7 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio",
     "pytest-cov",
+    "respx>=0.21",
     "mypy>=1.9",
     "ruff>=0.4",
     "pre-commit",
