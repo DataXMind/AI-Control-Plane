@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import threading
 import time
 from dataclasses import dataclass
@@ -56,19 +57,39 @@ class InMemoryQuotaStore:
 
 
 class RedisQuotaStore:
-    """Redis-backed store — Milestone B placeholder."""
+    """Redis-backed store — activated when ``ACP_REDIS_URL`` is set."""
+
+    def __init__(self, url: str) -> None:
+        try:
+            import redis  # type: ignore[import-not-found]
+        except ImportError as exc:
+            msg = "redis package required for RedisQuotaStore (pip install ai-control-plane[redis])"
+            raise RuntimeError(msg) from exc
+        self._client = redis.Redis.from_url(url, decode_responses=True)
 
     def get(self, key: str) -> float:
-        raise NotImplementedError("RedisQuotaStore is planned for Milestone B")
+        raw = self._client.get(key)
+        if raw is None:
+            return 0.0
+        return float(raw)
 
     def set(self, key: str, value: float) -> None:
-        raise NotImplementedError("RedisQuotaStore is planned for Milestone B")
+        self._client.set(key, str(value))
 
     def increment(self, key: str, delta: float) -> float:
-        raise NotImplementedError("RedisQuotaStore is planned for Milestone B")
+        new_value = float(self._client.incrbyfloat(key, delta))
+        return new_value
 
     def reset(self, key: str) -> None:
-        raise NotImplementedError("RedisQuotaStore is planned for Milestone B")
+        self._client.delete(key)
+
+
+def create_quota_store() -> QuotaStore:
+    """Return RedisQuotaStore when ``ACP_REDIS_URL`` is set, else in-memory."""
+    redis_url = os.environ.get("ACP_REDIS_URL")
+    if redis_url:
+        return RedisQuotaStore(redis_url)
+    return InMemoryQuotaStore()
 
 
 def _agent_usage_key(agent_id: str) -> str:
@@ -208,4 +229,5 @@ __all__ = [
     "RateLimiter",
     "RedisQuotaStore",
     "TokenBudget",
+    "create_quota_store",
 ]

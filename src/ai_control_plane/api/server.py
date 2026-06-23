@@ -40,9 +40,9 @@ from ai_control_plane.config.loader import (
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
 from ai_control_plane.core.identity import JWTValidationError, JWTValidator
-from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState
+from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState, TelemetryEvent
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
-from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
+from ai_control_plane.core.quota import QuotaStore, TokenBudget, create_quota_store
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
 from ai_control_plane.core.tool_names import resolve_policy_tool_name
 
@@ -82,7 +82,7 @@ class AppState:
     policy_engine: PolicyEngine
     approval_gate: ApprovalGate
     token_budget: TokenBudget
-    quota_store: InMemoryQuotaStore
+    quota_store: QuotaStore
     policy_rules_count: int = 0
     config_loaded: bool = False
     agents_loaded: list[str] = field(default_factory=list)
@@ -111,7 +111,7 @@ def build_policy_engine() -> PolicyEngine:
 
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
-    quota_store = InMemoryQuotaStore()
+    quota_store = create_quota_store()
     telemetry_store = InMemoryTelemetryStore()
     policies_path = get_config_dir() / "policies.yml"
     all_rules = _load_policy_rules()
@@ -498,6 +498,26 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 status_code=SERVICE_UNAVAILABLE,
                 content=ServiceUnavailableResponse(
                     reason="quota unavailable",
+                ).model_dump(mode="json"),
+            )
+
+    @app.get("/telemetry/events", response_model=list[TelemetryEvent])
+    async def list_telemetry_events(
+        request: Request,
+        project_id: str | None = None,
+    ) -> list[TelemetryEvent] | JSONResponse:
+        acp: AppState = request.app.state.acp
+        try:
+            events = acp.telemetry_store.list_events()
+            if project_id is not None:
+                events = [event for event in events if event.project_id == project_id]
+            return events
+        except Exception:
+            logger.exception("telemetry_list_failed")
+            return JSONResponse(
+                status_code=SERVICE_UNAVAILABLE,
+                content=ServiceUnavailableResponse(
+                    reason="telemetry unavailable",
                 ).model_dump(mode="json"),
             )
 

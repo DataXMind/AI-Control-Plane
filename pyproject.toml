@@ -32,6 +32,9 @@ dev = [
     "ruff>=0.4",
     "pre-commit",
 ]
+redis = [
+    "redis>=5.0",
+]
 
 [project.scripts]
 agentctl = "ai_control_plane.main:app"

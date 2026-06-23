@@ -42,14 +42,24 @@
 
 ---
 
-## Sprint 2 — OPEN
+## Sprint 2 — IN PROGRESS
 
-| Area | Issue theme |
-|------|-------------|
-| Persistence | Redis quota, task store (#29–31) |
-| CLI live | `approve`, `quota`, `logs` subcommands |
-| Quotas | `by_model_profile`, `by_agent` enforcement |
-| MCP | `server_factory.py`, HTTP transport, cyanheads E2E |
+| ID | Item | Status | Issue |
+|----|------|--------|-------|
+| MB-S2-1 | RedisQuotaStore + `ACP_REDIS_URL` | ✅ DONE | #29 |
+| MB-S2-2 | cli/approve live | ✅ DONE | #30 |
+| MB-S2-3 | cli/quota live | ✅ DONE | #31 |
+| MB-S2-4 | cli/logs + GET `/telemetry/events` | ✅ DONE | #32 |
+| MB-S2-5 | mcp/server_factory.py | ✅ DONE | #34 partial |
+| MB-S2-6 | Task persistence (#36) | 🔲 OPEN | #36 |
+| MB-S2-7 | MCP HTTP + cyanheads E2E | 🔲 OPEN | #34, #37 |
+| MB-S2-8 | JWKS RS256 | 🔲 Milestone C | — |
+
+See [`PHASE2_SPRINT2_EXECUTION.md`](PHASE2_SPRINT2_EXECUTION.md).
+
+---
+
+## Sprint 2 — backlog (remaining)
 
 ---
 
