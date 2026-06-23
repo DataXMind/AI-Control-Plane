@@ -37,3 +37,6 @@ Không có fallback, không có default-allow.
 
 ### Open source readiness
 See [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) for public-beta gates and release workflow.
+
+### Development protocol
+Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) (PACE + 9-step + P0 gate).
