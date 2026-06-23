@@ -68,8 +68,33 @@ abac:
         environment: prod
         requires_approval: true
 
+    - id: Deny-prod-k8s-unapproved
+      description: Block direct K8s mutations in production unless approved
+      effect: deny
+      actions:
+        - k8s.apply
+      conditions:
+        environment: prod
+        approval_status: not_approved
+
 quotas:
   by_project:
     rust-gateway:
       tokens_per_day: 2000000
       concurrent_tasks: 5
+
+guardrails:
+  - name: "Require-plan-before-code"
+    description: "Agents must submit plan before high-impact code changes"
+    applies_to:
+      task_types: ["code-edit", "infra-refactor"]
+    effect: "enforce_plan_phase"
+  - name: "No-direct-merge-to-main"
+    description: "Agents cannot push directly to main"
+    applies_to:
+      branches: ["main"]
+    effect: "deny_direct_push_and_merge"
+
+kill_switch:
+  active: false
+  reason: ""

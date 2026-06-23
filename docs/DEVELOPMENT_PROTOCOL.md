@@ -103,7 +103,7 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 
 ## 4. P0 gate — trước Phase 2 prompts
 
-**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — pytest full suite + smoke SMK-01..05 + shipped parity CI.
+**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — pytest full suite + smoke SMK-01..06 + shipped parity CI.
 
 **Phase 1 v2 record:** [`docs/governance/PHASE1_REPORT_V2.md`](governance/PHASE1_REPORT_V2.md) — honest gap list, ingress normalize, MCP→policy map, Codecov notes.
 
@@ -121,7 +121,9 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
 | **Phase 1 consolidated (Claude)** | [PHASE1_CONSOLIDATED_FOR_CLAUDE.md](governance/PHASE1_CONSOLIDATED_FOR_CLAUDE.md) | Pre–Phase 2 architect review packet |
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
-| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | MB7 guardrails + kill_switch |
+| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | Sprint 1 closed; Sprint 2 open |
+| **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
+| **Phase 2 Sprint 1 audit (final)** | [PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md](governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md) | Checklist 38-item verify + Path B |
 
 **Cursor prompts (markdown):**
 
@@ -131,11 +133,13 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Smoke audit (#25) | [`docs/prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md`](prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md) |
 | Tool naming defer (#8, D3) | [`docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`](prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md) |
 
-**Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 5 pass · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
+**Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 8 pass (SMK-01..06 incl. 06b/06c) · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
 **Phase 1 v2 (post-close hardening):** `core/tool_names.py`; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
 
-**Deferred to Milestone B:** Guardrails loader (MB7), full ABAC — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
+**Milestone B Sprint 1 (closed):** Guardrails/kill_switch (MB-S1-1), ABAC full (MB-S1-2), coverage floor (MB-S1-3), CLI tests (MB-S1-4), identity JWT (MB-S1-5) — see [`PHASE2_SPRINT1_REPORT.md`](governance/PHASE2_SPRINT1_REPORT.md).
+
+**Deferred to Sprint 2:** Redis quota, MCP factory, live CLI approve/quota — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
 
 **P0-2b closed (Phase 2 P2-0):** Option A — dot notation in shipped `config/`; `core/tool_names.py` is single source of truth.
 
@@ -232,8 +236,10 @@ curl -s http://localhost:8000/health | jq .
 | **SMK-03** | Policy allow | `POST /policy/evaluate` backend + `git_read` | `allowed=true` |
 | **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false`, non-empty `reason` |
 | **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining >= 100000` |
+| **SMK-06** | Identity verify | `POST /identity/verify` valid HS256 stub JWT | HTTP 200, `agent_id` matches claim |
+| **SMK-06b** | Identity auth fail | `POST /identity/verify` invalid token | HTTP **401** (not 503, not 200+deny) |
 
-**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. `POST /identity/verify` — defer SMK-06 to Milestone B.
+**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. Identity uses HS256 stub in `core/identity.py` (JWKS deferred Milestone C).
 
 **Automated:** `tests/test_smoke.py` (marker `@pytest.mark.smoke`)  
 **Script:** `scripts/smoke_acp.sh` — CI: pytest smoke; `scripts/smoke_acp.sh --live` — optional live curl
@@ -243,7 +249,7 @@ curl -s http://localhost:8000/health | jq .
 **Thứ tự gate đầy đủ (5 lớp + smoke):**
 
 ```text
-L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..05 smoke
+L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..06 smoke
 ```
 
 ### 5.5 Session **Evolve**

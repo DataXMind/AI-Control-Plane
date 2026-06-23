@@ -8,6 +8,7 @@ from .models import (
     AgentIdentity,
     ApprovalDecision,
     ApprovalRequest,
+    KillSwitch,
     PolicyDecision,
     PolicyRule,
     Task,
@@ -61,7 +62,11 @@ _DEFAULT_ABAC: list[PolicyRule] = [
 
 def _matches_pattern(value: str, pattern: str) -> bool:
     if pattern.endswith("*"):
-        return value.startswith(pattern[:-1])
+        prefix = pattern[:-1]
+        if value.startswith(prefix):
+            return True
+        base = prefix.rstrip("_")
+        return value == base
     return value == pattern
 
 
@@ -94,13 +99,71 @@ class ConditionEvaluator:
             "plan_field",
             "actions",
             "roles",
+            "role_not_in",
+            "approval_status",
+            "read_only",
         },
     )
+
+    _DEFAULT_WRITE_ACTIONS = (
+        "write_repo",
+        "create_branch",
+        "create_pr",
+        "k8s_apply_dev",
+        "k8s_apply_stage",
+        "k8s_apply_prod",
+        "db_prod_write",
+        "change_secrets",
+        "git_commit",
+        "git_push",
+    )
+
+    def eval_role_not_in(self, identity_role: str, privileged_roles: list[str]) -> bool:
+        """Return True (deny condition met) when role is outside privileged_roles.
+
+        YAML ``role_not_in`` lists privileged roles exempt from the deny rule.
+        """
+        return identity_role not in privileged_roles
+
+    def eval_approval_status(self, context: dict[str, Any], required_status: str) -> bool:
+        """Return True when approval_status in context matches required."""
+        return context.get("approval_status") == required_status
+
+    def eval_read_only(
+        self,
+        identity_role: str,
+        action: str,
+        write_actions: list[str] | None = None,
+    ) -> bool:
+        """Return True (should deny) when action is a write action for reviewer checks."""
+        _ = identity_role
+        writes = write_actions if write_actions is not None else list(self._DEFAULT_WRITE_ACTIONS)
+        return action in writes
 
     def evaluate(self, condition: dict[str, Any], context: dict[str, Any]) -> bool:
         """Return True when every supported condition key matches *context*."""
         for key, expected in condition.items():
             if key in self._SKIP_KEYS:
+                if key == "role_not_in":
+                    roles = expected if isinstance(expected, list) else []
+                    if not self.eval_role_not_in(
+                        str(context.get("role", "")),
+                        [str(role) for role in roles],
+                    ):
+                        return False
+                elif key == "approval_status":
+                    if not self.eval_approval_status(context, str(expected)):
+                        return False
+                elif key == "read_only":
+                    if expected is True:
+                        role = str(context.get("role", ""))
+                        action = str(context.get("action", ""))
+                        if role == "reviewer" and self.eval_read_only(role, action):
+                            return False
+                elif key == "actions":
+                    if isinstance(expected, list) and expected:
+                        if context.get("action") not in expected:
+                            return False
                 continue
 
             if key not in self._SUPPORTED_KEYS:
@@ -222,8 +285,10 @@ class PolicyEngine:
         self,
         rules: list[PolicyRule],
         guardrail_evaluator: GuardrailEvaluator | None = None,
+        kill_switch: KillSwitch | None = None,
     ) -> None:
         self._rules = rules
+        self._kill_switch = kill_switch or KillSwitch()
         self._condition_evaluator = ConditionEvaluator()
         self._guardrails = guardrail_evaluator or GuardrailEvaluator(rules)
 
@@ -243,6 +308,14 @@ class PolicyEngine:
                     f"does not match requested project '{project_id}'"
                 ),
                 requires_approval=False,
+            )
+
+        if self._kill_switch.active:
+            return PolicyDecision(
+                allowed=False,
+                reason=f"kill_switch_active: {self._kill_switch.reason}",
+                requires_approval=False,
+                policy_id="kill_switch",
             )
 
         context: dict[str, Any] = {

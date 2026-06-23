@@ -93,40 +93,35 @@ Idempotent for snake_case input (pass-through).
 **Identity:** `MCP_TOOL_TO_POLICY_ACTION` dict lives in `core/tool_names.py`.
 Telemetry records MCP tool name; `PolicyEngine` evaluates policy action name.
 
-### Policy YAML loading — Milestone A limits
+### Policy YAML loading — ABAC condition keys (MB-S1-2)
 
-`load_policies()` in `config/loader.py` loads RBAC roles and a subset of ABAC rules.
-The following condition keys are **not yet enforced** (Milestone B — GAP-ABAC-1/2):
+`load_policies()` maps RBAC, ABAC (including `role_not_in`, `approval_status`, `read_only`), and guardrails.
 
 | Condition key | Loaded | Enforced | Gap ID |
 |---------------|--------|----------|--------|
 | `environment` | ✅ | ✅ | — |
-| `action` | ✅ | ✅ | — |
+| `action` / `actions` | ✅ | ✅ | — |
 | `role` | ✅ | ✅ | — |
 | `data_class` / `data_category` | ✅ | ✅ deny when present | — |
-| `role_not_in` | parsed | ❌ silently skipped | GAP-ABAC-2 |
-| `approval_status` | ❌ skipped | ❌ | GAP-ABAC-1 |
-| `read_only` | ❌ skipped | ❌ | GAP-ABAC-1 |
+| `role_not_in` | ✅ | ✅ privileged-role exemption on deny rules | — (GAP-ABAC-2 closed) |
+| `approval_status` | ✅ | ✅ | — (GAP-ABAC-1 closed) |
+| `read_only` | ✅ | ✅ reviewer write guard on allow rules | — (GAP-ABAC-1 closed) |
 
-**Restrict-PII current behavior (Milestone A):**
-Rule denies access when `data_class: pii` for **all** roles.
-Intended behavior (Milestone B): deny for roles NOT in `privileged_roles` list.
-Operators: do not rely on `role_not_in` exclusion until GAP-ABAC-2 is resolved.
+**Restrict-PII:** denies when `data_category: PII` for roles **outside** `role_not_in` privileged list (e.g. `reviewer` exempt).
 
 **YAML sections not loaded in Milestone A:**
 
 | Section | Status | Milestone |
 |---------|--------|-----------|
 | `rbac.roles` | ✅ Loaded → `PolicyRule` with `rule_type: rbac` | A |
-| `abac.rules` | ⚠️ Subset — see condition table above | A |
-| `guardrails` | ❌ Not loaded | B (GAP-GR-1/2, MB-S1-1) |
-| `kill_switch` | ❌ Not loaded or enforced | B (GAP-GR-1/2) |
+| `abac.rules` | ✅ Full condition adapter (MB-S1-2) | A |
+| `guardrails` | ✅ Loaded → `PolicyRule` with `rule_type: guardrail` | A (MB-S1-1) |
+| `kill_switch` | ✅ Loaded; when active, all `/policy/evaluate` deny (HTTP 200) | A (MB-S1-1) |
 | `quotas.by_model_profile` | ❌ Not wired to runtime quota API | B |
 | `quotas.by_agent` | ❌ Not wired | B |
 | `quotas.by_project` | ✅ Via `load_project_token_limits()` | A |
 
-**Guardrails and kill_switch:** not loaded in Milestone A (GAP-GR-1/2).
-See [`docs/governance/MILESTONE_B_BACKLOG.md`](docs/governance/MILESTONE_B_BACKLOG.md) — MB-S1-1.
+**Guardrails and kill_switch:** loaded at startup via `load_guardrails()` / `load_kill_switch()` (MB-S1-1, closes GAP-GR-1/2 for load path). `GET /health` bypasses `PolicyEngine`.
 
 Fixture `tests/fixtures/config/policies.yml` uses simplified ABAC for unit tests — CI defaults to fixtures.
 Shipped parity: `tests/test_shipped_config_parity.py` (CI).
@@ -161,6 +156,8 @@ Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 Milestone A: core/ + mcp/ + api/ + cli/assign + cli/status + apex/ stubs
 
+**CLI tests (MB-S1-4):** `tests/test_cli_assign.py`, `tests/test_cli_status.py` — `CliRunner` + `respx` mock `ACP_API_URL`; no direct `core/policies.py` import (Invariant #4).
+
 Milestone B: registry Redis backend + ABAC full + all 5 API endpoints + cli/approve + cli/quota
 
 Milestone C: apex/ live — sense, analyze, predict, act, learn
@@ -174,6 +171,12 @@ Nếu api/server.py unreachable → TypeScript PolicyClient DENY tool call.
 Không có fallback, không có default-allow.
 
 `ControlPlaneError` và unhandled exceptions → HTTP 503 + `allowed=false` on `/policy/evaluate`.
+
+**HTTP contracts (MB-S1-5):**
+
+- **Identity path** (`POST /identity/verify`): auth failure → **401** (invalid JWT, unknown agent).
+- **Policy path** (`POST /policy/evaluate`): authorization failure → **200** + `allowed=false`.
+- **Service unavailable:** both paths → **503** on internal errors only.
 
 
 

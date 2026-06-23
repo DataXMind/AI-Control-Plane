@@ -12,7 +12,7 @@ from typing import Any
 from uuid import uuid4
 
 import structlog
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
@@ -31,12 +31,16 @@ from ai_control_plane.api.schemas import (
 )
 from ai_control_plane.config.loader import (
     build_agent_registry,
+    get_config_dir,
+    load_guardrails,
+    load_kill_switch,
     load_policies,
     load_project_token_limits,
     load_projects,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
-from ai_control_plane.core.models import AgentIdentity, TaskState
+from ai_control_plane.core.identity import JWTValidationError, JWTValidator
+from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
@@ -87,20 +91,31 @@ class AppState:
     task_status_by_project: dict[str, TaskStatus] = field(default_factory=dict)
     project_limits: dict[str, float] = field(default_factory=dict)
     telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
+    jwt_validator: JWTValidator = field(default_factory=JWTValidator)
+
+
+def _load_policy_rules() -> list[PolicyRule]:
+    """Load RBAC/ABAC + guardrail rules from policies.yml."""
+    policies_path = get_config_dir() / "policies.yml"
+    return load_policies(policies_path) + load_guardrails(policies_path)
 
 
 def build_policy_engine() -> PolicyEngine:
     """Load PolicyEngine rules from ACP_CONFIG_DIR or shipped config/policies.yml."""
-    rules = load_policies()
-    logger.info("policy_rules_loaded", count=len(rules))
-    return PolicyEngine(rules=rules)
+    policies_path = get_config_dir() / "policies.yml"
+    all_rules = _load_policy_rules()
+    kill_switch = load_kill_switch(policies_path)
+    logger.info("policy_rules_loaded", count=len(all_rules))
+    return PolicyEngine(rules=all_rules, kill_switch=kill_switch)
 
 
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = InMemoryQuotaStore()
     telemetry_store = InMemoryTelemetryStore()
-    rules = load_policies()
+    policies_path = get_config_dir() / "policies.yml"
+    all_rules = _load_policy_rules()
+    kill_switch = load_kill_switch(policies_path)
     agent_registry = build_agent_registry()
     projects = load_projects()
     project_limits = load_project_token_limits()
@@ -109,11 +124,11 @@ def build_default_app_state() -> AppState:
         raise ConfigError("no projects loaded from projects.yml")
 
     return AppState(
-        policy_engine=PolicyEngine(rules=rules),
+        policy_engine=PolicyEngine(rules=all_rules, kill_switch=kill_switch),
         approval_gate=ApprovalGate(),
         quota_store=quota_store,
         token_budget=TokenBudget(quota_store, project_limits),
-        policy_rules_count=len(rules),
+        policy_rules_count=len(all_rules),
         config_loaded=True,
         agents_loaded=sorted(agent_registry.keys()),
         projects_loaded=sorted(projects.keys()),
@@ -349,42 +364,50 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 content=ServiceUnavailableResponse(reason=reason).model_dump(mode="json"),
             )
 
-    @app.post("/identity/verify")
+    @app.post("/identity/verify", response_model=AgentIdentity)
     async def identity_verify(
         request: Request,
         body: IdentityVerifyRequest,
-    ) -> JSONResponse:
+    ) -> AgentIdentity:
         acp: AppState = request.app.state.acp
         try:
-            role = _resolve_role(body.agent_id, body.role, acp.agent_registry)
-            if role is None or not _agent_allowed_for_project(
-                body.agent_id,
-                body.project_id,
+            claims = acp.jwt_validator.validate(body.token)
+            agent_id_raw = claims.get("agent_id") or claims.get("sub")
+            if not agent_id_raw:
+                raise HTTPException(status_code=401, detail="missing agent_id claim")
+            agent_id = str(agent_id_raw)
+
+            agent_entry = acp.agent_registry.get(agent_id)
+            if agent_entry is None:
+                raise HTTPException(status_code=401, detail="agent_not_found")
+
+            project_id = str(claims.get("project_id", ""))
+            if not project_id or not _agent_allowed_for_project(
+                agent_id,
+                project_id,
                 acp.agent_registry,
             ):
-                return JSONResponse(
-                    status_code=SERVICE_UNAVAILABLE,
-                    content=ServiceUnavailableResponse(
-                        reason="identity verification failed",
-                    ).model_dump(mode="json"),
-                )
+                raise HTTPException(status_code=401, detail="agent_not_found")
 
-            identity = AgentIdentity(
-                agent_id=body.agent_id,
-                project_id=body.project_id,
+            role_raw = claims.get("role") or agent_entry.get("role")
+            if role_raw is None:
+                raise HTTPException(status_code=401, detail="missing role claim")
+            role = str(role_raw)
+
+            return AgentIdentity(
+                agent_id=agent_id,
+                project_id=project_id,
                 role=role,
-                jwt_claims=body.jwt_claims,
-                did=body.did,
+                jwt_claims=claims,
+                did=claims.get("did") if claims.get("did") is not None else None,
             )
-            return JSONResponse(status_code=200, content=identity.model_dump(mode="json"))
-        except Exception:
-            logger.exception("identity_verify_failed")
-            return JSONResponse(
-                status_code=SERVICE_UNAVAILABLE,
-                content=ServiceUnavailableResponse(
-                    reason="identity verification failed",
-                ).model_dump(mode="json"),
-            )
+        except JWTValidationError as exc:
+            raise HTTPException(status_code=401, detail=str(exc)) from exc
+        except HTTPException:
+            raise
+        except Exception as exc:
+            logger.exception("identity_verify_error", error=str(exc))
+            raise HTTPException(status_code=503, detail="identity service error") from exc
 
     @app.get("/health", response_model=HealthResponse)
     async def health(request: Request) -> HealthResponse:

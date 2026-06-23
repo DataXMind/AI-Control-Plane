@@ -27,6 +27,7 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio",
     "pytest-cov",
+    "respx>=0.21",
     "mypy>=1.9",
     "ruff>=0.4",
     "pre-commit",
@@ -43,7 +44,7 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 pythonpath = ["src"]
 markers = [
-    "smoke: ACP build verification gate (SMK-01..SMK-05)",
+    "smoke: ACP build verification gate (SMK-01..SMK-06)",
     "shipped_config: tests against repo config/ (not fixtures)",
 ]
 
@@ -59,3 +60,8 @@ python_version = "3.11"
 strict = true
 plugins = ["pydantic.mypy"]
 packages = ["ai_control_plane"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+skip_covered = false

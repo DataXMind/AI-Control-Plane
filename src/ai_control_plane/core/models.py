@@ -189,6 +189,15 @@ class Guardrail(BaseModel):
     applies_to: GuardrailTarget
 
 
+class KillSwitch(BaseModel):
+    """Global circuit breaker — when active, all policy evaluations deny."""
+
+    model_config = _FROZEN
+
+    active: bool = False
+    reason: str = ""
+
+
 class TelemetryEvent(BaseModel):
     """Append-only audit/telemetry record."""
 
@@ -222,6 +231,7 @@ __all__ = [
     "ApprovalRequest",
     "Guardrail",
     "GuardrailTarget",
+    "KillSwitch",
     "McpError",
     "ModelProfile",
     "PolicyDecision",

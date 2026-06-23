@@ -99,15 +99,11 @@ class ApprovalResolveRequest(BaseModel):
 
 
 class IdentityVerifyRequest(BaseModel):
-    """POST /identity/verify request body."""
+    """POST /identity/verify request body — HS256 JWT stub (MB-S1-5)."""
 
     model_config = _HTTP
 
-    agent_id: str
-    project_id: str
-    role: str | None = None
-    jwt_claims: dict[str, Any] = Field(default_factory=dict)
-    did: str | None = None
+    token: str
 
 
 class ServiceUnavailableResponse(BaseModel):

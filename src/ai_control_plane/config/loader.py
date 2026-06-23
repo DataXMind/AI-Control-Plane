@@ -9,12 +9,22 @@ from typing import Any, Literal
 import yaml  # type: ignore[import-untyped]
 
 from ai_control_plane.core.exceptions import ConfigError
-from ai_control_plane.core.models import AgentConfig, ModelProfile, PolicyRule, ProjectConfig
+from ai_control_plane.core.models import (
+    AgentConfig,
+    KillSwitch,
+    ModelProfile,
+    PolicyRule,
+    ProjectConfig,
+)
 from ai_control_plane.core.tool_names import normalize_tool_name
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
 
-_UNSUPPORTED_ABAC_KEYS = frozenset({"role_not_in", "approval_status", "read_only"})
+_REQUIREMENT_CHECKS: dict[str, str] = {
+    "plan_submitted": "plan_required",
+    "tests_passed": "test_required",
+    "branch_is_not_default": "branch_allowed",
+}
 
 
 def derive_denied_patterns(denied_actions: list[str]) -> list[str]:
@@ -140,7 +150,7 @@ def _load_rbac_rules(raw: dict[str, Any]) -> list[PolicyRule]:
 
 
 def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
-    """Map one production abac.rules[] entry to engine PolicyRule (Milestone A subset)."""
+    """Map one production abac.rules[] entry to engine PolicyRule."""
     name = str(entry.get("id") or entry.get("name", "abac-rule"))
     description = str(entry.get("description", ""))
     effect_raw = entry.get("effect", "allow")
@@ -152,32 +162,39 @@ def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
     if not isinstance(conditions, dict):
         return None
 
+    mapped: dict[str, Any] = {"rule_type": "abac"}
+
     data_class = conditions.get("data_class")
     if data_class is not None:
-        category = str(data_class).upper()
-        if category == "PII":
-            return PolicyRule(
-                name=name,
-                description=description,
-                effect="deny",
-                conditions={"rule_type": "abac", "data_category": "PII"},
-            )
+        mapped["data_category"] = str(data_class).upper()
 
-    if _UNSUPPORTED_ABAC_KEYS.intersection(conditions.keys()):
-        return None
-
-    mapped: dict[str, Any] = {"rule_type": "abac"}
-    for key in ("environment", "role", "path"):
+    for key in ("environment", "role", "path", "approval_status", "read_only"):
         if key in conditions:
             mapped[key] = conditions[key]
+
+    role_not_in = conditions.get("role_not_in")
+    if isinstance(role_not_in, list):
+        mapped["role_not_in"] = [str(role) for role in role_not_in]
 
     if "requires_approval" in conditions:
         mapped["requires_approval"] = bool(conditions["requires_approval"])
 
     actions = entry.get("actions", [])
-    if isinstance(actions, list) and len(actions) == 1:
-        action_norm = normalize_tool_name(str(actions[0]))
-        mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
+    if isinstance(actions, list) and actions:
+        normalized: list[str] = []
+        for action in actions:
+            if not isinstance(action, str):
+                continue
+            action_norm = normalize_tool_name(action)
+            normalized.append("k8s_apply_*" if action_norm == "k8s_apply" else action_norm)
+        if len(normalized) == 1:
+            mapped["action"] = normalized[0]
+        elif normalized:
+            mapped["actions"] = normalized
+
+    if mapped.get("data_category") and "role_not_in" not in mapped:
+        mapped.pop("actions", None)
+        mapped.pop("action", None)
     elif "action" in conditions:
         action_norm = normalize_tool_name(str(conditions["action"]))
         mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
@@ -188,8 +205,12 @@ def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
         "role",
         "path",
         "action",
+        "actions",
         "data_category",
         "requires_approval",
+        "role_not_in",
+        "approval_status",
+        "read_only",
     }
     if not supported.intersection(set(mapped.keys()) - {"rule_type"}):
         return None
@@ -406,3 +427,97 @@ def load_project_token_limits() -> dict[str, float]:
         if tokens is not None:
             limits[str(project_id)] = float(tokens)
     return limits
+
+
+def _normalize_guardrail_effect(effect: Any) -> Literal["allow", "deny"]:
+    if effect == "allow":
+        return "allow"
+    if effect == "deny":
+        return "deny"
+    return "deny"
+
+
+def load_guardrails(path: Path) -> list[PolicyRule]:
+    """Load guardrails section from policies.yml → PolicyRule with rule_type='guardrail'."""
+    if not path.is_file():
+        return []
+
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        return []
+
+    guardrails_raw = raw.get("guardrails", [])
+    if not isinstance(guardrails_raw, list):
+        return []
+
+    rules: list[PolicyRule] = []
+    for gr in guardrails_raw:
+        if not isinstance(gr, dict):
+            continue
+
+        name = str(gr.get("name") or gr.get("id", "guardrail"))
+        applies_to = gr.get("applies_to", {})
+        if not isinstance(applies_to, dict):
+            applies_to = {}
+
+        roles_raw = applies_to.get("roles", [])
+        actions_raw = applies_to.get("actions", [])
+        roles_list = [str(role) for role in roles_raw] if isinstance(roles_raw, list) else []
+        actions_list = [
+            normalize_tool_name(str(action))
+            for action in actions_raw
+            if isinstance(action, str)
+        ]
+
+        conditions: dict[str, Any] = {
+            "rule_type": "guardrail",
+            "applies_to": applies_to,
+        }
+        if roles_list:
+            conditions["roles"] = roles_list
+        if actions_list:
+            conditions["actions"] = actions_list
+
+        requirement = gr.get("requirement")
+        if isinstance(requirement, str) and requirement in _REQUIREMENT_CHECKS:
+            conditions["check"] = _REQUIREMENT_CHECKS[requirement]
+
+        branches = applies_to.get("branches")
+        if isinstance(branches, list) and branches:
+            conditions["check"] = "branch_allowed"
+            conditions["forbidden_branches"] = [str(branch) for branch in branches]
+
+        raw_effect = gr.get("on_violation", gr.get("effect", "deny"))
+        effect = _normalize_guardrail_effect(raw_effect)
+        if raw_effect not in ("allow", "deny"):
+            conditions["guardrail_effect"] = str(raw_effect)
+
+        rules.append(
+            PolicyRule(
+                name=name,
+                description=str(gr.get("description", "")),
+                conditions=conditions,
+                effect=effect,
+            ),
+        )
+    return rules
+
+
+def load_kill_switch(path: Path) -> KillSwitch:
+    """Load kill_switch section → KillSwitch. Default: inactive."""
+    if not path.is_file():
+        return KillSwitch()
+
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        return KillSwitch()
+
+    ks = raw.get("kill_switch", {})
+    if not isinstance(ks, dict):
+        return KillSwitch()
+
+    active = bool(ks.get("active", ks.get("enabled", False)))
+    return KillSwitch(
+        active=active,
+        reason=str(ks.get("reason", "")),
+    )

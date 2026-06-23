@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ACP smoke gate — SMK-01..SMK-05 (see docs/DEVELOPMENT_PROTOCOL.md §5.5)
+# ACP smoke gate — SMK-01..SMK-06 (see docs/DEVELOPMENT_PROTOCOL.md §5.5)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
