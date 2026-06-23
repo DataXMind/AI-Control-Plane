@@ -1,0 +1,493 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tw{border-left-color:#854F0B}.tg{border-left-color:#0F6E56}.tr{border-left-color:#A32D2D}.tp{border-left-color:#534AB7}
+.sec{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.05em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twarn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tblue{background:rgba(24,95,165,.12);color:#185FA5}
+.tpurp{background:rgba(83,74,183,.12);color:#534AB7}
+.tnew{background:rgba(52,201,126,.12);color:#0F6E56}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .ok{color:#0F6E56}.pbb .err{color:#A32D2D}.pbb .acc{color:#534AB7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.card p,.card li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.card ul{padding-left:14px;margin-top:4px}
+.score-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.score-row:last-child{border-bottom:none}
+.score-label{flex:1;font-size:12px;color:var(--color-text-primary)}
+.score-val{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:12px;font-weight:500;min-width:40px;text-align:right}
+.bar-wrap{width:120px;height:6px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden}
+.bar{height:100%;border-radius:3px;transition:width .3s}
+.bar-ok{background:#0F6E56}.bar-warn{background:#854F0B}.bar-err{background:#A32D2D}
+.verdict-big{font-size:28px;font-weight:500;color:var(--color-text-primary);padding:10px 0 4px}
+.verdict-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:14px}
+.risk-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.risk-row:last-child{border-bottom:none}
+.risk-ico{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.rico-crit{background:rgba(163,45,45,.12);color:#A32D2D}
+.rico-warn{background:rgba(133,79,11,.12);color:#854F0B}
+.rico-ok{background:rgba(52,201,126,.12);color:#0F6E56}
+.risk-body{flex:1}
+.risk-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.risk-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.risk-desc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.action-row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.action-row:last-child{border-bottom:none}
+.action-num{flex-shrink:0;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;font-weight:600;color:var(--color-text-secondary);width:24px;padding-top:1px}
+.action-body{flex:1}
+.action-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.action-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.action-desc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.who{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:4px}
+.who-c{background:rgba(83,74,183,.1);color:#534AB7}
+.who-cur{background:rgba(24,95,165,.1);color:#185FA5}
+.who-you{background:rgba(133,79,11,.1);color:#854F0B}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('verdict')">① Verdict tổng thể</button>
+  <button class="nb" onclick="show('match')">② Độ khớp chi tiết</button>
+  <button class="nb" onclick="show('risks')">③ Rủi ro kỹ thuật</button>
+  <button class="nb" onclick="show('gaps')">④ Gaps mới phát hiện</button>
+  <button class="nb" onclick="show('actions')">⑤ Action items điều chỉnh</button>
+  <button class="nb" onclick="show('prompts')">⑥ Prompt điều chỉnh</button>
+</div>
+
+<!-- ① VERDICT -->
+<div id="pane-verdict" class="pane on">
+  <div class="verdict-big">88% khớp</div>
+  <div class="verdict-sub">Cursor reconcile chất lượng cao — đồng thuận thực chất, không phải echo</div>
+
+  <div class="tip tg">
+    <strong>Điều quan trọng nhất:</strong> Đây không phải Cursor chỉ đồng ý với Claude. Cursor phát hiện 5 điểm sai/thiếu trong prompt Claude — đặc biệt <code>load_policies()</code> adapter quá đơn giản và <code>agent_registry</code> type mismatch. Đây là reconcile thực sự có giá trị.
+  </div>
+
+  <div class="sec">Scorecard theo 8 chiều</div>
+  <div class="pb"><div class="pb-body" style="padding:12px 14px">
+    <div class="score-row"><span class="score-label">Kiến trúc & 8 invariants</span><div class="bar-wrap"><div class="bar bar-ok" style="width:98%"></div></div><span class="score-val" style="color:#0F6E56">98%</span></div>
+    <div class="score-row"><span class="score-label">P0 priority ordering</span><div class="bar-wrap"><div class="bar bar-ok" style="width:92%"></div></div><span class="score-val" style="color:#0F6E56">92%</span></div>
+    <div class="score-row"><span class="score-label">Milestone A scope boundary</span><div class="bar-wrap"><div class="bar bar-ok" style="width:95%"></div></div><span class="score-val" style="color:#0F6E56">95%</span></div>
+    <div class="score-row"><span class="score-label">Terminology & naming</span><div class="bar-wrap"><div class="bar bar-ok" style="width:100%"></div></div><span class="score-val" style="color:#0F6E56">100%</span></div>
+    <div class="score-row"><span class="score-label">load_policies() adapter spec</span><div class="bar-wrap"><div class="bar bar-err" style="width:45%"></div></div><span class="score-val" style="color:#A32D2D">45%</span></div>
+    <div class="score-row"><span class="score-label">agent_registry type contract</span><div class="bar-wrap"><div class="bar bar-warn" style="width:60%"></div></div><span class="score-val" style="color:#854F0B">60%</span></div>
+    <div class="score-row"><span class="score-label">Test fixture / prod YAML alignment</span><div class="bar-wrap"><div class="bar bar-warn" style="width:65%"></div></div><span class="score-val" style="color:#854F0B">65%</span></div>
+    <div class="score-row"><span class="score-label">NEW-GAP coverage</span><div class="bar-wrap"><div class="bar bar-ok" style="width:90%"></div></div><span class="score-val" style="color:#0F6E56">90%</span></div>
+  </div></div>
+
+  <div class="grid3">
+    <div class="card">
+      <h4><span class="tag tok">Đồng thuận thực chất</span></h4>
+      <ul>
+        <li>70–75% Milestone A</li>
+        <li>"Bẫy chết" PolicyEngine(rules=[])</li>
+        <li>P0 thứ tự: models → policies wire → exceptions → agents</li>
+        <li>Phase 2 = hoàn thiện A, không phải B</li>
+        <li>Defer Redis/persistence sang B</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4><span class="tag twarn">Cursor bổ sung đúng</span></h4>
+      <ul>
+        <li>load_policies() Claude quá đơn giản — cần rule_type, allowed_actions map</li>
+        <li>agent_registry type: server dùng dict[str,dict] không phải dict[str,AgentConfig]</li>
+        <li>EventStore tên thật: InMemoryTelemetryStore</li>
+        <li>Fixture 2-schema problem (rules: list vs rbac:/abac:)</li>
+        <li>5 GitHub issues NEW-1..5 cần tạo</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4><span class="tag terr">Cursor chưa xử lý</span></h4>
+      <ul>
+        <li>Không đề xuất cụ thể PolicyRule.conditions schema</li>
+        <li>Chưa chỉ rõ adapter pattern cho agent_registry refactor</li>
+        <li>CI/pre-commit prompt chưa được map vào GitHub Issues</li>
+        <li>apex/ scope: "6 stubs" nhưng chưa list rõ learn.py là module thứ 6</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ② MATCH -->
+<div id="pane-match" class="pane">
+  <div class="sec">Phân tích từng điểm reconcile</div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tok">KHỚP HOÀN TOÀN</span> Verdict 70–75% + thứ tự P0</span></div>
+    <div class="pbb">Claude: "Cursor thực hiện đúng kiến trúc, điểm yếu ở wiring + schema"
+Cursor: "Kiến trúc / 8 invariants — Đúng cả hai bên. Wiring + schema — Đồng thuận"
+
+<span class="ok">→ Không cần điều chỉnh gì. Cả hai bên dùng cùng mental model.</span>
+<span class="ok">→ Thuật ngữ Phase 2 = hoàn thiện A (không phải B) — Cursor làm rõ đúng.</span></div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag twarn">KHỚP NHƯNG CURSOR SÂU HƠN</span> load_policies() adapter</span></div>
+    <div class="pbb">Claude prompt P0-2: load rbac roles → build PolicyRule với conditions={"role": role_name}
+<span class="err">
+Cursor phát hiện: PolicyEngine._evaluate_rbac() expect conditions với:</span>
+  - rule_type: "rbac" | "abac" | "guardrail"
+  - allowed_actions: list[str]
+  - denied_actions: list[str]
+  - match_role: str (hoặc wildcard)
+
+Claude prompt tạo ra adapter không khớp engine thật → runtime PolicyEvaluationError.
+
+<span class="ok">→ Cursor đúng. Claude cần viết lại P0-2 adapter spec.</span>
+<span class="ok">→ Cursor phải flag thêm: cần unit test adapter trước khi wire vào server.py</span></div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag twarn">KHỚP NHƯNG CURSOR SÂU HƠN</span> agent_registry type</span></div>
+    <div class="pbb">Claude P0-4: agent_registry={a.id: a for a in agents}  <span class="cm"># dict[str, AgentConfig]</span>
+<span class="err">
+Cursor: server.py hiện dùng dict[str, dict] — có _resolve_role() nhận dict raw</span>
+
+Nếu đổi sang dict[str, AgentConfig] mà không refactor _resolve_role():
+→ AttributeError: 'dict' object has no attribute 'roles'
+
+<span class="ok">→ Cursor đúng về rủi ro. Cần một trong hai:</span>
+  Option A: Refactor _resolve_role() để nhận AgentConfig (preferred — Invariant #2)
+  Option B: Adapter dict-to-AgentConfig tại point of construction (workaround)
+<span class="ok">→ Bạn phải quyết định: Option A hay B trước khi Cursor implement P0-4</span></div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag twarn">KHỚP + CURSOR BỔ SUNG</span> EventStore naming</span></div>
+    <div class="pbb">Claude: "patch EventStore.append()" 
+Cursor: "Code thật: InMemoryTelemetryStore — đổi tên khi patch"
+
+<span class="ok">→ Cursor đúng về tên thực tế trong codebase.</span>
+Impact: test_telemetry.py prompt của Claude dùng EventStore — cần update tên class.
+Nếu giữ tên Claude = refactor rename (preferred về clean code).
+Nếu giữ tên Cursor = sửa tất cả test prompts.</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tok">KHỚP + CURSOR ĐỒNG Ý NHƯNG CHƯA TẠO ISSUES</span> NEW-GAP items</span></div>
+    <div class="pbb">Claude NEW-GAP: health endpoint, fixture unify, apex 6 stubs, test_apex_loop, policies adapter
+Cursor: Đề xuất NEW-1..5 GitHub issues — mapping đúng.
+
+<span class="ok">Verdict: Tạo ngay NEW-1..5 trước khi bắt đầu P0-1.</span>
+Lý do: GitHub Issues là tracking mechanism cho Phase 2.
+Nếu không tạo → sau P0 gate sẽ không biết còn gì để close Milestone A.</div>
+  </div>
+</div>
+
+<!-- ③ RISKS -->
+<div id="pane-risks" class="pane">
+  <div class="tip tr">
+    <strong>3 rủi ro kỹ thuật thực sự</strong> — không phải trong prompt của Claude, được Cursor phát hiện. Nếu không xử lý, Phase 2 sẽ build trên nền vẫn broken.
+  </div>
+
+  <div class="sec">Rủi ro nghiêm trọng (phát hiện qua reconcile)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="risk-row">
+      <div class="risk-ico rico-crit">C</div>
+      <div class="risk-body">
+        <div class="risk-title">Risk 1 — load_policies() adapter mismatch với engine thật</div>
+        <div class="risk-desc">Claude P0-2 prompt tạo adapter map YAML → <code>PolicyRule(conditions={"role": role_name})</code>. Nhưng <code>PolicyEngine._evaluate_rbac()</code> thực tế expect <code>conditions</code> có keys: <code>rule_type</code>, <code>allowed_actions</code>, <code>denied_actions</code>, <code>match_role</code>. Nếu implement theo Claude prompt → <code>PolicyEvaluationError</code> ngay call đầu tiên sau wire. Cần: Cursor đọc <code>core/policies.py</code> evaluate() method trước, map đúng format.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-ico rico-crit">C</div>
+      <div class="risk-body">
+        <div class="risk-title">Risk 2 — _resolve_role() nhận dict raw, không nhận AgentConfig</div>
+        <div class="risk-desc">Server.py có <code>_resolve_role(agent: dict, project_id: str)</code>. Claude P0-4 đề xuất <code>agent_registry={a.id: a for a in agents}</code> (AgentConfig objects). Kết quả: <code>_resolve_role()</code> gọi <code>agent["roles"]</code> → <code>TypeError: 'AgentConfig' is not subscriptable</code>. Decision gate: bạn chọn Option A (refactor _resolve_role) hay Option B (adapter) trước khi Cursor implement.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-ico rico-warn">W</div>
+      <div class="risk-body">
+        <div class="risk-title">Risk 3 — 2 schema cho test fixtures vs production YAML</div>
+        <div class="risk-desc"><code>tests/fixtures/config/policies.yml</code> dùng <code>rules: list[...]</code> flat format. <code>config/policies.yml</code> production dùng <code>rbac:/abac:/guardrails:</code> nested format. Sau P0-2 fix <code>load_policies()</code> chỉ đọc production format → test suite dùng fixture format khác → integration tests pass nhưng không test production path thật. Cần: unify fixtures sau P0-2, trước khi viết test_api_integration.py.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-ico rico-warn">W</div>
+      <div class="risk-body">
+        <div class="risk-title">Risk 4 — InMemoryTelemetryStore ≠ EventStore trong prompt</div>
+        <div class="risk-desc">Telemetry.py thực tế tên class là <code>InMemoryTelemetryStore</code>. Phase 2 tab 7 telemetry patch prompt của Claude reference <code>EventStore</code>. Nếu Cursor patch theo tên Claude → tạo class mới song song với class cũ → 2 stores, logic phân tán. Decision: rename <code>InMemoryTelemetryStore</code> → <code>EventStore</code> (clean) hoặc update tất cả Phase 2 prompts.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="tip tw">
+    <strong>Decision gates bạn phải unblock trước khi Cursor implement:</strong> (1) <code>_resolve_role()</code>: Option A hay B? (2) Telemetry class rename: giữ <code>InMemoryTelemetryStore</code> hay rename sang <code>EventStore</code>? Cursor đang chờ 2 quyết định này.
+  </div>
+</div>
+
+<!-- ④ GAPS -->
+<div id="pane-gaps" class="pane">
+  <div class="sec">5 gaps mới Cursor phát hiện — chưa có trong Claude Phase 2 prompts</div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4><span class="tag tnew">NEW-GAP-1</span> PolicyRule.conditions schema chưa spec</h4>
+      <p>Cursor chỉ ra adapter cần đúng format nhưng chưa đề xuất schema cụ thể. Claude cũng chưa spec PolicyRule.conditions structure. Cần: document chính xác <code>PolicyRule.conditions: dict</code> chứa những keys gì và PolicyEngine expect format nào.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tnew">NEW-GAP-2</span> apex/learn.py — module thứ 6 chưa được đặt tên</h4>
+      <p>Cả Claude lẫn Cursor liệt kê "6 stubs": loop, sense, analyze, predict, act + 1 nữa. SAPAL = Sense/Analyze/Predict/Act/<strong>Learn</strong>. File <code>apex/learn.py</code> chưa xuất hiện trong bất kỳ prompt nào. Cần thêm vào apex stub prompt.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tnew">NEW-GAP-3</span> GitHub Issues NEW-1..5 chưa được tạo</h4>
+      <p>Cursor đề xuất tạo 5 issues mới nhưng kết thúc bằng câu hỏi "tạo issues hay implement P0-1 ngay?". Đây là decision gate bị bỏ ngỏ. Cần: tạo issues trước — tracking mechanism cho Phase 2 closure.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tnew">NEW-GAP-4</span> CI workflow không có GitHub Issue</h4>
+      <p>Claude Phase 2 ops tab 11 có prompt tạo <code>.github/workflows/ci.yml</code>. Cursor đề cập CI nhưng không map vào issue number. Issue #25 là về coverage, không phải CI yaml. Cần issue riêng cho CI setup.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tnew">NEW-GAP-5</span> test_api_integration.py — tên conflict</h4>
+      <p>Claude: <code>test_api_integration.py</code>. Cursor: <code>test_api_server.py</code> (từ backlog cũ). Cursor nhận ra đây là cùng file nhưng không chốt tên. Cần: chọn <code>test_api_integration.py</code> (Claude naming — descriptive hơn), close <code>test_api_server.py</code> backlog item.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twarn">PROCESS GAP</span> Cursor chờ 2 decision gates chưa được trả lời</h4>
+      <p>Cursor kết thúc reconcile bằng: "Bạn muốn tôi tạo 5 issues hay bắt đầu P0-1 ngay?" — và chờ xác nhận Option A cho TaskStatus+progress. Nếu không unblock → Cursor sẽ implement với assumptions riêng → thêm drift sau này.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ ACTIONS -->
+<div id="pane-actions" class="pane">
+  <div class="tip tp">
+    <strong>Thứ tự unblock tuyệt đối:</strong> Bạn → Decision gates (3 items) → Claude → Prompt corrections (3 items) → Cursor → NEW-1..5 issues + P0-1 implement.
+  </div>
+
+  <div class="sec">Việc bạn phải quyết định ngay (3 items — unblock Cursor)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="action-row">
+      <div class="action-num">D1</div>
+      <div class="action-body">
+        <div class="action-title">_resolve_role() refactor: Option A hay B? <span class="who who-you">BẠN</span></div>
+        <div class="action-desc"><strong>Option A:</strong> Refactor <code>_resolve_role(agent: AgentConfig, ...)</code> — clean, đúng Invariant #2, nhưng cần test lại resolve logic. <strong>Option B:</strong> Adapter <code>dict → AgentConfig</code> tại construction — nhanh hơn, không touch resolve. Khuyến nghị: <strong>Option A</strong> — đúng kiến trúc, Invariant #2 yêu cầu AgentConfig là authoritative type.</div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-num">D2</div>
+      <div class="action-body">
+        <div class="action-title">Telemetry class: rename hay giữ tên? <span class="who who-you">BẠN</span></div>
+        <div class="action-desc"><strong>Rename</strong> <code>InMemoryTelemetryStore → EventStore</code>: clean, Phase 2 prompts dùng được ngay. <strong>Giữ tên:</strong> update tất cả Phase 2 test prompts. Khuyến nghị: <strong>Rename</strong> — EventStore là tên trong spec, InMemoryTelemetryStore là implementation detail.</div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-num">D3</div>
+      <div class="action-body">
+        <div class="action-title">Tạo GitHub issues NEW-1..5 trước hay sau P0-1? <span class="who who-you">BẠN</span></div>
+        <div class="action-desc">Khuyến nghị: <strong>Cursor tạo issues trước</strong> (15 phút), rồi mới implement P0-1. Issues là tracking — không có issues → không biết Milestone A closed khi nào. NEW-3 (apex 6 stubs) phải có issue trước khi Cursor làm apex prompt.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec">Điều chỉnh Claude phải làm (3 prompt corrections)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="action-row">
+      <div class="action-num">C1</div>
+      <div class="action-body">
+        <div class="action-title">Rewrite P0-2 adapter spec cho load_policies() <span class="who who-c">CLAUDE</span></div>
+        <div class="action-desc">Prompt hiện tại tạo <code>PolicyRule(conditions={"role": role_name})</code> — không khớp engine. Cần prompt mới specify đúng conditions schema sau khi Cursor cung cấp <code>PolicyEngine.evaluate()</code> method signature thực tế. Xem tab ⑥.</div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-num">C2</div>
+      <div class="action-body">
+        <div class="action-title">Thêm apex/learn.py vào apex stub prompt <span class="who who-c">CLAUDE</span></div>
+        <div class="action-desc">SAPAL = Sense/Analyze/Predict/Act/Learn. <code>learn.py</code> bị thiếu trong tất cả prompt trước. Cần thêm vào Phase 2 apex prompt và checklist Milestone A.</div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-num">C3</div>
+      <div class="action-body">
+        <div class="action-title">Thêm fixture unification step giữa P0-2 và test suite <span class="who who-c">CLAUDE</span></div>
+        <div class="action-desc">Sau P0-2 fix load_policies(), cần 1 step riêng: "Unify tests/fixtures/config/policies.yml sang production format". Bước này phải xảy ra TRƯỚC khi viết test_api_integration.py — nếu không fixture sẽ test wrong path.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec">Cursor làm tiếp theo (sau khi bạn unblock D1+D2+D3)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="action-row"><div class="action-num">E1</div><div class="action-body"><div class="action-title">Tạo GitHub Issues NEW-1..5 <span class="who who-cur">CURSOR</span></div><div class="action-desc">Tạo 5 issues với labels + milestone A assignment. Sau đó báo issue numbers để Claude map vào prompts.</div></div></div>
+    <div class="action-row"><div class="action-num">E2</div><div class="action-body"><div class="action-title">Đọc policies.py evaluate() signature → báo cho Claude <span class="who who-cur">CURSOR</span></div><div class="action-desc">Trước khi Claude viết lại P0-2 prompt, Cursor cần share chính xác: <code>PolicyEngine.evaluate()</code> expect conditions dict có những keys nào. Đây là ground truth để Claude viết đúng adapter spec.</div></div></div>
+    <div class="action-row"><div class="action-num">E3</div><div class="action-body"><div class="action-title">Implement P0-1 (models.py) theo thứ tự sau D1+D2 confirmed <span class="who who-cur">CURSOR</span></div><div class="action-desc">Sau khi D1 (Option A/B) và D2 (rename/giữ) confirmed → implement P0-1. Không implement P0-4 trước khi có P0-2 corrected prompt từ Claude.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ⑥ CORRECTED PROMPTS -->
+<div id="pane-prompts" class="pane">
+  <div class="tip tw">
+    <strong>3 prompt cần viết lại/bổ sung.</strong> P0-2 adapter là critical — sai thì wire PolicyEngine nhưng không govern gì. apex/learn.py là nhỏ nhưng thiếu là sai SAPAL spec. Fixture unification là prerequisite bị thiếu.
+  </div>
+
+  <div class="sec">Prompt C1 — P0-2 load_policies() adapter (rewrite)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag terr">REWRITE</span> P0-2: load_policies() đúng engine format</span><button class="cbtn" onclick="cp(this,'pc1')">Copy</button></div>
+    <div class="pbb" id="pc1"><span class="hi">@src/ai_control_plane/core/policies.py  @config/policies.yml</span>
+
+<span class="key">TRƯỚC KHI VIẾT ADAPTER, Cursor cần share:</span>
+Paste chính xác signature + logic của PolicyEngine.evaluate() và _evaluate_rbac()
+để Claude có thể viết adapter spec khớp engine thật.
+
+<span class="cm"># Sau khi Cursor share, Claude sẽ viết:</span>
+
+<span class="key">load_policies() adapter requirements (sau khi biết engine format):</span>
+
+Nguyên tắc bất biến:
+1. Adapter phải map TỪ YAML structure SANG PolicyRule.conditions format mà engine expect
+2. Không được tạo PolicyRule với conditions format tùy ý — phải khớp engine
+3. Test adapter TRƯỚC khi wire vào server.py:
+   rules = load_policies(Path("config/policies.yml"))
+   engine = PolicyEngine(rules=rules)
+   decision = engine.evaluate(identity, "git_read", {}, "rust-gateway")
+   assert decision.allowed == True  <span class="cm"># không PolicyEvaluationError</span>
+
+<span class="key">Verify gate cho P0-2 (thêm vào verify sequence):</span>
+<span class="cm"># Phải chạy được trước khi merge P0-2 PR:</span>
+from ai_control_plane.config.loader import load_policies
+from ai_control_plane.core.policies import PolicyEngine
+from pathlib import Path
+rules = load_policies(Path("config/policies.yml"))
+assert len(rules) > 0, "load_policies returned empty"
+engine = PolicyEngine(rules=rules)
+<span class="cm"># Mock identity với role=backend</span>
+decision = engine.evaluate(mock_backend_identity, "git_read", {}, "rust-gateway")
+assert decision.allowed == True, "backend can git_read"
+decision2 = engine.evaluate(mock_backend_identity, "k8s_apply_prod", {}, "rust-gateway")
+assert decision2.allowed == False, "backend denied k8s_apply_prod"
+print("P0-2 adapter verified OK")</div>
+  </div>
+
+  <div class="sec">Prompt C2 — apex/learn.py (thêm file còn thiếu)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">BỔ SUNG</span> apex/learn.py — SAPAL L</span><button class="cbtn" onclick="cp(this,'pc2')">Copy</button></div>
+    <div class="pbb" id="pc2"><span class="hi">@src/ai_control_plane/apex/__init__.py</span>
+
+<span class="acc">Thiếu trong mọi prompt trước: apex/learn.py — chữ L trong SAPAL.</span>
+
+Tạo src/ai_control_plane/apex/learn.py:
+
+"""Learn — Milestone C: policy adaptation from execution history."""
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ai_control_plane.core.models import TelemetryEvent
+
+class LearnAdapter:
+    """
+    Closes SAPAL loop. Adapts policies from execution history.
+    Reads EventStore replay → identifies patterns → proposes policy updates.
+    Active at Milestone C.
+    """
+    def __init__(self, config: dict) -> None:
+        self._config = config
+
+    def ingest(self, events: list) -> None:
+        raise NotImplementedError("Milestone C")
+
+    def propose_policy_update(self) -> dict:
+        raise NotImplementedError("Milestone C")
+
+    def apply_adaptation(self, proposal: dict, approved: bool) -> None:
+        raise NotImplementedError("Milestone C")
+
+<span class="key">Update apex/__init__.py:</span>
+from .loop import SapalLoop
+from . import sense, analyze, predict, act, learn  <span class="cm"># thêm learn</span>
+__all__ = ["SapalLoop"]
+
+<span class="key">Update tests/test_apex_loop.py — thêm 1 test:</span>
+def test_all_apex_modules_importable():
+    from ai_control_plane.apex import loop, sense, analyze, predict, act, learn
+    assert all([loop, sense, analyze, predict, act, learn])  <span class="cm"># learn phải có</span>
+
+<span class="key">Update Milestone A checklist:</span>
+apex/ = 7 files: __init__, loop, sense, analyze, predict, act, learn
+<span class="cm"># (không phải 6 như tất cả prompt trước đã nói)</span></div>
+  </div>
+
+  <div class="sec">Prompt C3 — Fixture unification step (prerequisite bị thiếu)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">THÊM STEP</span> Sau P0-2, trước test_api_integration</span><button class="cbtn" onclick="cp(this,'pc3')">Copy</button></div>
+    <div class="pbb" id="pc3"><span class="hi">@tests/fixtures/config/policies.yml  @config/policies.yml  @src/ai_control_plane/config/loader.py</span>
+
+<span class="acc">Step này PHẢI chạy sau P0-2 và TRƯỚC khi viết test_api_integration.py.</span>
+Hiện tại 2 schema khác nhau → integration tests test wrong path.
+
+<span class="key">Kiểm tra schema diff:</span>
+<span class="cm"># tests/fixtures hiện tại dùng:</span>
+rules:
+  - name: "..."
+    conditions: {...}
+    effect: "allow"
+
+<span class="cm"># config/policies.yml production dùng:</span>
+rbac:
+  roles:
+    backend: {allowed_actions: [...], denied_actions: [...]}
+abac:
+  rules: [...]
+guardrails: [...]
+
+<span class="key">Unification task:</span>
+1. Sau P0-2 fix load_policies() cho production format
+2. Overwrite tests/fixtures/config/policies.yml với production format
+   (copy config/policies.yml → tests/fixtures/config/policies.yml)
+3. Verify loader đọc được fixture file:
+   rules = load_policies(Path("tests/fixtures/config/policies.yml"))
+   assert len(rules) > 0
+
+<span class="key">Sau khi unified:</span>
+4. Update conftest.py fixture set_acp_config_dir → point tới tests/fixtures/config/
+5. Chạy existing test_policies.py — phải vẫn pass (không regress)
+6. Chỉ sau bước này mới viết test_api_integration.py
+
+<span class="key">Lý do critical:</span>
+Nếu bỏ qua: test_api_integration pass với fixture format
+nhưng production server fail với policies.yml thật.
+Đây là loại lỗi không bị CI bắt nhưng fail ngay khi deploy.</div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=el.innerText;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>

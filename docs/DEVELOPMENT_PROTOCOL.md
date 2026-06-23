@@ -3,9 +3,9 @@
 > **Purpose:** Chuẩn hóa mọi thay đổi code/docs trên **ai-control-plane** — chất lượng, 8 hard invariants, fail-closed governance, tránh schema/wiring drift.
 
 **Document ID:** ACP-DEV-PROTOCOL-001  
-**Version:** 1.1  
+**Version:** 1.2  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-22 — Tab 7 telemetry + SMK v2 + CI (#23, #25) merged to master  
+**Last updated:** 2026-06-23 — Milestone A closed (#38); governance archive in `docs/governance/`  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -24,8 +24,10 @@ File này là **cổng bắt buộc trước khi sửa code** cho agent và dev.
 | **Architecture & invariants** | [`ARCHITECTURE.md`](../ARCHITECTURE.md) | 8 hard invariants, module inventory, milestones |
 | **Code generation rules** | [`.cursorrules`](../.cursorrules) | Pydantic v2, structlog, async I/O, test rules |
 | **Open source gates** | [`docs/OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md) | Khi nào public repo / PyPI |
+| **Milestone A archive** | [`docs/governance/`](governance/) | Claude audit HTML + Phase 1 decisions (closed #38) |
+| **Cursor task prompts** | [`docs/prompts/`](prompts/) | Tab 7, smoke, tool-naming defer packets |
 | **Execution backlog** | [GitHub Issues](https://github.com/DataXMind/AI-Control-Plane/issues) | Labels: `bug`, `spec-gap`, `debt`, `quality`, `milestone-b` |
-| **Milestone A tracking** | Issue [#38](https://github.com/DataXMind/AI-Control-Plane/issues/38) | Definition of Done — đóng phase PoC |
+| **Milestone A tracking** | Issue [#38](https://github.com/DataXMind/AI-Control-Plane/issues/38) | **CLOSED** — Definition of Done PoC scaffold |
 
 ### Vai trò AI pair (bắt buộc ghi nhớ)
 
@@ -99,7 +101,32 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 
 ## 4. P0 gate — trước Phase 2 prompts
 
-**P0 gate: PASSED (2026-06-22)** — Phase 2 (telemetry, CI, core test coverage) có thể bắt đầu sau Claude review telemetry tab 7.
+**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — 82 tests, CI green, smoke gate SMK-01..05.
+
+### 4.1 Milestone A closed — governance archive
+
+Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase 1. Mở file trong browser (local hoặc GitHub raw).
+
+| Artifact | File | Nội dung |
+| -------- | ---- | -------- |
+| Architecture V3 consolidate | [ai_control_plane_consolidated_architecture.html](governance/ai_control_plane_consolidated_architecture.html) | V1∪V2 decision matrix, invariants, milestones |
+| Cursor workflow (setup → CLI) | [cursor_workflow_prompt_system.html](governance/cursor_workflow_prompt_system.html) | 3-tier prompts, build order Milestone A |
+| Cursor workflow (apex, tests) | [cursor_workflow_continued.html](governance/cursor_workflow_continued.html) | Apex stubs, test_apex_loop, launch checklist |
+| Phase 2 adjusted (audit) | [phase2_adjusted_prompts.html](governance/phase2_adjusted_prompts.html) | P0 broken items, P0 fix pack, adjusted prompts |
+| Claude ↔ Cursor reconcile | [cursor_claude_reconcile_analysis.html](governance/cursor_claude_reconcile_analysis.html) | 88% match, NEW-GAP-1..5, action items |
+| Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
+
+**Cursor prompts (markdown):**
+
+| Prompt | File |
+| ------ | ---- |
+| Tab 7 telemetry (#23) | [`docs/prompts/CLAUDE_PROMPT_TAB7_TELEMETRY.md`](prompts/CLAUDE_PROMPT_TAB7_TELEMETRY.md) |
+| Smoke audit (#25) | [`docs/prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md`](prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md) |
+| Tool naming defer (#8, D3) | [`docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`](prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md) |
+
+**Verify gate at close:** `pytest tests/` 82 pass · `pytest -m smoke` 5 pass · CI jobs `Smoke gate` + `Full suite` green on `master` (`9196ee5`).
+
+**Deferred to Milestone B / Claude:** P0-2b shipped YAML tool naming (#8, D3) — see tool-naming prompt above.
 
 | Thứ tự | Nội dung | Issues | Status |
 | ------ | -------- | ------ | ------ |
@@ -131,7 +158,7 @@ curl -s http://localhost:8000/health | jq .
 5. Debt: D2, D4, D6, Q9 ✅ — P0-2b deferred → `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`
 6. CI + pre-commit (#25–27), structlog (#19) ✅
 7. README runbook (#13), ARCHITECTURE sync (#14) ✅
-8. Close tracking issue #38 — **human** after CI green
+8. ~~Close tracking issue #38~~ ✅ **closed** (human, post CI green)
 
 ---
 
@@ -372,7 +399,7 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 - [ ] Không vi phạm 8 invariants / `.cursorrules`
 - [ ] Issue cập nhật hoặc PR link issue
 
-**Milestone A closed khi:** [#38](https://github.com/DataXMind/AI-Control-Plane/issues/38) + P0 + quality issues done.
+**Milestone A:** **CLOSED** ([#38](https://github.com/DataXMind/AI-Control-Plane/issues/38)) — archive §4.1. **Milestone B** entry: issues #29–#37.
 
 ---
 
@@ -399,14 +426,16 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 | Architecture | [`ARCHITECTURE.md`](../ARCHITECTURE.md) |
 | Cursor rules | [`.cursorrules`](../.cursorrules) |
 | Open source readiness | [`docs/OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md) |
+| Milestone A governance archive | [`docs/governance/`](governance/) — §4.1 |
+| Cursor prompts (Phase 1) | [`docs/prompts/`](prompts/) |
 | GitHub backlog | https://github.com/DataXMind/AI-Control-Plane/issues |
-| Milestone A DoD | https://github.com/DataXMind/AI-Control-Plane/issues/38 |
+| Milestone A DoD (closed) | https://github.com/DataXMind/AI-Control-Plane/issues/38 |
 | Issue bootstrap scripts | `scripts/create_milestone_a_issues.sh`, `scripts/create_new_gap_issues.sh` |
 | Template gốc (ACOP) | `D:\Projects\giapha-do-van\docs\DEVELOPMENT_PROTOCOL.md` (import v2.0) |
 | Template gốc (AEOS) | `D:\Projects\aeos\docs\DEVELOPMENT_PROTOCOL.md` (9-step + PACE) |
 
 ---
 
-**Version:** 1.1 · **Last updated:** 2026-06-22 (P0 gate complete)  
+**Version:** 1.2 · **Last updated:** 2026-06-23 (Milestone A closed, governance archive)  
 **Supersedes:** ACOP-DEV-PROTOCOL-001 import (nội dung ACOP-specific đã loại bỏ)  
 **Project:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane) (private until public-beta gates)

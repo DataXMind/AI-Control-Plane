@@ -1,0 +1,765 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+
+.phase-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.pn{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.pn.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pn:hover:not(.on){color:var(--color-text-primary)}
+
+.phase{display:none}
+.phase.on{display:block}
+
+.step-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.sn-a{background:rgba(79,142,247,.12);color:#185FA5}
+.sn-b{background:rgba(52,201,126,.12);color:#0F6E56}
+.sn-c{background:rgba(167,139,250,.12);color:#534AB7}
+.sn-d{background:rgba(245,166,35,.12);color:#854F0B}
+.step-meta{flex:1}
+.step-title{font-size:13.5px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.step-sub{font-size:11.5px;color:var(--color-text-secondary)}
+
+.prompt-block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.pb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pb-label{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.pb-tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.05em}
+.tag-cursor{background:rgba(79,142,247,.12);color:#185FA5}
+.tag-rules{background:rgba(245,166,35,.12);color:#854F0B}
+.tag-chat{background:rgba(52,201,126,.12);color:#0F6E56}
+.tag-rules-file{background:rgba(167,139,250,.12);color:#534AB7}
+.copy-btn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.copy-btn:hover{background:var(--color-background-primary);color:var(--color-text-primary)}
+.copy-btn.copied{border-color:#0F6E56;color:#0F6E56}
+.pb-body{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.8;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pb-body .cm{color:var(--color-text-secondary)}
+.pb-body .hi{color:#185FA5;font-weight:500}
+.pb-body .key{color:#854F0B}
+.pb-body .good{color:#0F6E56}
+.pb-body .warn{color:#A32D2D}
+
+.tip-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip-box strong{color:var(--color-text-primary);font-weight:500}
+.tip-box code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+
+.warn-box{border-left-color:#854F0B}
+.good-box{border-left-color:#0F6E56}
+
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:20px 0}
+.section-title{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:12px}
+
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.rule-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.rule-card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.rule-card p{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rule-card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+
+@media(max-width:560px){.rules-grid{grid-template-columns:1fr}.phase-nav{gap:4px}}
+</style>
+
+<div class="phase-nav">
+  <button class="pn on" onclick="show('overview')">0 — Tổng quan workflow</button>
+  <button class="pn" onclick="show('setup')">1 — Setup Cursor</button>
+  <button class="pn" onclick="show('bootstrap')">2 — Bootstrap repo</button>
+  <button class="pn" onclick="show('core')">3 — Core modules</button>
+  <button class="pn" onclick="show('api')">4 — API + MCP layer</button>
+  <button class="pn" onclick="show('cli')">5 — CLI + Tests</button>
+  <button class="pn" onclick="show('rules')">6 — .cursorrules</button>
+</div>
+
+<!-- ══ 0 OVERVIEW ══ -->
+<div id="phase-overview" class="phase on">
+  <div class="tip-box good-box">
+    <strong>Nguyên tắc vàng khi dùng Cursor cho dự án này:</strong> Cursor hoạt động tốt nhất khi nó biết <em>toàn bộ kiến trúc</em> trước, rồi mới nhận lệnh từng file nhỏ. Không bao giờ nói "build cả project". Mỗi prompt = 1 file hoặc 1 class.
+  </div>
+
+  <div class="section-title">Luồng làm việc 3 tầng</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <h4>Tầng 1 — Context (làm 1 lần)</h4>
+      <p>Tạo <code>.cursorrules</code> + <code>ARCHITECTURE.md</code>. Đây là "bộ nhớ dài hạn" cho mọi session Cursor về sau.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Tầng 2 — Session prompt (mỗi session)</h4>
+      <p>Mở session mới → paste "Session Context Prompt" ngắn → Cursor biết ngay đang làm gì, không bị lạc.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Tầng 3 — Task prompt (mỗi file)</h4>
+      <p>Prompt 1 file/class cụ thể. Ngắn, có spec rõ, có test expectation. Không ambiguous.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Quy tắc session</h4>
+      <p>Mỗi Cursor session = 1 module (vd: <code>core/</code>). Đừng mix session. Khi sang module mới → session mới + context prompt mới.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Thứ tự xây dựng (theo Milestone A)</div>
+  <div class="prompt-block">
+    <div class="pb-head"><span class="pb-label">Thứ tự thực hiện</span></div>
+    <div class="pb-body"><span class="cm">Step 1 (trước khi mở Cursor)</span>
+<span class="good">→</span> Tạo repo + pyproject.toml + .cursorrules + ARCHITECTURE.md
+
+<span class="cm">Step 2 — Session A: Config layer</span>
+<span class="good">→</span> config/loader.py (load + validate 3 yml files)
+
+<span class="cm">Step 3 — Session B: Data contracts</span>
+<span class="good">→</span> core/models.py (union V1+V2 types — 11 classes)
+
+<span class="cm">Step 4 — Session C: Registry + Policy + Quota</span>
+<span class="good">→</span> core/registry.py → core/policies.py → core/quota.py
+<span class="cm">   (thứ tự quan trọng: registry trước, policies sau)</span>
+
+<span class="cm">Step 5 — Session D: Telemetry</span>
+<span class="good">→</span> core/telemetry.py (TelemetryEmitter, EventStore, AuditWriter)
+
+<span class="cm">Step 6 — Session E: MCP layer</span>
+<span class="good">→</span> mcp/git_server.py → mcp/server_factory.py → mcp/server_utils.py
+
+<span class="cm">Step 7 — Session F: API bridge</span>
+<span class="good">→</span> api/schemas.py → api/server.py (5 endpoints)
+
+<span class="cm">Step 8 — Session G: CLI</span>
+<span class="good">→</span> main.py → cli/assign.py → cli/status.py → cli/logs.py
+
+<span class="cm">Step 9 — Session H: Tests</span>
+<span class="good">→</span> conftest.py → test_config_loader.py → test_models.py → ...
+
+<span class="cm">Step 10 — apex/ stubs (import-clean, không logic)</span>
+<span class="good">→</span> apex/__init__.py + 5 stub files</div>
+  </div>
+</div>
+
+<!-- ══ 1 SETUP ══ -->
+<div id="phase-setup" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-a">01</div>
+    <div class="step-meta">
+      <div class="step-title">Cấu hình Cursor trước khi gõ dòng code đầu tiên</div>
+      <div class="step-sub">Settings → Models → Rules — làm đúng 1 lần, dùng mãi</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Cursor settings cần chỉnh:</strong> Vào Settings → General → chọn model <code>claude-sonnet-4-5</code> hoặc <code>claude-opus-4</code>. Bật "Include project structure in context". Bật "Auto-import" cho Python.
+  </div>
+
+  <div class="section-title">Prompt dùng ngay khi mở Cursor lần đầu vào project</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> Prompt khởi động project</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-setup-init')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-setup-init"><span class="hi">@ARCHITECTURE.md @.cursorrules</span>
+
+Tôi bắt đầu xây dựng project ai-control-plane từ đầu.
+
+<span class="key">Bối cảnh:</span>
+- Python package tên: ai_control_plane
+- CLI tool tên: agentctl
+- Kiến trúc: src/ layout với pyproject.toml
+- 3 config files: config/projects.yml, agents.yml, policies.yml
+- HTTP API bridge (FastAPI) để TypeScript PolicyClient gọi
+- 8 hard invariants phải tuân thủ (xem ARCHITECTURE.md)
+
+<span class="key">Nhiệm vụ đầu tiên:</span>
+Scaffold toàn bộ directory structure theo consolidated V3:
+1. Tạo tất cả __init__.py (empty, chỉ có version comment)
+2. Tạo pyproject.toml với đầy đủ dependencies
+3. Tạo .gitignore chuẩn Python
+4. Tạo config/*.yml với structure từ ARCHITECTURE.md
+5. KHÔNG viết logic — chỉ tạo files trống với docstrings đúng
+
+<span class="cm"># Sau khi Cursor scaffold xong, review lại cấu trúc,
+# rồi mới bắt đầu từng session module.</span></div>
+  </div>
+
+  <div class="section-title">pyproject.toml — prompt tạo file này đúng cách</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> Trong file pyproject.toml</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-pyproject')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-pyproject">Tạo pyproject.toml cho Python package ai_control_plane với:
+
+<span class="key">Build system:</span> hatchling hoặc setuptools
+<span class="key">Package name:</span> ai-control-plane
+<span class="key">Python:</span> >=3.11
+
+<span class="key">Dependencies bắt buộc:</span>
+- pydantic>=2.0 (data validation)
+- fastapi>=0.110 (API server)
+- uvicorn[standard] (ASGI server)
+- typer[all]>=0.12 (CLI framework)
+- pyyaml>=6.0 (yml loading)
+- structlog>=24.0 (structured logging)
+- opentelemetry-sdk>=1.24 (telemetry)
+- opentelemetry-exporter-otlp (OTLP export)
+- httpx>=0.27 (HTTP client cho PolicyClient)
+
+<span class="key">Dev dependencies:</span>
+- pytest>=8.0
+- pytest-asyncio
+- pytest-cov
+- mypy>=1.9
+- ruff>=0.4 (linting + formatting)
+- pre-commit
+
+<span class="key">Console scripts:</span>
+agentctl = ai_control_plane.main:app
+
+<span class="key">Tool configs:</span>
+- mypy: strict mode, plugins=pydantic.mypy
+- ruff: target-version=py311, select=["E","W","F","I","UP"]
+- pytest: testpaths=["tests"], asyncio_mode="auto"</div>
+  </div>
+</div>
+
+<!-- ══ 2 BOOTSTRAP ══ -->
+<div id="phase-bootstrap" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-a">02</div>
+    <div class="step-meta">
+      <div class="step-title">Session Bootstrap — ARCHITECTURE.md + 3 yml files</div>
+      <div class="step-sub">Làm đúng 1 lần. Đây là "source of truth" cho mọi session sau.</div>
+    </div>
+  </div>
+
+  <div class="tip-box warn-box">
+    <strong>Quan trọng:</strong> ARCHITECTURE.md phải được tạo TRƯỚC khi viết bất kỳ Python code nào. Cursor sẽ reference file này ở mọi session. Nếu bỏ qua bước này, mọi prompt về sau sẽ thiếu context.
+  </div>
+
+  <div class="section-title">Prompt tạo ARCHITECTURE.md (file context cho Cursor)</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> Tạo ARCHITECTURE.md</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-arch-md')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-arch-md">Tạo file ARCHITECTURE.md ở root của project với nội dung sau:
+
+<span class="key">## Project: ai-control-plane</span>
+
+<span class="key">### Package structure</span>
+src/ai_control_plane/ với src layout (pyproject.toml)
+CLI entrypoint: agentctl (via console_scripts)
+
+<span class="key">### 8 Hard Invariants (KHÔNG BAO GIỜ vi phạm)</span>
+1. core/policies.py không bao giờ bị replace bởi OSS PolicyEngine
+2. core/models.py sở hữu TẤT CẢ data contracts
+3. mcp/git_server.py là facade DUY NHẤT — không Git logic trong Python
+4. cli/ subcommands chỉ gọi core/ và api/ — không import OSS runtimes
+5. apex/ sở hữu SAPAL loop — OSS tools được gọi TỪ apex/, không ngược
+6. api/ là cross-language bridge DUY NHẤT với TypeScript
+7. core/quota.py backend hoàn toàn swappable qua QuotaStore ABC
+8. config/ ở root = shipped defaults, runtime path = ACP_CONFIG_DIR env var
+
+<span class="key">### Module inventory (core/models.py)</span>
+ProjectConfig, AgentConfig, ModelProfile, PolicyRule, Task, TaskStatus,
+TelemetryEvent, PolicyDecision, AgentIdentity, McpError,
+ApprovalRequest, ApprovalDecision
+
+<span class="key">### API endpoints (api/server.py)</span>
+POST /policy/evaluate → PolicyEvalResponse
+POST /policy/approve → ApprovalDecision
+POST /identity/verify → AgentIdentity
+GET /status/{project_id} → TaskStatus
+GET /quota/{project_id} → QuotaStatus
+
+<span class="key">### Milestone mapping</span>
+Milestone A: core/ + mcp/ + api/ + cli/assign + cli/status + apex/ stubs
+Milestone B: registry Redis backend + ABAC + all 5 API endpoints + cli/approve + cli/quota
+Milestone C: apex/ live — sense, analyze, predict, act, learn
+
+<span class="key">### Fail-closed rule</span>
+Nếu api/server.py unreachable → TypeScript PolicyClient DENY tool call.
+Không có fallback, không có default-allow.</div>
+  </div>
+
+  <div class="section-title">Prompt tạo 3 config yml files</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> Tạo config/*.yml</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-ymls')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-ymls">Tạo 3 files trong thư mục config/ ở root:
+
+<span class="key">1. config/projects.yml</span>
+Chứa project rust-gateway với:
+- repo: git@github.com:DataXMind/Hybrid-AI-Gateway.git
+- default_branch: main
+- 3 environments: dev, stage, prod (với k8s_cluster tương ứng)
+- 3 roles: infra, backend, reviewer (với allowed_paths, branch_prefixes, environments)
+Và project datax-analytics với:
+- repo, default_branch, environments
+- 2 roles: data-analyst, reviewer
+
+<span class="key">2. config/agents.yml</span>
+Chứa agent1 (infra/antigravity), agent2 (backend/vscode), agent3 (reviewer/cli)
+Mỗi agent có: name, roles, runner, model_profile, capabilities, restrictions
+Và model_profiles section: claude-team-infra, claude-pro-backend, claude-team-review
+(với provider, account_type, api_key_env, max_tokens_per_day, allowed_tasks)
+
+<span class="key">3. config/policies.yml</span>
+Chứa:
+- rbac.roles: infra, backend, reviewer (allowed_actions, denied_actions)
+- abac.rules: 3 rules (Deny-prod-k8s, Restrict-PII, Allow-reviewer-read)
+- quotas.by_model_profile, by_project, by_agent
+- guardrails: 3 guardrails (Require-plan, Require-tests, No-direct-merge)
+
+<span class="cm"># Format: standard YAML, comments cho mỗi section chính</span></div>
+  </div>
+</div>
+
+<!-- ══ 3 CORE MODULES ══ -->
+<div id="phase-core" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-b">03</div>
+    <div class="step-meta">
+      <div class="step-title">Session C — Core modules (models → registry → policies → quota → telemetry)</div>
+      <div class="step-sub">Thứ tự bắt buộc. models.py phải xong trước khi viết bất kỳ file nào khác.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Session Context Prompt — paste đầu mỗi session Core</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> Session context (paste đầu session)</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-core-ctx')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-core-ctx"><span class="hi">@ARCHITECTURE.md @.cursorrules @config/projects.yml</span>
+
+<span class="key">Session này:</span> Xây dựng core/ modules cho ai-control-plane.
+
+<span class="key">Invariants phải giữ trong session này:</span>
+- core/models.py là file ĐẦU TIÊN — mọi file khác import từ đây
+- Không import OSS runtimes (CrewAI, LangChain, etc.) vào core/
+- policies.py chỉ chứa pure functions — không I/O, không network
+- quota.py phải có QuotaStore ABC để backend swappable
+- Tất cả types dùng Pydantic v2 (model_config = ConfigDict)
+
+<span class="key">Thứ tự build trong session này:</span>
+1. core/models.py → 2. core/registry.py → 3. core/policies.py
+4. core/quota.py → 5. core/telemetry.py
+
+<span class="cm"># Làm xong 1 file, chạy mypy + ruff, rồi mới sang file tiếp theo</span></div>
+  </div>
+
+  <div class="section-title">Prompt cho core/models.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> core/models.py</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-models')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-models">Tạo src/ai_control_plane/core/models.py
+
+<span class="key">Đây là data contract duy nhất của toàn bộ system.</span>
+Tất cả types dùng Pydantic v2 BaseModel với model_config = ConfigDict(frozen=True) trừ khi cần mutate.
+
+<span class="key">Classes cần implement (ĐÚNG TÊN, không đổi):</span>
+
+<span class="good">Config types:</span>
+- ProjectConfig: id, repo, default_branch, environments, roles, docs
+- AgentConfig: id, name, roles, runner, model_profile, capabilities, restrictions
+- ModelProfile: name, provider, account_type, api_key_env, max_tokens_per_day, allowed_tasks
+- PolicyRule: name, description, conditions (dict), effect (str)
+
+<span class="good">Runtime types:</span>
+- Task: id (uuid4), project_id, agent_id, task_type, payload, created_at
+- TaskStatus: task_id, state (Enum: PENDING/RUNNING/DONE/FAILED), updated_at
+
+<span class="good">Policy types (load-bearing cho TypeScript bridge):</span>
+- PolicyDecision: allowed (bool), reason (str), requires_approval (bool), policy_id
+- AgentIdentity: agent_id, project_id, role, jwt_claims (dict), did (str|None)
+- ApprovalRequest: id (uuid4), event_type, context (dict), created_at
+- ApprovalDecision: request_id, approved (bool), approver, decided_at
+
+<span class="good">Event types:</span>
+- TelemetryEvent: id, event_type (str), agent_id, project_id, payload (dict), timestamp
+- McpError: code (int), message (str), data (dict|None)
+
+<span class="key">Yêu cầu kỹ thuật:</span>
+- Dùng typing: Optional, Literal, Union đúng chỗ
+- Không import từ bất kỳ module nào trong project này (file này là gốc)
+- Thêm __all__ ở cuối file liệt kê tất cả class names
+- Mỗi class có docstring 1 dòng mô tả purpose</div>
+  </div>
+
+  <div class="section-title">Prompt cho core/policies.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> core/policies.py</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-policies')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-policies">Tạo src/ai_control_plane/core/policies.py
+
+<span class="key">INVARIANT: File này là PolicyEngine DUY NHẤT. Không bao giờ replace bằng OSS.</span>
+
+<span class="key">Import chỉ được phép:</span>
+from .models import PolicyRule, PolicyDecision, AgentIdentity, ApprovalRequest, ApprovalDecision, Task
+from typing import ...
+from dataclasses import dataclass (nếu cần)
+<span class="warn"># KHÔNG import OSS policy engines, CrewAI, LangChain, etc.</span>
+
+<span class="key">Classes cần implement:</span>
+
+<span class="good">PolicyEngine:</span>
+- evaluate(identity: AgentIdentity, tool_name: str, args: dict, project_id: str) → PolicyDecision
+- Logic: check RBAC (role allowed_actions) → check ABAC (condition rules) → check guardrails
+- Pure function: không I/O, không network calls
+- Nhận list[PolicyRule] qua constructor (dependency injection)
+
+<span class="good">ConditionEvaluator:</span>
+- evaluate(condition: dict, context: dict) → bool
+- Hỗ trợ conditions: environment, action, role, path, data_category
+- Pure function
+
+<span class="good">ApprovalGate:</span>
+- request(event_type: str, context: dict) → ApprovalRequest
+- resolve(approval_id: str, approved: bool, approver: str) → ApprovalDecision
+- Lưu pending approvals trong dict (in-memory, không DB)
+
+<span class="good">GuardrailEvaluator:</span>
+- check_plan_required(task: Task) → bool
+- check_test_required(changed_paths: list[str]) → bool  
+- check_branch_allowed(branch: str) → bool
+- Nhận list[PolicyRule] via constructor
+
+<span class="key">Test cases tôi sẽ viết để verify:</span>
+- agent với role=backend không được gọi tool k8s_apply_*
+- agent với role=reviewer chỉ được read_repo, read_pr, comment_pr
+- prod environment k8s_apply_prod → requires_approval=True</div>
+  </div>
+
+  <div class="section-title">Prompt cho core/quota.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> core/quota.py</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-quota')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-quota">Tạo src/ai_control_plane/core/quota.py
+
+<span class="key">INVARIANT: Backend phải swappable — không hardcode Redis hoặc bất kỳ storage nào.</span>
+
+<span class="key">ABC (Abstract Base Class):</span>
+class QuotaStore(Protocol):
+    def get(self, key: str) -> float: ...
+    def set(self, key: str, value: float) -> None: ...
+    def increment(self, key: str, delta: float) -> float: ...
+    def reset(self, key: str) -> None: ...
+
+<span class="key">In-memory implementation (Milestone A):</span>
+class InMemoryQuotaStore(QuotaStore):
+    - Thread-safe với threading.Lock
+    - Data không persist qua restart (expected behavior)
+
+<span class="key">Classes:</span>
+
+<span class="good">QuotaTracker:</span>
+- consume(agent_id: str, tokens: int) → bool (False nếu vượt quota)
+- remaining(agent_id: str) → float
+- reset_daily(agent_id: str) → None
+- Nhận QuotaStore + daily_limits: dict via constructor
+
+<span class="good">TokenBudget:</span>
+- deduct(project_id: str, tokens: int) → bool
+- remaining(project_id: str) → float
+- Cấp độ project (khác với agent-level QuotaTracker)
+
+<span class="good">RateLimiter:</span>
+- check(client_id: str, cost: float = 1.0) → bool
+- Implement TokenBucket algorithm
+- capacity và refill_rate inject qua constructor
+
+<span class="key">Redis stub (Milestone B — để trống body, raise NotImplementedError):</span>
+class RedisQuotaStore(QuotaStore): ...
+
+<span class="cm"># Milestone A: InMemoryQuotaStore là default
+# Milestone B: swap sang RedisQuotaStore — không đụng interface</span></div>
+  </div>
+</div>
+
+<!-- ══ 4 API + MCP ══ -->
+<div id="phase-api" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-c">04</div>
+    <div class="step-meta">
+      <div class="step-title">Session E+F — MCP layer + API bridge</div>
+      <div class="step-sub">api/ là cầu nối duy nhất với TypeScript. Fail-closed bắt buộc.</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Thứ tự trong session này:</strong> <code>api/schemas.py</code> trước (Pydantic request/response) → <code>api/server.py</code> → <code>mcp/git_server.py</code> → <code>mcp/server_factory.py</code> → <code>mcp/server_utils.py</code>. Schemas phải xong trước vì server.py import từ đó.
+  </div>
+
+  <div class="section-title">Prompt cho api/schemas.py + api/server.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> api/ layer</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-api')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-api"><span class="hi">@ARCHITECTURE.md @src/ai_control_plane/core/models.py</span>
+
+<span class="key">Tạo api/schemas.py trước:</span>
+
+Pydantic v2 request/response schemas cho 5 endpoints:
+- PolicyEvalRequest: agent_id, project_id, tool_name, args (dict)
+- PolicyEvalResponse: allowed (bool), reason, requires_approval, policy_id, latency_ms
+- TaskRequest: project_id, agent_id, task_type, payload
+- TaskStatus: task_id, state, progress (0-100), updated_at
+- QuotaStatus: project_id, tokens_used, tokens_remaining, requests_today
+- ApprovalRequest/Response (re-export từ models với HTTP wrapper)
+
+<span class="key">Sau đó tạo api/server.py:</span>
+
+FastAPI app với 5 endpoints:
+POST /policy/evaluate → PolicyEvalResponse
+POST /policy/approve → ApprovalDecision
+POST /identity/verify → AgentIdentity
+GET  /status/{project_id} → TaskStatus
+GET  /quota/{project_id} → QuotaStatus
+
+<span class="key">INVARIANT fail-closed phải implement:</span>
+- Mọi unhandled exception → 503, không để lọt 500 nào ra ngoài
+- Timeout handler: nếu PolicyEngine.evaluate > 2s → 503 + log
+- KHÔNG default-allow: khi không chắc → deny
+
+<span class="key">Middleware cần thêm:</span>
+- RequestLoggingMiddleware: log mọi request với agent_id + latency
+- Không cần auth middleware ở Milestone A (thêm ở B)</div>
+  </div>
+
+  <div class="section-title">Prompt cho mcp/git_server.py (YOUR facade)</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> mcp/git_server.py</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-mcp')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-mcp">Tạo src/ai_control_plane/mcp/git_server.py
+
+<span class="key">INVARIANT: File này là facade. Không chứa Git logic. Không gọi git trực tiếp.</span>
+Git execution thực sự là TypeScript cyanheads server bên dưới.
+
+<span class="key">Class GitMcpServer:</span>
+
+__init__(self, project: ProjectConfig, policy_client: httpx.AsyncClient)
+- policy_client gọi tới api/server.py (http://localhost:8000)
+- project lấy từ registry
+
+handle_tool_call(self, tool_name: str, args: dict, identity: AgentIdentity) → dict
+- Bước 1: Gọi api/server.py POST /policy/evaluate
+- Bước 2: Nếu PolicyDecision.allowed=False → raise McpError(code=-32603)
+- Bước 3: Nếu requires_approval=True → raise McpError với "pending_approval" data
+- Bước 4: Forward tới cyanheads TS qua subprocess/socket
+- Bước 5: Emit TelemetryEvent TOOL_CALL
+
+list_tools(self) → list[dict]
+- Trả về tool definitions chuẩn MCP JSON-RPC format
+- Tools: git_clone, git_branch, git_commit, git_push, git_pr_create, git_status
+
+start(self, transport: str = "stdio") → None
+- stdio transport cho Milestone A
+- HTTP transport cho Milestone B
+
+<span class="key">Error handling:</span>
+- Network timeout tới api/server.py → McpError(-32603, "policy_unavailable")
+- KHÔNG fallback sang allow — fail-closed</div>
+  </div>
+</div>
+
+<!-- ══ 5 CLI + TESTS ══ -->
+<div id="phase-cli" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-d">05</div>
+    <div class="step-meta">
+      <div class="step-title">Session G+H — CLI subcommands + Test suite</div>
+      <div class="step-sub">Mỗi CLI subcommand = 1 prompt riêng. Tests viết theo từng module đã xong.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Prompt cho main.py + cli/assign.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> CLI layer</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-cli')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-cli"><span class="hi">@ARCHITECTURE.md @src/ai_control_plane/core/models.py @src/ai_control_plane/api/schemas.py</span>
+
+<span class="key">Tạo main.py (Typer app entrypoint):</span>
+import typer; app = typer.Typer(name="agentctl", help="AI Control Plane CLI")
+Add subcommand groups: assign, status, logs, approve, quota, apex
+Không có business logic trong main.py — chỉ routing
+
+<span class="key">Tạo cli/assign.py:</span>
+Command: agentctl assign &lt;project_id&gt; &lt;agent_id&gt; &lt;task_type&gt; [--payload JSON]
+
+Logic:
+1. Load config từ ACP_CONFIG_DIR (dùng config/loader.py)
+2. Validate agent_id tồn tại trong project
+3. Gọi POST api/server.py /policy/evaluate
+4. Nếu allowed=True: tạo Task, print task_id
+5. Nếu requires_approval=True: print "Pending approval: {approval_id}"
+6. Nếu allowed=False: typer.echo(reason, err=True); raise typer.Exit(1)
+
+Output format: JSON hoặc human-readable (--json flag)
+
+<span class="key">Tạo cli/status.py:</span>
+Command: agentctl status [--project PROJECT] [--agent AGENT] [--watch]
+Gọi GET /status/{project_id}, format output dạng table
+
+<span class="key">INVARIANT: cli/ không import từ core/policies.py trực tiếp.</span>
+Mọi policy check đều qua api/server.py HTTP call.</div>
+  </div>
+
+  <div class="section-title">Prompt cho tests/conftest.py + test_models.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> Test suite bootstrap</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-tests')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-tests"><span class="hi">@src/ai_control_plane/core/models.py @src/ai_control_plane/core/policies.py</span>
+
+<span class="key">Tạo tests/conftest.py với fixtures:</span>
+
+@pytest.fixture
+def sample_project_config() → ProjectConfig:
+    # rust-gateway với 3 roles, trả về ProjectConfig object
+
+@pytest.fixture
+def backend_identity() → AgentIdentity:
+    # agent2, project=rust-gateway, role=backend
+
+@pytest.fixture
+def infra_identity() → AgentIdentity:
+    # agent1, project=rust-gateway, role=infra
+
+@pytest.fixture
+def reviewer_identity() → AgentIdentity:
+    # agent3, role=reviewer
+
+@pytest.fixture
+def mock_policy_engine(sample_project_config) → PolicyEngine:
+    # Load policies.yml test version, return PolicyEngine instance
+
+@pytest.fixture(autouse=True)
+def set_acp_config_dir(tmp_path, monkeypatch):
+    # Copy test yml files sang tmp_path
+    # monkeypatch.setenv("ACP_CONFIG_DIR", str(tmp_path))
+
+<span class="key">Tạo tests/test_policies.py với test cases:</span>
+
+def test_backend_cannot_k8s_apply():
+    # backend_identity + tool=k8s_apply_prod → allowed=False
+
+def test_reviewer_read_only():
+    # reviewer + tool=write_repo → allowed=False
+    # reviewer + tool=read_repo → allowed=True
+
+def test_prod_k8s_requires_approval():
+    # infra + k8s_apply_prod + env=prod → requires_approval=True
+
+def test_backend_can_create_pr():
+    # backend + create_pr → allowed=True
+
+def test_deny_pii_access():
+    # any agent + data_category=PII → allowed=False</div>
+  </div>
+</div>
+
+<!-- ══ 6 .CURSORRULES ══ -->
+<div id="phase-rules" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-a">06</div>
+    <div class="step-meta">
+      <div class="step-title">.cursorrules — file quan trọng nhất, tạo trước tất cả</div>
+      <div class="step-sub">Cursor đọc file này ở mọi session. Đây là "constitution" của project.</div>
+    </div>
+  </div>
+
+  <div class="tip-box warn-box">
+    <strong>Tạo .cursorrules TRƯỚC KHI tạo bất kỳ file nào khác.</strong> File này sẽ được Cursor tự động inject vào context của mọi Cmd+K và Chat request trong project.
+  </div>
+
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-rules-file">.cursorrules</span> Nội dung đầy đủ — copy nguyên vào file</span>
+      <button class="copy-btn" onclick="copyPrompt(this,'p-cursorrules')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-cursorrules"><span class="hi"># ai-control-plane .cursorrules
+# Đọc ARCHITECTURE.md để hiểu đầy đủ context trước khi generate code.</span>
+
+<span class="key">## Project identity</span>
+- Python package: ai_control_plane (src/ layout)
+- CLI: agentctl (Typer)
+- API: FastAPI at api/server.py
+- Config: Pydantic v2 + PyYAML, path via ACP_CONFIG_DIR env var
+
+<span class="key">## Code generation rules</span>
+
+<span class="good">ALWAYS:</span>
+- Dùng Pydantic v2 syntax (model_config = ConfigDict(...), không class Config)
+- Type hint đầy đủ tất cả function signatures
+- Dùng structlog thay vì logging.getLogger
+- Async/await cho tất cả I/O operations
+- Docstring 1 dòng cho mỗi public class và function
+
+<span class="warn">NEVER:</span>
+- Import OSS agent frameworks (CrewAI, LangChain, AutoGen) vào bất kỳ core/ file nào
+- Viết Git logic trong Python (chỉ có trong TypeScript cyanheads fork)
+- Hardcode Redis connection string (phải qua env var hoặc constructor injection)
+- Default-allow khi policy evaluation fail (luôn fail-closed)
+- Import trực tiếp từ core/policies.py trong cli/ (phải qua api/ HTTP)
+
+<span class="key">## File ownership rules</span>
+- core/models.py: source of truth cho types — import từ đây, không tạo duplicate
+- core/policies.py: pure logic, không I/O — test bằng cách inject mock QuotaStore
+- api/server.py: HTTP interface duy nhất cho TypeScript bridge
+- mcp/git_server.py: facade only — không business logic Git
+
+<span class="key">## Test requirements</span>
+Mỗi file trong core/ phải có test file tương ứng trong tests/.
+Test file phải dùng fixtures từ conftest.py.
+Không mock PolicyEngine trong integration tests — dùng real instance với test yml.
+
+<span class="key">## Naming conventions</span>
+- Classes: PascalCase
+- Functions/vars: snake_case
+- Constants: UPPER_SNAKE_CASE
+- Private: _leading_underscore
+- Config env vars: ACP_ prefix (ACP_CONFIG_DIR, ACP_API_HOST, ACP_LOG_LEVEL)
+
+<span class="key">## Error handling pattern</span>
+- Domain errors: custom exceptions kế thừa từ ControlPlaneError base class
+- HTTP errors: HTTPException với status_code + detail JSON
+- MCP errors: McpError(code, message, data) — không raise raw exceptions
+- Luôn log trước khi raise: logger.error("...", exc_info=True)
+
+<span class="key">## Milestone guard</span>
+Apex/ files ở Milestone A: chỉ được có __init__.py và stub files với NotImplementedError.
+Không viết logic thực trong apex/ cho đến khi Milestone C bắt đầu.</div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
+  document.getElementById('phase-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function copyPrompt(btn, id) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+</script>

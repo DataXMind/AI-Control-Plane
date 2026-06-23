@@ -1,0 +1,483 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --a:#4F8EF7;--b:#34C97E;--c:#F5A623;--d:#A78BFA;
+  --bad:#F06060;--warn:#F5A623;--good:#34C97E;
+}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.6;color:var(--color-text-primary);background:transparent}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:0;flex-wrap:wrap}
+.tab{padding:8px 14px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--color-text-secondary);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.tab.on{color:var(--color-text-primary);border-bottom-color:var(--c)}
+.tab:hover:not(.on){color:var(--color-text-primary)}
+
+.pane{display:none;padding:20px 0 4px}
+.pane.on{display:block}
+
+/* ─── LOGIC ANALYSIS TABLE ─── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.col-head{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:6px 6px 0 0;text-align:center}
+.v1-head{background:rgba(79,142,247,.12);color:var(--a)}
+.v2-head{background:rgba(52,201,126,.12);color:var(--b)}
+.vc-head{background:rgba(245,166,35,.12);color:var(--c)}
+.col-body{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:0 0 6px 6px;padding:10px}
+.col-item{font-size:12px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);line-height:1.4}
+.col-item:last-child{border-bottom:none}
+.col-item .tag{display:inline-block;font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.t-good{background:rgba(52,201,126,.12);color:var(--good)}
+.t-warn{background:rgba(245,166,35,.12);color:var(--warn)}
+.t-bad{background:rgba(240,96,96,.12);color:var(--bad)}
+.t-add{background:rgba(52,201,126,.1);color:var(--good)}
+.t-drop{background:rgba(240,96,96,.1);color:var(--bad)}
+.t-keep{background:rgba(79,142,247,.1);color:var(--a)}
+.t-merge{background:rgba(245,166,35,.1);color:var(--c)}
+
+/* ─── DECISION MATRIX ─── */
+.dm{width:100%;border-collapse:collapse;font-size:12px}
+.dm th{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-border-tertiary);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.dm td{padding:8px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;line-height:1.45}
+.dm tr:last-child td{border-bottom:none}
+.dm .mn{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;color:var(--color-text-primary);font-weight:500}
+.dm .v1c{color:var(--a);font-size:11.5px}
+.dm .v2c{color:var(--b);font-size:11.5px}
+.dm .vc{color:var(--c);font-size:11.5px;font-weight:500}
+.dm .rs{color:var(--color-text-secondary);font-size:11px}
+
+/* ─── CONSOLIDATED TREE ─── */
+.tree-wrap{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden}
+.tree-head{padding:10px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center}
+.tree-title{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.tree-body{padding:16px 18px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:2;white-space:pre;overflow-x:auto;color:#C8D0E8}
+.dir{color:var(--a)}.dir2{color:var(--b)}.dir3{color:var(--c)}.dir4{color:var(--d)}
+.cm{color:var(--color-text-secondary)}
+.new{color:var(--good);font-weight:700}
+.mrg{color:var(--c)}
+
+/* ─── MODULE MAP ─── */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.mc{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:8px 0 0 8px}
+.mc-v1::before{background:var(--a)}.mc-v2::before{background:var(--b)}.mc-mg::before{background:var(--c)}.mc-m3::before{background:var(--d)}
+.mc-path{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;color:var(--c);margin-bottom:6px}
+.mc-title{font-size:12.5px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.mc-cls{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--a);display:block;line-height:1.7}
+.mc-desc{font-size:11.5px;color:var(--color-text-secondary);margin-top:7px;line-height:1.5}
+.mc-src{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+
+/* ─── INVARIANTS ─── */
+.inv-list{display:flex;flex-direction:column;gap:8px}
+.inv{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:11px 14px;display:flex;gap:10px}
+.inv-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.inv-txt{font-size:12px;color:var(--color-text-primary);line-height:1.6}
+.inv-txt strong{color:var(--color-text-primary);font-weight:500}
+.inv-txt code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-primary);padding:1px 4px;border-radius:3px;color:var(--a)}
+
+/* ─── MILESTONES ─── */
+.ms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.ms-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:14px}
+.ms-tag{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:8px;letter-spacing:.07em}
+.ms-a{background:rgba(79,142,247,.15);color:var(--a)}
+.ms-b{background:rgba(52,201,126,.12);color:var(--b)}
+.ms-c{background:rgba(167,139,250,.12);color:var(--d)}
+.ms-title{font-size:12.5px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
+.ms-item{font-size:11.5px;color:var(--color-text-secondary);padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);line-height:1.5}
+.ms-item:last-child{border-bottom:none}
+.ms-item code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;color:var(--color-text-primary)}
+
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';display:inline-block;width:16px;height:1px;background:var(--c)}
+
+@media(max-width:600px){
+  .compare-grid,.ms-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="tabs">
+  <button class="tab on" onclick="show('logic')">① Logic Analysis</button>
+  <button class="tab" onclick="show('decision')">② Decision Matrix</button>
+  <button class="tab" onclick="show('consolidated')">③ Consolidated V3</button>
+  <button class="tab" onclick="show('modules')">④ Module Map</button>
+  <button class="tab" onclick="show('invariants')">⑤ Invariants</button>
+  <button class="tab" onclick="show('milestones')">⑥ Milestones</button>
+</div>
+
+<!-- ① LOGIC ANALYSIS -->
+<div id="pane-logic" class="pane on">
+  <p class="sec-label">Phân tích logic giữa hai artifact</p>
+  <div class="compare-grid">
+    <div>
+      <div class="col-head v1-head">V1 — integration-design.md</div>
+      <div class="col-body">
+        <div class="col-item"><span class="tag t-good">mạnh</span>Hard invariants đúng & đủ</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>apex/ — Milestone C có nhà rõ ràng</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>policies.py + telemetry.py tách riêng đúng</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>Class inventory đầy đủ: TelemetryEvent, PolicyDecision, AgentIdentity, McpError</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>Flat layout — không pip-installable</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>CLI single file — không scale</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>QuotaTracker bị nhét vào policies.py</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>Không có registry.py</div>
+        <div class="col-item"><span class="tag t-bad">thiếu</span>Không có tests, api/, scripts/</div>
+      </div>
+    </div>
+    <div>
+      <div class="col-head v2-head">V2 — your audited architecture</div>
+      <div class="col-body">
+        <div class="col-item"><span class="tag t-good">mạnh</span>src/ layout + pyproject.toml — chuẩn packaging</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>CLI subcommand split — production-grade</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>quota.py tách riêng — đúng về kiến trúc</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>api/server.py + schemas.py — bridge TypeScript cụ thể</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>registry.py — lấp lỗ hổng multi-project</div>
+        <div class="col-item"><span class="tag t-good">mạnh</span>tests/ + scripts/ có mặt</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>Không có apex/ — Milestone C mất nhà</div>
+        <div class="col-item"><span class="tag t-warn">gap</span>server_utils.py scope chưa xác định</div>
+        <div class="col-item"><span class="tag t-bad">thiếu</span>models.py thiếu: TelemetryEvent, PolicyDecision, AgentIdentity</div>
+        <div class="col-item"><span class="tag t-bad">thiếu</span>Test suite chỉ 4 file — không đủ coverage plan</div>
+      </div>
+    </div>
+    <div>
+      <div class="col-head vc-head">Consolidated V3 — lấy gì từ đâu</div>
+      <div class="col-body">
+        <div class="col-item"><span class="tag t-keep">giữ V2</span>src/ layout + pyproject.toml</div>
+        <div class="col-item"><span class="tag t-keep">giữ V2</span>registry.py, quota.py tách riêng</div>
+        <div class="col-item"><span class="tag t-keep">giữ V2</span>api/server.py + schemas.py</div>
+        <div class="col-item"><span class="tag t-keep">giữ V2</span>CLI subcommands: assign, status, logs</div>
+        <div class="col-item"><span class="tag t-add">thêm V1</span>apex/ — loop, sense, analyze, predict, act</div>
+        <div class="col-item"><span class="tag t-add">thêm V1</span>Hard invariants (8 constraints)</div>
+        <div class="col-item"><span class="tag t-merge">hợp nhất</span>models.py = V1 types ∪ V2 types</div>
+        <div class="col-item"><span class="tag t-merge">hợp nhất</span>policies.py = V1 classes + V2 ABAC scope</div>
+        <div class="col-item"><span class="tag t-merge">hợp nhất</span>telemetry.py = V1 classes + V2 event constants</div>
+        <div class="col-item"><span class="tag t-add">mở rộng</span>CLI: thêm approve.py, quota.py, apex.py</div>
+        <div class="col-item"><span class="tag t-add">mở rộng</span>tests/ → 12 file có full coverage plan</div>
+        <div class="col-item"><span class="tag t-add">mở rộng</span>scripts/ + dev_setup.sh + run_otel_collector.sh</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--color-text-secondary);padding:10px 12px;background:var(--color-background-secondary);border-radius:8px;border-left:3px solid var(--c)">
+    <strong style="color:var(--color-text-primary)">Kết luận logic:</strong> V1 là design document với invariants và Milestone C đúng nhưng thiếu packaging, API layer, tests. V2 là implementation spec với structure chuẩn nhưng thiếu apex/ và types quan trọng. V3 = union của hai bên — không drop bất kỳ mảnh ghép nào có giá trị.
+  </p>
+</div>
+
+<!-- ② DECISION MATRIX -->
+<div id="pane-decision" class="pane">
+  <p class="sec-label">Quyết định module-by-module</p>
+  <table class="dm">
+    <thead><tr>
+      <th>Module / file</th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>Quyết định</th>
+      <th>Lý do</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="mn">pyproject.toml</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ có</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">Bắt buộc để pip install và CLI console_scripts entry point.</td></tr>
+      <tr><td class="mn">src/ layout</td><td class="v1c">— flat</td><td class="v2c">✓ src/ai_control_plane/</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">Python packaging chuẩn. Tránh import accidents từ root.</td></tr>
+      <tr><td class="mn">config/loader.py</td><td class="v1c">✓ có</td><td class="v2c">✓ có</td><td class="vc"><span class="tag t-keep">KEEP cả hai đồng ý</span></td><td class="rs">Thêm ACP_CONFIG_DIR env var cho runtime path resolution.</td></tr>
+      <tr><td class="mn">config/*.yml (root)</td><td class="v1c">— implicit</td><td class="v2c">✓ root level</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">Shipped defaults ở root. Runtime path via env var.</td></tr>
+      <tr><td class="mn">core/models.py</td><td class="v1c">ProjectConfig, AgentConfig, TelemetryEvent, PolicyDecision, AgentIdentity, McpError, PolicyRule</td><td class="v2c">Project, Agent, ModelProfile, Policy, Task</td><td class="vc"><span class="tag t-merge">MERGE — union cả hai</span></td><td class="rs">V1 có load-bearing types V2 thiếu. V2 thêm ModelProfile, Task. Lấy tất cả.</td></tr>
+      <tr><td class="mn">core/registry.py</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ in-memory registry</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">Cần cho agentctl status, quota lookups, policy resolution đa project.</td></tr>
+      <tr><td class="mn">core/policies.py</td><td class="v1c">PolicyEngine, ConditionEvaluator, ApprovalGate, QuotaTracker</td><td class="v2c">RBAC/ABAC evaluation</td><td class="vc"><span class="tag t-merge">MERGE — V1 classes + V2 scope</span></td><td class="rs">Giữ class names của V1. Chuyển QuotaTracker sang quota.py. Thêm GuardrailEvaluator.</td></tr>
+      <tr><td class="mn">core/quota.py</td><td class="v1c">— nằm trong policies.py</td><td class="v2c">✓ module riêng</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">Stateful I/O-bound. Cần swappable backend (in-memory → Redis → DB).</td></tr>
+      <tr><td class="mn">core/telemetry.py</td><td class="v1c">TelemetryEmitter, EventStore, AuditWriter</td><td class="v2c">event logging (TASK_ASSIGNED, TOOL_CALL, MODEL_CALL)</td><td class="vc"><span class="tag t-merge">MERGE — classes + event constants</span></td><td class="rs">Class decomposition của V1 đúng. Event constants của V2 thêm specificity. Giữ cả hai.</td></tr>
+      <tr><td class="mn">mcp/git_server.py</td><td class="v1c">✓ MCP facade</td><td class="v2c">✓ same role</td><td class="vc"><span class="tag t-keep">KEEP — đồng thuận</span></td><td class="rs">Cả hai đồng ý. TS cyanheads là implementation bên dưới.</td></tr>
+      <tr><td class="mn">mcp/server_factory.py</td><td class="v1c">— integration-design có mention</td><td class="v2c">✓ FastMCP factory</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">make_project_server() per project. Policy-guarded wrapper.</td></tr>
+      <tr><td class="mn">mcp/server_utils.py</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ MCP helpers</td><td class="vc"><span class="tag t-add">ADD với explicit scope</span></td><td class="rs">Phải đặt tên nội dung rõ: McpErrorBuilder, ToolSchemaValidator, redactSensitiveData(). Tránh junk drawer.</td></tr>
+      <tr><td class="mn">cli/ subcommands</td><td class="v1c">Single agentctl.py</td><td class="v2c">assign.py, status.py, logs.py</td><td class="vc"><span class="tag t-add">ADD V2 split + mở rộng</span></td><td class="rs">Thêm: approve.py, quota.py, apex.py (Milestone C).</td></tr>
+      <tr><td class="mn">api/server.py + schemas.py</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ HTTP/gRPC layer</td><td class="vc"><span class="tag t-add">ADD từ V2</span></td><td class="rs">TypeScript PolicyClient cần HTTP target cụ thể. Fail-closed khi timeout.</td></tr>
+      <tr><td class="mn">apex/loop.py</td><td class="v1c">✓ Sense→Analyze→Predict→Act→Learn</td><td class="v2c">— vắng mặt</td><td class="vc"><span class="tag t-add">ADD từ V1</span></td><td class="rs">Milestone C cần nhà rõ ràng. Thiếu nó sẽ pollute telemetry.py.</td></tr>
+      <tr><td class="mn">tests/ (12 files)</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ 4 files</td><td class="vc"><span class="tag t-merge">MERGE V2 + expand</span></td><td class="rs">Expand lên 12 files với full coverage plan gồm test_apex_loop.py.</td></tr>
+      <tr><td class="mn">scripts/</td><td class="v1c">— vắng mặt</td><td class="v2c">✓ run_mcp, run_agentctl</td><td class="vc"><span class="tag t-add">ADD từ V2 + thêm</span></td><td class="rs">Thêm: dev_setup.sh, run_otel_collector.sh cho Milestone C.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ③ CONSOLIDATED -->
+<div id="pane-consolidated" class="pane">
+  <p class="sec-label">Kiến trúc hợp nhất — final recommendation</p>
+  <div class="tree-wrap">
+    <div class="tree-head">
+      <span class="tree-title">ai-control-plane/ — consolidated v3</span>
+      <span class="tag t-merge" style="font-size:10px">FINAL</span>
+    </div>
+    <div class="tree-body"><span class="dir">ai-control-plane/</span>
+├── README.md
+├── pyproject.toml                  <span class="cm"># console_scripts: agentctl = ai_control_plane.main:app</span>
+├── .gitignore
+├── <span class="mrg">config/</span>                           <span class="cm"># shipped defaults — runtime path via ACP_CONFIG_DIR</span>
+│   ├── projects.yml
+│   ├── agents.yml
+│   └── policies.yml
+│
+├── <span class="dir2">src/</span>
+│   └── <span class="dir2">ai_control_plane/</span>
+│       ├── __init__.py             <span class="cm"># version, __all__</span>
+│       ├── main.py                 <span class="cm"># Typer/Click app — routes to cli/ subcommands</span>
+│       │
+│       ├── <span class="dir">cli/</span>                      <span class="cm"># one file per agentctl subcommand</span>
+│       │   ├── __init__.py
+│       │   ├── assign.py           <span class="cm"># agentctl assign &lt;project&gt; &lt;agent&gt; &lt;task&gt;</span>
+│       │   ├── status.py           <span class="cm"># agentctl status [--project X] [--agent Y]</span>
+│       │   ├── logs.py             <span class="cm"># agentctl logs --tail --filter</span>
+│       │   ├── approve.py          <span class="new"># agentctl approve &lt;approval_id&gt; — ApprovalGate</span>
+│       │   ├── quota.py            <span class="new"># agentctl quota show|reset &lt;project&gt;</span>
+│       │   └── apex.py             <span class="dir4"># agentctl apex status|trigger — Milestone C</span>
+│       │
+│       ├── <span class="dir">config/</span>
+│       │   ├── __init__.py
+│       │   └── loader.py           <span class="cm"># load+validate yml; ACP_CONFIG_DIR; Pydantic v2</span>
+│       │
+│       ├── <span class="dir">core/</span>                     <span class="cm"># NEVER imported by OSS repos</span>
+│       │   ├── __init__.py
+│       │   ├── models.py           <span class="cm"># UNION V1+V2:</span>
+│       │   │                       <span class="cm">#   ProjectConfig, AgentConfig, ModelProfile, Policy,</span>
+│       │   │                       <span class="cm">#   Task, TaskStatus, TelemetryEvent, PolicyDecision,</span>
+│       │   │                       <span class="cm">#   AgentIdentity, McpError, ApprovalRequest</span>
+│       │   ├── registry.py         <span class="cm"># ProjectRegistry, AgentRegistry — swappable backend</span>
+│       │   ├── policies.py         <span class="cm"># PolicyEngine, ConditionEvaluator, ApprovalGate,</span>
+│       │   │                       <span class="cm">#   GuardrailEvaluator — pure functions, no I/O</span>
+│       │   ├── quota.py            <span class="cm"># QuotaTracker, TokenBudget, RateLimiter, QuotaStore ABC</span>
+│       │   └── telemetry.py        <span class="cm"># TelemetryEmitter, EventStore, AuditWriter</span>
+│       │                           <span class="cm">#   + TASK_ASSIGNED, TOOL_CALL, MODEL_CALL, POLICY_DECISION</span>
+│       │
+│       ├── <span class="dir">mcp/</span>
+│       │   ├── __init__.py
+│       │   ├── git_server.py       <span class="cm"># YOUR MCP facade — policy+telemetry above cyanheads TS</span>
+│       │   ├── server_factory.py   <span class="cm"># make_project_server(ProjectConfig) → FastMCP</span>
+│       │   └── server_utils.py     <span class="cm"># McpErrorBuilder, ToolSchemaValidator, redactSensitiveData()</span>
+│       │
+│       ├── <span class="dir">api/</span>                      <span class="cm"># HTTP bridge — TS PolicyClient calls here. Fail-closed.</span>
+│       │   ├── __init__.py
+│       │   ├── server.py           <span class="cm"># FastAPI: POST /policy/evaluate, /policy/approve,</span>
+│       │   │                       <span class="cm">#          POST /identity/verify, GET /status/{id}, /quota/{id}</span>
+│       │   └── schemas.py          <span class="cm"># PolicyEvalRequest/Response, TaskRequest/Status, QuotaStatus</span>
+│       │
+│       └── <span class="dir4">apex/</span>                     <span class="cm"># Milestone C — stubs now, fills at Milestone C</span>
+│           ├── __init__.py
+│           ├── loop.py             <span class="cm"># Sense→Analyze→Predict→Act→Learn orchestrator</span>
+│           ├── sense.py            <span class="cm"># OTel IsolationForest processor adapter</span>
+│           ├── analyze.py          <span class="cm"># Argos-pattern: Detect→Repair→Review→Mutate</span>
+│           ├── predict.py          <span class="cm"># Darts statistical forecasting adapter</span>
+│           └── act.py              <span class="cm"># Policy-gated action executor</span>
+│
+├── <span class="dir">scripts/</span>
+│   ├── dev_setup.sh                <span class="cm"># pip install -e .[dev] + pre-commit install</span>
+│   ├── run_mcp_git_server.sh       <span class="cm"># starts forked cyanheads TS server</span>
+│   ├── run_agentctl.sh             <span class="cm"># example CLI invocations</span>
+│   └── run_otel_collector.sh       <span class="dir4"># OTel collector với IForest processor (Milestone C)</span>
+│
+└── <span class="dir">tests/</span>
+    ├── __init__.py
+    ├── conftest.py                 <span class="cm"># fixtures: test ProjectConfig, mock PolicyEngine</span>
+    ├── test_config_loader.py       <span class="cm"># yml validation, ACP_CONFIG_DIR, schema errors</span>
+    ├── test_models.py              <span class="new"># PolicyDecision, TelemetryEvent, AgentIdentity serialisation</span>
+    ├── test_registry.py            <span class="new"># project/agent registration, lookup, state transitions</span>
+    ├── test_policies.py            <span class="cm"># ConditionEvaluator trees, ApprovalGate, GuardrailEvaluator</span>
+    ├── test_quota.py               <span class="new"># TokenBucket, rate limiting, budget reset</span>
+    ├── test_telemetry.py           <span class="new"># EventStore append, AuditWriter hash-chain</span>
+    ├── test_mcp_git_server.py      <span class="cm"># MCP protocol, tool dispatch, error envelopes</span>
+    ├── test_server_factory.py      <span class="new"># make_project_server(), policy_guarded() wrapper</span>
+    ├── test_api_schemas.py         <span class="new"># Pydantic schema validation, request/response roundtrip</span>
+    ├── test_cli_assign.py          <span class="cm"># agentctl assign — end-to-end với mock registry</span>
+    ├── test_cli_approve.py         <span class="new"># agentctl approve — ApprovalGate integration</span>
+    └── test_apex_loop.py           <span class="dir4"># Milestone C — Sense→Analyze stub tests</span></div>
+  </div>
+</div>
+
+<!-- ④ MODULE MAP -->
+<div id="pane-modules" class="pane">
+  <p class="sec-label">Class &amp; function inventory — đây là contract</p>
+  <div class="mod-grid">
+    <div class="mc mc-mg">
+      <div class="mc-path">config/loader.py</div>
+      <div class="mc-title">Config loader</div>
+      <span class="mc-cls">load_projects(path) → list[ProjectConfig]</span>
+      <span class="mc-cls">load_agents(path) → list[AgentConfig]</span>
+      <span class="mc-cls">load_policies(path) → list[PolicyRule]</span>
+      <span class="mc-cls">resolve_config_dir() → Path  # ACP_CONFIG_DIR</span>
+      <span class="mc-cls">validate_all() → ValidationResult</span>
+      <div class="mc-desc">Pydantic v2. Fail fast on invalid yml. No I/O side effects.</div>
+      <div class="mc-src"><span class="tag t-keep">V1+V2 đồng thuận</span></div>
+    </div>
+    <div class="mc mc-mg">
+      <div class="mc-path">core/models.py</div>
+      <div class="mc-title">Data contracts — authoritative</div>
+      <span class="mc-cls">ProjectConfig, AgentConfig, ModelProfile</span>
+      <span class="mc-cls">PolicyRule, Task, TaskStatus</span>
+      <span class="mc-cls">TelemetryEvent, PolicyDecision</span>
+      <span class="mc-cls">AgentIdentity  # DID + JWT claims + roles</span>
+      <span class="mc-cls">McpError, ApprovalRequest, ApprovalDecision</span>
+      <div class="mc-desc">Pure dataclasses / Pydantic. Zero OSS runtime imports. Union của V1 + V2.</div>
+      <div class="mc-src"><span class="tag t-merge">MERGE V1∪V2</span></div>
+    </div>
+    <div class="mc mc-v2">
+      <div class="mc-path">core/registry.py</div>
+      <div class="mc-title">Project &amp; agent registry</div>
+      <span class="mc-cls">ProjectRegistry.register(project)</span>
+      <span class="mc-cls">ProjectRegistry.get(project_id) → ProjectConfig</span>
+      <span class="mc-cls">AgentRegistry.register(agent)</span>
+      <span class="mc-cls">AgentRegistry.get_by_project(project_id)</span>
+      <span class="mc-cls">AgentRegistry.update_state(agent_id, state)</span>
+      <div class="mc-desc">In-memory default. ABC backend cho Redis/DB ở Milestone B. Không giữ policy state.</div>
+      <div class="mc-src"><span class="tag t-add">ADD từ V2</span></div>
+    </div>
+    <div class="mc mc-mg">
+      <div class="mc-path">core/policies.py</div>
+      <div class="mc-title">Policy engine — the authority</div>
+      <span class="mc-cls">PolicyEngine.evaluate(identity, tool, args, project) → PolicyDecision</span>
+      <span class="mc-cls">ConditionEvaluator.evaluate(condition, context) → bool</span>
+      <span class="mc-cls">ApprovalGate.request(event) → ApprovalRequest</span>
+      <span class="mc-cls">ApprovalGate.resolve(approval_id, decision)</span>
+      <span class="mc-cls">GuardrailEvaluator.check(output) → bool</span>
+      <div class="mc-desc">Pure functions. Không I/O. QuotaTracker đã chuyển sang quota.py. Không bao giờ bị thay bằng OSS.</div>
+      <div class="mc-src"><span class="tag t-merge">V1 classes + V2 scope</span></div>
+    </div>
+    <div class="mc mc-v2">
+      <div class="mc-path">core/quota.py</div>
+      <div class="mc-title">Quota &amp; rate limiting</div>
+      <span class="mc-cls">QuotaTracker.consume(agent_id, cost) → bool</span>
+      <span class="mc-cls">QuotaTracker.remaining(agent_id) → float</span>
+      <span class="mc-cls">TokenBudget.deduct(project_id, tokens)</span>
+      <span class="mc-cls">RateLimiter.check(client_id, cost) → bool</span>
+      <span class="mc-cls">QuotaStore  # ABC: in-memory / Redis backends</span>
+      <div class="mc-desc">Stateful, I/O-bound. In-memory Milestone A; Redis Milestone B. Swappable via ABC.</div>
+      <div class="mc-src"><span class="tag t-add">V2 separation đúng</span></div>
+    </div>
+    <div class="mc mc-mg">
+      <div class="mc-path">core/telemetry.py</div>
+      <div class="mc-title">Telemetry, audit &amp; events</div>
+      <span class="mc-cls">TelemetryEmitter.emit(event: TelemetryEvent)</span>
+      <span class="mc-cls">EventStore.append(event) → str  # event_id</span>
+      <span class="mc-cls">EventStore.replay(from_ts) → Iterator[TelemetryEvent]</span>
+      <span class="mc-cls">AuditWriter.write(event)  # hash-chained WAL</span>
+      <span class="mc-cls">TASK_ASSIGNED, TOOL_CALL, MODEL_CALL, POLICY_DECISION</span>
+      <div class="mc-desc">AuditWriter dùng hash-chained append-only log. EventStore feed cho apex/sense.py ở Milestone C.</div>
+      <div class="mc-src"><span class="tag t-merge">V1 classes + V2 event names</span></div>
+    </div>
+    <div class="mc mc-v1">
+      <div class="mc-path">mcp/git_server.py</div>
+      <div class="mc-title">MCP Git facade</div>
+      <span class="mc-cls">GitMcpServer(project: ProjectConfig)</span>
+      <span class="mc-cls">GitMcpServer.handle_tool_call(name, args, identity)</span>
+      <span class="mc-cls">GitMcpServer.list_tools() → list[ToolDef]</span>
+      <span class="mc-cls">GitMcpServer.start(transport)</span>
+      <div class="mc-desc">YOUR facade. Delegate xuống cyanheads TS qua PolicyClient HTTP. Không chứa Git logic.</div>
+      <div class="mc-src"><span class="tag t-keep">V1+V2 đồng thuận</span></div>
+    </div>
+    <div class="mc mc-v2">
+      <div class="mc-path">mcp/server_factory.py</div>
+      <div class="mc-title">FastMCP project server factory</div>
+      <span class="mc-cls">make_project_server(project: ProjectConfig) → FastMCP</span>
+      <span class="mc-cls">policy_guarded(tool_name, handler) → handler</span>
+      <span class="mc-cls">_make_auth_validator(project) → Callable</span>
+      <div class="mc-desc">Tạo một FastMCP server per projects.yml entry. Mọi tool handler đều bọc bởi policy_guarded().</div>
+      <div class="mc-src"><span class="tag t-add">ADD từ V2</span></div>
+    </div>
+    <div class="mc mc-v2">
+      <div class="mc-path">mcp/server_utils.py</div>
+      <div class="mc-title">MCP protocol utilities</div>
+      <span class="mc-cls">McpErrorBuilder.build(code, message, data) → McpError</span>
+      <span class="mc-cls">ToolSchemaValidator.validate(schema) → bool</span>
+      <span class="mc-cls">RequestIdGenerator.next() → str</span>
+      <span class="mc-cls">redact_sensitive_data(output: str) → str</span>
+      <div class="mc-desc">Scope cố định — đúng 4 responsibilities này. Tránh junk-drawer drift. redact() ported từ selfagency.</div>
+      <div class="mc-src"><span class="tag t-add">V2 + explicit scope</span></div>
+    </div>
+    <div class="mc mc-v2">
+      <div class="mc-path">api/server.py + schemas.py</div>
+      <div class="mc-title">HTTP bridge (PolicyClient target)</div>
+      <span class="mc-cls">POST /policy/evaluate → PolicyEvalResponse</span>
+      <span class="mc-cls">POST /policy/approve → ApprovalDecision</span>
+      <span class="mc-cls">POST /identity/verify → AgentIdentity</span>
+      <span class="mc-cls">GET /status/{project_id} → TaskStatus</span>
+      <span class="mc-cls">GET /quota/{project_id} → QuotaStatus</span>
+      <div class="mc-desc">FastAPI. Fail-closed: timeout → 503 → TS server denies tool call. Không channel nào khác ngoài HTTP.</div>
+      <div class="mc-src"><span class="tag t-add">V2 — lấp lỗ V1</span></div>
+    </div>
+    <div class="mc mc-m3">
+      <div class="mc-path">apex/ (Milestone C)</div>
+      <div class="mc-title">SAPAL loop — 5 files</div>
+      <span class="mc-cls">loop.py  # orchestrates S→A→P→A→L</span>
+      <span class="mc-cls">sense.py  # OTel IsolationForest adapter</span>
+      <span class="mc-cls">analyze.py  # Argos: Detect→Repair→Review</span>
+      <span class="mc-cls">predict.py  # Darts forecasting adapter</span>
+      <span class="mc-cls">act.py  # policy-gated action executor</span>
+      <div class="mc-desc">Stubs import-clean bây giờ. Fill in tại Milestone C. OSS tools được gọi TỪ ĐÂY — không bao giờ ngược lại.</div>
+      <div class="mc-src"><span class="tag t-add">V1 — V2 đã bỏ sót</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ INVARIANTS -->
+<div id="pane-invariants" class="pane">
+  <p class="sec-label">Hard invariants — không bao giờ bị vi phạm</p>
+  <div class="inv-list">
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>core/policies.py không bao giờ bị thay bằng OSS PolicyEngine.</strong> Có thể tham khảo patterns từ ryanwi/agent-control-plane, nhưng class <code>PolicyEngine</code> và <code>ConditionEvaluator</code> luôn là code của bạn. Không import OSS policy runtimes.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>core/models.py sở hữu toàn bộ data contracts.</strong> OSS types chỉ được dùng qua adapter wrappers. <code>TelemetryEvent</code>, <code>PolicyDecision</code>, <code>AgentIdentity</code>, <code>McpError</code> được định nghĩa đây và chỉ đây.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>mcp/git_server.py là YOUR facade.</strong> cyanheads TypeScript fork là implementation bên dưới. Không có Git logic nào trong Python layer — chỉ policy dispatch và telemetry emission.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>cli/ subcommands không bao giờ import OSS runtimes trực tiếp.</strong> <code>cli/assign.py</code>, <code>cli/approve.py</code> chỉ gọi <code>core/</code> và <code>api/</code>. Không import FastMCP, CrewAI, hay OSS runtime nào khác.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>apex/ sở hữu SAPAL loop.</strong> OSS anomaly tools (OTel IForest, Argos, Darts) được invoke từ <code>apex/sense.py</code>, <code>apex/analyze.py</code>, <code>apex/predict.py</code> — không bao giờ ngược lại.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>api/ là cầu nối cross-language duy nhất.</strong> TypeScript <code>PolicyClient</code> gọi <code>api/server.py</code> HTTP endpoints. Không có channel khác (shared DB, message queue). Fail-closed: nếu <code>api/server.py</code> unreachable → TS server DENY tool call.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>core/quota.py backend swappable, không hardcode.</strong> <code>QuotaStore</code> ABC cho in-memory (Milestone A), Redis (Milestone B), hoặc database — không đụng interface. Không import Redis ở module level.</div></div>
+    <div class="inv"><div class="inv-ico">🔒</div><div class="inv-txt"><strong>config/ ở root = shipped defaults.</strong> Runtime config path resolve từ <code>ACP_CONFIG_DIR</code> env var. Loader không hardcode path. Tests dùng <code>conftest.py</code> fixture set <code>ACP_CONFIG_DIR</code> sang temp directory.</div></div>
+  </div>
+</div>
+
+<!-- ⑥ MILESTONES -->
+<div id="pane-milestones" class="pane">
+  <p class="sec-label">Milestone-to-module mapping</p>
+  <div class="ms-grid">
+    <div class="ms-card">
+      <span class="ms-tag ms-a">Milestone A</span>
+      <div class="ms-title">Backbone + Rust Gateway</div>
+      <div class="ms-item">✓ <code>pyproject.toml</code> + src layout</div>
+      <div class="ms-item">✓ <code>config/loader.py</code> — yml loading</div>
+      <div class="ms-item">✓ <code>core/models.py</code> — full union types</div>
+      <div class="ms-item">✓ <code>core/registry.py</code> — in-memory</div>
+      <div class="ms-item">✓ <code>core/policies.py</code> — basic RBAC</div>
+      <div class="ms-item">✓ <code>core/quota.py</code> — in-memory backend</div>
+      <div class="ms-item">✓ <code>core/telemetry.py</code> — OTLP emit</div>
+      <div class="ms-item">✓ <code>mcp/git_server.py</code> — facade live</div>
+      <div class="ms-item">✓ <code>mcp/server_factory.py</code> — FastMCP factory</div>
+      <div class="ms-item">✓ <code>api/server.py</code> — /policy/evaluate live</div>
+      <div class="ms-item">✓ <code>cli/assign.py</code> + <code>status.py</code></div>
+      <div class="ms-item">✓ <code>apex/</code> — import-clean stubs</div>
+      <div class="ms-item">✓ 7+ test files cơ bản</div>
+    </div>
+    <div class="ms-card">
+      <span class="ms-tag ms-b">Milestone B</span>
+      <div class="ms-title">Multi-project plug-in</div>
+      <div class="ms-item">+ <code>core/registry.py</code> — full multi-project</div>
+      <div class="ms-item">+ <code>core/policies.py</code> — ABAC + condition trees</div>
+      <div class="ms-item">+ <code>core/quota.py</code> — Redis backend swap</div>
+      <div class="ms-item">+ <code>core/telemetry.py</code> — hash-chained AuditWriter</div>
+      <div class="ms-item">+ <code>api/server.py</code> — tất cả 5 endpoints</div>
+      <div class="ms-item">+ <code>cli/approve.py</code> + <code>cli/quota.py</code></div>
+      <div class="ms-item">+ Signed execution tickets</div>
+      <div class="ms-item">+ DI scoping fix trong cyanheads fork</div>
+      <div class="ms-item">+ projects.yml cho datax-analytics</div>
+    </div>
+    <div class="ms-card">
+      <span class="ms-tag ms-c">Milestone C</span>
+      <div class="ms-title">APEX / SAPAL loop</div>
+      <div class="ms-item">+ <code>apex/loop.py</code> — orchestrator live</div>
+      <div class="ms-item">+ <code>apex/sense.py</code> — OTel IForest adapter</div>
+      <div class="ms-item">+ <code>apex/analyze.py</code> — Argos-pattern agents</div>
+      <div class="ms-item">+ <code>apex/predict.py</code> — Darts adapter</div>
+      <div class="ms-item">+ <code>apex/act.py</code> — policy-gated actions</div>
+      <div class="ms-item">+ <code>cli/apex.py</code> — agentctl apex status</div>
+      <div class="ms-item">+ <code>scripts/run_otel_collector.sh</code></div>
+      <div class="ms-item">+ <code>tests/test_apex_loop.py</code> — full coverage</div>
+      <div class="ms-item">+ Novelty/trust scoring trong PolicyEngine</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+</script>

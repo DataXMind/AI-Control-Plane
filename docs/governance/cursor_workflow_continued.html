@@ -1,0 +1,735 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.phase-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.pn{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.pn.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pn:hover:not(.on){color:var(--color-text-primary)}
+.phase{display:none}.phase.on{display:block}
+.prompt-block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.pb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pb-label{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.pb-tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.05em}
+.tag-cursor{background:rgba(79,142,247,.12);color:#185FA5}
+.tag-warn{background:rgba(240,96,96,.1);color:#A32D2D}
+.tag-iter{background:rgba(167,139,250,.12);color:#534AB7}
+.tag-ops{background:rgba(52,201,126,.12);color:#0F6E56}
+.copy-btn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.copy-btn:hover{background:var(--color-background-primary);color:var(--color-text-primary)}
+.copy-btn.copied{border-color:#0F6E56;color:#0F6E56}
+.pb-body{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.8;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pb-body .cm{color:var(--color-text-secondary)}
+.pb-body .hi{color:#185FA5;font-weight:500}
+.pb-body .key{color:#854F0B}
+.pb-body .good{color:#0F6E56}
+.pb-body .warn{color:#A32D2D}
+.pb-body .acc{color:#534AB7}
+.tip-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip-box strong{color:var(--color-text-primary);font-weight:500}
+.tip-box code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.warn-box{border-left-color:#854F0B}
+.good-box{border-left-color:#0F6E56}
+.purple-box{border-left-color:#534AB7}
+.section-title{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.rule-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.rule-card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.rule-card p,
+.rule-card li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.rule-card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.rule-card ul{padding-left:14px}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:20px 0}
+.step-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.sn-a{background:rgba(79,142,247,.12);color:#185FA5}
+.sn-b{background:rgba(52,201,126,.12);color:#0F6E56}
+.sn-c{background:rgba(167,139,250,.12);color:#534AB7}
+.sn-d{background:rgba(245,166,35,.12);color:#854F0B}
+.step-meta{flex:1}
+.step-title{font-size:13.5px;font-weight:500;margin-bottom:2px}
+.step-sub{font-size:11.5px;color:var(--color-text-secondary)}
+.checklist{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.ci{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:var(--color-background-secondary);border-radius:6px;border:0.5px solid var(--color-border-tertiary);font-size:12px;line-height:1.5;cursor:pointer;transition:background .12s;user-select:none}
+.ci:hover{background:var(--color-background-primary)}
+.ci.done{text-decoration:line-through;color:var(--color-text-secondary)}
+.ci-check{flex-shrink:0;width:14px;height:14px;border-radius:3px;border:0.5px solid var(--color-border-secondary);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--color-text-secondary)}
+.ci.done .ci-check{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+@media(max-width:560px){.two-col{grid-template-columns:1fr}}
+</style>
+
+<div class="phase-nav">
+  <button class="pn on" onclick="show('telemetry')">7 — Telemetry + apex stubs</button>
+  <button class="pn" onclick="show('tests-full')">8 — Test suite đầy đủ</button>
+  <button class="pn" onclick="show('iteration')">9 — Iteration prompts</button>
+  <button class="pn" onclick="show('debug')">10 — Debug patterns</button>
+  <button class="pn" onclick="show('ops')">11 — Day-1 ops</button>
+  <button class="pn" onclick="show('checklist')">12 — Launch checklist</button>
+</div>
+
+<!-- ══ 7 TELEMETRY + APEX ══ -->
+<div id="phase-telemetry" class="phase on">
+  <div class="step-header">
+    <div class="step-num sn-b">07</div>
+    <div class="step-meta">
+      <div class="step-title">core/telemetry.py + apex/ stubs (import-clean)</div>
+      <div class="step-sub">Telemetry xong Milestone A. Apex stubs: có file, không có logic.</div>
+    </div>
+  </div>
+
+  <div class="tip-box purple-box">
+    <strong>Apex stubs phải import-clean ngay từ Milestone A.</strong> Nghĩa là: <code>from ai_control_plane.apex import loop</code> không được raise ImportError. Nhưng gọi <code>loop.run()</code> sẽ raise <code>NotImplementedError("Milestone C")</code>.
+  </div>
+
+  <div class="section-title">Prompt cho core/telemetry.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> core/telemetry.py</span>
+      <button class="copy-btn" onclick="cp(this,'p-tel')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-tel">Tạo src/ai_control_plane/core/telemetry.py
+
+<span class="key">Import:</span>
+from .models import TelemetryEvent
+import structlog, time, hashlib, json
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+<span class="warn"># Không import OSS agent frameworks</span>
+
+<span class="key">Event type constants (dùng ở khắp system):</span>
+TASK_ASSIGNED = "task.assigned"
+TASK_COMPLETED = "task.completed"
+TASK_FAILED = "task.failed"
+TOOL_CALL = "tool.call"
+TOOL_RESULT = "tool.result"
+MODEL_CALL = "model.call"
+POLICY_DECISION = "policy.decision"
+QUOTA_EXCEEDED = "quota.exceeded"
+APPROVAL_REQUESTED = "approval.requested"
+APPROVAL_RESOLVED = "approval.resolved"
+
+<span class="key">Classes:</span>
+
+<span class="good">TelemetryEmitter:</span>
+- emit(event: TelemetryEvent) → None
+- Gửi tới OTLP endpoint (OTEL_EXPORTER_OTLP_ENDPOINT env var)
+- Fallback sang structlog nếu OTLP không configured
+- Không raise exception — emit failures phải silent log, không crash
+
+<span class="good">EventStore:</span>
+- append(event: TelemetryEvent) → str  # returns event_id
+- get(event_id: str) → TelemetryEvent | None
+- replay(from_timestamp: float, event_type: str | None = None) → Iterator[TelemetryEvent]
+- In-memory deque, maxlen=10000 (configurable qua ACP_EVENT_STORE_MAXLEN)
+- Thread-safe
+
+<span class="good">AuditWriter:</span>
+- write(event: TelemetryEvent) → None
+- Hash-chained append-only log: mỗi entry chứa sha256(prev_hash + event_json)
+- Lưu vào file: ACP_AUDIT_LOG_PATH env var (default: ./audit.jsonl)
+- verify_chain() → bool  # check integrity toàn bộ log
+
+<span class="key">Sử dụng trong toàn bộ system:</span>
+Mỗi khi PolicyEngine.evaluate() xong → emit POLICY_DECISION event
+Mỗi khi tool call hoàn thành → emit TOOL_CALL + TOOL_RESULT pair
+Mỗi khi quota exceeded → emit QUOTA_EXCEEDED (không raise)</div>
+  </div>
+
+  <div class="section-title">Prompt cho toàn bộ apex/ stubs (1 prompt, tạo 6 files)</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> apex/ — import-clean stubs</span>
+      <button class="copy-btn" onclick="cp(this,'p-apex')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-apex">Tạo toàn bộ apex/ directory với 6 files. Đây là Milestone C placeholder.
+<span class="warn">RULE: Files phải import-clean nhưng mọi method đều raise NotImplementedError("Milestone C").</span>
+
+<span class="key">apex/__init__.py:</span>
+"""APEX — Autonomous Policy Execution loop. Implements Milestone C."""
+from .loop import SapalLoop
+__all__ = ["SapalLoop"]
+
+<span class="key">apex/loop.py:</span>
+"""SAPAL orchestrator: Sense → Analyze → Predict → Act → Learn."""
+from dataclasses import dataclass
+from typing import Protocol
+
+class SapalLoop:
+    """Main APEX loop. Active at Milestone C."""
+    def __init__(self, config: dict): ...
+    def run_once(self) -> dict:
+        raise NotImplementedError("Milestone C")
+    def start(self) -> None:
+        raise NotImplementedError("Milestone C")
+    def stop(self) -> None:
+        raise NotImplementedError("Milestone C")
+
+<span class="key">apex/sense.py:</span>
+"""OTel IsolationForest anomaly detection adapter."""
+class SenseAdapter:
+    """Reads EventStore, detects anomalies. Active Milestone C."""
+    def collect(self) -> list: raise NotImplementedError("Milestone C")
+    def detect_anomalies(self, events: list) -> list: raise NotImplementedError("Milestone C")
+
+<span class="key">apex/analyze.py:</span>
+"""Argos-pattern: Detect → Repair → Review → Mutate."""
+class AnalyzeAgent:
+    """Pattern: Detect anomaly → Propose repair → Review → Apply. Active Milestone C."""
+    def detect(self, signal: dict) -> dict: raise NotImplementedError("Milestone C")
+    def propose_repair(self, detection: dict) -> dict: raise NotImplementedError("Milestone C")
+
+<span class="key">apex/predict.py:</span>
+"""Darts statistical forecasting adapter."""
+class PredictAdapter:
+    """Token usage forecasting via Darts time series. Active Milestone C."""
+    def forecast(self, history: list, horizon: int = 24) -> list: raise NotImplementedError("Milestone C")
+
+<span class="key">apex/act.py:</span>
+"""Policy-gated action executor."""
+class ActExecutor:
+    """Executes APEX actions through PolicyEngine gate. Active Milestone C."""
+    def execute(self, action: dict, identity) -> dict: raise NotImplementedError("Milestone C")
+
+<span class="cm"># Verify bằng cách chạy: python -c "from ai_control_plane.apex import SapalLoop"
+# Phải không raise ImportError. Đó là toàn bộ requirement Milestone A cho apex/.</span></div>
+  </div>
+</div>
+
+<!-- ══ 8 TESTS FULL ══ -->
+<div id="phase-tests-full" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-b">08</div>
+    <div class="step-meta">
+      <div class="step-title">Test suite đầy đủ — 8 file còn lại (sau conftest + test_models + test_policies)</div>
+      <div class="step-sub">Viết test ngay sau mỗi module. Không để cuối mới test.</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>Quy tắc test trong project này:</strong> Mỗi prompt test = 1 file, reference trực tiếp file module đã viết. Không mock PolicyEngine trong integration tests — inject instance thật với test yml.
+  </div>
+
+  <div class="section-title">Prompt cho test_registry.py + test_quota.py + test_telemetry.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> 3 test files — core persistence</span>
+      <button class="copy-btn" onclick="cp(this,'p-t-core')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-t-core"><span class="hi">@src/ai_control_plane/core/registry.py
+@src/ai_control_plane/core/quota.py
+@src/ai_control_plane/core/telemetry.py
+@tests/conftest.py</span>
+
+<span class="key">Tạo tests/test_registry.py:</span>
+test_register_project() — register rust-gateway, get trả về đúng ProjectConfig
+test_register_agent() — register agent2, get_by_project trả về list có agent2
+test_agent_state_transition() — IDLE → RUNNING → DONE, verify state stored
+test_duplicate_project_raises() — register cùng project_id 2 lần → ValueError
+test_get_unknown_project_raises() — get("nonexistent") → KeyError
+
+<span class="key">Tạo tests/test_quota.py:</span>
+test_consume_within_budget() — consume 1000 tokens, remaining() = limit-1000
+test_consume_exceeds_budget() — consume tới hết → return False
+test_rate_limiter_allows_burst() — 10 requests nhanh trong capacity → tất cả pass
+test_rate_limiter_throttles() — 100 requests → sau capacity, bắt đầu False
+test_token_budget_project_level() — deduct từ project budget, verify cross-agent
+test_in_memory_store_reset() — reset() → remaining() = full limit lại
+
+<span class="key">Tạo tests/test_telemetry.py:</span>
+test_event_store_append_and_get() — append event, get bằng event_id
+test_event_store_replay_by_type() — append 10 events mixed types, replay TOOL_CALL → 3
+test_event_store_maxlen() — append 10001 events → oldest bị drop
+test_audit_writer_chain_integrity() — write 5 events, verify_chain() → True
+test_audit_writer_tamper_detected() — modify middle entry → verify_chain() → False
+test_telemetry_emitter_no_crash_on_otlp_down() — OTEL endpoint sai → không raise</div>
+  </div>
+
+  <div class="section-title">Prompt cho test_mcp_git_server.py + test_api_schemas.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Chat</span> MCP + API tests</span>
+      <button class="copy-btn" onclick="cp(this,'p-t-mcp')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-t-mcp"><span class="hi">@src/ai_control_plane/mcp/git_server.py
+@src/ai_control_plane/api/schemas.py
+@src/ai_control_plane/api/server.py
+@tests/conftest.py</span>
+
+<span class="key">Tạo tests/test_mcp_git_server.py:</span>
+Dùng pytest-asyncio. Mock httpx.AsyncClient để fake api/server.py.
+
+test_tool_call_allowed() — policy mock trả về allowed=True → forward tới cyanheads
+test_tool_call_denied() — policy mock trả về allowed=False → McpError(-32603) raised
+test_tool_call_requires_approval() — requires_approval=True → McpError với data.pending_approval
+test_policy_server_timeout() — httpx timeout → McpError("policy_unavailable") — NOT default allow
+test_list_tools_returns_schema() — list_tools() trả về 6 tools với đúng JSON-RPC format
+
+<span class="key">Tạo tests/test_api_schemas.py:</span>
+test_policy_eval_request_valid() — valid PolicyEvalRequest serialize/deserialize roundtrip
+test_policy_eval_response_latency_ms() — latency_ms phải là float >= 0
+test_task_status_state_enum() — TaskStatus chỉ nhận PENDING/RUNNING/DONE/FAILED
+test_quota_status_remaining_nonnegative() — tokens_remaining không được âm
+test_invalid_request_raises_validation() — thiếu required field → ValidationError (Pydantic)
+
+<span class="key">Tạo tests/test_cli_approve.py:</span>
+Dùng typer.testing.CliRunner
+
+test_approve_valid_request() — agentctl approve &lt;valid_id&gt; → exit code 0
+test_approve_unknown_id() — unknown approval_id → exit code 1 + error message
+test_approve_already_resolved() — approve 2 lần cùng id → exit code 1 + "already resolved"</div>
+  </div>
+
+  <div class="section-title">Prompt cho test_apex_loop.py (Milestone A stubs)</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-cursor">Cursor Cmd+K</span> test_apex_loop.py</span>
+      <button class="copy-btn" onclick="cp(this,'p-t-apex')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-t-apex">Tạo tests/test_apex_loop.py
+
+<span class="cm"># Milestone A: chỉ test rằng stubs tồn tại và raise đúng exception.
+# Milestone C: file này sẽ được expand với full integration tests.</span>
+
+<span class="key">Test cases Milestone A:</span>
+
+def test_sapal_loop_importable():
+    from ai_control_plane.apex import SapalLoop
+    assert SapalLoop is not None
+
+def test_sapal_loop_run_raises_not_implemented():
+    from ai_control_plane.apex import SapalLoop
+    loop = SapalLoop(config={})
+    with pytest.raises(NotImplementedError) as exc_info:
+        loop.run_once()
+    assert "Milestone C" in str(exc_info.value)
+
+def test_sense_adapter_importable():
+    from ai_control_plane.apex.sense import SenseAdapter
+    adapter = SenseAdapter()
+    with pytest.raises(NotImplementedError):
+        adapter.collect()
+
+def test_all_apex_modules_importable():
+    <span class="acc">"""Smoke test: toàn bộ apex/ import được — không có broken imports."""</span>
+    from ai_control_plane.apex import loop, sense, analyze, predict, act
+    assert all([loop, sense, analyze, predict, act])
+
+<span class="cm"># TODO Milestone C: test_sense_detects_anomaly(), test_analyze_proposes_repair(),
+# test_predict_forecasts_tokens(), test_act_gated_by_policy()</span></div>
+  </div>
+</div>
+
+<!-- ══ 9 ITERATION PROMPTS ══ -->
+<div id="phase-iteration" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-c">09</div>
+    <div class="step-meta">
+      <div class="step-title">Iteration prompts — khi Cursor output chưa đúng</div>
+      <div class="step-sub">4 loại prompt sửa: type mismatch, missing invariant, logic sai, output quá verbose.</div>
+    </div>
+  </div>
+
+  <div class="tip-box warn-box">
+    <strong>Khi Cursor generate code sai:</strong> Đừng nói "fix this" chung chung. Chỉ ra đúng invariant bị vi phạm, file bị ảnh hưởng, và expected behavior. Cursor sửa tốt hơn nhiều khi có anchor cụ thể.
+  </div>
+
+  <div class="section-title">Khi Cursor import OSS framework vào core/</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-iter">Correction prompt</span> Invariant violation</span>
+      <button class="copy-btn" onclick="cp(this,'p-fix-oss')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-fix-oss">Code vừa generate vi phạm Invariant #1.
+
+<span class="warn">Vấn đề:</span> [tên file] đang import [OSS framework] trực tiếp vào core/.
+
+<span class="key">INVARIANT BỊ VI PHẠM:</span>
+core/ modules KHÔNG BAO GIỜ import OSS agent runtimes.
+core/policies.py là PolicyEngine duy nhất — không replace bởi bất kỳ OSS nào.
+
+<span class="key">Yêu cầu sửa:</span>
+1. Xóa hoàn toàn import [OSS framework]
+2. Nếu cần functionality đó, implement minimal version trong core/ chính
+3. Nếu cần call external tool, đặt trong apex/ (Milestone C) hoặc mcp/ (facade only)
+
+<span class="good">Pattern đúng:</span>
+core/ chỉ được import: stdlib, pydantic, structlog, opentelemetry-sdk
+Tất cả external integrations qua mcp/ (Python facade) hoặc api/ (HTTP bridge)</div>
+  </div>
+
+  <div class="section-title">Khi Cursor tạo duplicate type thay vì import models.py</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-iter">Correction prompt</span> Type duplication</span>
+      <button class="copy-btn" onclick="cp(this,'p-fix-dup')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-fix-dup">Code vừa generate vi phạm Invariant #2.
+
+<span class="warn">Vấn đề:</span> [file] đang định nghĩa class [ClassName] local thay vì import từ core/models.py.
+
+<span class="key">INVARIANT:</span>
+core/models.py là source of truth DUY NHẤT cho tất cả data contracts.
+Không được define duplicate types ở bất kỳ file nào khác trong project.
+
+<span class="key">Yêu cầu sửa:</span>
+1. Xóa class [ClassName] khỏi [file]
+2. Thêm vào top of file: from ai_control_plane.core.models import [ClassName]
+3. Nếu cần extend: tạo subclass trong file đó và kế thừa từ models.py base
+4. Nếu models.py thiếu field → edit models.py, không duplicate
+
+<span class="cm"># Lý do: TypeScript PolicyClient expect exact schema từ api/schemas.py,
+# schemas.py re-export từ models.py. Duplicate type breaks serialization contract.</span></div>
+  </div>
+
+  <div class="section-title">Khi Cursor viết logic default-allow thay vì fail-closed</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-iter">Correction prompt</span> Fail-closed violation</span>
+      <button class="copy-btn" onclick="cp(this,'p-fix-failopen')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-fix-failopen">Code vừa generate vi phạm fail-closed invariant.
+
+<span class="warn">Vấn đề:</span> Trong [file/function], khi [condition — vd: timeout, exception, missing data],
+code đang default sang allow=True hoặc tiếp tục thực thi.
+
+<span class="key">FAIL-CLOSED RULE (không có ngoại lệ):</span>
+Khi policy evaluation không thể hoàn thành (timeout, exception, missing data):
+→ Kết quả PHẢI là PolicyDecision(allowed=False, reason="policy_evaluation_failed")
+→ KHÔNG default-allow
+→ KHÔNG retry vô hạn
+→ Log error đầy đủ (agent_id, project_id, error type, timestamp)
+
+<span class="key">Sửa pattern:</span>
+<span class="warn">SAI:</span>
+except Exception:
+    return PolicyDecision(allowed=True, reason="fallback")
+
+<span class="good">ĐÚNG:</span>
+except Exception as e:
+    logger.error("policy_eval_failed", error=str(e), agent_id=identity.agent_id)
+    return PolicyDecision(allowed=False, reason=f"policy_evaluation_failed: {type(e).__name__}")</div>
+  </div>
+
+  <div class="section-title">Khi cần refactor một file đã có mà không break tests</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-iter">Refactor prompt</span> Safe refactor</span>
+      <button class="copy-btn" onclick="cp(this,'p-refactor')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-refactor"><span class="hi">@[file cần refactor] @tests/test_[tương ứng].py</span>
+
+Tôi cần refactor [file] để [lý do: vd performance, add Redis backend, etc.]
+
+<span class="key">Constraints phải giữ nguyên:</span>
+1. Tất cả public method signatures không đổi (tests phải pass nguyên)
+2. Behavior của existing test cases không thay đổi
+3. Invariants trong .cursorrules vẫn giữ
+4. Không thêm new required dependencies vào pyproject.toml mà không hỏi trước
+
+<span class="key">Approach:</span>
+1. Trước tiên show diff của những gì sẽ thay đổi (không code ngay)
+2. Sau khi tôi confirm → viết code
+3. List các test cases có thể bị ảnh hưởng
+
+<span class="cm"># Tôi sẽ chạy: pytest tests/test_[file].py -v sau khi apply</span></div>
+  </div>
+</div>
+
+<!-- ══ 10 DEBUG ══ -->
+<div id="phase-debug" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-d">10</div>
+    <div class="step-meta">
+      <div class="step-title">Debug patterns — 5 lỗi phổ biến nhất</div>
+      <div class="step-sub">Prompt chuyên dụng cho từng loại lỗi hay gặp trong project này.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="rule-card">
+      <h4>Lỗi 1 — Pydantic v2 validation</h4>
+      <p>Khi gặp <code>ValidationError</code> không rõ nguyên nhân, dùng prompt này để Cursor trace back tới root cause trong models.py.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Lỗi 2 — Import cycle</h4>
+      <p>core/ modules import lẫn nhau. Cần nhận diện cycle và break bằng TYPE_CHECKING guard.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Lỗi 3 — Async context</h4>
+      <p>FastAPI endpoint gọi sync function có I/O. Cần wrap bằng <code>run_in_executor</code> hoặc convert sang async.</p>
+    </div>
+    <div class="rule-card">
+      <h4>Lỗi 4 — MCP tool schema</h4>
+      <p>TypeScript client nhận schema không đúng format. Cần validate JSON-RPC 2.0 structure.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Prompt debug Pydantic v2 ValidationError</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-warn">Debug</span> Pydantic v2 errors</span>
+      <button class="copy-btn" onclick="cp(this,'p-dbg-pydantic')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-dbg-pydantic"><span class="hi">@src/ai_control_plane/core/models.py</span>
+
+Tôi đang gặp ValidationError sau đây:
+[paste error traceback]
+
+<span class="key">Câu hỏi:</span>
+1. Field nào trong models.py đang cause validation failure?
+2. Có phải do V1/V2 type mismatch không (ví dụ: str vs Literal, dict vs typed model)?
+3. Fix cần thay đổi models.py hay caller?
+
+<span class="key">Constraint khi sửa:</span>
+- Nếu sửa models.py: kiểm tra xem có downstream caller nào bị ảnh hưởng không
+- Không thêm Optional[] chỉ để tắt validation — phải hiểu root cause trước
+- Nếu field thực sự optional: thêm default value, không phải Optional[X] = None mà không có default
+
+<span class="cm"># Project dùng Pydantic v2. Syntax khác v1:
+# v1: class Config: orm_mode = True
+# v2: model_config = ConfigDict(from_attributes=True)</span></div>
+  </div>
+
+  <div class="section-title">Prompt debug import cycle</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-warn">Debug</span> Circular import</span>
+      <button class="copy-btn" onclick="cp(this,'p-dbg-cycle')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-dbg-cycle"><span class="hi">@src/ai_control_plane/core/</span>
+
+Tôi gặp ImportError: cannot import name X from Y (likely circular import).
+
+<span class="key">Phân tích:</span>
+1. Vẽ dependency graph của các imports trong core/ để tìm cycle
+2. core/models.py PHẢI là leaf node — không import gì từ core/
+3. Thứ tự dependency đúng: models → registry → policies → quota → telemetry
+4. Nếu policies.py cần import từ quota.py (hoặc ngược lại) → đây là circular
+
+<span class="key">Fix pattern ưu tiên:</span>
+Option A (tốt nhất): Move shared type sang models.py
+Option B: Dùng TYPE_CHECKING guard:
+  from __future__ import annotations
+  from typing import TYPE_CHECKING
+  if TYPE_CHECKING:
+      from .quota import QuotaTracker
+
+Option C (last resort): Lazy import trong function body
+
+<span class="warn">KHÔNG dùng:</span> importlib.import_module() hay __import__() để workaround cycle
+Nếu cần — có nghĩa là thiết kế sai, phải refactor.</div>
+  </div>
+
+  <div class="section-title">Prompt debug MCP tool schema cho TypeScript client</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-warn">Debug</span> MCP schema mismatch</span>
+      <button class="copy-btn" onclick="cp(this,'p-dbg-mcp')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-dbg-mcp"><span class="hi">@src/ai_control_plane/mcp/git_server.py
+@src/ai_control_plane/mcp/server_utils.py</span>
+
+TypeScript PolicyClient đang reject tool call với error: [paste error]
+
+<span class="key">Kiểm tra theo thứ tự:</span>
+
+1. list_tools() response có đúng JSON-RPC 2.0 format không?
+   Expected structure:
+   {
+     "jsonrpc": "2.0",
+     "id": "...",
+     "result": {
+       "tools": [
+         {"name": "git_branch", "description": "...",
+          "inputSchema": {"type": "object", "properties": {...}, "required": [...]}}
+       ]
+     }
+   }
+
+2. McpError codes có match TypeScript side không?
+   -32700: Parse error
+   -32600: Invalid request
+   -32601: Method not found
+   -32602: Invalid params
+   -32603: Internal error (dùng cho policy denied)
+
+3. server_utils.py McpErrorBuilder.build() có đang bỏ "data" field không?
+   TypeScript expect: {"code": int, "message": str, "data": dict | null}
+
+<span class="key">Fix trong server_utils.py nếu cần:</span>
+Đảm bảo redact_sensitive_data() chạy TRƯỚC khi serialize response
+KHÔNG redact policy_id hoặc reason (TypeScript cần những field này để log)</div>
+  </div>
+</div>
+
+<!-- ══ 11 OPS ══ -->
+<div id="phase-ops" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-a">11</div>
+    <div class="step-meta">
+      <div class="step-title">Day-1 ops — chạy system lần đầu</div>
+      <div class="step-sub">Scripts, lệnh verify, và prompt tạo scripts/dev_setup.sh</div>
+    </div>
+  </div>
+
+  <div class="section-title">Prompt tạo scripts/dev_setup.sh</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-ops">Ops</span> scripts/dev_setup.sh</span>
+      <button class="copy-btn" onclick="cp(this,'p-devsetup')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-devsetup">Tạo scripts/dev_setup.sh với nội dung:
+
+<span class="key">#!/usr/bin/env bash</span>
+set -euo pipefail  # fail fast
+
+1. Check Python >= 3.11 (exit 1 nếu thấp hơn)
+2. Tạo virtualenv nếu chưa có: python -m venv .venv
+3. Activate: source .venv/bin/activate
+4. pip install -e ".[dev]" --quiet
+5. pre-commit install
+6. Copy config/ templates sang $ACP_CONFIG_DIR nếu chưa có
+7. Verify CLI hoạt động: agentctl --help (exit code 0)
+8. Verify API import: python -c "from ai_control_plane.api.server import app; print('API OK')"
+9. Verify apex stubs: python -c "from ai_control_plane.apex import SapalLoop; print('Apex stubs OK')"
+10. Print: "✓ ai-control-plane dev setup complete. Run: agentctl status"
+
+<span class="key">Tạo scripts/run_api_server.sh:</span>
+#!/usr/bin/env bash
+uvicorn ai_control_plane.api.server:app \
+  --host ${ACP_API_HOST:-127.0.0.1} \
+  --port ${ACP_API_PORT:-8000} \
+  --reload \
+  --log-level ${ACP_LOG_LEVEL:-info}
+
+<span class="key">Tạo scripts/run_mcp_git_server.sh:</span>
+#!/usr/bin/env bash
+<span class="cm"># Starts cyanheads TypeScript server + Python facade</span>
+cd $CYANHEADS_DIR && node dist/index.js &
+TS_PID=$!
+python -m ai_control_plane.mcp.git_server --project ${1:-rust-gateway}
+kill $TS_PID</div>
+  </div>
+
+  <div class="section-title">Verify commands — chạy theo thứ tự này sau khi build xong</div>
+  <div class="prompt-block">
+    <div class="pb-head">
+      <span class="pb-label"><span class="pb-tag tag-ops">Ops</span> Verify sequence</span>
+      <button class="copy-btn" onclick="cp(this,'p-verify')">Copy</button>
+    </div>
+    <div class="pb-body" id="p-verify"><span class="cm"># 1. Static checks trước</span>
+<span class="good">ruff check src/ tests/</span>
+<span class="good">mypy src/ai_control_plane/ --strict</span>
+
+<span class="cm"># 2. Unit tests</span>
+<span class="good">pytest tests/test_models.py tests/test_policies.py tests/test_quota.py -v</span>
+
+<span class="cm"># 3. Integration tests (cần ACP_CONFIG_DIR set)</span>
+<span class="good">ACP_CONFIG_DIR=./config pytest tests/ -v --cov=ai_control_plane --cov-report=term</span>
+
+<span class="cm"># 4. CLI smoke test</span>
+<span class="good">agentctl --help</span>
+<span class="good">agentctl status --project rust-gateway</span>
+
+<span class="cm"># 5. API server smoke test</span>
+<span class="good">uvicorn ai_control_plane.api.server:app --port 8000 &</span>
+<span class="good">curl -s http://localhost:8000/docs | grep "openapi"</span>
+<span class="good">curl -X POST http://localhost:8000/policy/evaluate \</span>
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_branch","args":{}}'
+
+<span class="cm"># 6. Apex import smoke test</span>
+<span class="good">python -c "from ai_control_plane.apex import SapalLoop; print('apex OK')"</span>
+
+<span class="cm"># Expected output step 5:
+# {"allowed": true, "reason": "rbac_pass", "requires_approval": false, ...}</span></div>
+  </div>
+</div>
+
+<!-- ══ 12 CHECKLIST ══ -->
+<div id="phase-checklist" class="phase">
+  <div class="step-header">
+    <div class="step-num sn-a">12</div>
+    <div class="step-meta">
+      <div class="step-title">Milestone A launch checklist — interactive</div>
+      <div class="step-sub">Tick từng item khi hoàn thành. State lưu trong session.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Infrastructure</div>
+  <div class="checklist" id="cl-infra">
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>pyproject.toml + src/ layout tạo xong</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>.cursorrules + ARCHITECTURE.md ở root</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>config/projects.yml + agents.yml + policies.yml</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>scripts/dev_setup.sh chạy không lỗi</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>pre-commit hooks installed (ruff + mypy)</div>
+  </div>
+
+  <div class="section-title">Core modules</div>
+  <div class="checklist" id="cl-core">
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>core/models.py — 11 classes, mypy strict pass</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>core/registry.py — ProjectRegistry + AgentRegistry</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>core/policies.py — PolicyEngine, ConditionEvaluator, ApprovalGate, GuardrailEvaluator</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>core/quota.py — QuotaTracker, TokenBudget, RateLimiter, QuotaStore ABC</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>core/telemetry.py — TelemetryEmitter, EventStore, AuditWriter</div>
+  </div>
+
+  <div class="section-title">MCP + API + CLI</div>
+  <div class="checklist" id="cl-api">
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>mcp/git_server.py — facade, fail-closed trên policy timeout</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>mcp/server_factory.py + server_utils.py</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>api/schemas.py — 5 request/response pairs</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>api/server.py — POST /policy/evaluate live + fail-closed</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>cli/assign.py + cli/status.py + cli/logs.py</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>apex/ — 6 import-clean stub files</div>
+  </div>
+
+  <div class="section-title">Tests + Verification</div>
+  <div class="checklist" id="cl-tests">
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>12 test files tồn tại trong tests/</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>pytest coverage >= 70% trên core/</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>test_policies.py — 5 test cases pass</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>test_apex_loop.py — 4 stub tests pass</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>API /policy/evaluate trả về đúng PolicyEvalResponse</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>agentctl assign rust-gateway agent2 code-edit chạy không crash</div>
+    <div class="ci" onclick="toggle(this)"><span class="ci-check"></span>ruff + mypy strict: 0 errors, 0 warnings</div>
+  </div>
+
+  <div style="margin-top:14px;padding:10px 14px;background:var(--color-background-secondary);border-radius:8px;border:0.5px solid var(--color-border-tertiary)">
+    <span style="font-size:12px;color:var(--color-text-secondary)">Hoàn thành: </span>
+    <span id="progress-count" style="font-size:13px;font-weight:500;color:var(--color-text-primary)">0 / 17</span>
+    <span style="font-size:12px;color:var(--color-text-secondary)"> items — Milestone A ready khi đạt 17/17</span>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
+  document.getElementById('phase-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const text=el.innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+function toggle(el){
+  el.classList.toggle('done');
+  const checks=document.querySelectorAll('.ci');
+  const done=document.querySelectorAll('.ci.done').length;
+  document.getElementById('progress-count').textContent=done+' / '+checks.length;
+  if(el.classList.contains('done')) el.querySelector('.ci-check').textContent='✓';
+  else el.querySelector('.ci-check').textContent='';
+}
+</script>

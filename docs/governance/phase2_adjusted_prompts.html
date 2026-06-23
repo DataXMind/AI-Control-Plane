@@ -1,0 +1,881 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.nb:hover:not(.on){color:var(--color-text-primary)}
+.pane{display:none}.pane.on{display:block}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.05em}
+.tc{background:rgba(79,142,247,.12);color:#185FA5}
+.tp0{background:rgba(163,45,45,.12);color:#A32D2D}
+.tp1{background:rgba(133,79,11,.12);color:#854F0B}
+.tnew{background:rgba(52,201,126,.12);color:#0F6E56}
+.tadj{background:rgba(167,139,250,.12);color:#534AB7}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary);color:var(--color-text-primary)}
+.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}
+.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}
+.pbb .ok{color:#0F6E56}
+.pbb .err{color:#A32D2D}
+.pbb .acc{color:#534AB7}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.warn-tip{border-left-color:#A32D2D}
+.ok-tip{border-left-color:#0F6E56}
+.sec{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px}
+.gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.gc{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:10px 12px}
+.gc h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.gc p{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.gc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.sc{border-radius:7px;padding:9px 12px;border:0.5px solid var(--color-border-tertiary)}
+.sc-ok{background:rgba(52,201,126,.06);border-color:rgba(52,201,126,.25)}
+.sc-warn{background:rgba(133,79,11,.06);border-color:rgba(133,79,11,.2)}
+.sc-err{background:rgba(163,45,45,.06);border-color:rgba(163,45,45,.2)}
+.sc h4{font-size:11px;font-weight:500;margin-bottom:4px}
+.sc-ok h4{color:#0F6E56}.sc-warn h4{color:#854F0B}.sc-err h4{color:#A32D2D}
+.sc p{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.sc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px}
+@media(max-width:560px){.gap-grid,.sc-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('gap')">Audit verdict</button>
+  <button class="nb" onclick="show('p0')">P0 — fix trước phase 2</button>
+  <button class="nb" onclick="show('tel')">7 — Telemetry (adjusted)</button>
+  <button class="nb" onclick="show('apex')">Apex stubs (adjusted)</button>
+  <button class="nb" onclick="show('tests')">8 — Tests (adjusted)</button>
+  <button class="nb" onclick="show('iter')">9+10 — Iteration/Debug</button>
+  <button class="nb" onclick="show('ops')">11 — Ops (adjusted)</button>
+  <button class="nb" onclick="show('chk')">12 — Checklist (adjusted)</button>
+</div>
+
+<!-- AUDIT VERDICT -->
+<div id="pane-gap" class="pane on">
+  <div class="tip warn-tip">
+    <strong>Verdict audit:</strong> Cursor hoàn thành ~70–75% Milestone A. Xương sống governance đúng. Nhưng có 4 P0 broken item và 3 P1 drift phải sửa TRƯỚC khi chạy Phase 2 — nếu không, Phase 2 prompts sẽ build trên nền sai.
+  </div>
+
+  <div class="sec">Điểm đánh giá theo 6 prompt phase 1</div>
+  <div class="sc-grid">
+    <div class="sc sc-ok"><h4>Setup Cursor</h4><p>✓ .cursorrules + ARCHITECTURE.md đúng. pyproject.toml chuẩn. ACP_CONFIG_DIR có. Score: 8/10</p></div>
+    <div class="sc sc-ok"><h4>Bootstrap repo</h4><p>✓ 3 yml files có nội dung đúng. loader.py load được projects + agents. Score: 7/10</p></div>
+    <div class="sc sc-err"><h4>core/ modules</h4><p>✗ <code>registry.py</code> import broken. <code>telemetry.py</code> crash runtime. <code>exceptions.py</code> rỗng. Score: 4/10</p></div>
+    <div class="sc sc-warn"><h4>API + MCP layer</h4><p>⚠ 7 endpoints có. Fail-closed đúng. Nhưng PolicyEngine(rules=[]) — không đọc yml. Score: 6/10</p></div>
+    <div class="sc sc-ok"><h4>CLI + assign/status</h4><p>✓ assign → API → status flow hoạt động end-to-end. Stubs B/C đúng. Score: 7/10</p></div>
+    <div class="sc sc-err"><h4>Tests</h4><p>✗ Chỉ 2 file thay vì 12. Không có test_models, test_quota, test_telemetry, test_registry. Score: 3/10</p></div>
+  </div>
+
+  <div class="sec">4 P0 broken — phải sửa trước phase 2</div>
+  <div class="gap-grid">
+    <div class="gc"><h4><span class="tag tp0">P0</span> registry.py import fail</h4><p><code>Guardrail</code>, <code>RbacConfig</code>, <code>RegisteredAction</code> không tồn tại trong <code>models.py</code>. Import crash ngay khi load module.</p></div>
+    <div class="gc"><h4><span class="tag tp0">P0</span> telemetry.py runtime error</h4><p><code>EventStore.append()</code> dùng <code>event_id</code>, <code>event_hash</code>, <code>previous_hash</code> nhưng <code>TelemetryEvent</code> trong models.py không có những fields này.</p></div>
+    <div class="gc"><h4><span class="tag tp0">P0</span> policies.yml không được đọc</h4><p><code>PolicyEngine(rules=[])</code> trong server.py. Operator nghĩ YAML govern nhưng runtime dùng hardcoded defaults. Config YAML và runtime tách rời.</p></div>
+    <div class="gc"><h4><span class="tag tp0">P0</span> Tool naming split</h4><p>YAML dùng <code>git.read</code> (dot notation). Engine dùng <code>git_read</code> (underscore). Tests dùng <code>k8s_apply_prod</code>. 3 conventions khác nhau — PolicyClient sẽ miss match.</p></div>
+  </div>
+
+  <div class="sec">3 P1 drift cần giải quyết song song</div>
+  <div class="gap-grid">
+    <div class="gc"><h4><span class="tag tp1">P1</span> Duplicate API layer</h4><p><code>api/app.py</code> + <code>api/routes/*</code> stub trùng với <code>api/server.py</code>. Logic thực tế ở server.py — routes/* không dùng.</p></div>
+    <div class="gc"><h4><span class="tag tp1">P1</span> exceptions.py rỗng</h4><p>File có nhưng không có class nào. Mọi domain error trong code đang dùng raw Python exceptions — vi phạm error pattern trong .cursorrules.</p></div>
+    <div class="gc"><h4><span class="tag tp1">P1</span> TaskStatus schema dup</h4><p><code>api/schemas.TaskStatus</code> có field <code>progress</code>. <code>core/models.TaskStatus</code> không có. 2 types khác nhau cho cùng concept — vi phạm Invariant #2.</p></div>
+  </div>
+</div>
+
+<!-- P0 FIX PACK -->
+<div id="pane-p0" class="pane">
+  <div class="tip warn-tip">
+    <strong>Bắt buộc làm trước bất kỳ Phase 2 prompt nào.</strong> Đây là "P0 fix pack" — 5 prompt theo thứ tự. Sau khi xong, chạy <code>pytest tests/ -v</code> xác nhận 0 import errors trước khi tiếp tục.
+  </div>
+
+  <div class="sec">Fix 1 — Thêm missing types vào models.py (root cause của registry + telemetry)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tp0">P0-1</span> core/models.py — thêm missing fields</span><button class="cbtn" onclick="cp(this,'p0-1')">Copy</button></div>
+    <div class="pbb" id="p0-1"><span class="hi">@src/ai_control_plane/core/models.py</span>
+
+<span class="err">Audit tìm thấy 2 vấn đề models.py cần sửa:</span>
+
+<span class="key">Fix 1 — TelemetryEvent thiếu fields hash-chain:</span>
+TelemetryEvent hiện tại KHÔNG CÓ: event_id, event_hash, previous_hash
+telemetry.py đang dùng những fields này → runtime crash khi append()
+
+Thêm vào TelemetryEvent class:
+- event_id: str = Field(default_factory=lambda: str(uuid4()))
+- event_hash: str = ""          # filled by EventStore.append()
+- previous_hash: str = ""       # filled by EventStore.append()
+
+<span class="key">Fix 2 — TaskStatus thiếu field progress:</span>
+api/schemas.py có TaskStatus.progress (0-100) nhưng core TaskStatus không có.
+Đây là duplicate type vi phạm Invariant #2.
+
+Chọn một trong hai option (hỏi trước khi làm):
+Option A (preferred): Thêm progress: int = 0 vào core/models.TaskStatus
+                      Sau đó api/schemas.py re-use từ core, không define lại
+Option B: Giữ nguyên nhưng document rõ api/schemas là "HTTP projection" — không phải duplicate
+
+<span class="key">Fix 3 — Thêm missing types mà registry.py expect:</span>
+registry.py import Guardrail, RbacConfig, RegisteredAction từ models.py nhưng không tồn tại.
+
+Xem registry.py đang dùng những types đó làm gì, rồi:
+- Nếu concept đúng với kiến trúc → thêm classes vào models.py
+- Nếu registry.py overreach → trim registry.py cho khớp models.py hiện tại
+
+<span class="err">KHÔNG tạo duplicate types. Invariant #2: models.py là source of truth duy nhất.</span></div>
+  </div>
+
+  <div class="sec">Fix 2 — Wire policies.yml vào PolicyEngine lúc startup</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tp0">P0-2</span> api/server.py — wire YAML → PolicyEngine</span><button class="cbtn" onclick="cp(this,'p0-2')">Copy</button></div>
+    <div class="pbb" id="p0-2"><span class="hi">@src/ai_control_plane/api/server.py @src/ai_control_plane/config/loader.py @config/policies.yml</span>
+
+<span class="err">GAP: PolicyEngine(rules=[]) — YAML không được đọc vào runtime.</span>
+
+<span class="key">Yêu cầu sửa api/server.py create_app() / startup:</span>
+
+Hiện tại:
+app_state = AppState(policy_engine=PolicyEngine(rules=[]), ...)
+
+Phải thành:
+1. config_dir = resolve_config_dir()    # từ config/loader.py
+2. policy_rules = loader.load_policies(config_dir / "policies.yml")
+3. app_state = AppState(policy_engine=PolicyEngine(rules=policy_rules), ...)
+
+<span class="key">Sửa config/loader.py thêm load_policies():</span>
+def load_policies(path: Path) -> list[PolicyRule]:
+    """Load config/policies.yml → list[PolicyRule] cho PolicyEngine."""
+    raw = yaml.safe_load(path.read_text())
+    
+    rules = []
+    # Load RBAC rules
+    for role_name, role_cfg in raw.get("rbac", {}).get("roles", {}).items():
+        rules.append(PolicyRule(
+            name=f"rbac_{role_name}",
+            description=role_cfg.get("description", ""),
+            conditions={"role": role_name},
+            effect="allow" if role_cfg.get("allowed_actions") else "deny"
+        ))
+    # Load ABAC rules  
+    for rule in raw.get("abac", {}).get("rules", []):
+        rules.append(PolicyRule(
+            name=rule["name"],
+            description=rule.get("description", ""),
+            conditions=rule["conditions"],
+            effect=rule["effect"]
+        ))
+    return rules
+
+<span class="key">Tool naming — phải thống nhất trước khi wire:</span>
+Chọn convention UNDERSCORE: git_read, k8s_apply_prod, db_prod_write
+Update config/policies.yml: đổi "git.read" → "git_read" (dot → underscore)
+Document trong ARCHITECTURE.md: "Tool names: snake_case. Không dùng dot notation."</div>
+  </div>
+
+  <div class="sec">Fix 3 — exceptions.py và cleanup P1 drifts</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tp0">P0-3</span> exceptions.py + api/routes cleanup</span><button class="cbtn" onclick="cp(this,'p0-3')">Copy</button></div>
+    <div class="pbb" id="p0-3"><span class="hi">@src/ai_control_plane/core/exceptions.py @src/ai_control_plane/api/</span>
+
+<span class="key">Tạo exceptions.py với hierarchy đầy đủ:</span>
+
+class ControlPlaneError(Exception):
+    """Base cho tất cả domain errors trong ai_control_plane."""
+    def __init__(self, message: str, code: str = "UNKNOWN"):
+        super().__init__(message)
+        self.code = code
+
+class PolicyEvaluationError(ControlPlaneError):
+    """PolicyEngine không thể evaluate — fail-closed."""
+    def __init__(self, reason: str):
+        super().__init__(f"Policy evaluation failed: {reason}", "POLICY_ERROR")
+
+class ConfigurationError(ControlPlaneError):
+    """Config YAML invalid hoặc thiếu required fields."""
+
+class QuotaExceededError(ControlPlaneError):
+    """Agent vượt token/request quota."""
+    def __init__(self, agent_id: str, quota_type: str):
+        super().__init__(f"{agent_id} exceeded {quota_type}", "QUOTA_EXCEEDED")
+        self.agent_id = agent_id
+
+class AgentNotFoundError(ControlPlaneError):
+    """Agent không tồn tại trong registry."""
+
+class ProjectNotFoundError(ControlPlaneError):
+    """Project không tồn tại trong config."""
+
+class ApprovalRequiredError(ControlPlaneError):
+    """Action cần human approval trước khi proceed."""
+    def __init__(self, approval_id: str):
+        super().__init__(f"Approval required: {approval_id}", "APPROVAL_REQUIRED")
+        self.approval_id = approval_id
+
+<span class="key">Cleanup api/ duplicate layer:</span>
+- Xóa hoặc archive: api/app.py, api/routes/ directory (nếu rỗng/stub)
+- Tất cả logic ở api/server.py — không split routes
+- Update __init__.py để không import từ routes/
+<span class="err">Lý do: api/routes/* stub trùng với server.py, gây confusion về single-source API layer.</span></div>
+  </div>
+
+  <div class="sec">Fix 4 — Load agents.yml vào server.py (bỏ hardcoded registry)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tp0">P0-4</span> server.py — dynamic agent registry</span><button class="cbtn" onclick="cp(this,'p0-4')">Copy</button></div>
+    <div class="pbb" id="p0-4"><span class="hi">@src/ai_control_plane/api/server.py @src/ai_control_plane/config/loader.py @config/agents.yml</span>
+
+<span class="err">GAP: server.py có _DEFAULT_AGENT_REGISTRY hardcoded thay vì load agents.yml.</span>
+
+<span class="key">Sửa trong create_app() / lifespan startup:</span>
+
+agents = loader.load_agents(config_dir / "agents.yml")
+projects = loader.load_projects(config_dir / "projects.yml")
+
+app_state = AppState(
+    policy_engine=PolicyEngine(rules=policy_rules),   # từ P0-2
+    agent_registry={a.id: a for a in agents},          # từ agents.yml
+    project_registry={p.id: p for p in projects},     # từ projects.yml
+    approval_gate=ApprovalGate(),
+    quota_tracker=QuotaTracker(store=InMemoryQuotaStore(), 
+                               daily_limits={a.id: a.model_profile.max_tokens_per_day
+                                            for a in agents}),
+)
+
+<span class="key">Verify sau fix:</span>
+agentctl assign rust-gateway agent2 git_read
+<span class="cm"># Expected: PolicyEngine dùng rules từ policies.yml, không phải hardcoded defaults
+# agentctl status --project rust-gateway → task PENDING</span>
+
+<span class="key">Thêm endpoint /health mở rộng:</span>
+GET /health → {
+  "status": "ok",
+  "config_loaded": true,
+  "policy_rules_count": N,
+  "agents_loaded": ["agent1", "agent2", "agent3"],
+  "projects_loaded": ["rust-gateway", "datax-analytics"]
+}
+<span class="cm"># Dùng /health để verify config wire đúng trước khi chạy phase 2</span></div>
+  </div>
+
+  <div class="tip ok-tip">
+    <strong>Verify gate sau P0 fix pack:</strong> Chạy <code>python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"</code> và <code>pytest tests/ -v</code>. Phải 0 import errors và 7+ tests pass trước khi bước vào Phase 2.
+  </div>
+</div>
+
+<!-- TEL ADJUSTED -->
+<div id="pane-tel" class="pane">
+  <div class="tip">
+    <strong>Thay đổi so với prompt gốc:</strong> TelemetryEvent đã được sửa trong P0-1 (thêm event_id, event_hash, previous_hash). Prompt telemetry.py giờ reference fields đã tồn tại — không generate lại từ đầu mà patch file đang có.
+  </div>
+
+  <div class="sec">Prompt adjusted — patch telemetry.py (không viết lại)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tadj">Adjusted</span> core/telemetry.py — patch existing</span><button class="cbtn" onclick="cp(this,'p-tel-adj')">Copy</button></div>
+    <div class="pbb" id="p-tel-adj"><span class="hi">@src/ai_control_plane/core/telemetry.py @src/ai_control_plane/core/models.py</span>
+
+<span class="acc">Audit: telemetry.py có code nhưng crash vì TelemetryEvent thiếu fields.
+Sau P0-1 fix, models.py đã có event_id, event_hash, previous_hash.
+Prompt này PATCH file hiện tại — không viết lại toàn bộ.</span>
+
+<span class="key">1. Kiểm tra và sửa EventStore.append():</span>
+Đảm bảo logic hash-chain dùng đúng field names từ models.py:
+- event.event_id (không phải id hay uuid)
+- event.event_hash được set = sha256(prev_hash + json(event))
+- event.previous_hash được set = previous event's event_hash
+- Trả về event.event_id (string)
+
+<span class="key">2. Thêm event type constants nếu chưa có:</span>
+TASK_ASSIGNED = "task.assigned"
+TASK_COMPLETED = "task.completed"
+TOOL_CALL = "tool.call"
+TOOL_RESULT = "tool.result"
+MODEL_CALL = "model.call"
+POLICY_DECISION = "policy.decision"
+QUOTA_EXCEEDED = "quota.exceeded"
+APPROVAL_REQUESTED = "approval.requested"
+
+<span class="key">3. Wire TelemetryEmitter với structlog:</span>
+Hiện tại server.py dùng <span class="err">logging stdlib</span> — vi phạm .cursorrules.
+Đổi: import structlog; logger = structlog.get_logger(__name__)
+TelemetryEmitter.emit() → structlog.info() khi OTLP không configured
+
+<span class="key">4. Verify sau patch:</span>
+from ai_control_plane.core.telemetry import EventStore, TelemetryEmitter
+from ai_control_plane.core.models import TelemetryEvent
+store = EventStore()
+ev = TelemetryEvent(event_type="tool.call", agent_id="agent2",
+                    project_id="rust-gateway", payload={})
+eid = store.append(ev)
+assert store.get(eid) is not None
+assert store.get(eid).event_hash != ""  <span class="cm"># hash-chain working</span></div>
+  </div>
+
+  <div class="sec">Prompt tạo tests/test_telemetry.py (adjusted — dùng fixed models)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tadj">Adjusted</span> tests/test_telemetry.py</span><button class="cbtn" onclick="cp(this,'p-tel-test')">Copy</button></div>
+    <div class="pbb" id="p-tel-test"><span class="hi">@src/ai_control_plane/core/telemetry.py @src/ai_control_plane/core/models.py @tests/conftest.py</span>
+
+Tạo tests/test_telemetry.py với các test cases:
+
+<span class="key">Setup fixture (thêm vào conftest.py nếu chưa có):</span>
+@pytest.fixture
+def event_store(): return EventStore()
+
+@pytest.fixture
+def sample_event():
+    return TelemetryEvent(
+        event_type=TOOL_CALL,
+        agent_id="agent2",
+        project_id="rust-gateway",
+        payload={"tool": "git_read", "branch": "feat/auth"}
+    )
+
+<span class="key">Test cases:</span>
+test_append_returns_event_id(event_store, sample_event):
+    eid = event_store.append(sample_event)
+    assert isinstance(eid, str) and len(eid) > 0
+
+test_get_by_event_id(event_store, sample_event):
+    eid = event_store.append(sample_event)
+    retrieved = event_store.get(eid)
+    assert retrieved.event_type == TOOL_CALL
+
+test_hash_chain_integrity(event_store):
+    <span class="cm"># Append 3 events, verify each has non-empty event_hash</span>
+    <span class="cm"># event[1].previous_hash == event[0].event_hash</span>
+
+test_verify_chain_passes(event_store):
+    [event_store.append(sample_event) for _ in range(5)]
+    assert event_store.verify_chain() == True
+
+test_verify_chain_detects_tamper(event_store):
+    event_store.append(sample_event)
+    event_store._events[0].event_hash = "tampered"  <span class="cm"># direct mutation</span>
+    assert event_store.verify_chain() == False
+
+test_replay_by_event_type(event_store):
+    <span class="cm"># Append mix: 3 TOOL_CALL + 2 POLICY_DECISION</span>
+    <span class="cm"># replay(event_type=TOOL_CALL) → exactly 3 events</span>
+
+test_emitter_silent_on_otlp_down(monkeypatch):
+    <span class="cm"># Set OTEL_EXPORTER_OTLP_ENDPOINT to invalid URL</span>
+    <span class="cm"># TelemetryEmitter.emit() không raise — silent fallback</span></div>
+  </div>
+</div>
+
+<!-- APEX ADJUSTED -->
+<div id="pane-apex" class="pane">
+  <div class="tip">
+    <strong>Audit phát hiện:</strong> apex/ chỉ có <code>pipeline.py</code> docstring + <code>__init__.py</code> version comment. Đúng milestone guard nhưng thiếu 5 module files (sense, analyze, predict, act, loop). Prompt gốc cần áp dụng nguyên vẹn — chỉ thêm 1 điều chỉnh về import structure.
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Thêm mới</span> apex/ — tạo 5 files còn thiếu</span><button class="cbtn" onclick="cp(this,'p-apex-adj')">Copy</button></div>
+    <div class="pbb" id="p-apex-adj"><span class="hi">@src/ai_control_plane/apex/__init__.py @src/ai_control_plane/core/models.py</span>
+
+<span class="acc">Audit: apex/ chỉ có __init__.py + pipeline.py. Cần thêm 5 module files.
+Giữ nguyên milestone guard — NotImplementedError("Milestone C") cho mọi method.</span>
+
+<span class="key">Rename pipeline.py → loop.py (hoặc giữ pipeline.py nếu đã committed):</span>
+<span class="cm"># Nếu rename: git mv apex/pipeline.py apex/loop.py</span>
+<span class="cm"># Cập nhật apex/__init__.py import</span>
+
+<span class="key">Tạo apex/loop.py (hoặc patch pipeline.py thành đủ interface):</span>
+"""SAPAL orchestrator: Sense → Analyze → Predict → Act → Learn."""
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ai_control_plane.core.models import TelemetryEvent
+
+class SapalLoop:
+    """Main APEX loop. Active at Milestone C."""
+    def __init__(self, config: dict) -> None:
+        self._config = config
+        self._running = False
+    def run_once(self) -> dict:
+        raise NotImplementedError("Milestone C")
+    def start(self) -> None:
+        raise NotImplementedError("Milestone C")
+    def stop(self) -> None:
+        raise NotImplementedError("Milestone C")
+    def status(self) -> dict:
+        return {"running": self._running, "milestone": "C", "ready": False}
+
+<span class="key">Tạo apex/sense.py, analyze.py, predict.py, act.py:</span>
+<span class="cm"># Mỗi file: 1 class, __init__ nhận config dict, mọi method raise NotImplementedError("Milestone C")</span>
+<span class="cm"># Không import OSS libraries (Darts, scikit-learn) ở top level — defer đến Milestone C</span>
+
+<span class="key">Update apex/__init__.py:</span>
+"""APEX — Autonomous Policy Execution loop. Active at Milestone C."""
+__version__ = "0.0.1-stub"
+from .loop import SapalLoop
+__all__ = ["SapalLoop"]
+
+<span class="key">Verify import-clean:</span>
+python -c "
+from ai_control_plane.apex import SapalLoop
+from ai_control_plane.apex import sense, analyze, predict, act
+loop = SapalLoop(config={})
+print('status:', loop.status())
+print('apex stubs OK')
+"
+<span class="cm"># Expected: {"running": False, "milestone": "C", "ready": False}</span></div>
+  </div>
+</div>
+
+<!-- TESTS ADJUSTED -->
+<div id="pane-tests" class="pane">
+  <div class="tip warn-tip">
+    <strong>Audit chỉ ra:</strong> chỉ có <code>test_policies.py</code> (5 cases) và <code>test_imports.py</code>. Thiếu 10 file. Thêm quan trọng: test fixtures dùng PolicyRule-format riêng — khác production <code>config/policies.yml</code>. Phải dùng chung 1 format sau P0-2 fix.
+  </div>
+
+  <div class="sec">Prompt adjusted — test_registry.py (sau P0-1 fix)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tadj">Adjusted</span> tests/test_registry.py</span><button class="cbtn" onclick="cp(this,'p-treg')">Copy</button></div>
+    <div class="pbb" id="p-treg"><span class="hi">@src/ai_control_plane/core/registry.py @src/ai_control_plane/core/models.py @tests/conftest.py</span>
+
+<span class="acc">Audit: registry.py không import được vì dùng types không tồn tại.
+Sau P0-1 fix models.py, test này verify registry hoạt động đúng.</span>
+
+<span class="key">Trước tiên verify import:</span>
+from ai_control_plane.core.registry import ProjectRegistry, AgentRegistry
+<span class="err"># Nếu vẫn ImportError → stop, sửa registry.py cho khớp models.py trước</span>
+
+<span class="key">Test cases:</span>
+test_registry_importable():
+    from ai_control_plane.core import registry
+    assert registry is not None  <span class="cm"># verify P0-1 fixed import</span>
+
+test_register_and_get_project(sample_project_config):
+    reg = ProjectRegistry()
+    reg.register(sample_project_config)
+    assert reg.get("rust-gateway").id == "rust-gateway"
+
+test_register_duplicate_raises(sample_project_config):
+    reg = ProjectRegistry()
+    reg.register(sample_project_config)
+    with pytest.raises((ValueError, KeyError)):
+        reg.register(sample_project_config)
+
+test_get_agents_by_project(backend_identity, sample_project_config):
+    areg = AgentRegistry()
+    agent_cfg = AgentConfig(id="agent2", ...)
+    areg.register(agent_cfg)
+    agents = areg.get_by_project("rust-gateway")
+    assert any(a.id == "agent2" for a in agents)
+
+test_agent_state_update(backend_identity):
+    areg = AgentRegistry()
+    areg.register(agent_cfg)
+    areg.update_state("agent2", "RUNNING")
+    assert areg.get_state("agent2") == "RUNNING"</div>
+  </div>
+
+  <div class="sec">Prompt adjusted — test_models.py (verify union types V1+V2)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tadj">Adjusted</span> tests/test_models.py</span><button class="cbtn" onclick="cp(this,'p-tmod')">Copy</button></div>
+    <div class="pbb" id="p-tmod"><span class="hi">@src/ai_control_plane/core/models.py</span>
+
+<span class="acc">Audit: models.py có 184 LOC, rated "Solid" nhưng thiếu event_id/hash fields.
+Sau P0-1 fix, test này serve như regression guard cho Invariant #2.</span>
+
+Tạo tests/test_models.py:
+
+test_telemetry_event_has_hash_fields():
+    ev = TelemetryEvent(event_type="tool.call", agent_id="agent2",
+                        project_id="rust-gateway", payload={})
+    assert hasattr(ev, "event_id")
+    assert hasattr(ev, "event_hash")
+    assert hasattr(ev, "previous_hash")
+    assert isinstance(ev.event_id, str) and len(ev.event_id) > 0
+
+test_policy_decision_fields():
+    dec = PolicyDecision(allowed=True, reason="rbac_pass",
+                         requires_approval=False, policy_id="rbac_backend")
+    assert dec.allowed == True
+    assert dec.policy_id == "rbac_backend"
+
+test_agent_identity_fields():
+    ident = AgentIdentity(agent_id="agent2", project_id="rust-gateway",
+                          role="backend", jwt_claims={}, did=None)
+    assert ident.role == "backend"
+
+test_task_status_progress_field():
+    <span class="cm"># Sau P0-1 option A: TaskStatus phải có progress field</span>
+    ts = TaskStatus(task_id="t1", state="PENDING", updated_at=datetime.now())
+    assert hasattr(ts, "progress")  <span class="cm"># 0 by default</span>
+
+test_mcp_error_serialization():
+    err = McpError(code=-32603, message="policy_denied", data={"reason": "rbac"})
+    d = err.model_dump()
+    assert d["code"] == -32603
+    assert d["data"]["reason"] == "rbac"
+
+test_all_model_classes_in_all():
+    import ai_control_plane.core.models as m
+    expected = ["ProjectConfig","AgentConfig","ModelProfile","PolicyRule","Task",
+                "TaskStatus","TelemetryEvent","PolicyDecision","AgentIdentity",
+                "McpError","ApprovalRequest","ApprovalDecision"]
+    for cls in expected:
+        assert cls in m.__all__, f"{cls} missing from __all__"</div>
+  </div>
+
+  <div class="sec">Prompt adjusted — test_api_integration.py (dùng TestClient, không mock)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Thêm mới</span> tests/test_api_integration.py</span><button class="cbtn" onclick="cp(this,'p-tapi')">Copy</button></div>
+    <div class="pbb" id="p-tapi"><span class="hi">@src/ai_control_plane/api/server.py @tests/conftest.py</span>
+
+<span class="acc">Audit: không có integration tests với TestClient — chỉ manual curl.
+Đây là file quan trọng nhất để verify P0-2 fix (YAML → PolicyEngine wired).</span>
+
+Tạo tests/test_api_integration.py:
+
+from fastapi.testclient import TestClient
+from ai_control_plane.api.server import create_app
+
+@pytest.fixture
+def client(tmp_path, monkeypatch):
+    <span class="cm"># Copy test config files sang tmp_path (từ conftest ACP_CONFIG_DIR)</span>
+    monkeypatch.setenv("ACP_CONFIG_DIR", str(tmp_path / "config"))
+    shutil.copytree("tests/fixtures/config", tmp_path / "config")
+    app = create_app()
+    return TestClient(app)
+
+test_health_shows_config_loaded(client):
+    r = client.get("/health")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["config_loaded"] == True
+    assert "agent2" in data["agents_loaded"]  <span class="cm"># verify agents.yml wired</span>
+    assert data["policy_rules_count"] > 0      <span class="cm"># verify policies.yml wired</span>
+
+test_policy_evaluate_backend_git_read(client):
+    r = client.post("/policy/evaluate", json={
+        "agent_id": "agent2", "project_id": "rust-gateway",
+        "tool_name": "git_read", "args": {}
+    })
+    assert r.status_code == 200
+    assert r.json()["allowed"] == True
+
+test_policy_evaluate_backend_k8s_denied(client):
+    r = client.post("/policy/evaluate", json={
+        "agent_id": "agent2", "project_id": "rust-gateway",
+        "tool_name": "k8s_apply_prod", "args": {}
+    })
+    assert r.status_code == 200
+    assert r.json()["allowed"] == False  <span class="cm"># backend denied k8s</span>
+
+test_post_tasks_creates_pending(client):
+    r = client.post("/tasks", json={
+        "agent_id": "agent2", "project_id": "rust-gateway",
+        "task_type": "code-edit", "payload": {"file": "src/main.rs"}
+    })
+    assert r.status_code == 200
+    assert r.json()["state"] == "PENDING"
+
+test_fail_closed_on_unknown_agent(client):
+    r = client.post("/policy/evaluate", json={
+        "agent_id": "unknown-agent", "project_id": "rust-gateway",
+        "tool_name": "git_read", "args": {}
+    })
+    <span class="cm"># Fail-closed: unknown agent → allowed=False, không 500</span>
+    assert r.json()["allowed"] == False</div>
+  </div>
+</div>
+
+<!-- ITERATION ADJUSTED -->
+<div id="pane-iter" class="pane">
+  <div class="tip">
+    <strong>Thêm mới cho Phase 2:</strong> 2 correction prompt mới cho các lỗi Cursor hay tái phạm khi working trên codebase đã có (không phải green-field). Phù hợp với audit findings.
+  </div>
+
+  <div class="sec">Correction prompt mới — khi Cursor sửa registry.py nhưng không update models.py</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Mới cho Phase 2</span> Correction: model drift</span><button class="cbtn" onclick="cp(this,'p-iter-1')">Copy</button></div>
+    <div class="pbb" id="p-iter-1">Cursor vừa sửa [registry.py / telemetry.py] bằng cách thêm local type definition
+thay vì fix models.py và update import.
+
+<span class="err">INVARIANT #2 BỊ VI PHẠM:</span>
+core/models.py là source of truth duy nhất.
+Không được define types trong bất kỳ file core/ nào khác.
+
+<span class="key">Yêu cầu:</span>
+1. Xác định types nào đang bị define local trong [file]
+2. Nếu type đó đúng với domain → thêm vào models.py, update __all__
+3. Nếu type đó là artifact của code cũ → xóa, dùng existing models.py type
+4. Fix import: from ai_control_plane.core.models import [CorrectType]
+5. Chạy test để confirm: pytest tests/test_models.py -v
+
+<span class="cm"># Đây là cùng loại lỗi gây ra P0 audit —
+# registry.py import Guardrail, RbacConfig không tồn tại trong models.py</span></div>
+  </div>
+
+  <div class="sec">Correction prompt mới — khi Cursor không update test fixtures sau schema change</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Mới cho Phase 2</span> Correction: fixture/schema drift</span><button class="cbtn" onclick="cp(this,'p-iter-2')">Copy</button></div>
+    <div class="pbb" id="p-iter-2"><span class="hi">@tests/fixtures/config/ @config/policies.yml @src/ai_control_plane/core/models.py</span>
+
+<span class="err">AUDIT FINDING: tests/fixtures/config/ dùng PolicyRule format khác production config/policies.yml.</span>
+
+Sau P0-2 fix (wire policies.yml → PolicyEngine), cả hai phải dùng cùng schema.
+
+<span class="key">Kiểm tra và đồng bộ:</span>
+1. So sánh tests/fixtures/config/policies.yml vs config/policies.yml structure
+2. Nếu format khác nhau → update fixture để match production format
+3. loader.load_policies() phải đọc được CẢ HAI file mà không thay đổi code
+
+<span class="key">Cụ thể:</span>
+- Tool naming trong fixture phải dùng underscore: git_read (không phải git.read)
+- rbac.roles structure phải match PolicyRule model
+- Sau fix: pytest tests/test_policies.py -v phải pass với fixture load qua loader.py
+
+<span class="cm"># Goal: test environment và production environment dùng cùng config format
+# Không có "special test format" — đây là nguồn gốc của config/runtime drift</span></div>
+  </div>
+</div>
+
+<!-- OPS ADJUSTED -->
+<div id="pane-ops" class="pane">
+  <div class="tip">
+    <strong>Audit phát hiện:</strong> pre-commit khai báo trong pyproject.toml nhưng không có <code>.pre-commit-config.yaml</code>. structlog là dep nhưng server.py dùng <code>logging</code> stdlib. Thêm 2 prompt mới.
+  </div>
+
+  <div class="sec">Prompt mới — .pre-commit-config.yaml (thiếu hoàn toàn)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Thiếu hoàn toàn</span> .pre-commit-config.yaml</span><button class="cbtn" onclick="cp(this,'p-precommit')">Copy</button></div>
+    <div class="pbb" id="p-precommit">Tạo .pre-commit-config.yaml ở root (hiện chưa có — pyproject.toml khai báo pre-commit nhưng file config không tồn tại).
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.7
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        args: [--strict]
+        additional_dependencies: [pydantic>=2.0, types-pyyaml, types-redis]
+        files: ^src/
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, master]
+
+<span class="key">Sau khi tạo file:</span>
+pre-commit install
+pre-commit run --all-files  <span class="cm"># verify không có existing violations</span>
+
+<span class="key">Thêm vào scripts/dev_setup.sh:</span>
+pre-commit install  <span class="cm"># đảm bảo mọi contributor đều có hook</span></div>
+  </div>
+
+  <div class="sec">Prompt mới — replace logging stdlib bằng structlog</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tadj">Adjusted</span> structlog migration</span><button class="cbtn" onclick="cp(this,'p-structlog')">Copy</button></div>
+    <div class="pbb" id="p-structlog"><span class="hi">@src/ai_control_plane/api/server.py @src/ai_control_plane/core/telemetry.py</span>
+
+<span class="err">Audit: server.py dùng logging stdlib vi phạm .cursorrules rule "dùng structlog".</span>
+structlog đã có trong pyproject.toml dependencies — chỉ cần wire.
+
+<span class="key">Migration pattern (thay thế trong cả server.py và telemetry.py):</span>
+
+SAI:
+import logging
+logger = logging.getLogger(__name__)
+logger.info("policy evaluated: %s", result)
+
+ĐÚNG:
+import structlog
+logger = structlog.get_logger(__name__)
+logger.info("policy_evaluated", result=result, agent_id=identity.agent_id,
+            allowed=decision.allowed, latency_ms=latency)
+
+<span class="key">Configure structlog một lần trong server.py create_app():</span>
+import structlog
+structlog.configure(
+    processors=[
+        structlog.contextvars.merge_contextvars,
+        structlog.processors.add_log_level,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.dev.ConsoleRenderer() if os.getenv("ACP_DEV_MODE") else structlog.processors.JSONRenderer(),
+    ],
+    wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
+)
+
+<span class="key">Mỗi log call phải có:</span>
+- agent_id (khi có context)
+- project_id (khi có context)
+- Không log sensitive data (tool args có thể chứa secrets)</div>
+  </div>
+
+  <div class="sec">Prompt mới — GitHub Actions CI (thiếu hoàn toàn)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tnew">Milestone B prep</span> .github/workflows/ci.yml</span><button class="cbtn" onclick="cp(this,'p-ci')">Copy</button></div>
+    <div class="pbb" id="p-ci">Tạo .github/workflows/ci.yml:
+
+name: CI
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-ruff@v1
+      - run: ruff check src/ tests/
+      - run: ruff format --check src/ tests/
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -e ".[dev]"
+      - run: mypy src/ai_control_plane/ --strict
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -e ".[dev]"
+      - run: pytest tests/ -v --cov=ai_control_plane --cov-report=xml
+        env:
+          ACP_CONFIG_DIR: tests/fixtures/config
+      - uses: codecov/codecov-action@v4
+        with: {file: coverage.xml}
+
+<span class="cm"># Mục tiêu coverage: ≥70% trên core/ trước khi merge vào main
+# CI bắt được registry import error ngay — không cần audit thủ công</span></div>
+  </div>
+</div>
+
+<!-- CHECKLIST ADJUSTED -->
+<div id="pane-chk" class="pane">
+  <div class="tip ok-tip">
+    <strong>Checklist adjusted:</strong> Milestone A chưa complete — 70–75%. Checklist bên dưới phản ánh đúng trạng thái audit: items đã done giữ nguyên, items broken hoặc chưa có được đánh dấu lại. Phase 2 target = complete Milestone A trước khi bước vào Milestone B.
+  </div>
+
+  <div class="sec">Milestone A — completion status (post-audit)</div>
+  <div id="cl"></div>
+</div>
+
+<script>
+const items=[
+  {g:"P0 fixes (làm trước phase 2)",c:[
+    {t:"P0-1: models.py — thêm event_id, event_hash, previous_hash vào TelemetryEvent",done:false},
+    {t:"P0-1: models.py — thêm progress:int=0 vào TaskStatus",done:false},
+    {t:"P0-1: registry.py — fix import (trim hoặc add types vào models.py)",done:false},
+    {t:"P0-2: config/loader.py — thêm load_policies()",done:false},
+    {t:"P0-2: api/server.py — wire policies.yml + agents.yml tại startup",done:false},
+    {t:"P0-2: thống nhất tool naming → underscore (git_read, k8s_apply_prod)",done:false},
+    {t:"P0-3: exceptions.py — ControlPlaneError hierarchy đầy đủ",done:false},
+    {t:"P0-3: xóa api/routes/* stub + api/app.py (deduplicate)",done:false},
+    {t:"P0-4: /health endpoint show config_loaded + agents_loaded",done:false},
+  ]},
+  {g:"Infrastructure (từ audit)",c:[
+    {t:"pyproject.toml + src/ layout",done:true},
+    {t:".cursorrules + ARCHITECTURE.md",done:true},
+    {t:"config/projects.yml + agents.yml + policies.yml",done:true},
+    {t:".pre-commit-config.yaml (thiếu — tạo mới)",done:false},
+    {t:".github/workflows/ci.yml (thiếu — tạo mới)",done:false},
+    {t:"structlog replace logging stdlib trong server.py",done:false},
+  ]},
+  {g:"Core modules",c:[
+    {t:"core/models.py — 11 classes, mypy strict pass",done:true},
+    {t:"core/policies.py — PolicyEngine RBAC+ABAC, tested",done:true},
+    {t:"core/quota.py — QuotaTracker, TokenBudget, RateLimiter, QuotaStore ABC",done:true},
+    {t:"core/telemetry.py — patch hash-chain sau P0-1 fix",done:false},
+    {t:"core/registry.py — fix import sau P0-1 fix",done:false},
+    {t:"core/exceptions.py — ControlPlaneError hierarchy",done:false},
+  ]},
+  {g:"MCP + API + CLI",c:[
+    {t:"mcp/git_server.py — facade, fail-closed",done:true},
+    {t:"api/server.py — 7 endpoints (thêm /health)",done:true},
+    {t:"api/schemas.py — request/response Pydantic v2",done:true},
+    {t:"cli/assign.py + cli/status.py",done:true},
+    {t:"apex/ — 6 import-clean stub files (thêm 5 files còn thiếu)",done:false},
+  ]},
+  {g:"Tests",c:[
+    {t:"tests/conftest.py + fixtures/config/",done:true},
+    {t:"tests/test_policies.py — 5 cases pass",done:true},
+    {t:"tests/test_imports.py — smoke",done:true},
+    {t:"tests/test_models.py (tạo mới)",done:false},
+    {t:"tests/test_registry.py (tạo mới — sau P0-1)",done:false},
+    {t:"tests/test_quota.py (tạo mới)",done:false},
+    {t:"tests/test_telemetry.py (tạo mới — sau P0-1)",done:false},
+    {t:"tests/test_api_integration.py (tạo mới — TestClient)",done:false},
+    {t:"tests/test_apex_loop.py (tạo mới)",done:false},
+    {t:"Coverage ≥70% trên core/ (CI enforce)",done:false},
+  ]}
+];
+function renderCL(){
+  const cl=document.getElementById('cl');
+  cl.innerHTML='';
+  let total=0,done_count=0;
+  items.forEach(grp=>{
+    const gl=document.createElement('div');
+    gl.style.cssText='font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin:14px 0 7px';
+    gl.textContent=grp.g;
+    cl.appendChild(gl);
+    grp.c.forEach((item,i)=>{
+      total++;
+      if(item.done)done_count++;
+      const el=document.createElement('div');
+      el.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:var(--color-background-secondary);border-radius:6px;border:0.5px solid var(--color-border-tertiary);font-size:12px;line-height:1.5;cursor:pointer;margin-bottom:4px;transition:background .12s;user-select:none';
+      if(item.done) el.style.textDecoration='line-through';
+      const chk=document.createElement('span');
+      chk.style.cssText='flex-shrink:0;width:14px;height:14px;border-radius:3px;border:0.5px solid var(--color-border-secondary);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px';
+      if(item.done){chk.textContent='✓';chk.style.background='var(--color-background-success)';chk.style.borderColor='var(--color-border-success)';chk.style.color='var(--color-text-success)'}
+      const txt=document.createElement('span');
+      txt.textContent=item.t;
+      el.appendChild(chk);el.appendChild(txt);
+      el.onclick=()=>{
+        item.done=!item.done;
+        renderCL();
+      };
+      cl.appendChild(el);
+    });
+  });
+  const prog=document.createElement('div');
+  const pct=Math.round(done_count/total*100);
+  prog.style.cssText='margin-top:14px;padding:10px 14px;background:var(--color-background-secondary);border-radius:8px;border:0.5px solid var(--color-border-tertiary)';
+  prog.innerHTML=`<span style="font-size:12px;color:var(--color-text-secondary)">Hoàn thành: </span><span style="font-size:13px;font-weight:500;color:var(--color-text-primary)">${done_count} / ${total} (${pct}%)</span><span style="font-size:12px;color:var(--color-text-secondary)"> — Milestone A complete khi đạt 100%</span>`;
+  cl.appendChild(prog);
+}
+renderCL();
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>
