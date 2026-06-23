@@ -5,7 +5,7 @@
 **Document ID:** ACP-DEV-PROTOCOL-001  
 **Version:** 1.1  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-22 — P0 gate complete  
+**Last updated:** 2026-06-22 — Tab 7 telemetry + SMK v2 + CI (#23, #25) merged to master  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -117,18 +117,19 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 ```bash
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
 pytest tests/ -v
-# Current: 36 passed, 0 import errors
+# Current: 49 passed (7 telemetry + 5 smoke + 37 other)
 curl -s http://localhost:8000/health | jq .
 # Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
 ```
 
 **Phase 2 execution order (sau P0 + NEW-2):**
 
-1. **Claude prompt tab 7** — telemetry hash-chain patch (#23) — **requires architect prompt**
-2. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota`, `test_telemetry`
-3. CI + pre-commit (#25–27), structlog (#19)
-4. README runbook (#13), ARCHITECTURE sync (#14)
-5. Close tracking issue #38
+1. ~~**Claude prompt tab 7** — telemetry hash-chain patch (#23)~~ ✅
+2. ~~SMK v2 + CI smoke gate (#25)~~ ✅
+3. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota` — `test_telemetry` ✅
+4. CI + pre-commit (#25–27), structlog (#19) — CI ✅; pre-commit pending
+5. README runbook (#13), ARCHITECTURE sync (#14)
+6. Close tracking issue #38
 
 ---
 
