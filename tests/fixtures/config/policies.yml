@@ -68,6 +68,15 @@ abac:
         environment: prod
         requires_approval: true
 
+    - id: Deny-prod-k8s-unapproved
+      description: Block direct K8s mutations in production unless approved
+      effect: deny
+      actions:
+        - k8s.apply
+      conditions:
+        environment: prod
+        approval_status: not_approved
+
 quotas:
   by_project:
     rust-gateway:

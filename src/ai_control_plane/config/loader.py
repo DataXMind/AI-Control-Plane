@@ -20,8 +20,6 @@ from ai_control_plane.core.tool_names import normalize_tool_name
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
 
-_UNSUPPORTED_ABAC_KEYS = frozenset({"role_not_in", "approval_status", "read_only"})
-
 _REQUIREMENT_CHECKS: dict[str, str] = {
     "plan_submitted": "plan_required",
     "tests_passed": "test_required",
@@ -152,7 +150,7 @@ def _load_rbac_rules(raw: dict[str, Any]) -> list[PolicyRule]:
 
 
 def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
-    """Map one production abac.rules[] entry to engine PolicyRule (Milestone A subset)."""
+    """Map one production abac.rules[] entry to engine PolicyRule."""
     name = str(entry.get("id") or entry.get("name", "abac-rule"))
     description = str(entry.get("description", ""))
     effect_raw = entry.get("effect", "allow")
@@ -164,32 +162,39 @@ def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
     if not isinstance(conditions, dict):
         return None
 
+    mapped: dict[str, Any] = {"rule_type": "abac"}
+
     data_class = conditions.get("data_class")
     if data_class is not None:
-        category = str(data_class).upper()
-        if category == "PII":
-            return PolicyRule(
-                name=name,
-                description=description,
-                effect="deny",
-                conditions={"rule_type": "abac", "data_category": "PII"},
-            )
+        mapped["data_category"] = str(data_class).upper()
 
-    if _UNSUPPORTED_ABAC_KEYS.intersection(conditions.keys()):
-        return None
-
-    mapped: dict[str, Any] = {"rule_type": "abac"}
-    for key in ("environment", "role", "path"):
+    for key in ("environment", "role", "path", "approval_status", "read_only"):
         if key in conditions:
             mapped[key] = conditions[key]
+
+    role_not_in = conditions.get("role_not_in")
+    if isinstance(role_not_in, list):
+        mapped["role_not_in"] = [str(role) for role in role_not_in]
 
     if "requires_approval" in conditions:
         mapped["requires_approval"] = bool(conditions["requires_approval"])
 
     actions = entry.get("actions", [])
-    if isinstance(actions, list) and len(actions) == 1:
-        action_norm = normalize_tool_name(str(actions[0]))
-        mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
+    if isinstance(actions, list) and actions:
+        normalized: list[str] = []
+        for action in actions:
+            if not isinstance(action, str):
+                continue
+            action_norm = normalize_tool_name(action)
+            normalized.append("k8s_apply_*" if action_norm == "k8s_apply" else action_norm)
+        if len(normalized) == 1:
+            mapped["action"] = normalized[0]
+        elif normalized:
+            mapped["actions"] = normalized
+
+    if mapped.get("data_category") and "role_not_in" not in mapped:
+        mapped.pop("actions", None)
+        mapped.pop("action", None)
     elif "action" in conditions:
         action_norm = normalize_tool_name(str(conditions["action"]))
         mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
@@ -200,8 +205,12 @@ def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
         "role",
         "path",
         "action",
+        "actions",
         "data_category",
         "requires_approval",
+        "role_not_in",
+        "approval_status",
+        "read_only",
     }
     if not supported.intersection(set(mapped.keys()) - {"rule_type"}):
         return None
