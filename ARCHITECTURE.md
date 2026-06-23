@@ -155,6 +155,6 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 ### Execution status (2026-06-22)
 
-P0 gate + NEW-2 + Tab 7 telemetry + SMK v2 + CI (#23, #25): **complete** (commit `5585fc5`, pushed `master`).
-Phase 2 tab 8 core tests (`test_models`, `test_registry`, `test_quota`) + structlog (#19) next.
+P0 gate + Tab 7 + SMK v2 + CI + core module tests (#21–24): **complete**.
+Pre-commit + structlog (#19, #26–27) + README runbook (#13): **complete**. Close #38 pending human.
 

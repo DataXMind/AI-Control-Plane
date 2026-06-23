@@ -117,7 +117,7 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 ```bash
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
 pytest tests/ -v
-# Current: 49 passed (7 telemetry + 5 smoke + 37 other)
+# Current: 72+ passed (smoke + core module tests)
 curl -s http://localhost:8000/health | jq .
 # Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
 ```
@@ -126,9 +126,9 @@ curl -s http://localhost:8000/health | jq .
 
 1. ~~**Claude prompt tab 7** — telemetry hash-chain patch (#23)~~ ✅
 2. ~~SMK v2 + CI smoke gate (#25)~~ ✅
-3. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota` — `test_telemetry` ✅
-4. CI + pre-commit (#25–27), structlog (#19) — CI ✅; pre-commit pending
-5. README runbook (#13), ARCHITECTURE sync (#14)
+3. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota`, `test_telemetry` ✅
+4. CI + pre-commit (#25–27), structlog (#19) — CI ✅; pre-commit ✅; structlog api/server ✅
+5. README runbook (#13) ✅; ARCHITECTURE sync (#14) — ongoing
 6. Close tracking issue #38
 
 ---

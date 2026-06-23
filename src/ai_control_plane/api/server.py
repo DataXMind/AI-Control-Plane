@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 import time
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
@@ -12,6 +11,7 @@ from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
+import structlog
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -41,8 +41,8 @@ from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
 
-logger = logging.getLogger(__name__)
-http_logger = logging.getLogger("ai_control_plane.http")
+logger = structlog.get_logger(__name__)
+http_logger = structlog.get_logger("ai_control_plane.http")
 
 POLICY_EVAL_TIMEOUT_SECONDS = 2.0
 SERVICE_UNAVAILABLE = 503
@@ -91,7 +91,7 @@ class AppState:
 def build_policy_engine() -> PolicyEngine:
     """Load PolicyEngine rules from ACP_CONFIG_DIR or shipped config/policies.yml."""
     rules = load_policies()
-    logger.info("policy_rules_loaded count=%d", len(rules))
+    logger.info("policy_rules_loaded", count=len(rules))
     return PolicyEngine(rules=rules)
 
 
@@ -139,12 +139,12 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         finally:
             latency_ms = (time.perf_counter() - start) * 1000.0
             http_logger.info(
-                "http_request method=%s path=%s agent_id=%s status=%s latency_ms=%.2f",
-                request.method,
-                request.url.path,
-                agent_id,
-                response.status_code if response is not None else None,
-                latency_ms,
+                "http_request",
+                method=request.method,
+                path=request.url.path,
+                agent_id=agent_id,
+                status=response.status_code if response is not None else None,
+                latency_ms=round(latency_ms, 2),
             )
 
 
@@ -208,7 +208,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
         request: Request,
         exc: ControlPlaneError,
     ) -> JSONResponse:
-        logger.warning("control_plane_error path=%s error=%s", request.url.path, exc)
+        logger.warning("control_plane_error", path=request.url.path, error=str(exc))
         if request.url.path == "/policy/evaluate":
             body = _deny_response(str(exc)).model_dump(mode="json")
             return JSONResponse(status_code=SERVICE_UNAVAILABLE, content=body)
@@ -234,7 +234,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
 
     @app.exception_handler(Exception)
     async def unhandled_fail_closed(request: Request, exc: Exception) -> JSONResponse:
-        logger.exception("unhandled_exception path=%s", request.url.path)
+        logger.exception("unhandled_exception", path=request.url.path)
         if request.url.path == "/policy/evaluate":
             body = _deny_response("control plane unavailable").model_dump(mode="json")
             return JSONResponse(status_code=SERVICE_UNAVAILABLE, content=body)
@@ -285,11 +285,11 @@ def create_app(state: AppState | None = None) -> FastAPI:
         except TimeoutError:
             latency_ms = (time.perf_counter() - start) * 1000.0
             logger.error(
-                "policy_evaluate_timeout agent_id=%s project_id=%s tool=%s latency_ms=%.2f",
-                body.agent_id,
-                body.project_id,
-                body.tool_name,
-                latency_ms,
+                "policy_evaluate_timeout",
+                agent_id=body.agent_id,
+                project_id=body.project_id,
+                tool=body.tool_name,
+                latency_ms=round(latency_ms, 2),
             )
             return JSONResponse(
                 status_code=SERVICE_UNAVAILABLE,
