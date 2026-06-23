@@ -119,14 +119,13 @@ Operators: do not rely on `role_not_in` exclusion until GAP-ABAC-2 is resolved.
 |---------|--------|-----------|
 | `rbac.roles` | ✅ Loaded → `PolicyRule` with `rule_type: rbac` | A |
 | `abac.rules` | ⚠️ Subset — see condition table above | A |
-| `guardrails` | ❌ Not loaded | B (GAP-GR-1/2, MB-S1-1) |
-| `kill_switch` | ❌ Not loaded or enforced | B (GAP-GR-1/2) |
+| `guardrails` | ✅ Loaded → `PolicyRule` with `rule_type: guardrail` | A (MB-S1-1) |
+| `kill_switch` | ✅ Loaded; when active, all `/policy/evaluate` deny (HTTP 200) | A (MB-S1-1) |
 | `quotas.by_model_profile` | ❌ Not wired to runtime quota API | B |
 | `quotas.by_agent` | ❌ Not wired | B |
 | `quotas.by_project` | ✅ Via `load_project_token_limits()` | A |
 
-**Guardrails and kill_switch:** not loaded in Milestone A (GAP-GR-1/2).
-See [`docs/governance/MILESTONE_B_BACKLOG.md`](docs/governance/MILESTONE_B_BACKLOG.md) — MB-S1-1.
+**Guardrails and kill_switch:** loaded at startup via `load_guardrails()` / `load_kill_switch()` (MB-S1-1, closes GAP-GR-1/2 for load path). `GET /health` bypasses `PolicyEngine`.
 
 Fixture `tests/fixtures/config/policies.yml` uses simplified ABAC for unit tests — CI defaults to fixtures.
 Shipped parity: `tests/test_shipped_config_parity.py` (CI).

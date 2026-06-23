@@ -31,12 +31,15 @@ from ai_control_plane.api.schemas import (
 )
 from ai_control_plane.config.loader import (
     build_agent_registry,
+    get_config_dir,
+    load_guardrails,
+    load_kill_switch,
     load_policies,
     load_project_token_limits,
     load_projects,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
-from ai_control_plane.core.models import AgentIdentity, TaskState
+from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
@@ -89,18 +92,28 @@ class AppState:
     telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
 
 
+def _load_policy_rules() -> list[PolicyRule]:
+    """Load RBAC/ABAC + guardrail rules from policies.yml."""
+    policies_path = get_config_dir() / "policies.yml"
+    return load_policies(policies_path) + load_guardrails(policies_path)
+
+
 def build_policy_engine() -> PolicyEngine:
     """Load PolicyEngine rules from ACP_CONFIG_DIR or shipped config/policies.yml."""
-    rules = load_policies()
-    logger.info("policy_rules_loaded", count=len(rules))
-    return PolicyEngine(rules=rules)
+    policies_path = get_config_dir() / "policies.yml"
+    all_rules = _load_policy_rules()
+    kill_switch = load_kill_switch(policies_path)
+    logger.info("policy_rules_loaded", count=len(all_rules))
+    return PolicyEngine(rules=all_rules, kill_switch=kill_switch)
 
 
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = InMemoryQuotaStore()
     telemetry_store = InMemoryTelemetryStore()
-    rules = load_policies()
+    policies_path = get_config_dir() / "policies.yml"
+    all_rules = _load_policy_rules()
+    kill_switch = load_kill_switch(policies_path)
     agent_registry = build_agent_registry()
     projects = load_projects()
     project_limits = load_project_token_limits()
@@ -109,11 +122,11 @@ def build_default_app_state() -> AppState:
         raise ConfigError("no projects loaded from projects.yml")
 
     return AppState(
-        policy_engine=PolicyEngine(rules=rules),
+        policy_engine=PolicyEngine(rules=all_rules, kill_switch=kill_switch),
         approval_gate=ApprovalGate(),
         quota_store=quota_store,
         token_budget=TokenBudget(quota_store, project_limits),
-        policy_rules_count=len(rules),
+        policy_rules_count=len(all_rules),
         config_loaded=True,
         agents_loaded=sorted(agent_registry.keys()),
         projects_loaded=sorted(projects.keys()),

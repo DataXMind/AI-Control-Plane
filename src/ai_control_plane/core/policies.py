@@ -8,6 +8,7 @@ from .models import (
     AgentIdentity,
     ApprovalDecision,
     ApprovalRequest,
+    KillSwitch,
     PolicyDecision,
     PolicyRule,
     Task,
@@ -222,8 +223,10 @@ class PolicyEngine:
         self,
         rules: list[PolicyRule],
         guardrail_evaluator: GuardrailEvaluator | None = None,
+        kill_switch: KillSwitch | None = None,
     ) -> None:
         self._rules = rules
+        self._kill_switch = kill_switch or KillSwitch()
         self._condition_evaluator = ConditionEvaluator()
         self._guardrails = guardrail_evaluator or GuardrailEvaluator(rules)
 
@@ -243,6 +246,14 @@ class PolicyEngine:
                     f"does not match requested project '{project_id}'"
                 ),
                 requires_approval=False,
+            )
+
+        if self._kill_switch.active:
+            return PolicyDecision(
+                allowed=False,
+                reason=f"kill_switch_active: {self._kill_switch.reason}",
+                requires_approval=False,
+                policy_id="kill_switch",
             )
 
         context: dict[str, Any] = {

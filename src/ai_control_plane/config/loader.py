@@ -9,12 +9,24 @@ from typing import Any, Literal
 import yaml  # type: ignore[import-untyped]
 
 from ai_control_plane.core.exceptions import ConfigError
-from ai_control_plane.core.models import AgentConfig, ModelProfile, PolicyRule, ProjectConfig
+from ai_control_plane.core.models import (
+    AgentConfig,
+    KillSwitch,
+    ModelProfile,
+    PolicyRule,
+    ProjectConfig,
+)
 from ai_control_plane.core.tool_names import normalize_tool_name
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
 
 _UNSUPPORTED_ABAC_KEYS = frozenset({"role_not_in", "approval_status", "read_only"})
+
+_REQUIREMENT_CHECKS: dict[str, str] = {
+    "plan_submitted": "plan_required",
+    "tests_passed": "test_required",
+    "branch_is_not_default": "branch_allowed",
+}
 
 
 def derive_denied_patterns(denied_actions: list[str]) -> list[str]:
@@ -406,3 +418,97 @@ def load_project_token_limits() -> dict[str, float]:
         if tokens is not None:
             limits[str(project_id)] = float(tokens)
     return limits
+
+
+def _normalize_guardrail_effect(effect: Any) -> Literal["allow", "deny"]:
+    if effect == "allow":
+        return "allow"
+    if effect == "deny":
+        return "deny"
+    return "deny"
+
+
+def load_guardrails(path: Path) -> list[PolicyRule]:
+    """Load guardrails section from policies.yml → PolicyRule with rule_type='guardrail'."""
+    if not path.is_file():
+        return []
+
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        return []
+
+    guardrails_raw = raw.get("guardrails", [])
+    if not isinstance(guardrails_raw, list):
+        return []
+
+    rules: list[PolicyRule] = []
+    for gr in guardrails_raw:
+        if not isinstance(gr, dict):
+            continue
+
+        name = str(gr.get("name") or gr.get("id", "guardrail"))
+        applies_to = gr.get("applies_to", {})
+        if not isinstance(applies_to, dict):
+            applies_to = {}
+
+        roles_raw = applies_to.get("roles", [])
+        actions_raw = applies_to.get("actions", [])
+        roles_list = [str(role) for role in roles_raw] if isinstance(roles_raw, list) else []
+        actions_list = [
+            normalize_tool_name(str(action))
+            for action in actions_raw
+            if isinstance(action, str)
+        ]
+
+        conditions: dict[str, Any] = {
+            "rule_type": "guardrail",
+            "applies_to": applies_to,
+        }
+        if roles_list:
+            conditions["roles"] = roles_list
+        if actions_list:
+            conditions["actions"] = actions_list
+
+        requirement = gr.get("requirement")
+        if isinstance(requirement, str) and requirement in _REQUIREMENT_CHECKS:
+            conditions["check"] = _REQUIREMENT_CHECKS[requirement]
+
+        branches = applies_to.get("branches")
+        if isinstance(branches, list) and branches:
+            conditions["check"] = "branch_allowed"
+            conditions["forbidden_branches"] = [str(branch) for branch in branches]
+
+        raw_effect = gr.get("on_violation", gr.get("effect", "deny"))
+        effect = _normalize_guardrail_effect(raw_effect)
+        if raw_effect not in ("allow", "deny"):
+            conditions["guardrail_effect"] = str(raw_effect)
+
+        rules.append(
+            PolicyRule(
+                name=name,
+                description=str(gr.get("description", "")),
+                conditions=conditions,
+                effect=effect,
+            ),
+        )
+    return rules
+
+
+def load_kill_switch(path: Path) -> KillSwitch:
+    """Load kill_switch section → KillSwitch. Default: inactive."""
+    if not path.is_file():
+        return KillSwitch()
+
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        return KillSwitch()
+
+    ks = raw.get("kill_switch", {})
+    if not isinstance(ks, dict):
+        return KillSwitch()
+
+    active = bool(ks.get("active", ks.get("enabled", False)))
+    return KillSwitch(
+        active=active,
+        reason=str(ks.get("reason", "")),
+    )
