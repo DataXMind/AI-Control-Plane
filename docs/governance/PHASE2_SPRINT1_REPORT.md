@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-22  
 **Baseline:** `master` @ `83e3ab5` (Phase 1 v2)  
-**Sprint 1 close commit:** pending merge to `master` (PR Sprint 1 MB-S1-1..5)
+**Sprint 1 close commit:** `1dae3ea` (merge PR #48 → `master`)
 
 ---
 
@@ -18,7 +18,7 @@
 | MB-S1-4 CLI tests | `phase2/p2-0-tool-naming-and-p2-2` | 4 | cli assign/status ~67% |
 | MB-S1-5 Identity JWT + SMK-06 | `phase2/p2-0-tool-naming-and-p2-2` | 3 | identity 89% |
 
-**Commit range (Sprint 1):** `dc83c2f` … `41ccf65`
+**Commit range (Sprint 1):** `dc83c2f` … `bff4902` · **merge:** `1dae3ea`
 
 ---
 
