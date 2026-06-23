@@ -48,6 +48,21 @@ rbac:
         - k8s.delete
         - quota.override
 
+    data-analyst:
+      allowed_actions:
+        - git.read
+        - git.commit
+        - git.push
+        - git.diff
+        - comment.post
+      denied_actions:
+        - git.force_push
+        - k8s.apply
+        - k8s.delete
+        - git.merge_to_main
+        - prod.deploy
+        - quota.override
+
 # ── ABAC — attribute-based rules (environment, data class, role) ─────────────
 abac:
   rules:
@@ -95,6 +110,9 @@ quotas:
     claude-team-review:
       tokens_per_day: 300000
       requests_per_minute: 20
+    claude-team-analytics:
+      tokens_per_day: 600000
+      requests_per_minute: 40
 
   by_project:
     rust-gateway:
@@ -114,6 +132,9 @@ quotas:
     agent3:
       tokens_per_day: 300000
       reviews_per_day: 100
+    agent4:
+      tokens_per_day: 600000
+      notebook_runs_per_day: 25
 
 # ── Guardrails — pre-execution checks and approval requirements ───────────────
 guardrails:
