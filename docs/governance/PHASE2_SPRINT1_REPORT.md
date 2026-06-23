@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-22  
 **Baseline:** `master` @ `83e3ab5` (Phase 1 v2)  
-**Sprint 1 close commit:** `41ccf65` (`phase2/p2-0-tool-naming-and-p2-2`)
+**Sprint 1 close commit:** pending merge to `master` (PR Sprint 1 MB-S1-1..5)
 
 ---
 
@@ -26,8 +26,9 @@
 
 | Gate | Result |
 |------|--------|
-| pytest | **123** pass, 0 fail |
+| pytest | **124** pass, 0 fail |
 | SMK-01..06 | **8/8** pass (06 includes 06b invalid JWT, 06c unknown agent) |
+| shipped_config parity | **5/5** pass (incl. Restrict-PII + role_not_in) |
 | Codecov / local cov | **82%** (≥70 required, `fail_under=70` in `pyproject.toml`) |
 | ruff | clean |
 | mypy `--strict` | clean (36 source files) |

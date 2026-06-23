@@ -123,6 +123,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
 | **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | Sprint 1 closed; Sprint 2 open |
 | **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
+| **Phase 2 Sprint 1 audit (final)** | [PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md](governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md) | Checklist 38-item verify + Path B |
 
 **Cursor prompts (markdown):**
 
@@ -132,7 +133,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Smoke audit (#25) | [`docs/prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md`](prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md) |
 | Tool naming defer (#8, D3) | [`docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`](prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md) |
 
-**Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 5 pass · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
+**Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 8 pass (SMK-01..06 incl. 06b/06c) · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
 **Phase 1 v2 (post-close hardening):** `core/tool_names.py`; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
 

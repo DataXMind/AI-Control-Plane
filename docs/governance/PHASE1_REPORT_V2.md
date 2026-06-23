@@ -73,19 +73,19 @@ bc5ea40  NEW-2 fixture unify + smoke
 | GAP-INT-1 | MCP tests mock policy | `test_mcp_policy_integration.py` (ASGITransport) |
 | GAP-DOC-1 | Guardrails/ABAC subset undocumented | `ARCHITECTURE.md` § policies.yml loading |
 | GAP-DOC-2 | Overclaim coverage/structlog | Corrected in protocol + this report |
+| GAP-TN-3 | Shipped YAML dot notation (architect A/B/C) | P2-0 Option A — `core/tool_names.py` permanent adapter |
+| GAP-GR-1 | `guardrails:` not loaded | MB-S1-1 — `load_guardrails()` |
+| GAP-GR-2 | `kill_switch` not enforced | MB-S1-1 — `load_kill_switch()` + PolicyEngine |
+| GAP-ABAC-1 | `approval_status`, `role_not_in`, `read_only` skipped | MB-S1-2 — ConditionEvaluator |
+| GAP-ABAC-2 | Restrict-PII partial map (drops `role_not_in`) | MB-S1-2 + shipped parity test |
+| GAP-ID-1 | Identity failures 503; no SMK-06 | MB-S1-5 — JWT stub + 401 contract |
 
 ### 4.2 Still open (defer)
 
 | ID | Gap | Target |
 |----|-----|--------|
-| GAP-TN-3 | Shipped YAML dot notation (architect A/B/C) | Claude prompt — `CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md` |
-| GAP-GR-1 | `guardrails:` not loaded | Milestone B MB7 — [`MILESTONE_B_BACKLOG.md`](MILESTONE_B_BACKLOG.md) |
-| GAP-GR-2 | `kill_switch` not enforced | Milestone B MB7 |
-| GAP-ABAC-1 | `approval_status`, `role_not_in`, `read_only` skipped | Milestone B |
-| GAP-ABAC-2 | Restrict-PII partial map (drops `role_not_in`) | Milestone B or loader fix |
-| GAP-Q-1 | `quotas.by_model_profile` / `by_agent` | Milestone B |
-| GAP-S4-1 | `load_model_profiles()` not in AppState | Milestone B |
-| GAP-ID-1 | Identity = registry lookup; failures 503 | SMK-06 Milestone B |
+| GAP-Q-1 | `quotas.by_model_profile` / `by_agent` | Milestone B Sprint 2 |
+| GAP-S4-1 | `load_model_profiles()` not in AppState | Milestone B Sprint 2 |
 | GAP-BP-1 | Branch protection (org free tier) | Team discipline |
 | GAP-CC-1 | Codecov opt-in only | See §8 |
 
@@ -157,10 +157,10 @@ flowchart LR
 | Benefit | Relevance |
 |---------|-----------|
 | Catch untested policy paths | **High** — `core/policies.py` is high-risk |
-| Enforce floor over time | **Medium** — not configured yet (`fail_under` absent) |
+| Enforce floor over time | **Medium** — `fail_under=70` since MB-S1-3 |
 | Public beta signal | **Medium** — shows test discipline to contributors |
 
-**Current state:** `CODECOV_ENABLED=true` and `CODECOV_TOKEN` configured on GitHub (2026-06-23). First upload OK for commit `83e3ab5` (~64.5% line coverage). CI upload on each push; no `fail_under` yet. See [`PHASE1_CONSOLIDATED_FOR_CLAUDE.md`](PHASE1_CONSOLIDATED_FOR_CLAUDE.md) §8.
+**Current state:** `CODECOV_ENABLED=true` and `CODECOV_TOKEN` configured on GitHub (2026-06-23). Baseline ~64.5% at `83e3ab5`; Sprint 1 branch ~82% with `fail_under=70`. See [`PHASE2_SPRINT1_REPORT.md`](PHASE2_SPRINT1_REPORT.md).
 
 **Not a substitute for:** SMK-01..05, shipped parity tests, or policy integration tests.
 
@@ -168,7 +168,8 @@ flowchart LR
 
 ## 9. Verify gate (Phase 1 v2)
 
-**Result:** 91 pytest · SMK 5/5 · ruff · mypy strict · shipped parity 4 tests.
+**Result (Phase 1 v2 baseline):** 91 pytest · SMK 5/5 · ruff · mypy strict · shipped parity 4 tests.  
+**Result (Sprint 1 branch):** 124 pytest · SMK 8/8 · shipped parity 5 tests · see [`PHASE2_SPRINT1_REPORT.md`](PHASE2_SPRINT1_REPORT.md).
 
 ```bash
 ruff check src/ tests/

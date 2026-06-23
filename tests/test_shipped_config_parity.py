@@ -76,3 +76,32 @@ def test_shipped_policy_evaluate_dot_notation(shipped_acp_config: Path) -> None:
     )
     assert response.status_code == 200
     assert response.json()["allowed"] is True
+
+
+def test_shipped_restrict_pii_role_not_in_exemption(shipped_acp_config: Path) -> None:
+    """Shipped Restrict-PII must honor role_not_in reviewer exemption (GAP-ABAC-2)."""
+    _ = shipped_acp_config
+    rules = load_policies(SHIPPED_CONFIG_DIR / "policies.yml")
+    engine = PolicyEngine(rules=rules)
+    backend = AgentIdentity(
+        agent_id="agent2",
+        project_id="rust-gateway",
+        role="backend",
+        jwt_claims={},
+        did=None,
+    )
+    reviewer = AgentIdentity(
+        agent_id="agent3",
+        project_id="rust-gateway",
+        role="reviewer",
+        jwt_claims={},
+        did=None,
+    )
+    pii_context = {"data_category": "PII"}
+
+    deny = engine.evaluate(backend, "git_read", pii_context, "rust-gateway")
+    assert deny.allowed is False
+    assert deny.policy_id == "Restrict-PII"
+
+    allow = engine.evaluate(reviewer, "git_read", pii_context, "rust-gateway")
+    assert allow.allowed is True
