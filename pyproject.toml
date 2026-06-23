@@ -59,3 +59,8 @@ python_version = "3.11"
 strict = true
 plugins = ["pydantic.mypy"]
 packages = ["ai_control_plane"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+skip_covered = false
