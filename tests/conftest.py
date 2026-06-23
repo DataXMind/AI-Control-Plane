@@ -7,9 +7,9 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-import yaml  # type: ignore[import-untyped]
 
-from ai_control_plane.core.models import AgentIdentity, PolicyRule, ProjectConfig
+from ai_control_plane.config.loader import load_policies
+from ai_control_plane.core.models import AgentIdentity, ProjectConfig
 from ai_control_plane.core.policies import PolicyEngine
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "config"
@@ -81,34 +81,11 @@ def reviewer_identity() -> AgentIdentity:
     )
 
 
-def load_policy_rules_from_dir(config_dir: Path) -> list[PolicyRule]:
-    """Load PolicyRule objects from tests/fixtures/config/policies.yml."""
-    policies_path = config_dir / "policies.yml"
-    raw = yaml.safe_load(policies_path.read_text(encoding="utf-8"))
-    if not isinstance(raw, dict):
-        msg = f"invalid policies root in {policies_path}"
-        raise ValueError(msg)
-
-    rules: list[PolicyRule] = []
-    for entry in raw.get("rules", []):
-        if not isinstance(entry, dict):
-            continue
-        rules.append(
-            PolicyRule(
-                name=str(entry["name"]),
-                description=str(entry.get("description", "")),
-                conditions=dict(entry["conditions"]),
-                effect=entry["effect"],
-            ),
-        )
-    return rules
-
-
 @pytest.fixture
 def mock_policy_engine(sample_project_config: ProjectConfig) -> PolicyEngine:
     """PolicyEngine loaded from tests/fixtures/config/policies.yml."""
     _ = sample_project_config
-    rules = load_policy_rules_from_dir(FIXTURES_DIR)
+    rules = load_policies(FIXTURES_DIR / "policies.yml")
     return PolicyEngine(rules=rules)
 
 
