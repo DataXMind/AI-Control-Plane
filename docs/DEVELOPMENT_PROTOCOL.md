@@ -121,7 +121,8 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
 | **Phase 1 consolidated (Claude)** | [PHASE1_CONSOLIDATED_FOR_CLAUDE.md](governance/PHASE1_CONSOLIDATED_FOR_CLAUDE.md) | Pre–Phase 2 architect review packet |
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
-| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | MB7 guardrails + kill_switch |
+| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | Sprint 1 closed; Sprint 2 open |
+| **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
 
 **Cursor prompts (markdown):**
 
@@ -135,7 +136,9 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 
 **Phase 1 v2 (post-close hardening):** `core/tool_names.py`; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
 
-**Deferred to Milestone B:** Guardrails loader (MB7), full ABAC — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
+**Milestone B Sprint 1 (closed):** Guardrails/kill_switch (MB-S1-1), ABAC full (MB-S1-2), coverage floor (MB-S1-3), CLI tests (MB-S1-4), identity JWT (MB-S1-5) — see [`PHASE2_SPRINT1_REPORT.md`](governance/PHASE2_SPRINT1_REPORT.md).
+
+**Deferred to Sprint 2:** Redis quota, MCP factory, live CLI approve/quota — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
 
 **P0-2b closed (Phase 2 P2-0):** Option A — dot notation in shipped `config/`; `core/tool_names.py` is single source of truth.
 
