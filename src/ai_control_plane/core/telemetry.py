@@ -14,7 +14,7 @@ def compute_event_hash(previous_hash: str | None, event: TelemetryEvent) -> str:
     """Compute SHA-256 hash for *event* chained to *previous_hash*."""
     payload = event.model_dump(
         mode="json",
-        exclude={"event_hash", "previous_hash"},
+        exclude={"event_hash", "previous_hash", "id"},
     )
     material = json.dumps(
         {"previous_hash": previous_hash, "event": payload},

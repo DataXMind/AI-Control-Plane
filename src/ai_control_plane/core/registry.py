@@ -62,7 +62,9 @@ class ActionRegistry:
     ) -> ActionRegistry:
         registry = cls.from_rbac(rbac)
         for rule in abac_rules:
-            registry.register_many(rule.actions)
+            actions = rule.conditions.get("actions", [])
+            if isinstance(actions, list):
+                registry.register_many(str(action) for action in actions)
         for guardrail in guardrails:
             registry.register_many(guardrail.applies_to.actions)
         return registry

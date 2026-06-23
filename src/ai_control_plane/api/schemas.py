@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime
 from typing import Any
 from uuid import UUID
 
@@ -11,7 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from ai_control_plane.core.models import (
     ApprovalDecision,
     ApprovalRequest,
-    TaskState,
+    TaskStatus,
 )
 
 _HTTP = ConfigDict(extra="forbid")
@@ -56,17 +55,6 @@ class TaskRegisterRequest(TaskRequest):
     """POST /tasks — register a task after policy approval."""
 
     task_id: UUID
-
-
-class TaskStatus(BaseModel):
-    """GET /status/{project_id} response."""
-
-    model_config = _HTTP
-
-    task_id: UUID
-    state: TaskState
-    progress: int = Field(ge=0, le=100, default=0)
-    updated_at: datetime
 
 
 class QuotaStatus(BaseModel):

@@ -96,6 +96,7 @@ class TaskStatus(BaseModel):
 
     task_id: UUID
     state: TaskState
+    progress: int = Field(default=0, ge=0, le=100)
     updated_at: datetime = Field(default_factory=_utc_now)
 
 
@@ -144,17 +145,64 @@ class ApprovalDecision(BaseModel):
     decided_at: datetime = Field(default_factory=_utc_now)
 
 
+class RegisteredAction(BaseModel):
+    """Canonical action name registered for policy and MCP binding."""
+
+    model_config = _FROZEN
+
+    name: str
+
+
+class RbacRolePolicy(BaseModel):
+    """RBAC allowed/denied action sets for a single role."""
+
+    model_config = _FROZEN
+
+    allowed_actions: list[str] = Field(default_factory=list)
+    denied_actions: list[str] = Field(default_factory=list)
+
+
+class RbacConfig(BaseModel):
+    """RBAC configuration keyed by role name."""
+
+    model_config = _FROZEN
+
+    roles: dict[str, RbacRolePolicy]
+
+
+class GuardrailTarget(BaseModel):
+    """Roles and actions a guardrail applies to."""
+
+    model_config = _FROZEN
+
+    roles: list[str] = Field(default_factory=list)
+    actions: list[str] = Field(default_factory=list)
+
+
+class Guardrail(BaseModel):
+    """Pre-execution guardrail check configuration."""
+
+    model_config = _FROZEN
+
+    id: str
+    description: str = ""
+    applies_to: GuardrailTarget
+
+
 class TelemetryEvent(BaseModel):
     """Append-only audit/telemetry record."""
 
     model_config = _FROZEN
 
-    id: UUID = Field(default_factory=uuid4)
+    event_id: str = Field(default_factory=lambda: str(uuid4()))
     event_type: str
     agent_id: str
     project_id: str
     payload: dict[str, Any]
     timestamp: datetime = Field(default_factory=_utc_now)
+    event_hash: str = ""
+    previous_hash: Union[str, None] = None  # noqa: UP007
+    id: UUID = Field(default_factory=uuid4)
 
 
 class McpError(BaseModel):
@@ -172,11 +220,16 @@ __all__ = [
     "AgentIdentity",
     "ApprovalDecision",
     "ApprovalRequest",
+    "Guardrail",
+    "GuardrailTarget",
     "McpError",
     "ModelProfile",
     "PolicyDecision",
     "PolicyRule",
     "ProjectConfig",
+    "RbacConfig",
+    "RbacRolePolicy",
+    "RegisteredAction",
     "Task",
     "TaskState",
     "TaskStatus",
