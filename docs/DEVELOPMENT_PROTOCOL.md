@@ -3,8 +3,9 @@
 > **Purpose:** Chuẩn hóa mọi thay đổi code/docs trên **ai-control-plane** — chất lượng, 8 hard invariants, fail-closed governance, tránh schema/wiring drift.
 
 **Document ID:** ACP-DEV-PROTOCOL-001  
-**Version:** 1.0  
+**Version:** 1.1  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
+**Last updated:** 2026-06-22 — P0 gate complete  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -86,36 +87,48 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 
 ### Cảnh báo đã audit (không tái phạm)
 
-| Trap | Triệu chứng | Fix |
-| ---- | ----------- | --- |
-| **Silent default policy** | `PolicyEngine(rules=[])` — YAML không govern | P0-2 / #7, #43 |
-| **Model drift** | `registry.py` / `telemetry.py` import field không có trong `models.py` | P0-1 / #1, #2 |
-| **Fixture drift** | `tests/fixtures` khác schema `config/policies.yml` | NEW-2 / #40 |
-| **Duplicate API** | Logic ở `server.py` nhưng còn `api/routes/*` stub | P0-3 / #15 |
-| **CLI bypass** | `cli/` import `core.policies` trực tiếp | Invariant #4 |
+| Trap | Triệu chứng | Status |
+| ---- | ----------- | ------ |
+| **Silent default policy** | `PolicyEngine(rules=[])` — YAML không govern | ✅ Fixed P0-2 (#7, #43) |
+| **Model drift** | `registry.py` / `telemetry.py` import field không có trong `models.py` | ✅ Fixed P0-1 (#1, #2) |
+| **Fixture drift** | `tests/fixtures` khác schema `config/policies.yml` | ✅ Fixed NEW-2 (#40) — fixture uses production schema |
+| **Duplicate API** | Logic ở `server.py` nhưng còn `api/routes/*` stub | ✅ Fixed P0-3 (#15) |
+| **CLI bypass** | `cli/` import `core.policies` trực tiếp | ✅ OK — CLI dùng HTTP |
 
 ---
 
-## 4. P0 gate — trước mọi task Milestone A còn lại
+## 4. P0 gate — trước Phase 2 prompts
 
-**Không bắt đầu** task Standard+ (trừ trivial doc) cho đến khi P0 pass hoặc issue explicit defer:
+**P0 gate: PASSED (2026-06-22)** — Phase 2 (telemetry, CI, core test coverage) có thể bắt đầu sau Claude review telemetry tab 7.
 
-| Thứ tự | Nội dung | Issues |
-| ------ | -------- | ------ |
-| **P0-1** | `models.py` — TelemetryEvent hash fields, TaskStatus.progress, registry types | #1, #2, #10 |
-| **P0-2** | `load_policies()` + wire `PolicyEngine` + `snake_case` tools | #7, #8, #43 |
-| **P0-3** | `ControlPlaneError` + xóa api stubs | #3, #15 |
-| **P0-4** | Wire `agents.yml` / projects + `/health` proof | #5, #6, #39 |
+| Thứ tự | Nội dung | Issues | Status |
+| ------ | -------- | ------ | ------ |
+| **P0-1** | `models.py` — TelemetryEvent hash fields, TaskStatus.progress, registry types | #1, #2, #10 | ✅ |
+| **NEW-5** | `load_policies()` adapter YAML → PolicyRule | #43 | ✅ |
+| **NEW-3/4** | apex/ 6 stubs + `test_apex_loop.py` | #41, #42 | ✅ |
+| **P0-2** | Wire `PolicyEngine` at API startup | #7 | ✅ |
+| **P0-3** | `ControlPlaneError` + xóa api stubs | #3, #15 | ✅ |
+| **P0-4** | Wire agents/projects/quotas + `/health` proof | #5, #6, #39 | ✅ |
+| **P0-2b** | Tool naming adapter (`normalize_tool_name`) | #8 | ⚠️ Runtime OK; shipped YAML vẫn dot notation |
+| **NEW-2** | Unify fixture policies schema | #40 | ✅ Production `rbac`/`abac` schema; adapter path only |
 
-**Verify gate (bắt buộc sau P0):**
+**Verify gate (passed):**
 
 ```bash
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
 pytest tests/ -v
-# Kỳ vọng: 0 import errors; tests pass
+# Current: 36 passed, 0 import errors
+curl -s http://localhost:8000/health | jq .
+# Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
 ```
 
-Sau P0 → Phase 2 prompts (telemetry patch, tests, CI) theo thứ tự issue dependencies.
+**Phase 2 execution order (sau P0 + NEW-2):**
+
+1. **Claude prompt tab 7** — telemetry hash-chain patch (#23) — **requires architect prompt**
+2. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota`, `test_telemetry`
+3. CI + pre-commit (#25–27), structlog (#19)
+4. README runbook (#13), ARCHITECTURE sync (#14)
+5. Close tracking issue #38
 
 ---
 
@@ -146,6 +159,7 @@ Micro-PACE: Pause → Anchor → Confirm (nếu cần) → Execute.
 ruff check src/ tests/
 mypy src/ai_control_plane          # khi Q8 clean
 pytest tests/ -v
+pytest tests/test_smoke.py -v -m smoke   # ACP smoke gate (§5.5)
 # Integration (khi có):
 # pytest tests/test_api_server.py -v
 ```
@@ -157,12 +171,37 @@ export ACP_CONFIG_DIR=tests/fixtures/config   # Linux/WSL
 # pytest tự set qua conftest autouse fixture khi chạy tests/
 ```
 
-Manual smoke (khi chạm api/ + cli):
+Manual smoke (khi chạm api/ + cli) — hoặc chạy `scripts/smoke_acp.sh`:
 
 ```bash
 uvicorn ai_control_plane.api.server:app --reload
 agentctl assign rust-gateway agent2 git_read --json
 curl -s http://localhost:8000/health | jq .
+```
+
+### 5.5 ACP Smoke Gate — 5 tests (gold pattern)
+
+> **Nguồn:** Harness CI/CD smoke pattern + qa-checklist.dev + ISTQB build verification — rút gọn cho control-plane PoC.
+
+**Mục tiêu:** Xác nhận build/deploy **ổn định đủ** để tiếp tục regression/Phase 2 — chạy **&lt; 2 phút**, fail-closed.
+
+| ID | Tên | Lệnh / test | Pass criteria |
+| -- | --- | ----------- | ------------- |
+| **SMK-01** | Core import | `python -c "from ai_control_plane.core import registry, telemetry"` | Exit 0, no ImportError |
+| **SMK-02** | Readiness | `GET /health` hoặc `test_smk02_health_readiness` | HTTP 200, `config_loaded=true`, `policy_rules_count>0` |
+| **SMK-03** | Policy allow | `POST /policy/evaluate` backend + `git_read` | `allowed=true` |
+| **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false` |
+| **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining>0` |
+
+**Automated:** `tests/test_smoke.py` (marker `@pytest.mark.smoke`)  
+**Script:** `scripts/smoke_acp.sh` — chạy SMK-01 + pytest smoke
+
+**Khi nào bắt buộc:** Sau mọi thay đổi `api/server.py`, `config/loader.py`, `core/` contracts; trước Phase 2; trước commit Standard+.
+
+**Thứ tự gate đầy đủ (5 lớp + smoke):**
+
+```text
+L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..05 smoke
 ```
 
 ### 5.5 Session **Evolve**
@@ -254,7 +293,7 @@ Mỗi mục: ✅ / ⚠️ + mitigation / N/A có lý do.
 | BS-14 | **Policy timeout?** 2s — có deny đúng không? |
 | BS-15 | **Regression tests?** `core/` module có test tương ứng? |
 
-### Step 5 — Sandbox (4 layers)
+### Step 5 — Sandbox (5 layers)
 
 | Layer | Lệnh |
 | ----- | ---- |
@@ -262,6 +301,7 @@ Mỗi mục: ✅ / ⚠️ + mitigation / N/A có lý do.
 | L2 Types | `mypy src/ai_control_plane` |
 | L3 Unit | `pytest tests/ -v` |
 | L4 Integration | `pytest tests/test_api_server.py -v` (khi có) |
+| L5 Smoke | `pytest tests/test_smoke.py -v -m smoke` hoặc `scripts/smoke_acp.sh` |
 
 `ACP_CONFIG_DIR=tests/fixtures/config` — conftest autouse hoặc export thủ công.
 
@@ -362,6 +402,6 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 
 ---
 
-**Version:** 1.0 · **Last updated:** 2026-06-22  
+**Version:** 1.1 · **Last updated:** 2026-06-22 (P0 gate complete)  
 **Supersedes:** ACOP-DEV-PROTOCOL-001 import (nội dung ACOP-specific đã loại bỏ)  
 **Project:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane) (private until public-beta gates)

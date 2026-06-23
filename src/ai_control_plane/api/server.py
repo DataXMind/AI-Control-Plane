@@ -20,6 +20,7 @@ from starlette.responses import Response
 
 from ai_control_plane.api.schemas import (
     ApprovalResolveRequest,
+    HealthResponse,
     IdentityVerifyRequest,
     PolicyEvalRequest,
     PolicyEvalResponse,
@@ -28,7 +29,13 @@ from ai_control_plane.api.schemas import (
     TaskRegisterRequest,
     TaskStatus,
 )
-from ai_control_plane.config.loader import load_policies
+from ai_control_plane.config.loader import (
+    build_agent_registry,
+    load_policies,
+    load_project_token_limits,
+    load_projects,
+)
+from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
 from ai_control_plane.core.models import AgentIdentity, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
@@ -38,17 +45,6 @@ http_logger = logging.getLogger("ai_control_plane.http")
 
 POLICY_EVAL_TIMEOUT_SECONDS = 2.0
 SERVICE_UNAVAILABLE = 503
-
-_DEFAULT_AGENT_REGISTRY: dict[str, dict[str, Any]] = {
-    "agent1": {"role": "infra", "projects": ["rust-gateway"]},
-    "agent2": {"role": "backend", "projects": ["rust-gateway"]},
-    "agent3": {"role": "reviewer", "projects": ["rust-gateway", "datax-analytics"]},
-}
-
-_DEFAULT_PROJECT_LIMITS: dict[str, float] = {
-    "rust-gateway": 2_000_000.0,
-    "datax-analytics": 800_000.0,
-}
 
 
 def _utc_now() -> datetime:
@@ -82,13 +78,12 @@ class AppState:
     token_budget: TokenBudget
     quota_store: InMemoryQuotaStore
     policy_rules_count: int = 0
-    agent_registry: dict[str, dict[str, Any]] = field(
-        default_factory=lambda: dict(_DEFAULT_AGENT_REGISTRY),
-    )
+    config_loaded: bool = False
+    agents_loaded: list[str] = field(default_factory=list)
+    projects_loaded: list[str] = field(default_factory=list)
+    agent_registry: dict[str, dict[str, Any]] = field(default_factory=dict)
     task_status_by_project: dict[str, TaskStatus] = field(default_factory=dict)
-    project_limits: dict[str, float] = field(
-        default_factory=lambda: dict(_DEFAULT_PROJECT_LIMITS),
-    )
+    project_limits: dict[str, float] = field(default_factory=dict)
 
 
 def build_policy_engine() -> PolicyEngine:
@@ -99,15 +94,27 @@ def build_policy_engine() -> PolicyEngine:
 
 
 def build_default_app_state() -> AppState:
-    """Construct default AppState with YAML-driven PolicyEngine (P0-2)."""
+    """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = InMemoryQuotaStore()
     rules = load_policies()
+    agent_registry = build_agent_registry()
+    projects = load_projects()
+    project_limits = load_project_token_limits()
+
+    if not projects:
+        raise ConfigError("no projects loaded from projects.yml")
+
     return AppState(
         policy_engine=PolicyEngine(rules=rules),
         approval_gate=ApprovalGate(),
         quota_store=quota_store,
-        token_budget=TokenBudget(quota_store, _DEFAULT_PROJECT_LIMITS),
+        token_budget=TokenBudget(quota_store, project_limits),
         policy_rules_count=len(rules),
+        config_loaded=True,
+        agents_loaded=sorted(agent_registry.keys()),
+        projects_loaded=sorted(projects.keys()),
+        agent_registry=agent_registry,
+        project_limits=project_limits,
     )
 
 
@@ -191,6 +198,20 @@ def create_app(state: AppState | None = None) -> FastAPI:
     )
     app.state.acp = app_state
     app.add_middleware(RequestLoggingMiddleware)
+
+    @app.exception_handler(ControlPlaneError)
+    async def control_plane_fail_closed(
+        request: Request,
+        exc: ControlPlaneError,
+    ) -> JSONResponse:
+        logger.warning("control_plane_error path=%s error=%s", request.url.path, exc)
+        if request.url.path == "/policy/evaluate":
+            body = _deny_response(str(exc)).model_dump(mode="json")
+            return JSONResponse(status_code=SERVICE_UNAVAILABLE, content=body)
+        return JSONResponse(
+            status_code=SERVICE_UNAVAILABLE,
+            content=ServiceUnavailableResponse(reason=str(exc)).model_dump(mode="json"),
+        )
 
     @app.exception_handler(RequestValidationError)
     async def validation_fail_closed(
@@ -309,13 +330,16 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 status_code=200,
                 content=decision.model_dump(mode="json"),
             )
-        except Exception:
+        except Exception as exc:
             logger.exception("policy_approve_failed")
+            reason = (
+                str(exc)
+                if isinstance(exc, ApprovalError)
+                else "approval resolution failed"
+            )
             return JSONResponse(
                 status_code=SERVICE_UNAVAILABLE,
-                content=ServiceUnavailableResponse(
-                    reason="approval resolution failed",
-                ).model_dump(mode="json"),
+                content=ServiceUnavailableResponse(reason=reason).model_dump(mode="json"),
             )
 
     @app.post("/identity/verify")
@@ -355,9 +379,16 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 ).model_dump(mode="json"),
             )
 
-    @app.get("/health")
-    async def health() -> dict[str, str]:
-        return {"status": "ok"}
+    @app.get("/health", response_model=HealthResponse)
+    async def health(request: Request) -> HealthResponse:
+        acp: AppState = request.app.state.acp
+        return HealthResponse(
+            status="ok",
+            config_loaded=acp.config_loaded,
+            policy_rules_count=acp.policy_rules_count,
+            agents_loaded=acp.agents_loaded,
+            projects_loaded=acp.projects_loaded,
+        )
 
     @app.post("/tasks", response_model=TaskStatus)
     async def register_task(

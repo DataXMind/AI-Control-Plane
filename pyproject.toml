@@ -42,6 +42,9 @@ packages = ["src/ai_control_plane"]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 pythonpath = ["src"]
+markers = [
+    "smoke: ACP build verification gate (SMK-01..SMK-05)",
+]
 
 [tool.ruff]
 target-version = "py311"

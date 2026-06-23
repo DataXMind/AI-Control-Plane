@@ -22,10 +22,10 @@ def test_reviewer_read_only(
     mock_policy_engine: PolicyEngine,
     reviewer_identity: AgentIdentity,
 ) -> None:
-    deny = evaluate_tool(mock_policy_engine, reviewer_identity, "write_repo")
+    deny = evaluate_tool(mock_policy_engine, reviewer_identity, "git_commit")
     assert deny.allowed is False
 
-    allow = evaluate_tool(mock_policy_engine, reviewer_identity, "read_repo")
+    allow = evaluate_tool(mock_policy_engine, reviewer_identity, "git_read")
     assert allow.allowed is True
     assert allow.requires_approval is False
 
@@ -65,7 +65,7 @@ def test_deny_pii_access(
     cases = [
         (backend_identity, "create_pr"),
         (infra_identity, "git_read"),
-        (reviewer_identity, "read_repo"),
+        (reviewer_identity, "git_read"),
     ]
     for identity, tool_name in cases:
         decision = evaluate_tool(
@@ -75,4 +75,4 @@ def test_deny_pii_access(
             {"data_category": "PII"},
         )
         assert decision.allowed is False
-        assert decision.policy_id == "deny-pii"
+        assert decision.policy_id == "Restrict-PII"

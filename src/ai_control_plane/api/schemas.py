@@ -122,12 +122,25 @@ class ServiceUnavailableResponse(BaseModel):
     latency_ms: float = 0.0
 
 
+class HealthResponse(BaseModel):
+    """GET /health — config wire proof for operators and CI (#39)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    status: str
+    config_loaded: bool
+    policy_rules_count: int
+    agents_loaded: list[str]
+    projects_loaded: list[str]
+
+
 __all__ = [
     "ApprovalDecision",
     "ApprovalRequest",
     "ApprovalResolveRequest",
     "ApprovalSubmitRequest",
     "ApprovalSubmitResponse",
+    "HealthResponse",
     "IdentityVerifyRequest",
     "PolicyEvalRequest",
     "PolicyEvalResponse",

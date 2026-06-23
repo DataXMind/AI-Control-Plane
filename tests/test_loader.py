@@ -7,8 +7,11 @@ from pathlib import Path
 import pytest
 
 from ai_control_plane.config.loader import (
+    build_agent_registry,
+    derive_allowed_patterns,
     derive_denied_patterns,
     load_policies,
+    load_project_token_limits,
     normalize_tool_name,
 )
 from ai_control_plane.core.models import AgentIdentity
@@ -41,6 +44,11 @@ def test_derive_denied_patterns_k8s_apply() -> None:
     assert "k8s_apply_*" in patterns
 
 
+def test_derive_allowed_patterns_k8s_apply() -> None:
+    patterns = derive_allowed_patterns(["k8s.apply"])
+    assert "k8s_apply_*" in patterns
+
+
 def test_load_policies_shipped_config_not_empty() -> None:
     rules = load_policies(SHIPPED_POLICIES)
     assert len(rules) >= 3
@@ -48,11 +56,18 @@ def test_load_policies_shipped_config_not_empty() -> None:
     assert len(rbac_rules) >= 3
 
 
-def test_load_policies_fixture_pass_through() -> None:
+def test_load_policies_fixture_uses_production_schema() -> None:
+    """NEW-2: fixture policies.yml uses rbac/abac schema, not rules: pass-through."""
+    raw_text = FIXTURE_POLICIES.read_text(encoding="utf-8")
+    assert "rbac:" in raw_text
+    assert "rules:" not in raw_text.split("abac:")[0]
+
     rules = load_policies(FIXTURE_POLICIES)
     names = {rule.name for rule in rules}
     assert "rbac-backend" in names
-    assert "deny-pii" in names
+    assert "Restrict-PII" in names
+    assert "prod-k8s-approval" in names
+    assert len(rules) > 0
 
 
 def test_load_policies_rbac_backend_conditions() -> None:
@@ -87,7 +102,7 @@ def test_p0_2_adapter_verify_gate(backend_identity: AgentIdentity) -> None:
 
 
 def test_fixture_engine_matches_existing_policy_tests(backend_identity: AgentIdentity) -> None:
-    """Fixture pass-through rules still drive same backend RBAC behavior."""
+    """Fixture production-format YAML drives same backend RBAC behavior as shipped config."""
     rules = load_policies(FIXTURE_POLICIES)
     engine = PolicyEngine(rules=rules)
 
@@ -100,3 +115,15 @@ def test_load_policies_empty_yaml_raises(tmp_path: Path) -> None:
     empty_policies.write_text("version: 1\n", encoding="utf-8")
     with pytest.raises(ValueError, match="no policy rules"):
         load_policies(empty_policies)
+
+
+def test_build_agent_registry_from_fixtures() -> None:
+    registry = build_agent_registry()
+    assert "agent2" in registry
+    assert registry["agent2"]["role"] == "backend"
+    assert "rust-gateway" in registry["agent2"]["projects"]
+
+
+def test_load_project_token_limits_from_fixtures() -> None:
+    limits = load_project_token_limits()
+    assert limits["rust-gateway"] == 2_000_000.0

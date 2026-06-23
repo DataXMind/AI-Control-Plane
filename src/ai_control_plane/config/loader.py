@@ -8,6 +8,7 @@ from typing import Any, Literal
 
 import yaml  # type: ignore[import-untyped]
 
+from ai_control_plane.core.exceptions import ConfigError
 from ai_control_plane.core.models import AgentConfig, PolicyRule, ProjectConfig
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
@@ -24,6 +25,16 @@ def derive_denied_patterns(denied_actions: list[str]) -> list[str]:
     """Derive wildcard deny patterns from normalized denied action names."""
     patterns: list[str] = []
     for raw in denied_actions:
+        normalized = normalize_tool_name(raw)
+        if normalized == "k8s_apply" or normalized.startswith("k8s_apply_"):
+            patterns.append("k8s_apply_*")
+    return list(dict.fromkeys(patterns))
+
+
+def derive_allowed_patterns(allowed_actions: list[str]) -> list[str]:
+    """Derive wildcard allow patterns from normalized allowed action names."""
+    patterns: list[str] = []
+    for raw in allowed_actions:
         normalized = normalize_tool_name(raw)
         if normalized == "k8s_apply" or normalized.startswith("k8s_apply_"):
             patterns.append("k8s_apply_*")
@@ -110,6 +121,9 @@ def _load_rbac_rules(raw: dict[str, Any]) -> list[PolicyRule]:
         denied_patterns = derive_denied_patterns(
             [str(action) for action in denied_raw if isinstance(action, str)],
         )
+        allowed_patterns = derive_allowed_patterns(
+            [str(action) for action in allowed_raw if isinstance(action, str)],
+        )
 
         rules.append(
             PolicyRule(
@@ -122,6 +136,7 @@ def _load_rbac_rules(raw: dict[str, Any]) -> list[PolicyRule]:
                     "allowed_actions": allowed_actions,
                     "denied_actions": denied_actions,
                     "denied_patterns": denied_patterns,
+                    "allowed_patterns": allowed_patterns,
                 },
             ),
         )
@@ -165,9 +180,11 @@ def _map_abac_entry(entry: dict[str, Any]) -> PolicyRule | None:
 
     actions = entry.get("actions", [])
     if isinstance(actions, list) and len(actions) == 1:
-        mapped["action"] = normalize_tool_name(str(actions[0]))
+        action_norm = normalize_tool_name(str(actions[0]))
+        mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
     elif "action" in conditions:
-        mapped["action"] = normalize_tool_name(str(conditions["action"]))
+        action_norm = normalize_tool_name(str(conditions["action"]))
+        mapped["action"] = "k8s_apply_*" if action_norm == "k8s_apply" else action_norm
 
     supported = {
         "rule_type",
@@ -314,3 +331,60 @@ def validate_agent_in_project(agent_id: str, project_id: str) -> AgentConfig:
         msg = f"agent '{agent_id}' is not registered for project '{project_id}'"
         raise ValueError(msg)
     return agent
+
+
+def build_agent_registry() -> dict[str, dict[str, Any]]:
+    """Build API agent registry from agents.yml (role, projects, metadata)."""
+    agents = load_agents_raw()
+    if not agents:
+        msg = "no agents loaded from agents.yml"
+        raise ConfigError(msg)
+
+    registry: dict[str, dict[str, Any]] = {}
+    for agent_id, entry in agents.items():
+        roles_raw = entry.get("roles", [])
+        roles = [str(role) for role in roles_raw] if isinstance(roles_raw, list) else []
+        projects_raw = entry.get("projects", [])
+        projects = (
+            [str(project_id) for project_id in projects_raw]
+            if isinstance(projects_raw, list)
+            else []
+        )
+        registry[agent_id] = {
+            "role": roles[0] if roles else None,
+            "roles": roles,
+            "projects": projects,
+            "name": str(entry.get("name", agent_id)),
+            "model_profile": str(entry.get("model_profile", "")),
+        }
+    return registry
+
+
+def load_project_token_limits() -> dict[str, float]:
+    """Load per-project daily token limits from policies.yml quotas.by_project."""
+    path = get_config_dir() / "policies.yml"
+    if not path.is_file():
+        msg = f"policies file not found: {path}"
+        raise ConfigError(msg)
+
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        msg = f"invalid policies root in {path}"
+        raise ConfigError(msg)
+
+    quotas = raw.get("quotas", {})
+    if not isinstance(quotas, dict):
+        return {}
+
+    by_project = quotas.get("by_project", {})
+    if not isinstance(by_project, dict):
+        return {}
+
+    limits: dict[str, float] = {}
+    for project_id, entry in by_project.items():
+        if not isinstance(entry, dict):
+            continue
+        tokens = entry.get("tokens_per_day")
+        if tokens is not None:
+            limits[str(project_id)] = float(tokens)
+    return limits

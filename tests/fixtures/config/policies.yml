@@ -1,59 +1,75 @@
-# Test policies — PolicyRule format consumed by tests/conftest.py
+# Test policies — production schema (rbac/abac/quotas) aligned with config/policies.yml (NEW-2).
+# Augmentations for policy unit tests are marked below.
 version: 1
 
-rules:
-  - name: rbac-backend
-    description: Backend developer RBAC
-    effect: allow
-    conditions:
-      rule_type: rbac
-      role: backend
+rbac:
+  roles:
+    infra:
       allowed_actions:
-        - git_read
-        - git_commit
-        - git_push
+        - git.read
+        - git.commit
+        - git.push
+        - k8s.diff
+        - k8s.apply
+        - helm.upgrade
+        - plan.generate
+      denied_actions:
+        - git.force_push
+        - k8s.delete_namespace
+        - prod.deploy_without_approval
+
+    backend:
+      allowed_actions:
+        - git.read
+        - git.commit
+        - git.push
+        - git.diff
+        - test.run
+        - build.rust
+        - cargo.clippy
         - create_pr
-        - read_pr
-      denied_patterns:
-        - k8s_apply_*
+      denied_actions:
+        - git.force_push
+        - k8s.apply
+        - git.merge_to_main
+        - prod.deploy
 
-  - name: rbac-infra
-    description: Infra operator RBAC
-    effect: allow
-    conditions:
-      rule_type: rbac
-      role: infra
+    reviewer:
       allowed_actions:
-        - git_read
-        - k8s_apply_*
-        - k8s_diff
-        - helm_upgrade
-      denied_patterns: []
+        - git.read
+        - git.diff
+        - comment.post
+        - approval.grant
+        - approval.deny
+      denied_actions:
+        - git.commit
+        - git.push
+        - k8s.apply
+        - k8s.delete
+        - quota.override
 
-  - name: rbac-reviewer
-    description: Reviewer read-only RBAC
-    effect: allow
-    conditions:
-      rule_type: rbac
-      role: reviewer
-      allowed_actions:
-        - read_repo
-        - read_pr
-        - comment_pr
-      denied_patterns: []
+abac:
+  rules:
+    - id: Restrict-PII
+      description: Deny read/write on PII-tagged paths outside reviewer role
+      effect: deny
+      actions:
+        - git.read
+        - git.commit
+      conditions:
+        data_class: pii
 
-  - name: prod-k8s-approval
-    description: Production k8s apply requires approval
-    effect: allow
-    conditions:
-      rule_type: abac
-      environment: prod
-      action: k8s_apply_prod
-      requires_approval: true
+    - id: prod-k8s-approval
+      description: Production k8s apply requires approval
+      effect: allow
+      actions:
+        - k8s.apply
+      conditions:
+        environment: prod
+        requires_approval: true
 
-  - name: deny-pii
-    description: Deny access to PII-tagged data
-    effect: deny
-    conditions:
-      rule_type: abac
-      data_category: PII
+quotas:
+  by_project:
+    rust-gateway:
+      tokens_per_day: 2000000
+      concurrent_tasks: 5
