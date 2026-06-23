@@ -12,7 +12,6 @@ import httpx
 import structlog
 
 from ai_control_plane.api.schemas import PolicyEvalRequest, PolicyEvalResponse
-from ai_control_plane.config.loader import resolve_policy_tool_name
 from ai_control_plane.core.models import (
     AgentIdentity,
     McpError,
@@ -20,6 +19,7 @@ from ai_control_plane.core.models import (
     TelemetryEvent,
 )
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore, TelemetryWriter
+from ai_control_plane.core.tool_names import resolve_policy_tool_name
 
 logger = structlog.get_logger(__name__)
 

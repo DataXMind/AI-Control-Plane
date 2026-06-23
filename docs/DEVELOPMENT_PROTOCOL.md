@@ -96,6 +96,8 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 | **Fixture drift** | `tests/fixtures` khác schema `config/policies.yml` | ✅ Fixed NEW-2 (#40) — fixture uses production schema |
 | **Duplicate API** | Logic ở `server.py` nhưng còn `api/routes/*` stub | ✅ Fixed P0-3 (#15) |
 | **CLI bypass** | `cli/` import `core.policies` trực tiếp | ✅ OK — CLI dùng HTTP |
+| **Shipped config snake_case** | Edit `config/*.yml` actions to snake_case | ✅ DON'T — dot notation intentional (P0-2b Option A) |
+| **Tool map outside core** | Define `MCP_TOOL_TO_POLICY_ACTION` outside `core/tool_names.py` | ✅ DON'T — single source of truth |
 
 ---
 
@@ -117,6 +119,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Phase 2 adjusted (audit) | [phase2_adjusted_prompts.html](governance/phase2_adjusted_prompts.html) | P0 broken items, P0 fix pack, adjusted prompts |
 | Claude ↔ Cursor reconcile | [cursor_claude_reconcile_analysis.html](governance/cursor_claude_reconcile_analysis.html) | 88% match, NEW-GAP-1..5, action items |
 | Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
+| **Phase 1 consolidated (Claude)** | [PHASE1_CONSOLIDATED_FOR_CLAUDE.md](governance/PHASE1_CONSOLIDATED_FOR_CLAUDE.md) | Pre–Phase 2 architect review packet |
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
 | **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | MB7 guardrails + kill_switch |
 
@@ -130,9 +133,11 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 
 **Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 5 pass · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
-**Phase 1 v2 (post-close hardening):** `resolve_policy_tool_name()` at API/MCP ingress; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
+**Phase 1 v2 (post-close hardening):** `core/tool_names.py`; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
 
-**Deferred to Milestone B / Claude:** P0-2b shipped YAML **notation** (#8, D3) — ingress/MCP map done; architect A/B/C still needed — see tool-naming prompt.
+**Deferred to Milestone B:** Guardrails loader (MB7), full ABAC — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
+
+**P0-2b closed (Phase 2 P2-0):** Option A — dot notation in shipped `config/`; `core/tool_names.py` is single source of truth.
 
 | Thứ tự | Nội dung | Issues | Status |
 | ------ | -------- | ------ | ------ |
@@ -142,7 +147,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | **P0-2** | Wire `PolicyEngine` at API startup | #7 | ✅ |
 | **P0-3** | `ControlPlaneError` + xóa api stubs | #3, #15 | ✅ |
 | **P0-4** | Wire agents/projects/quotas + `/health` proof | #5, #6, #39 | ✅ |
-| **P0-2b** | Tool naming: ingress + MCP map (`resolve_policy_tool_name`) | #8 | ✅ Ingress/MCP; ⚠️ shipped YAML dot notation → Claude |
+| **P0-2b** | Tool naming convention | #8 | ✅ CLOSED — Option A: adapter permanent; `core/tool_names.py` |
 | **NEW-2** | Unify fixture policies schema | #40 | ✅ Production `rbac`/`abac` schema; adapter path only |
 
 **Verify gate (passed):**
@@ -318,7 +323,7 @@ Mỗi mục: ✅ / ⚠️ + mitigation / N/A có lý do.
 | BS-02 | **Model drift?** Type mới có trong `models.py` không? |
 | BS-03 | **Duplicate type?** `api/schemas` có copy model từ `core` không? |
 | BS-04 | **Config vs runtime?** YAML có thực sự load vào engine không? |
-| BS-05 | **Tool naming?** | `resolve_policy_tool_name()` at API/MCP ingress + loader at YAML load |
+| BS-05 | **Tool naming?** | `core/tool_names.py` — `resolve_policy_tool_name()` at API/MCP; `normalize_tool_name()` at YAML load |
 | BS-06 | **Fixture drift?** Test YAML cùng schema production? |
 | BS-07 | **CLI bypass?** `cli/` có import `core.policies` không? |
 | BS-08 | **Git in Python?** Logic git chỉ ở TS forwarder? |

@@ -13,11 +13,10 @@ from ai_control_plane.config.loader import (
     load_model_profiles,
     load_policies,
     load_project_token_limits,
-    normalize_tool_name,
-    resolve_policy_tool_name,
 )
 from ai_control_plane.core.models import AgentIdentity
 from ai_control_plane.core.policies import PolicyEngine
+from ai_control_plane.core.tool_names import normalize_tool_name, resolve_policy_tool_name
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SHIPPED_POLICIES = REPO_ROOT / "config" / "policies.yml"

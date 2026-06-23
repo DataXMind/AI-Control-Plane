@@ -1,6 +1,6 @@
 # Claude Task Packet — Config Tool Naming Policy (P0-2b, #8, D3)
 
-> **Status:** DEFERRED from Milestone A close — human/architect decision required before changing shipped `config/`.
+> **Status:** CLOSED — Option A (2026-06-23, Phase 2 P2-0). Implementation: `core/tool_names.py`.
 
 ## Context
 

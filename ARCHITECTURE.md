@@ -68,20 +68,30 @@ At `create_app()` / `build_default_app_state()`, YAML from `ACP_CONFIG_DIR` or s
 
 ### Tool naming convention
 
-- **Canonical (engine + tests):** `snake_case` — e.g. `git_read`, `k8s_apply_prod`
-- **Config YAML (shipped):** dot notation — e.g. `git.read`, `k8s.apply`
-- **Adapter (load time):** `config/loader.normalize_tool_name()` when reading YAML (#8, #43)
-- **Adapter (ingress):** `config/loader.resolve_policy_tool_name()` on `POST /policy/evaluate` and MCP policy gate — normalizes dot notation and maps MCP tool names to policy actions (Phase 1 v2)
+ACP uses three distinct namespaces. Do not conflate:
 
-| Namespace | Example | Resolved policy action |
-|-----------|---------|------------------------|
-| YAML `allowed_actions` | `git.read` | `git_read` (at load) |
-| API / TS client body | `git.read` | `git_read` (at ingress) |
-| MCP tool catalog | `git_status` | `git_read` |
-| MCP tool catalog | `git_pr_create` | `create_pr` |
+| Layer | Format | Example | Defined in |
+|-------|--------|---------|------------|
+| Shipped `config/policies.yml` | dot notation | `git.read` | Human operators |
+| `PolicyEngine` / API / tests | snake_case | `git_read` | `core/tool_names.py` |
+| MCP tool catalog | snake_case | `git_status` | `core/tool_names.py` |
+| `allowed_tasks` (agents.yml) | hyphen | `infra-plan` | Task classifier (separate) |
 
-Shipped YAML may still use dot notation until architect verdict (P0-2b — see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`).
+**Adapter (permanent — not a workaround):**
+`resolve_policy_tool_name()` in `core/tool_names.py` handles two translations:
 
+1. Dot notation → snake_case: `git.read` → `git_read`
+2. MCP tool → policy action: `git_status` → `git_read`
+
+Called at: `POST /policy/evaluate` ingress + MCP policy gate.
+Idempotent for snake_case input (pass-through).
+
+`normalize_tool_name()` is used at YAML load time in `config/loader.py`.
+
+**Rationale for Option A (adapter-only):** Dot notation is more readable for human operators editing YAML. Migration to snake_case (Option B) was evaluated and rejected — adapter is the permanent solution. Fork backward compat preserved.
+
+**Identity:** `MCP_TOOL_TO_POLICY_ACTION` dict lives in `core/tool_names.py`.
+Telemetry records MCP tool name; `PolicyEngine` evaluates policy action name.
 ### policies.yml — what Milestone A actually loads
 
 `load_policies()` maps **rbac** and **abac** sections only. The following YAML sections are **not** loaded in Milestone A:
@@ -189,5 +199,5 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 Milestone A (#38): **CLOSED** — PoC scaffold. Phase 1 v2 record: [`docs/governance/PHASE1_REPORT_V2.md`](docs/governance/PHASE1_REPORT_V2.md).
 
-P0-2b shipped YAML notation: **deferred to Claude** — ingress + MCP mapping implemented (Phase 1 v2); see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`.
+P0-2b shipped YAML notation: **CLOSED — Option A** (adapter permanent; `core/tool_names.py`). See ARCHITECTURE § Tool naming.
 

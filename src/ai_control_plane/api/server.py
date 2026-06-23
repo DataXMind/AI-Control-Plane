@@ -34,13 +34,13 @@ from ai_control_plane.config.loader import (
     load_policies,
     load_project_token_limits,
     load_projects,
-    resolve_policy_tool_name,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
 from ai_control_plane.core.models import AgentIdentity, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
+from ai_control_plane.core.tool_names import resolve_policy_tool_name
 
 logger = structlog.get_logger(__name__)
 http_logger = structlog.get_logger("ai_control_plane.http")
