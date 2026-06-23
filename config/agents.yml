@@ -43,6 +43,20 @@ model_profiles:
       - comment.post
       - approval.request
 
+  claude-team-analytics:
+    provider: anthropic
+    account_type: team
+    api_key_env: ANTHROPIC_API_KEY_ANALYTICS
+    max_tokens_per_day: 600000
+    allowed_tasks:
+      - git.read
+      - git.commit
+      - git.push
+      - git.diff
+      - sql.run
+      - dbt.run
+      - notebook.execute
+
 # ── Registered agents — runner, roles, capabilities, restrictions ────────────
 agents:
   agent1:
@@ -99,3 +113,21 @@ agents:
       - read_only
       - no_git_write
       - no_k8s_apply
+
+  agent4:
+    name: analytics-jupyter
+    roles:
+      - data-analyst
+    projects:
+      - datax-analytics
+    runner: jupyter
+    model_profile: claude-team-analytics
+    capabilities:
+      - git
+      - sql
+      - dbt
+      - notebooks
+    restrictions:
+      - no_prod_write
+      - no_k8s_apply
+      - pii_paths_require_reviewer
