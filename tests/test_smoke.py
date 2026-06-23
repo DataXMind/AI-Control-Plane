@@ -1,4 +1,4 @@
-"""ACP smoke tests (SMK-01..SMK-05) — gold-pattern build verification gate.
+"""ACP smoke tests (SMK-01..SMK-06) — gold-pattern build verification gate.
 
 Run: pytest tests/test_smoke.py -v -m smoke
 Or: scripts/smoke_acp.sh (CI mode) / scripts/smoke_acp.sh --live (manual curl)
@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 
 import ai_control_plane.core.registry
 import ai_control_plane.core.telemetry
+from ai_control_plane.core.identity import encode_hs256_token
 
 pytestmark = pytest.mark.smoke
 
@@ -77,3 +78,37 @@ def test_smk05_quota_dependency_read(client: TestClient) -> None:
     assert "tokens_remaining" in body
     # Floor 100_000: agents.yml claude-pro-backend max_tokens_per_day=150000
     assert body["tokens_remaining"] >= 100_000
+
+
+def test_smk06_identity_verify_valid_token(client: TestClient) -> None:
+    """SMK-06: POST /identity/verify accepts valid HS256 stub JWT."""
+    token = encode_hs256_token(
+        {
+            "agent_id": "agent2",
+            "project_id": "rust-gateway",
+            "role": "backend",
+        },
+    )
+    response = client.post("/identity/verify", json={"token": token})
+    assert response.status_code == 200
+    assert response.json()["agent_id"] == "agent2"
+    assert response.json()["project_id"] == "rust-gateway"
+
+
+def test_smk06b_identity_verify_invalid_token(client: TestClient) -> None:
+    """SMK-06b: invalid JWT → 401 (not 503, not 200+deny)."""
+    response = client.post("/identity/verify", json={"token": "bad.token.here"})
+    assert response.status_code == 401
+
+
+def test_smk06c_identity_verify_unknown_agent(client: TestClient) -> None:
+    """SMK-06c: unknown agent in valid JWT → 401."""
+    token = encode_hs256_token(
+        {
+            "agent_id": "unknown-agent-xyz",
+            "project_id": "rust-gateway",
+            "role": "backend",
+        },
+    )
+    response = client.post("/identity/verify", json={"token": token})
+    assert response.status_code == 401

@@ -172,6 +172,12 @@ Không có fallback, không có default-allow.
 
 `ControlPlaneError` và unhandled exceptions → HTTP 503 + `allowed=false` on `/policy/evaluate`.
 
+**HTTP contracts (MB-S1-5):**
+
+- **Identity path** (`POST /identity/verify`): auth failure → **401** (invalid JWT, unknown agent).
+- **Policy path** (`POST /policy/evaluate`): authorization failure → **200** + `allowed=false`.
+- **Service unavailable:** both paths → **503** on internal errors only.
+
 
 
 ### Telemetry hash-chain contract

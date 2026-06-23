@@ -103,7 +103,7 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 
 ## 4. P0 gate — trước Phase 2 prompts
 
-**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — pytest full suite + smoke SMK-01..05 + shipped parity CI.
+**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — pytest full suite + smoke SMK-01..06 + shipped parity CI.
 
 **Phase 1 v2 record:** [`docs/governance/PHASE1_REPORT_V2.md`](governance/PHASE1_REPORT_V2.md) — honest gap list, ingress normalize, MCP→policy map, Codecov notes.
 
@@ -232,8 +232,10 @@ curl -s http://localhost:8000/health | jq .
 | **SMK-03** | Policy allow | `POST /policy/evaluate` backend + `git_read` | `allowed=true` |
 | **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false`, non-empty `reason` |
 | **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining >= 100000` |
+| **SMK-06** | Identity verify | `POST /identity/verify` valid HS256 stub JWT | HTTP 200, `agent_id` matches claim |
+| **SMK-06b** | Identity auth fail | `POST /identity/verify` invalid token | HTTP **401** (not 503, not 200+deny) |
 
-**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. `POST /identity/verify` — defer SMK-06 to Milestone B.
+**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. Identity uses HS256 stub in `core/identity.py` (JWKS deferred Milestone C).
 
 **Automated:** `tests/test_smoke.py` (marker `@pytest.mark.smoke`)  
 **Script:** `scripts/smoke_acp.sh` — CI: pytest smoke; `scripts/smoke_acp.sh --live` — optional live curl
@@ -243,7 +245,7 @@ curl -s http://localhost:8000/health | jq .
 **Thứ tự gate đầy đủ (5 lớp + smoke):**
 
 ```text
-L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..05 smoke
+L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..06 smoke
 ```
 
 ### 5.5 Session **Evolve**
