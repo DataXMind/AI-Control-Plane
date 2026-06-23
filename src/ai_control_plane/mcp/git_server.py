@@ -9,6 +9,7 @@ from collections.abc import Callable
 from typing import Any, NoReturn, Protocol, runtime_checkable
 
 import httpx
+import structlog
 
 from ai_control_plane.api.schemas import PolicyEvalRequest, PolicyEvalResponse
 from ai_control_plane.core.models import (
@@ -17,6 +18,9 @@ from ai_control_plane.core.models import (
     ProjectConfig,
     TelemetryEvent,
 )
+from ai_control_plane.core.telemetry import InMemoryTelemetryStore, TelemetryWriter
+
+logger = structlog.get_logger(__name__)
 
 JSON_RPC_INTERNAL_ERROR = -32603
 POLICY_EVAL_PATH = "/policy/evaluate"
@@ -193,21 +197,27 @@ class GitMcpServer:
         policy_client: httpx.AsyncClient,
         *,
         git_forwarder: GitForwarder | None = None,
+        store: InMemoryTelemetryStore | None = None,
         on_telemetry: Callable[[TelemetryEvent], None] | None = None,
     ) -> None:
         self._project = project
         self._policy_client = policy_client
         self._git_forwarder: GitForwarder = git_forwarder or StubGitForwarder()
+        self._store = store or InMemoryTelemetryStore()
+        self._writer = TelemetryWriter(self._store)
         self._on_telemetry = on_telemetry
-        self._telemetry_events: list[TelemetryEvent] = []
 
     @property
     def project(self) -> ProjectConfig:
         return self._project
 
     @property
+    def telemetry_store(self) -> InMemoryTelemetryStore:
+        return self._store
+
+    @property
     def telemetry_events(self) -> list[TelemetryEvent]:
-        return list(self._telemetry_events)
+        return self._store.list_events()
 
     def list_tools(self) -> list[dict[str, Any]]:
         """Return MCP tool definitions in JSON-RPC tools/list format."""
@@ -310,9 +320,17 @@ class GitMcpServer:
                 "repo": self._project.repo,
             },
         )
-        self._telemetry_events.append(event)
-        if self._on_telemetry is not None:
-            self._on_telemetry(event)
+        try:
+            sealed = self._writer.emit(event)
+            if self._on_telemetry is not None:
+                self._on_telemetry(sealed)
+        except Exception as exc:
+            logger.warning(
+                "telemetry_emit_failed",
+                tool_name=tool_name,
+                agent_id=identity.agent_id,
+                error=str(exc),
+            )
 
     async def _run_stdio(self) -> None:
         """Minimal MCP stdio loop for tools/list and tools/call."""

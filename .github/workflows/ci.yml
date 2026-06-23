@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  smoke:
+    name: Smoke gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]" --quiet
+      - run: pytest tests/test_smoke.py -v -m smoke --tb=short
+        env:
+          ACP_CONFIG_DIR: tests/fixtures/config
+        timeout-minutes: 2
+
+  test:
+    name: Full suite
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]" --quiet
+      - run: pytest tests/ -v --cov=ai_control_plane --cov-report=xml
+        env:
+          ACP_CONFIG_DIR: tests/fixtures/config
+      - run: ruff check src/ tests/
+      - run: mypy src/ai_control_plane/ --strict
+      - name: Upload coverage to Codecov
+        if: ${{ vars.CODECOV_ENABLED == 'true' }}
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -78,7 +78,7 @@ def _policy_rule_from_entry(entry: dict[str, Any]) -> PolicyRule:
         name=str(entry["name"]),
         description=str(entry.get("description", "")),
         conditions=dict(entry["conditions"]),
-        effect=effect,  # type: ignore[arg-type]
+        effect=effect,
     )
 
 

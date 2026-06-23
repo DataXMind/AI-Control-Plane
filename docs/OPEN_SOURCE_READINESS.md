@@ -31,7 +31,7 @@ Do **not** make the repository public before Phase 2 gates pass.
 | Fail-closed proven | API down / invalid request → deny (integration tests) | #11 |
 | Persistence | Tasks and quota survive API restart | #36 |
 | Observability | Structured logging, `/health`, basic metrics | #19, #25 |
-| CI mandatory | PR blocked on ruff + pytest (+ mypy when clean) | #25–#27 |
+| CI mandatory | PR blocked on **Smoke gate** + **Full suite** (when branch protection available) | #25–#27 |
 | Security hygiene | Secret scanning, dependency audit | Dependabot + pip-audit |
 | Core tests | Each `core/` module has tests | #21–#24 |
 
@@ -109,8 +109,10 @@ feat|fix|chore/<issue>-<short-desc>
 | Repo state | Branch protection |
 |------------|-------------------|
 | **Private (free tier)** | Not available via API — use team discipline + PR review by convention |
-| **Private (GitHub Team/Pro)** | Run `scripts/setup_github_milestones_and_protection.sh` |
-| **Public beta** | Enable in Settings → Branches → `master`: require PR (1 approval), block force push, require conversation resolution; add CI status checks after #25 |
+| **Private (GitHub Team/Pro)** | Run `scripts/setup_github_milestones_and_protection.sh`; add required checks: `Smoke gate`, `Full suite` |
+| **Public beta** | Enable in Settings → Branches → `master`: require PR (1 approval), block force push, require conversation resolution; require status checks **Smoke gate** + **Full suite** |
+
+**Codecov (optional):** set repository variable `CODECOV_ENABLED=true` and secret `CODECOV_TOKEN` to upload `coverage.xml` from the Full suite job.
 
 Until protection is enabled, treat **PR-only merges to `master`** as a team rule.
 

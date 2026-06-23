@@ -1,0 +1,639 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}.tp{border-left-color:#534AB7}
+.sec{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.05em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,165,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}.pbb .ac{color:#534AB7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.card p,.card li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.card ul{padding-left:14px;margin-top:4px}
+.verdict-box{border-radius:8px;padding:14px 16px;margin-bottom:14px;border:0.5px solid}
+.vg{background:rgba(52,201,126,.06);border-color:rgba(52,201,126,.3)}
+.vw{background:rgba(133,79,11,.06);border-color:rgba(133,79,11,.25)}
+.verdict-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.vg .verdict-label{color:#0F6E56}.vw .verdict-label{color:#854F0B}
+.verdict-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.verdict-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.verdict-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;font-weight:600;color:var(--color-text-secondary);width:52px;padding-top:1px}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.ci{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px;line-height:1.5;cursor:pointer;user-select:none}
+.ci:last-child{border-bottom:none}
+.ci:hover{color:var(--color-text-primary)}
+.ck{flex-shrink:0;width:14px;height:14px;border-radius:3px;border:0.5px solid var(--color-border-secondary);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--color-text-secondary)}
+.ci.done{color:var(--color-text-secondary);text-decoration:line-through}
+.ci.done .ck{background:var(--color-background-success, rgba(52,201,126,.08));border-color:rgba(52,201,126,.4);color:#0F6E56}
+.ci .ct{flex:1;color:var(--color-text-primary)}
+.ci .ct code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;color:var(--color-text-primary)}
+.ci.done .ct{color:var(--color-text-secondary)}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('tel-verdict')">TAB7 — Verdict</button>
+  <button class="nb" onclick="show('tel-spec')">TAB7 — Spec</button>
+  <button class="nb" onclick="show('tel-api')">TAB7 — API decision</button>
+  <button class="nb" onclick="show('tel-blind')">TAB7 — Blind spots</button>
+  <button class="nb" onclick="show('tel-cursor')">TAB7 — Cursor prompt</button>
+  <button class="nb" onclick="show('smk-verdict')">SMK — Verdict</button>
+  <button class="nb" onclick="show('smk-matrix')">SMK — Matrix</button>
+  <button class="nb" onclick="show('smk-v2')">SMK — v2 + CI</button>
+  <button class="nb" onclick="show('smk-cursor')">SMK — Cursor prompt</button>
+</div>
+
+<!-- TAB7 VERDICT -->
+<div id="pane-tel-verdict" class="pane on">
+  <div class="verdict-box vg">
+    <div class="verdict-label">Tab 7 Telemetry</div>
+    <div class="verdict-title">APPROVED — ready for Cursor execute</div>
+    <div class="verdict-body">Telemetry core đã implement đúng: hash-chain primitives có, ABC contract có, <code>InMemoryTelemetryStore</code> tên đúng. 2 gaps cần đóng trong 1 PR: (1) MCP emit chưa sealed, (2) <code>test_telemetry.py</code> thiếu. Không cần redesign — chỉ wire + test.</div>
+  </div>
+
+  <div class="sec">Scope confirmed (Milestone A)</div>
+  <div class="grid2">
+    <div class="card">
+      <h4><span class="tag tok">In scope — 1 PR</span></h4>
+      <ul>
+        <li><code>tests/test_telemetry.py</code> — 7 test cases</li>
+        <li><code>mcp/git_server.py</code> — patch <code>_emit_tool_call()</code> dùng <code>TelemetryWriter</code></li>
+        <li>Expose <code>InMemoryTelemetryStore</code> trên <code>AppState</code> (optional nhưng nên — enables integration test)</li>
+        <li>1 đoạn hash-chain contract trong <code>ARCHITECTURE.md</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">Out of scope — defer</span></h4>
+      <ul>
+        <li>Redis / persistent store (Milestone B)</li>
+        <li><code>cli/logs</code> live stream (MB4)</li>
+        <li>OTel collector / exporter production</li>
+        <li><code>POST /telemetry/ingest</code> endpoint (xem API decision tab)</li>
+        <li><code>apex/learn.py</code> logic thật (Milestone C)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">Wiring diagram — before / after</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl">Data flow</span></div>
+    <div class="pbb"><span class="r">BEFORE (broken):</span>
+tool_call → GitMcpServer._emit_tool_call()
+         → TelemetryEvent(thô)  <span class="cm"># không sealed</span>
+         → append to list[]     <span class="cm"># không qua InMemoryTelemetryStore</span>
+         → hash chain = NONE
+
+<span class="g">AFTER (sealed chain):</span>
+tool_call → GitMcpServer.handle_tool_call()
+         → PolicyClient.evaluate()  → PolicyDecision
+         → TelemetryWriter.emit(TelemetryEvent(TOOL_CALL, ...))
+                └→ store.append(event)
+                       └→ seal_event(): compute_event_hash(prev_hash, event)
+                              └→ event.event_hash = sha256(prev + json)
+                              └→ event.previous_hash = prev_hash
+                       └→ InMemoryTelemetryStore._events.append(sealed_event)
+         → returns sealed_event (immutable)
+
+<span class="cm"># AppState.telemetry_store: InMemoryTelemetryStore (singleton per app)</span>
+<span class="cm"># GitMcpServer nhận store via constructor injection — không global singleton</span>
+<span class="cm"># Telemetry failure → log only, KHÔNG ảnh hưởng PolicyDecision (fail-closed intact)</span></div>
+  </div>
+</div>
+
+<!-- TAB7 SPEC -->
+<div id="pane-tel-spec" class="pane">
+  <div class="sec">File-by-file change list</div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tok">PATCH</span> mcp/git_server.py — seal _emit_tool_call</span></div>
+    <div class="pbb"><span class="key">Thay đổi:</span>
+1. Constructor thêm: store: TelemetryStore = None (optional inject)
+   Nếu None → tạo InMemoryTelemetryStore local (backward compat)
+   
+2. _emit_tool_call() hiện tại:
+   <span class="r">self._events.append(TelemetryEvent(event_type=TOOL_CALL, ...))</span>
+
+   Sửa thành:
+   <span class="g">event = TelemetryEvent(event_type=TOOL_CALL, agent_id=..., project_id=..., payload={
+       "tool": tool_name, "allowed": decision.allowed, "latency_ms": latency
+   })
+   self._writer.emit(event)  # TelemetryWriter seals via store.append()</span>
+
+3. _writer: TelemetryWriter — inject qua constructor hoặc tạo từ self._store
+   
+<span class="key">INVARIANT #3 check:</span>
+git_server.py vẫn là facade — _emit_tool_call không chứa git logic.
+Emit chỉ gọi TelemetryWriter.emit() — không compute hash trực tiếp.
+Hash computation nằm trong core/telemetry.py — đúng kiến trúc.
+
+<span class="key">INVARIANT #2 check:</span>
+Không tạo TelemetryEvent subclass trong git_server.py.
+Import: from ai_control_plane.core.models import TelemetryEvent
+Import: from ai_control_plane.core.telemetry import TelemetryWriter, InMemoryTelemetryStore</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tok">CREATE</span> tests/test_telemetry.py — 7 test cases</span></div>
+    <div class="pbb"><span class="key">Test cases bắt buộc:</span>
+
+TC-1: test_compute_event_hash_deterministic()
+  <span class="cm"># Same event + same prev_hash → same hash</span>
+  h1 = compute_event_hash("", event)
+  h2 = compute_event_hash("", event)
+  assert h1 == h2
+
+TC-2: test_seal_event_sets_fields()
+  <span class="cm"># seal_event() sets both event_hash and previous_hash</span>
+  sealed = seal_event("abc123", event)
+  assert sealed.previous_hash == "abc123"
+  assert len(sealed.event_hash) == 64  <span class="cm"># SHA-256 hex</span>
+
+TC-3: test_verify_chain_passes_valid()
+  <span class="cm"># N events sealed in order → verify_event_chain returns True</span>
+  events = [seal_event(prev_hash, e) for ...]
+  assert verify_event_chain(events) == True
+
+TC-4: test_verify_chain_fails_tampered()
+  <span class="cm"># Modify middle event → chain broken</span>
+  events[1] = events[1].model_copy(update={"event_hash": "tampered"})
+  assert verify_event_chain(events) == False
+
+TC-5: test_store_append_seals_and_chain()
+  store = InMemoryTelemetryStore()
+  e1 = store.append(TelemetryEvent(event_type=TOOL_CALL, ...))
+  e2 = store.append(TelemetryEvent(event_type=POLICY_DECISION, ...))
+  assert e2.previous_hash == e1.event_hash  <span class="cm"># chain linked</span>
+  assert store.verify_chain() == True
+
+TC-6: test_store_get_returns_sealed()
+  store = InMemoryTelemetryStore()
+  e = store.append(TelemetryEvent(...))
+  retrieved = store.get(e.event_id)
+  assert retrieved.event_hash != ""  <span class="cm"># sealed copy</span>
+
+TC-7: test_writer_emits_sealed_events()
+  store = InMemoryTelemetryStore()
+  writer = TelemetryWriter(store)
+  r1 = writer.emit(TelemetryEvent(event_type=TOOL_CALL, agent_id="a", project_id="p", payload={}))
+  r2 = writer.emit(TelemetryEvent(event_type=TOOL_CALL, agent_id="a", project_id="p", payload={"n":2}))
+  assert r1.event_hash != r2.event_hash
+  assert r2.previous_hash == r1.event_hash
+  assert store.verify_chain()</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag twn">OPTIONAL nhưng nên làm</span> api/server.py — expose store trên AppState</span></div>
+    <div class="pbb"><span class="key">Lý do nên làm (không bắt buộc Milestone A):</span>
+Nếu AppState có telemetry_store → test_api_integration.py có thể verify
+chain sau khi tool call qua HTTP → SMK có thể assert sealed events.
+Nếu không → chỉ test unit level, không integration level.
+
+<span class="key">Change:</span>
+class AppState:
+    ...
+    telemetry_store: InMemoryTelemetryStore = None  <span class="cm"># thêm field</span>
+
+Trong create_app():
+    telemetry_store = InMemoryTelemetryStore()
+    git_server = GitMcpServer(..., store=telemetry_store)  <span class="cm"># inject</span>
+    app_state = AppState(..., telemetry_store=telemetry_store)
+
+<span class="key">Không thêm endpoint:</span>
+GET /telemetry chỉ add nếu TypeScript bridge cần — xem API decision tab.
+Milestone A: store accessible in-process, không qua HTTP.</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tbl">ADD</span> ARCHITECTURE.md — hash-chain contract (1 đoạn)</span></div>
+    <div class="pbb"><span class="key">Thêm section "Telemetry Hash-Chain Contract":</span>
+
+## Telemetry hash-chain contract
+
+Every `TelemetryEvent` appended via `InMemoryTelemetryStore.append()` is sealed:
+- `event_hash` = SHA-256(previous_hash + canonical_json(event, exclude=[event_hash, previous_hash, id]))
+- `previous_hash` = previous event's `event_hash` (empty string for first event)
+- Chain is verifiable via `verify_event_chain(store.list_events())`
+
+Invariant: `TelemetryWriter.emit()` is the ONLY public way to append events.
+Direct `store._events.append()` in production code is forbidden — breaks chain integrity.
+Telemetry failure MUST NOT affect PolicyEngine decisions (fail-silent, never fail-closed override).</div>
+  </div>
+</div>
+
+<!-- TAB7 API DECISION -->
+<div id="pane-tel-api" class="pane">
+  <div class="verdict-box vg">
+    <div class="verdict-label">API contract decision</div>
+    <div class="verdict-title">KHÔNG cần POST /telemetry/ingest — Milestone A</div>
+    <div class="verdict-body">In-process store đủ cho PoC. TypeScript bridge không cần telemetry endpoint — chỉ cần policy evaluate. Thêm endpoint khi Milestone B có Redis store và TS bridge cần query audit log.</div>
+  </div>
+
+  <div class="sec">Justification đầy đủ</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row">
+      <div class="rn">Lý do 1</div>
+      <div class="rb">
+        <div class="rt">TypeScript bridge không cần gọi telemetry</div>
+        <div class="rd">Theo ARCHITECTURE.md Invariant #6: <code>api/</code> là cross-language bridge duy nhất. TypeScript PolicyClient gọi <code>POST /policy/evaluate</code>. Telemetry là in-process concern của Python layer — TS không cần đọc hay ghi event chain. Thêm endpoint = surface attack không cần thiết.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Lý do 2</div>
+      <div class="rb">
+        <div class="rt">In-memory store đủ cho PoC audit</div>
+        <div class="rd">Milestone A mục tiêu: verify chain integrity và MCP events được sealed. <code>InMemoryTelemetryStore</code> với <code>verify_chain()</code> đáp ứng đủ. Data không persist qua restart — expected behavior Milestone A.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Lý do 3</div>
+      <div class="rb">
+        <div class="rt">Endpoint Milestone B — khi có Redis + audit query</div>
+        <div class="rd">Khi Milestone B có <code>RedisQuotaStore</code> và persistent store, thêm <code>GET /telemetry/events?project_id=&type=</code> để operator query audit log. Schema: re-export <code>TelemetryEvent</code> từ <code>api/schemas.py</code> với <code>class TelemetryEventResponse(TelemetryEvent): pass</code> — không wrapper riêng.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Lý do 4</div>
+      <div class="rb">
+        <div class="rt">Fail-silent contract rõ ràng hơn</div>
+        <div class="rd">Không có HTTP endpoint → không có timeout risk trên telemetry path. Telemetry failure = structlog error + continue. PolicyDecision không bị ảnh hưởng. Nếu có endpoint → risk timeout ảnh hưởng latency của policy path.</div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- TAB7 BLIND SPOTS -->
+<div id="pane-tel-blind" class="pane">
+  <div class="sec">Blind spot assessment (BS-02, BS-11, BS-13, BS-15)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row">
+      <div class="rn">BS-02</div>
+      <div class="rb">
+        <div class="rt">Model drift — TelemetryEvent fields thay đổi</div>
+        <div class="rd"><code>compute_event_hash</code> exclude <code>event_hash</code>, <code>previous_hash</code>, <code>id</code>. Nếu ai thêm field mới vào <code>TelemetryEvent</code> mà không update exclude list → hash thay đổi → chain break silently. Mitigation: TC-1 test determinism sẽ bắt — nhưng chỉ khi field mới có giá trị thay đổi giữa runs. Recommendation: thêm comment trong <code>compute_event_hash</code> liệt kê rõ excluded fields và lý do.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">BS-11</div>
+      <div class="rb">
+        <div class="rt">Registry/telemetry isolation — store không shared với registry</div>
+        <div class="rd"><code>InMemoryTelemetryStore</code> và <code>AgentRegistry</code> phải là separate singletons trên <code>AppState</code>. Risk: nếu Cursor inject store sai instance → events không trong chain. Mitigation: AppState là single source — <code>git_server</code> nhận <code>app_state.telemetry_store</code>, không tạo new store. Test: TC-7 qua <code>TelemetryWriter</code> inject store từ AppState.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">BS-13</div>
+      <div class="rb">
+        <div class="rt">Thread safety — InMemoryTelemetryStore concurrent appends</div>
+        <div class="rd">FastAPI async + uvicorn workers có thể concurrent append. Nếu <code>InMemoryTelemetryStore</code> dùng plain list → race condition trên <code>_events.append()</code> + <code>_last_hash</code> update. Risk: chain corruption khi high concurrent tool calls. Mitigation Milestone A: thêm <code>threading.Lock</code> vào <code>append()</code>. Test: không cần concurrent test cho Milestone A — document risk trong ARCHITECTURE.md.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">BS-15</div>
+      <div class="rb">
+        <div class="rt">Regression — SMK-01..05 vẫn pass sau MCP patch</div>
+        <div class="rd">SMK-03 test policy allow qua <code>GitMcpServer</code>. Nếu MCP patch thay đổi constructor signature → <code>create_app()</code> tạo GitMcpServer sai → SMK-03 fail. Mitigation: backward compat constructor (<code>store=None</code> default), tạo local store nếu None. Test gate: <code>pytest -m smoke</code> phải pass sau patch trước khi commit.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec">Issue mapping</div>
+  <div class="grid3">
+    <div class="card"><h4>Closes</h4><p><code>#23 Q3</code> — test_telemetry.py<br><code>#2 B2</code> — MCP emit verification (partial)</p></div>
+    <div class="card"><h4>Relates</h4><p><code>#12</code> MCP tests — nếu thêm MCP-level integration test trong PR này</p></div>
+    <div class="card"><h4>Parallel</h4><p>Không block tab 8 (test_registry, test_quota có thể song song nếu 2 Cursor sessions)</p></div>
+  </div>
+</div>
+
+<!-- TAB7 CURSOR PROMPT -->
+<div id="pane-tel-cursor" class="pane">
+  <div class="tip tw">
+    <strong>Copy toàn bộ block này paste vào Cursor Chat đầu session.</strong> Không cần thêm context — đã đủ.
+  </div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor prompt — Tab 7 Telemetry</span></span><button class="cbtn" onclick="cp(this,'p-tel-cursor')">Copy</button></div>
+    <div class="pbb" id="p-tel-cursor"><span class="hi">@src/ai_control_plane/core/telemetry.py
+@src/ai_control_plane/core/models.py
+@src/ai_control_plane/mcp/git_server.py
+@src/ai_control_plane/api/server.py
+@tests/conftest.py
+@ARCHITECTURE.md</span>
+
+<span class="key">Task: Tab 7 — Telemetry seal + test_telemetry.py (Issue #23)</span>
+<span class="cm"># 1 PR scope. Không thêm endpoint. Không rename class. Không thay đổi api/server.py nếu không cần.</span>
+
+<span class="key">TRAPS — không được tái phạm:</span>
+- Tên class: InMemoryTelemetryStore (KHÔNG EventStore)
+- TelemetryEvent chỉ trong core/models.py (Invariant #2)
+- git_server.py là facade: _emit_tool_call chỉ gọi TelemetryWriter.emit() — không compute hash trực tiếp
+- Telemetry failure KHÔNG ảnh hưởng PolicyDecision — catch exception, log, continue
+
+<span class="key">Step 1 — Patch mcp/git_server.py:</span>
+- Constructor: thêm store: InMemoryTelemetryStore = None
+  Nếu None → self._store = InMemoryTelemetryStore()
+  self._writer = TelemetryWriter(self._store)
+- _emit_tool_call(): xóa self._events.append(raw_event)
+  Thay bằng: self._writer.emit(TelemetryEvent(event_type=TOOL_CALL, agent_id=..., project_id=..., payload={...}))
+- Wrap emit trong try/except: nếu fail → structlog.warning, không raise
+
+<span class="key">Step 2 — Expose store trên AppState (optional nhưng nên):</span>
+- AppState thêm: telemetry_store: InMemoryTelemetryStore
+- create_app(): telemetry_store = InMemoryTelemetryStore()
+  GitMcpServer(..., store=telemetry_store)
+  AppState(..., telemetry_store=telemetry_store)
+
+<span class="key">Step 3 — Tạo tests/test_telemetry.py với 7 test cases:</span>
+
+TC-1: test_compute_event_hash_deterministic
+  assert compute_event_hash("", e) == compute_event_hash("", e)
+
+TC-2: test_seal_event_sets_hash_and_previous
+  sealed = seal_event("abc", event)
+  assert sealed.previous_hash == "abc"
+  assert len(sealed.event_hash) == 64
+
+TC-3: test_verify_chain_passes_for_valid_sequence
+  (append 3 events via store.append, verify_chain() True)
+
+TC-4: test_verify_chain_fails_if_tampered
+  (tamper middle event_hash → verify_chain() False)
+
+TC-5: test_store_append_links_chain
+  e1 = store.append(TelemetryEvent(...))
+  e2 = store.append(TelemetryEvent(...))
+  assert e2.previous_hash == e1.event_hash
+  assert store.verify_chain()
+
+TC-6: test_store_get_returns_sealed_copy
+  e = store.append(TelemetryEvent(...))
+  assert store.get(e.event_id).event_hash != ""
+
+TC-7: test_writer_emits_sealed_and_chained (VERIFY GATE)
+  store = InMemoryTelemetryStore()
+  writer = TelemetryWriter(store)
+  r1 = writer.emit(TelemetryEvent(event_type="tool.call", agent_id="a", project_id="p", payload={}))
+  r2 = writer.emit(TelemetryEvent(event_type="tool.call", agent_id="a", project_id="p", payload={"n":2}))
+  assert r1.event_hash != r2.event_hash
+  assert r2.previous_hash == r1.event_hash
+  assert store.verify_chain()
+
+<span class="key">Step 4 — Thêm 1 đoạn vào ARCHITECTURE.md:</span>
+Section "Telemetry hash-chain contract":
+- event_hash = SHA-256(prev_hash + canonical_json(event, exclude=[event_hash, previous_hash, id]))
+- TelemetryWriter.emit() là cách DUY NHẤT thêm events
+- Failure = fail-silent (không override PolicyDecision)
+- Thread safety: append() phải có threading.Lock (nếu chưa có — thêm)
+
+<span class="key">Verify gate sau implement:</span>
+pytest tests/test_telemetry.py -v          <span class="cm"># 7 pass</span>
+pytest tests/test_smoke.py -v -m smoke     <span class="cm"># SMK-01..05 vẫn pass</span>
+pytest tests/ -v                           <span class="cm"># 49+ pass, 0 regression</span>
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict        <span class="cm"># 0 new errors ngoài apex stubs</span></div>
+  </div>
+
+  <div class="sec">Acceptance checklist — Cursor self-verify</div>
+  <div id="ac-list">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>_emit_tool_call()</code> gọi <code>TelemetryWriter.emit()</code> — không append list trực tiếp</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Emit wrapped trong try/except → structlog.warning nếu fail, không raise</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>InMemoryTelemetryStore</code> constructor nhận optional store — backward compat</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>test_telemetry.py</code>: 7 TCs, tất cả pass</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>e2.previous_hash == e1.event_hash</code> — chain linked</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>verify_chain()</code> False khi tamper</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>pytest -m smoke</code>: SMK-01..05 vẫn pass (backward compat)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Full suite: 0 regression (42 → 49+)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">ruff + mypy strict clean</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">ARCHITECTURE.md: hash-chain contract section added</span></div>
+  </div>
+</div>
+
+<!-- SMK VERDICT -->
+<div id="pane-smk-verdict" class="pane">
+  <div class="verdict-box vw">
+    <div class="verdict-label">Smoke Audit</div>
+    <div class="verdict-title">APPROVE WITH CHANGES</div>
+    <div class="verdict-body">Foundation tốt. SMK-01..05 cover readiness, core govern, dependency. 3 vấn đề cần sửa: (1) SMK-04 assertion yếu — HTTP 200 + allowed=false đúng contract nhưng thiếu assert reason, (2) SMK-05 <code>tokens_remaining > 0</code> quá weak, (3) SMK-01 subprocess redundant. Identity gap là acceptable Milestone A — <code>POST /identity/verify</code> defer sang khi endpoint có logic thật.</div>
+  </div>
+
+  <div class="sec">Findings (ordered by severity)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn"><span class="tag twn">MEDIUM</span></div><div class="rb"><div class="rt">F-1: SMK-05 assertion quá weak</div><div class="rd"><code>tokens_remaining > 0</code> pass ngay cả khi QuotaTracker không được wire (default 0 limit với 0 used = still > 0 tùy implementation). Nên assert exact value từ fixture: <code>tokens_remaining == expected_limit_from_fixture</code>. Nếu không biết exact: ít nhất <code>tokens_remaining >= 100000</code> (floor từ agents.yml model_profile).</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MEDIUM</span></div><div class="rb"><div class="rt">F-2: SMK-04 thiếu assert reason field</div><div class="rd">HTTP 200 + <code>allowed=false</code> đúng fail-closed contract — không phải 503 (503 chỉ khi policy server unreachable, không khi known-deny). Nhưng thiếu: <code>assert "reason" in r.json()</code> và <code>assert r.json()["reason"] != ""</code>. Unknown agent phải trả reason rõ ràng (<code>agent_not_found</code> hoặc tương tự).</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tok">LOW</span></div><div class="rb"><div class="rt">F-3: SMK-01 subprocess redundant với pytest collection</div><div class="rd">Pytest import collection đã verify import thành công trước khi run bất kỳ test nào. SMK-01 subprocess thêm 1-2s overhead mà không thêm coverage mới. Nên đổi thành Python import test (nhanh hơn 5-10x) hoặc merge vào SMK-02 health check.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tok">LOW</span></div><div class="rb"><div class="rt">F-4: SMK-03/04 dùng fixture, không test production config path</div><div class="rd"><code>conftest autouse</code> set <code>ACP_CONFIG_DIR=tests/fixtures/config</code> — đây là fixture path, không phải <code>config/policies.yml</code> production. Sau NEW-2 (fixture = production schema), đây là acceptable. Nhưng phải document: "smoke tests run với fixture config, không production config". Manual smoke §5.4 cover production path.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tbl">INFO</span></div><div class="rb"><div class="rt">F-5: Identity gap — không có SMK cover POST /identity/verify</div><div class="rd">Gold pattern: Auth/identity check. <code>POST /identity/verify</code> có trên server nhưng logic Milestone A có thể là pass-through. Defer SMK-06 identity đến Milestone B khi endpoint có real JWT validation. Milestone A: acceptable gap — document trong §5.5.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tbl">INFO</span></div><div class="rb"><div class="rt">F-6: Overlap với test_api_server.py</div><div class="rd">SMK-02/03/04 overlap về logic với <code>test_api_server.py</code>. Đây là intentional: smoke = subset build-verification, regression = full suite. Không merge — giữ riêng. Smoke phải chạy <2 min độc lập; regression có thể chạy 5-10 min. Pattern đúng.</div></div></div>
+  </div></div>
+</div>
+
+<!-- SMK MATRIX -->
+<div id="pane-smk-matrix" class="pane">
+  <div class="sec">Gold pattern ↔ SMK mapping</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Readiness</div><div class="rb"><div class="rt"><span class="tag tok">COVERED</span> SMK-02 health readiness</div><div class="rd"><code>GET /health 200 + config_loaded + counts</code>. Đủ cho Milestone A. ✓</div></div></div>
+    <div class="row"><div class="rn">Identity</div><div class="rb"><div class="rt"><span class="tag twn">ACCEPTABLE GAP</span> không có SMK cover identity verify</div><div class="rd"><code>POST /identity/verify</code> defer Milestone B. Document gap trong §5.5. Không cần SMK-06 Milestone A.</div></div></div>
+    <div class="row"><div class="rn">Core read</div><div class="rb"><div class="rt"><span class="tag twn">WEAK</span> SMK-05 quota read — assertion quá yếu</div><div class="rd">Fix: assert <code>tokens_remaining >= 100000</code> (floor từ fixture) thay vì <code>> 0</code>.</div></div></div>
+    <div class="row"><div class="rn">Core govern</div><div class="rb"><div class="rt"><span class="tag tok">COVERED</span> SMK-03 allow + SMK-04 deny</div><div class="rd">Pair allow+deny là strong governance coverage. SMK-04 cần thêm assert reason field.</div></div></div>
+    <div class="row"><div class="rn">Dependency</div><div class="rb"><div class="rt"><span class="tag twn">REDUNDANT</span> SMK-01 subprocess + SMK-02 config_loaded</div><div class="rd">config_loaded trong SMK-02 đã cover dependency signal. SMK-01 subprocess thêm overhead. Simplify.</div></div></div>
+  </div></div>
+
+  <div class="sec">Câu hỏi audit — trả lời trực tiếp</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Q4</div><div class="rb"><div class="rt">SMK-03/04 test production config path không?</div><div class="rd">Không — test fixture path (conftest autouse). Sau NEW-2, fixture = production schema nên gap nhỏ. Manual smoke §5.4 với <code>ACP_CONFIG_DIR=config</code> cover production path.</div></div></div>
+    <div class="row"><div class="rn">Q5</div><div class="rb"><div class="rt">SMK-04 HTTP 200 + allowed=false — đúng hay phải 503?</div><div class="rd">HTTP 200 + allowed=false ĐÚNG. 503 chỉ khi policy server unreachable (timeout). Known-deny = business logic = 200 + payload. Fail-closed contract đúng.</div></div></div>
+    <div class="row"><div class="rn">Q6</div><div class="rb"><div class="rt">SMK-05 tokens_remaining > 0 có yếu không?</div><div class="rd">YẾU. Sửa: assert <code>tokens_remaining >= 100000</code> hoặc exact value từ fixture agents.yml <code>model_profile.max_tokens_per_day</code>.</div></div></div>
+    <div class="row"><div class="rn">Q7</div><div class="rb"><div class="rt">smoke_acp.sh nên start uvicorn thật không?</div><div class="rd">KHÔNG cho CI. Giữ TestClient cho CI (nhanh, no port conflict). Thêm optional flag: <code>./smoke_acp.sh --live</code> để start uvicorn + curl cho manual verification §5.4.</div></div></div>
+    <div class="row"><div class="rn">Q8</div><div class="rb"><div class="rt">CI nên chạy smoke thế nào?</div><div class="rd"><code>pytest -m smoke</code> trong CI job riêng, chạy trước full suite. Xem CI recommendation tab.</div></div></div>
+    <div class="row"><div class="rn">Q9</div><div class="rb"><div class="rt">SMK-01 subprocess redundant không?</div><div class="rd">YẾU — thay bằng Python import test (3x nhanh hơn) hoặc merge vào SMK-02.</div></div></div>
+    <div class="row"><div class="rn">Q11</div><div class="rb"><div class="rt">Cần SMK-06 identity không?</div><div class="rd">Không cần Milestone A. Document gap. Thêm khi /identity/verify có real JWT logic.</div></div></div>
+  </div></div>
+</div>
+
+<!-- SMK V2 + CI -->
+<div id="pane-smk-v2" class="pane">
+  <div class="sec">Proposed SMK-01..05 v2</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">SMK-01 v2</div><div class="rb"><div class="rt">test_smk01_core_import_python (thay subprocess)</div><div class="rd">Đổi từ subprocess sang Python import: <code>import ai_control_plane.core.registry; import ai_control_plane.core.telemetry</code>. Pass = no ImportError. Fast: ~50ms vs ~1s subprocess.</div></div></div>
+    <div class="row"><div class="rn">SMK-02</div><div class="rb"><div class="rt">test_smk02_health_readiness — giữ nguyên</div><div class="rd"><code>GET /health 200 + config_loaded=True + policy_rules_count > 0 + agents_loaded</code>. Đủ, không thay đổi.</div></div></div>
+    <div class="row"><div class="rn">SMK-03</div><div class="rb"><div class="rt">test_smk03_policy_allow_critical_path — giữ nguyên</div><div class="rd"><code>POST /policy/evaluate</code> backend + git_read → <code>allowed=True</code>. Đủ.</div></div></div>
+    <div class="row"><div class="rn">SMK-04 v2</div><div class="rb"><div class="rt">test_smk04_policy_deny_fail_closed — thêm assert reason</div><div class="rd">Unknown agent → <code>allowed=False</code> + assert <code>"reason" in r.json()</code> + <code>r.json()["reason"] != ""</code>. Confirm fail-closed với explicit reason.</div></div></div>
+    <div class="row"><div class="rn">SMK-05 v2</div><div class="rb"><div class="rt">test_smk05_quota_dependency_read — strengthen assertion</div><div class="rd"><code>tokens_remaining >= 100000</code> (floor từ <code>claude-pro-backend.max_tokens_per_day</code> trong fixture agents.yml). Không lấy exact để tránh brittle nếu fixture thay đổi — floor là đủ.</div></div></div>
+  </div></div>
+
+  <div class="sec">CI recommendation — Issue #25</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tbl">CI yaml</span> .github/workflows/ci.yml — smoke job</span><button class="cbtn" onclick="cp(this,'p-ci-smoke')">Copy</button></div>
+    <div class="pbb" id="p-ci-smoke">jobs:
+  smoke:
+    name: Smoke gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -e ".[dev]" --quiet
+      - run: pytest tests/test_smoke.py -v -m smoke --tb=short
+        env:
+          ACP_CONFIG_DIR: tests/fixtures/config
+        timeout-minutes: 2  <span class="cm"># hard cap — smoke must be fast</span>
+
+  test:
+    name: Full suite
+    needs: smoke  <span class="cm"># full suite chỉ chạy nếu smoke pass</span>
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -e ".[dev]" --quiet
+      - run: pytest tests/ -v --cov=ai_control_plane --cov-report=xml
+        env:
+          ACP_CONFIG_DIR: tests/fixtures/config
+      - run: ruff check src/ tests/
+      - run: mypy src/ai_control_plane/ --strict
+      - uses: codecov/codecov-action@v4
+        with: {file: coverage.xml}
+
+<span class="cm"># Key design decisions:
+# 1. smoke job chạy TRƯỚC và ĐỘC LẬP — fail fast, không tốn thời gian full suite
+# 2. full suite needs: smoke — nếu smoke fail → full suite không chạy
+# 3. timeout-minutes: 2 enforce "< 2 min" constraint cho smoke
+# 4. Không cần Docker/Redis cho Milestone A smoke
+# 5. Branch protection: require smoke + test pass trước merge vào main</span></div>
+  </div>
+</div>
+
+<!-- SMK CURSOR PROMPT -->
+<div id="pane-smk-cursor" class="pane">
+  <div class="tip tw">
+    <strong>Copy block này paste vào Cursor Chat.</strong> Chỉ sửa test_smoke.py và smoke_acp.sh — không thêm file mới.
+  </div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor prompt — SMK v2</span></span><button class="cbtn" onclick="cp(this,'p-smk-cursor')">Copy</button></div>
+    <div class="pbb" id="p-smk-cursor"><span class="hi">@tests/test_smoke.py
+@scripts/smoke_acp.sh
+@tests/conftest.py
+@docs/DEVELOPMENT_PROTOCOL.md
+@src/ai_control_plane/api/server.py</span>
+
+<span class="key">Task: Smoke suite v2 — 3 targeted changes (APPROVE WITH CHANGES verdict)</span>
+<span class="cm"># Không thêm SMK-06. Không thêm Redis. Không thay đổi logic PolicyEngine.</span>
+
+<span class="key">Change 1 — SMK-01: đổi subprocess → Python import (nhanh hơn 10x):</span>
+def test_smk01_core_import_python():
+    <span class="cm"># KHÔNG dùng subprocess.run(["python", "-c", ...]) nữa</span>
+    import ai_control_plane.core.registry
+    import ai_control_plane.core.telemetry
+    <span class="cm"># pytest import collection đã verify — nhưng explicit import = clear signal</span>
+    assert ai_control_plane.core.registry is not None
+    assert ai_control_plane.core.telemetry is not None
+
+<span class="key">Change 2 — SMK-04: thêm assert reason không rỗng:</span>
+def test_smk04_policy_deny_fail_closed(client):
+    r = client.post("/policy/evaluate", json={
+        "agent_id": "unknown-agent-xyz",
+        "project_id": "rust-gateway",
+        "tool_name": "git_read",
+        "args": {}
+    })
+    assert r.status_code == 200
+    data = r.json()
+    assert data["allowed"] == False
+    assert "reason" in data              <span class="cm"># THÊM: reason field phải có</span>
+    assert data["reason"] != ""          <span class="cm"># THÊM: reason không được rỗng</span>
+    <span class="cm"># Note: HTTP 200 + allowed=false là đúng. 503 chỉ khi server unreachable.</span>
+
+<span class="key">Change 3 — SMK-05: strengthen assertion với floor value:</span>
+def test_smk05_quota_dependency_read(client):
+    r = client.get("/quota/rust-gateway")
+    assert r.status_code == 200
+    data = r.json()
+    assert "tokens_remaining" in data
+    assert data["tokens_remaining"] >= 100000  <span class="cm"># THAY: floor từ claude-pro-backend fixture</span>
+    <span class="cm"># Lý do 100000: agents.yml claude-pro-backend.max_tokens_per_day = 150000, floor là 100000</span>
+    <span class="cm"># Nếu fixture thay đổi: update floor này cho phù hợp</span>
+
+<span class="key">scripts/smoke_acp.sh — thêm optional --live flag:</span>
+if [ "${1}" == "--live" ]; then
+    echo "Starting uvicorn for live smoke..."
+    uvicorn ai_control_plane.api.server:app --port 18000 &
+    SERVER_PID=$!
+    sleep 2
+    curl -sf http://localhost:18000/health | python3 -m json.tool
+    curl -sf -X POST http://localhost:18000/policy/evaluate \
+         -H "Content-Type: application/json" \
+         -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","args":{}}' \
+         | python3 -m json.tool
+    kill $SERVER_PID
+    echo "Live smoke done."
+else
+    echo "Running TestClient smoke (CI mode)..."
+    pytest tests/test_smoke.py -v -m smoke --tb=short
+fi
+
+<span class="key">docs/DEVELOPMENT_PROTOCOL.md §5.5 — update 3 dòng:</span>
+- SMK-01: Python import (thay subprocess)
+- SMK-04: includes reason field assertion
+- SMK-05: tokens_remaining >= 100000 (floor)
+- Note: Identity gap (POST /identity/verify) documented — defer Milestone B
+
+<span class="key">Verify sau changes:</span>
+pytest tests/test_smoke.py -v -m smoke    <span class="cm"># 5 pass, < 2 min</span>
+pytest tests/ -v                          <span class="cm"># 0 regression</span>
+./scripts/smoke_acp.sh                    <span class="cm"># TestClient mode pass</span>
+./scripts/smoke_acp.sh --live             <span class="cm"># optional: live curl test</span></div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=el.innerText;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+function tog(el){
+  el.classList.toggle('done');
+  const ck=el.querySelector('.ck');
+  ck.textContent=el.classList.contains('done')?'✓':'';
+}
+</script>

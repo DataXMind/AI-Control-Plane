@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from ai_control_plane.apex.act import ActAdapter
 from ai_control_plane.apex.analyze import AnalyzeAdapter
 from ai_control_plane.apex.learn import LearnAdapter
@@ -12,7 +14,7 @@ from ai_control_plane.apex.sense import SenseAdapter
 class SapalLoop:
     """Sense → Analyze → Predict → Act → Learn orchestrator (stub until Milestone C)."""
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, Any]) -> None:
         self._config = config
         self._sense = SenseAdapter(config)
         self._analyze = AnalyzeAdapter(config)

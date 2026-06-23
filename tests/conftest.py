@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from fastapi.testclient import TestClient
 
 from ai_control_plane.config.loader import load_policies
 from ai_control_plane.core.models import AgentIdentity, ProjectConfig
@@ -87,6 +88,14 @@ def mock_policy_engine(sample_project_config: ProjectConfig) -> PolicyEngine:
     _ = sample_project_config
     rules = load_policies(FIXTURES_DIR / "policies.yml")
     return PolicyEngine(rules=rules)
+
+
+@pytest.fixture
+def client() -> TestClient:
+    """FastAPI TestClient with fixture config (ACP_CONFIG_DIR from autouse)."""
+    from ai_control_plane.api.server import create_app
+
+    return TestClient(create_app())
 
 
 @pytest.fixture(autouse=True)

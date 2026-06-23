@@ -187,14 +187,16 @@ curl -s http://localhost:8000/health | jq .
 
 | ID | Tên | Lệnh / test | Pass criteria |
 | -- | --- | ----------- | ------------- |
-| **SMK-01** | Core import | `python -c "from ai_control_plane.core import registry, telemetry"` | Exit 0, no ImportError |
+| **SMK-01** | Core import | Python `import ai_control_plane.core.registry, telemetry` | No ImportError |
 | **SMK-02** | Readiness | `GET /health` hoặc `test_smk02_health_readiness` | HTTP 200, `config_loaded=true`, `policy_rules_count>0` |
 | **SMK-03** | Policy allow | `POST /policy/evaluate` backend + `git_read` | `allowed=true` |
-| **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false` |
-| **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining>0` |
+| **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false`, non-empty `reason` |
+| **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining >= 100000` |
+
+**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. `POST /identity/verify` — defer SMK-06 to Milestone B.
 
 **Automated:** `tests/test_smoke.py` (marker `@pytest.mark.smoke`)  
-**Script:** `scripts/smoke_acp.sh` — chạy SMK-01 + pytest smoke
+**Script:** `scripts/smoke_acp.sh` — CI: pytest smoke; `scripts/smoke_acp.sh --live` — optional live curl
 
 **Khi nào bắt buộc:** Sau mọi thay đổi `api/server.py`, `config/loader.py`, `core/` contracts; trước Phase 2; trước commit Standard+.
 

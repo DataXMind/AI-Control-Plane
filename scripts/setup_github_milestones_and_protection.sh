@@ -45,7 +45,13 @@ echo "Assigned issues to milestones."
 if gh api -X PUT "repos/${REPO}/branches/master/protection" \
   --input - <<'JSON' 2>/dev/null; then
 {
-  "required_status_checks": null,
+  "required_status_checks": {
+    "strict": true,
+    "checks": [
+      {"context": "Smoke gate", "app_id": null},
+      {"context": "Full suite", "app_id": null}
+    ]
+  },
   "enforce_admins": false,
   "required_pull_request_reviews": {
     "dismiss_stale_reviews": true,

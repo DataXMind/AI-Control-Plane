@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import threading
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
@@ -71,25 +72,30 @@ class InMemoryTelemetryStore(TelemetryStore):
     def __init__(self) -> None:
         self._events: list[TelemetryEvent] = []
         self._index: dict[str, TelemetryEvent] = {}
+        self._lock = threading.Lock()
 
     def append(self, event: TelemetryEvent) -> TelemetryEvent:
-        previous_hash = self._events[-1].event_hash if self._events else None
-        sealed = seal_event(previous_hash, event)
-        self._events.append(sealed)
-        self._index[sealed.event_id] = sealed
-        return sealed.model_copy(deep=True)
+        with self._lock:
+            previous_hash = self._events[-1].event_hash if self._events else None
+            sealed = seal_event(previous_hash, event)
+            self._events.append(sealed)
+            self._index[sealed.event_id] = sealed
+            return sealed.model_copy(deep=True)
 
     def get(self, event_id: str) -> TelemetryEvent | None:
-        stored = self._index.get(event_id)
-        if stored is None:
-            return None
-        return stored.model_copy(deep=True)
+        with self._lock:
+            stored = self._index.get(event_id)
+            if stored is None:
+                return None
+            return stored.model_copy(deep=True)
 
     def list_events(self) -> list[TelemetryEvent]:
-        return [event.model_copy(deep=True) for event in self._events]
+        with self._lock:
+            return [event.model_copy(deep=True) for event in self._events]
 
     def verify_chain(self) -> bool:
-        return verify_event_chain(self._events)
+        with self._lock:
+            return verify_event_chain(self._events)
 
 
 class TelemetryWriter:

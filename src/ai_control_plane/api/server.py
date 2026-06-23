@@ -39,6 +39,7 @@ from ai_control_plane.core.exceptions import ApprovalError, ConfigError, Control
 from ai_control_plane.core.models import AgentIdentity, TaskState
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import InMemoryQuotaStore, TokenBudget
+from ai_control_plane.core.telemetry import InMemoryTelemetryStore
 
 logger = logging.getLogger(__name__)
 http_logger = logging.getLogger("ai_control_plane.http")
@@ -84,6 +85,7 @@ class AppState:
     agent_registry: dict[str, dict[str, Any]] = field(default_factory=dict)
     task_status_by_project: dict[str, TaskStatus] = field(default_factory=dict)
     project_limits: dict[str, float] = field(default_factory=dict)
+    telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
 
 
 def build_policy_engine() -> PolicyEngine:
@@ -96,6 +98,7 @@ def build_policy_engine() -> PolicyEngine:
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = InMemoryQuotaStore()
+    telemetry_store = InMemoryTelemetryStore()
     rules = load_policies()
     agent_registry = build_agent_registry()
     projects = load_projects()
@@ -115,6 +118,7 @@ def build_default_app_state() -> AppState:
         projects_loaded=sorted(projects.keys()),
         agent_registry=agent_registry,
         project_limits=project_limits,
+        telemetry_store=telemetry_store,
     )
 
 
