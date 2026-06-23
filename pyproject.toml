@@ -44,6 +44,7 @@ asyncio_mode = "auto"
 pythonpath = ["src"]
 markers = [
     "smoke: ACP build verification gate (SMK-01..SMK-05)",
+    "shipped_config: tests against repo config/ (not fixtures)",
 ]
 
 [tool.ruff]

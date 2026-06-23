@@ -12,11 +12,11 @@ AI Control Plane uses a **dual notation** for tool/action names:
 | `PolicyEngine` / tests / MCP | snake_case canonical | `git_read`, `k8s_apply_prod` |
 | Adapter | `config/loader.normalize_tool_name()` at load time | `git.read` → `git_read` |
 
-**Current state (Milestone A):**
+**Current state (Milestone A + Phase 1 v2):**
 
-- Runtime adapter works — `load_policies()` normalizes at load; SMK-03/04 pass.
-- Shipped `config/policies.yml` and `config/agents.yml` still use **dot notation** in YAML source.
-- Issue **#8 (P0-2b)** and **D3** remain open: standardize whether to migrate shipped files or document adapter-only permanently.
+- `resolve_policy_tool_name()` at API ingress and MCP policy gate — dot notation and MCP aliases work at runtime.
+- Shipped `config/policies.yml` still uses **dot notation** in YAML source (architect decision pending).
+- Issue **#8 (P0-2b)** and **D3**: standardize whether to migrate shipped files or document adapter-only permanently.
 
 ## Goal
 

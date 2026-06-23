@@ -14,6 +14,7 @@ from ai_control_plane.config.loader import (
     load_policies,
     load_project_token_limits,
     normalize_tool_name,
+    resolve_policy_tool_name,
 )
 from ai_control_plane.core.models import AgentIdentity
 from ai_control_plane.core.policies import PolicyEngine
@@ -38,6 +39,17 @@ def test_normalize_tool_name_dot_to_snake() -> None:
     assert normalize_tool_name("git.read") == "git_read"
     assert normalize_tool_name("k8s.apply") == "k8s_apply"
     assert normalize_tool_name("git_read") == "git_read"
+
+
+def test_resolve_policy_tool_name_dot_notation() -> None:
+    assert resolve_policy_tool_name("git.read") == "git_read"
+    assert resolve_policy_tool_name("git_read") == "git_read"
+
+
+def test_resolve_policy_tool_name_mcp_alias() -> None:
+    assert resolve_policy_tool_name("git_status") == "git_read"
+    assert resolve_policy_tool_name("git_pr_create") == "create_pr"
+    assert resolve_policy_tool_name("git_commit") == "git_commit"
 
 
 def test_derive_denied_patterns_k8s_apply() -> None:

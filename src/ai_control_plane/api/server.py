@@ -34,6 +34,7 @@ from ai_control_plane.config.loader import (
     load_policies,
     load_project_token_limits,
     load_projects,
+    resolve_policy_tool_name,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
 from ai_control_plane.core.models import AgentIdentity, TaskState
@@ -271,12 +272,14 @@ def create_app(state: AppState | None = None) -> FastAPI:
             did=None,
         )
 
+        policy_tool_name = resolve_policy_tool_name(body.tool_name)
+
         try:
             decision = await asyncio.wait_for(
                 asyncio.to_thread(
                     acp.policy_engine.evaluate,
                     identity,
-                    body.tool_name,
+                    policy_tool_name,
                     body.args,
                     body.project_id,
                 ),

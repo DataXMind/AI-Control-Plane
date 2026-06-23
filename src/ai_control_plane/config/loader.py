@@ -21,6 +21,28 @@ def normalize_tool_name(name: str) -> str:
     return name.replace(".", "_").replace("-", "_")
 
 
+# MCP tool names (cyanheads facade) → canonical policy actions (RBAC/ABAC).
+# Telemetry and forwarder keep the MCP name; policy evaluation uses the mapped action.
+MCP_TOOL_TO_POLICY_ACTION: dict[str, str] = {
+    "git_clone": "git_read",
+    "git_branch": "git_read",
+    "git_status": "git_read",
+    "git_commit": "git_commit",
+    "git_push": "git_push",
+    "git_pr_create": "create_pr",
+}
+
+
+def resolve_policy_tool_name(name: str) -> str:
+    """Normalize ingress tool name to engine snake_case policy action.
+
+    Applies dot/dash normalization, then MCP→policy alias when the name is an MCP tool.
+    Idempotent for canonical snake_case policy actions (e.g. git_read).
+    """
+    normalized = normalize_tool_name(name)
+    return MCP_TOOL_TO_POLICY_ACTION.get(normalized, normalized)
+
+
 def derive_denied_patterns(denied_actions: list[str]) -> list[str]:
     """Derive wildcard deny patterns from normalized denied action names."""
     patterns: list[str] = []

@@ -69,12 +69,34 @@ At `create_app()` / `build_default_app_state()`, YAML from `ACP_CONFIG_DIR` or s
 ### Tool naming convention
 
 - **Canonical (engine + tests):** `snake_case` — e.g. `git_read`, `k8s_apply_prod`
-
 - **Config YAML (shipped):** dot notation — e.g. `git.read`, `k8s.apply`
+- **Adapter (load time):** `config/loader.normalize_tool_name()` when reading YAML (#8, #43)
+- **Adapter (ingress):** `config/loader.resolve_policy_tool_name()` on `POST /policy/evaluate` and MCP policy gate — normalizes dot notation and maps MCP tool names to policy actions (Phase 1 v2)
 
-- **Adapter:** `config/loader.normalize_tool_name()` at load time (#8, #43)
+| Namespace | Example | Resolved policy action |
+|-----------|---------|------------------------|
+| YAML `allowed_actions` | `git.read` | `git_read` (at load) |
+| API / TS client body | `git.read` | `git_read` (at ingress) |
+| MCP tool catalog | `git_status` | `git_read` |
+| MCP tool catalog | `git_pr_create` | `create_pr` |
 
+Shipped YAML may still use dot notation until architect verdict (P0-2b — see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`).
 
+### policies.yml — what Milestone A actually loads
+
+`load_policies()` maps **rbac** and **abac** sections only. The following YAML sections are **not** loaded in Milestone A:
+
+| Section | Status | Milestone |
+|---------|--------|-----------|
+| `rbac.roles` | ✅ Loaded → `PolicyRule` with `rule_type: rbac` | A |
+| `abac.rules` | ⚠️ Subset — unmappable conditions skipped | A |
+| `guardrails` | ❌ Not loaded — engine supports `rule_type: guardrail` but loader has no `_load_guardrails()` | B (#MB7) |
+| `kill_switch` | ❌ Not loaded or enforced | B (#MB7) |
+| `quotas.by_model_profile` | ❌ Not wired to runtime quota API | B |
+| `quotas.by_agent` | ❌ Not wired | B |
+| `quotas.by_project` | ✅ Via `load_project_token_limits()` | A |
+
+**ABAC adapter limitations (Milestone A):** entries with `approval_status`, `role_not_in`, or `read_only` in conditions are **skipped** entirely. `Restrict-PII` in shipped config maps when `data_class: pii` is present but **`role_not_in` is not enforced** (partial map). Fixture `tests/fixtures/config/policies.yml` uses simplified ABAC for unit tests — CI defaults to fixtures, not shipped `config/`. Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 ### API surface (api/server.py only — no api/routes stubs)
 
@@ -163,9 +185,9 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 
 
-### Execution status (2026-06-22)
+### Execution status (2026-06-23)
 
-P0 gate through Milestone A scaffold: **complete** (pending human close #38).
-S7 MCP tests, S4 model profiles loader, S5/D2/D4/D6/Q9 debt items: **complete**.
-P0-2b shipped YAML tool naming: **deferred** — see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`.
+Milestone A (#38): **CLOSED** — PoC scaffold. Phase 1 v2 record: [`docs/governance/PHASE1_REPORT_V2.md`](docs/governance/PHASE1_REPORT_V2.md).
+
+P0-2b shipped YAML notation: **deferred to Claude** — ingress + MCP mapping implemented (Phase 1 v2); see `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`.
 

@@ -34,6 +34,7 @@ jobs:
       - run: pytest tests/ -v --cov=ai_control_plane --cov-report=xml
         env:
           ACP_CONFIG_DIR: tests/fixtures/config
+      - run: pytest tests/test_shipped_config_parity.py -v -m shipped_config
       - run: ruff check src/ tests/
       - run: mypy src/ai_control_plane/ --strict
       - name: Upload coverage to Codecov

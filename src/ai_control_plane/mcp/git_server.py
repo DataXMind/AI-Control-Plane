@@ -12,6 +12,7 @@ import httpx
 import structlog
 
 from ai_control_plane.api.schemas import PolicyEvalRequest, PolicyEvalResponse
+from ai_control_plane.config.loader import resolve_policy_tool_name
 from ai_control_plane.core.models import (
     AgentIdentity,
     McpError,
@@ -281,7 +282,7 @@ class GitMcpServer:
         payload = PolicyEvalRequest(
             agent_id=identity.agent_id,
             project_id=identity.project_id,
-            tool_name=tool_name,
+            tool_name=resolve_policy_tool_name(tool_name),
             args=args,
             role=identity.role,
         )

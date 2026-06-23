@@ -41,6 +41,22 @@ def test_policy_evaluate_backend_git_read_allowed() -> None:
     assert body["allowed"] is True
 
 
+def test_policy_evaluate_dot_notation_normalized_at_ingress() -> None:
+    """API ingress resolves git.read → git_read (P0-2b partial, Phase 1 v2)."""
+    client = TestClient(create_app())
+    response = client.post(
+        "/policy/evaluate",
+        json={
+            "agent_id": "agent2",
+            "project_id": "rust-gateway",
+            "tool_name": "git.read",
+            "role": "backend",
+        },
+    )
+    assert response.status_code == 200
+    assert response.json()["allowed"] is True
+
+
 def test_policy_evaluate_backend_k8s_apply_denied() -> None:
     client = TestClient(create_app())
     response = client.post(

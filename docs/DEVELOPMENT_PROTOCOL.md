@@ -3,9 +3,9 @@
 > **Purpose:** Chuẩn hóa mọi thay đổi code/docs trên **ai-control-plane** — chất lượng, 8 hard invariants, fail-closed governance, tránh schema/wiring drift.
 
 **Document ID:** ACP-DEV-PROTOCOL-001  
-**Version:** 1.2  
+**Version:** 1.3  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-23 — Milestone A closed (#38); governance archive in `docs/governance/`  
+**Last updated:** 2026-06-23 — Phase 1 v2: ingress normalize, shipped parity CI, governance record  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -24,7 +24,7 @@ File này là **cổng bắt buộc trước khi sửa code** cho agent và dev.
 | **Architecture & invariants** | [`ARCHITECTURE.md`](../ARCHITECTURE.md) | 8 hard invariants, module inventory, milestones |
 | **Code generation rules** | [`.cursorrules`](../.cursorrules) | Pydantic v2, structlog, async I/O, test rules |
 | **Open source gates** | [`docs/OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md) | Khi nào public repo / PyPI |
-| **Milestone A archive** | [`docs/governance/`](governance/) | Claude audit HTML + Phase 1 decisions (closed #38) |
+| **Milestone A archive** | [`docs/governance/`](governance/) | Claude audit HTML + **Phase 1 v2 report** (closed #38) |
 | **Cursor task prompts** | [`docs/prompts/`](prompts/) | Tab 7, smoke, tool-naming defer packets |
 | **Execution backlog** | [GitHub Issues](https://github.com/DataXMind/AI-Control-Plane/issues) | Labels: `bug`, `spec-gap`, `debt`, `quality`, `milestone-b` |
 | **Milestone A tracking** | Issue [#38](https://github.com/DataXMind/AI-Control-Plane/issues/38) | **CLOSED** — Definition of Done PoC scaffold |
@@ -101,7 +101,9 @@ Khi mâu thuẫn, xử lý theo thứ tự:
 
 ## 4. P0 gate — trước Phase 2 prompts
 
-**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — 82 tests, CI green, smoke gate SMK-01..05.
+**P0 gate: PASSED (2026-06-22)** · **Milestone A: CLOSED (2026-06-23, #38)** — pytest full suite + smoke SMK-01..05 + shipped parity CI.
+
+**Phase 1 v2 record:** [`docs/governance/PHASE1_REPORT_V2.md`](governance/PHASE1_REPORT_V2.md) — honest gap list, ingress normalize, MCP→policy map, Codecov notes.
 
 ### 4.1 Milestone A closed — governance archive
 
@@ -115,6 +117,8 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Phase 2 adjusted (audit) | [phase2_adjusted_prompts.html](governance/phase2_adjusted_prompts.html) | P0 broken items, P0 fix pack, adjusted prompts |
 | Claude ↔ Cursor reconcile | [cursor_claude_reconcile_analysis.html](governance/cursor_claude_reconcile_analysis.html) | 88% match, NEW-GAP-1..5, action items |
 | Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
+| **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
+| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | MB7 guardrails + kill_switch |
 
 **Cursor prompts (markdown):**
 
@@ -124,9 +128,11 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Smoke audit (#25) | [`docs/prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md`](prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md) |
 | Tool naming defer (#8, D3) | [`docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`](prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md) |
 
-**Verify gate at close:** `pytest tests/` 82 pass · `pytest -m smoke` 5 pass · CI jobs `Smoke gate` + `Full suite` green on `master` (`9196ee5`).
+**Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 5 pass · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
-**Deferred to Milestone B / Claude:** P0-2b shipped YAML tool naming (#8, D3) — see tool-naming prompt above.
+**Phase 1 v2 (post-close hardening):** `resolve_policy_tool_name()` at API/MCP ingress; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
+
+**Deferred to Milestone B / Claude:** P0-2b shipped YAML **notation** (#8, D3) — ingress/MCP map done; architect A/B/C still needed — see tool-naming prompt.
 
 | Thứ tự | Nội dung | Issues | Status |
 | ------ | -------- | ------ | ------ |
@@ -136,15 +142,14 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | **P0-2** | Wire `PolicyEngine` at API startup | #7 | ✅ |
 | **P0-3** | `ControlPlaneError` + xóa api stubs | #3, #15 | ✅ |
 | **P0-4** | Wire agents/projects/quotas + `/health` proof | #5, #6, #39 | ✅ |
-| **P0-2b** | Tool naming adapter (`normalize_tool_name`) | #8 | ⚠️ Runtime OK; shipped YAML vẫn dot notation |
+| **P0-2b** | Tool naming: ingress + MCP map (`resolve_policy_tool_name`) | #8 | ✅ Ingress/MCP; ⚠️ shipped YAML dot notation → Claude |
 | **NEW-2** | Unify fixture policies schema | #40 | ✅ Production `rbac`/`abac` schema; adapter path only |
 
 **Verify gate (passed):**
 
 ```bash
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
-pytest tests/ -v
-# Current: 82 passed (incl. MCP facade + schema unify + model profiles)
+pytest tests/ -v                    # 91+ tests (incl. v2 parity + MCP integration)
 curl -s http://localhost:8000/health | jq .
 # Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
 ```
@@ -156,7 +161,7 @@ curl -s http://localhost:8000/health | jq .
 3. Core module tests (#21–24): `test_models`, `test_registry`, `test_quota`, `test_telemetry` ✅
 4. MCP facade tests (#12 S7), schema unify (S5), loader profiles (S4 A1) ✅
 5. Debt: D2, D4, D6, Q9 ✅ — P0-2b deferred → `docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`
-6. CI + pre-commit (#25–27), structlog (#19) ✅
+6. CI + ruff/mypy in CI (#25–27); structlog in **api/ + mcp/** (#19 partial); pre-commit file present, CI does not run `pre-commit`
 7. README runbook (#13), ARCHITECTURE sync (#14) ✅
 8. ~~Close tracking issue #38~~ ✅ **closed** (human, post CI green)
 
@@ -313,7 +318,7 @@ Mỗi mục: ✅ / ⚠️ + mitigation / N/A có lý do.
 | BS-02 | **Model drift?** Type mới có trong `models.py` không? |
 | BS-03 | **Duplicate type?** `api/schemas` có copy model từ `core` không? |
 | BS-04 | **Config vs runtime?** YAML có thực sự load vào engine không? |
-| BS-05 | **Tool naming?** `git.read` vs `git_read` — đã normalize? |
+| BS-05 | **Tool naming?** | `resolve_policy_tool_name()` at API/MCP ingress + loader at YAML load |
 | BS-06 | **Fixture drift?** Test YAML cùng schema production? |
 | BS-07 | **CLI bypass?** `cli/` có import `core.policies` không? |
 | BS-08 | **Git in Python?** Logic git chỉ ở TS forwarder? |
@@ -436,6 +441,6 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 
 ---
 
-**Version:** 1.2 · **Last updated:** 2026-06-23 (Milestone A closed, governance archive)  
+**Version:** 1.3 · **Last updated:** 2026-06-23 (Phase 1 v2 governance + ingress normalize)  
 **Supersedes:** ACOP-DEV-PROTOCOL-001 import (nội dung ACOP-specific đã loại bỏ)  
 **Project:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane) (private until public-beta gates)
