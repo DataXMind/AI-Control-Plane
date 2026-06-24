@@ -1,7 +1,6 @@
 # Cursor Prompt Packet — Post Milestone C (hygiene + doc truth)
 
-> **Status:** ACTIVE  
-> **Master:** `a285539`  
+> **Status:** Steps 1-4 executed 2026-06-24 — PR #65 merged; doc drift + ADR + #9/#39 anchored  
 > **Ref:** [`ACP_FULL_AUDIT_RECONCILIATION.md`](ACP_FULL_AUDIT_RECONCILIATION.md)
 
 Execute in order. Docs-only unless noted.

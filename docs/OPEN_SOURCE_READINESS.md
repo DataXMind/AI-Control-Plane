@@ -18,9 +18,10 @@ Do **not** make the repository public before Phase 2 gates pass.
 
 | GitHub Milestone | Scope | Close when |
 |------------------|-------|------------|
-| **Milestone A** | PoC scaffold: core, api, mcp, cli assign/status | Tracking issue #38 + issues #1–#28 |
-| **Milestone B** | Production hardening: Redis, persistence, CLI stubs | Issues #29–#37 + prod soak start |
-| **Public Beta** | Legal docs, examples, OpenAPI, `0.x` public | Go/No-Go checklist below (all ✅) |
+| **Milestone A** | PoC scaffold: core, api, mcp, cli assign/status | **CLOSED** 2026-06-23 (#38) |
+| **Milestone B** | Production hardening: Redis, persistence, CLI live | **CLOSED** 2026-06-24 (PR #51) |
+| **Milestone C (boundary)** | SAPAL MVP + file telemetry + `/apex/*` | **CLOSED** 2026-06-24 (PR #63) |
+| **Public Beta** | Legal docs, examples, OpenAPI, `0.x` public | Go/No-Go checklist below (all ✅) — **not started** |
 
 ## Technical gates (before public beta)
 

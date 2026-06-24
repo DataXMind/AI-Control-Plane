@@ -79,13 +79,13 @@ bc5ea40  NEW-2 fixture unify + smoke
 | GAP-ABAC-1 | `approval_status`, `role_not_in`, `read_only` skipped | MB-S1-2 — ConditionEvaluator |
 | GAP-ABAC-2 | Restrict-PII partial map (drops `role_not_in`) | MB-S1-2 + shipped parity test |
 | GAP-ID-1 | Identity failures 503; no SMK-06 | MB-S1-5 — JWT stub + 401 contract |
+| GAP-Q-1 | `quotas.by_model_profile` / `by_agent` | MB-S2-11 — `load_agent/model_profile_token_limits()` + GET `/quota/agent` + `/quota/profile` (PR #51) |
 
 ### 4.2 Still open (defer)
 
 | ID | Gap | Target |
 |----|-----|--------|
-| GAP-Q-1 | `quotas.by_model_profile` / `by_agent` | Milestone B Sprint 2 |
-| GAP-S4-1 | `load_model_profiles()` not in AppState | Milestone B Sprint 2 |
+| GAP-S4-1 | `load_model_profiles()` not wired to AppState | B+ debt — #9 open; quota loaders sufficient for runtime |
 | GAP-BP-1 | Branch protection (org free tier) | Team discipline |
 | GAP-CC-1 | Codecov opt-in only | See §8 |
 
@@ -95,14 +95,14 @@ bc5ea40  NEW-2 fixture unify + smoke
 
 | V3 item | Milestone A | Notes |
 |---------|-------------|-------|
-| `core/` + `api/server.py` | ✅ | 7 endpoints |
-| `load_policies()` adapter | ✅ | rbac + abac subset |
-| Tab 7 telemetry | ✅ | |
-| `mcp/git_server.py` | ✅ | + v2 real-policy integration test |
-| `mcp/server_factory.py` | ⏸ | Milestone B |
-| apex/ stubs | ✅ | |
-| CLI assign/status | ✅ | approve/quota/logs = stubs |
-| Tests ~12 files plan | ✅ | 13+ modules; parity + integration added v2 |
+| `core/` + `api/server.py` | ✅ | 12+ HTTP routes (see ARCHITECTURE §API surface) |
+| `load_policies()` adapter | ✅ | rbac + abac full (MB-S1-2) |
+| Tab 7 telemetry | ✅ | + FileTelemetryStore (MC-9 / PR #63) |
+| `mcp/git_server.py` | ✅ | + HTTP transport + factory (MB-S2) |
+| `mcp/server_factory.py` | ✅ | Milestone B Sprint 2 |
+| apex/ SAPAL | ✅ | MVP loop live (PR #63); C+ depth deferred |
+| CLI assign/status | ✅ | approve/quota/logs/apex live (HTTP-only) |
+| Tests ~12 files plan | ✅ | 156 pytest @ master post MC |
 
 ---
 
@@ -114,9 +114,9 @@ bc5ea40  NEW-2 fixture unify + smoke
 | 2 | models.py owns contracts | ✅ |
 | 3 | MCP facade only | ✅ |
 | 4 | CLI HTTP only | ✅ |
-| 5 | apex owns SAPAL | ✅ stubs |
+| 5 | apex owns SAPAL | ✅ MVP loop (PR #63); OSS adapters = C+ |
 | 6 | api/ TS bridge | ✅ |
-| 7 | QuotaStore swappable | ✅ in-memory |
+| 7 | QuotaStore swappable | ✅ Redis when `ACP_REDIS_URL` set |
 | 8 | config/ + ACP_CONFIG_DIR | ✅ + shipped parity CI v2 |
 
 ---
@@ -211,6 +211,6 @@ v2 does not invalidate Claude audits — it **narrows** what "done" means for Mi
 
 ---
 
-**Last updated:** 2026-06-23  
+**Last updated:** 2026-06-24 (post Milestone B/C; GAP-Q-1 closed MB-S2-11)  
 **Owner:** DataXMind maintainers  
 **Next human action:** Send [`PHASE1_CONSOLIDATED_FOR_CLAUDE.md`](PHASE1_CONSOLIDATED_FOR_CLAUDE.md) to Claude → Phase 2 pack + P0-2b verdict
