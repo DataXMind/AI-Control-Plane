@@ -37,7 +37,9 @@ Code on master (actual behavior)
 | **Telemetry / smoke** | `tab7_telemetry_spec_and_smoke_audit.html`, `CLAUDE_PROMPT_TAB7_TELEMETRY.md` | Claude | Hash-chain spec, SMK matrix |
 | **Tool naming** | `CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md` | Claude | P0-2b Option A decision |
 | **Full audit (snapshot)** | `acp_full_audit_report.html` | Claude | Baseline `fc296d4` — **HISTORICAL ONLY** |
-| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `de931b5` |
+| **Reconcile final (snapshot)** | `audit_reconcile_final.html` | Claude + Cursor | Baseline `6dfffdf` — **HISTORICAL ONLY** |
+| **Reconcile final (live)** | `ACP_AUDIT_RECONCILE_FINAL_STATUS.md` | Cursor | master @ `c5d52e5` |
+| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `c5d52e5` |
 | **Audit prompts 1–3 final** | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` | Cursor | Hygiene + HIGH/MED drift closed |
 | **Public Beta** | `PUBLIC_BETA_SPRINT_PLAN.md`, `PUBLIC_BETA_GO_NO_GO.md` | Agent + human | PB-1..12 |
 | **Sprint plans** | `MILESTONE_B_BACKLOG.md`, `MILESTONE_C_SPRINT_PLAN.md` | Agent + human | A/B/C CLOSED |
@@ -126,12 +128,13 @@ flowchart TB
 | Milestone A/B/C đã xong chưa? | `MILESTONE_*_SPRINT_PLAN.md`, `ACP_FULL_AUDIT_RECONCILIATION.md` |
 | Claude vision apex đầy đủ? | `acp_full_audit_report.html` pane ⑤ + `CLAUDE_PROMPT_MILESTONE_C_PLUS.md` |
 | Cursor task tiếp theo? | `PUBLIC_BETA_SPRINT_PLAN.md` |
+| Post-#63 hygiene + 15-issue triage? | `audit_reconcile_final.html` (snapshot) + `ACP_AUDIT_RECONCILE_FINAL_STATUS.md` (live) |
 | Audit prompts 1–3 done? | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` |
 | Public Beta go/no-go? | `PUBLIC_BETA_GO_NO_GO.md` |
 | Smoke / protocol gates? | `DEVELOPMENT_PROTOCOL.md` §5.5 |
 
 ---
 
-**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (historical @ `fc296d4`).
+**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (@ `fc296d4`) and `audit_reconcile_final.html` (@ `6dfffdf`).
 
-**Last updated:** 2026-06-24 @ `de931b5`
+**Last updated:** 2026-06-22 @ `c5d52e5`
