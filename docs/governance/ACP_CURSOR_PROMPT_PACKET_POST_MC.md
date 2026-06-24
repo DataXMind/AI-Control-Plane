@@ -1,6 +1,6 @@
 # Cursor Prompt Packet — Post Milestone C (hygiene + doc truth)
 
-> **Status:** Steps 1-4 executed 2026-06-24 — PR #65 merged; doc drift + ADR + #9/#39 anchored  
+> **Status:** Steps 1-4 + Public Beta prep 2026-06-24 — see [`PUBLIC_BETA_SPRINT_PLAN.md`](governance/PUBLIC_BETA_SPRINT_PLAN.md)  
 > **Ref:** [`ACP_FULL_AUDIT_RECONCILIATION.md`](ACP_FULL_AUDIT_RECONCILIATION.md)
 
 Execute in order. Docs-only unless noted.
@@ -106,3 +106,17 @@ Expected: **156 passed**, smoke **8/8**.
 ---
 
 **Do not** re-open closed MC issues #52–#62 unless regression found.
+
+---
+
+## Public Beta sprint (current)
+
+Execute [`PUBLIC_BETA_SPRINT_PLAN.md`](governance/PUBLIC_BETA_SPRINT_PLAN.md) PB-1..12.
+
+**Human approve before:** PB-12 public repo flip, PB-9 soak start, GitHub Team upgrade (PB-11).
+
+**Go/No-Go:** [`PUBLIC_BETA_GO_NO_GO.md`](governance/PUBLIC_BETA_GO_NO_GO.md)
+
+---
+
+**Status:** Steps 1-4 executed 2026-06-24 — audit prompts 1-3 closed; Public Beta prep started

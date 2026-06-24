@@ -36,10 +36,12 @@ Code on master (actual behavior)
 | **Reconcile** | `cursor_claude_reconcile_analysis.html` | Claude | GAP-* IDs, 88% match narrative |
 | **Telemetry / smoke** | `tab7_telemetry_spec_and_smoke_audit.html`, `CLAUDE_PROMPT_TAB7_TELEMETRY.md` | Claude | Hash-chain spec, SMK matrix |
 | **Tool naming** | `CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md` | Claude | P0-2b Option A decision |
-| **Full audit (snapshot)** | `acp_full_audit_report.html` | Claude | Baseline `fc296d4` — **STALE** after PR #63/#64 |
-| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `a285539` truth |
-| **Sprint plans** | `MILESTONE_B_BACKLOG.md`, `MILESTONE_C_SPRINT_PLAN.md` | Agent + human | Execution tracking |
-| **Claude next** | `docs/prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md` | Claude (planned) | C+ depth: OTel, Argos, Darts, cyanheads CI |
+| **Full audit (snapshot)** | `acp_full_audit_report.html` | Claude | Baseline `fc296d4` — **HISTORICAL ONLY** |
+| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `de931b5` |
+| **Audit prompts 1–3 final** | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` | Cursor | Hygiene + HIGH/MED drift closed |
+| **Public Beta** | `PUBLIC_BETA_SPRINT_PLAN.md`, `PUBLIC_BETA_GO_NO_GO.md` | Agent + human | PB-1..12 |
+| **Sprint plans** | `MILESTONE_B_BACKLOG.md`, `MILESTONE_C_SPRINT_PLAN.md` | Agent + human | A/B/C CLOSED |
+| **C+ ADR** | `MILESTONE_C_PLUS_ADR.md` | Claude + human | CLOSED PR #74 |
 
 ---
 
@@ -55,24 +57,32 @@ Code on master (actual behavior)
 
 ### `acp_full_audit_report.html` — 3 Cursor prompts (baseline `fc296d4`)
 
-| Prompt | Intent @ snapshot | Execution status @ `a285539` |
+| Prompt | Intent @ snapshot | Execution status @ `de931b5` |
 |--------|-------------------|------------------------------|
-| **Cursor 1** — Close #8, #35, #45; label #37 | Issue hygiene pre-MC | ✅ Done (bulk close + PR #64: #37, #3, #13, #53–#62) |
-| **Cursor 2** — HIGH doc drift (API surface, stores, PHASE1 §4.2) | Docs sync pre-MC | ⚠️ **Partial** — stores/execution updated PR #64; API surface table + PHASE1 §4.2 **still stale** |
-| **Cursor 3** — MED drift + MC sub-issues (OTel, Argos, Darts) | Architect-grade Milestone C | ⚠️ **Scope adjusted** — MC #52–#62 created but implemented as **MVP SAPAL** (PR #63), not OTel/Argos/Darts |
+| **Cursor 1** — Close #8, #35, #45; label #37 | Issue hygiene | ✅ **Done** — PR #64; 0 open issues |
+| **Cursor 2** — HIGH doc drift | API, stores, PHASE1 §4.2 | ✅ **Done** — PR #66, #75, #76 |
+| **Cursor 3** — MED drift + MC breakdown | SMK, OS readiness, MC issues | ✅ **Done** — #52–#62 + C+ #67–#72 |
 
-### Claude Prompt 3 (trong HTML) vs thực tế MC issues
+### Milestone C two-phase delivery
 
-| HTML đề xuất | Issue thực tế | Code PR #63 |
-|--------------|---------------|-------------|
-| MC-1: OTel IsolationForest | #53 SenseAdapter.collect | Heuristic aggregate telemetry — **không OTel** |
-| MC-2: Argos Detect→Repair→Review→Mutate | #54 AnalyzeAdapter | Threshold `anomaly_event_threshold` — **không Argos** |
-| MC-3: Darts forecasting | #55 PredictAdapter | `risk_level` heuristic — **không Darts** |
-| MC-4: PolicyEngine-gated act | #56 ActAdapter | Skip high risk — **không gọi PolicyEngine** |
-| MC-5: Learn + human approval | #57 LearnAdapter | `proposals: []` — đúng human gate, chưa adaptation logic |
-| MC-0: replay API + otel + cyanheads CI | Không tạo MC-0 | `FileTelemetryStore` yes; `replay()` **no**; otel script stub; cyanheads CI **no** |
+| Phase | PR | Scope |
+|-------|-----|-------|
+| **C-boundary** | #63 | MVP SAPAL wiring, `FileTelemetryStore`, `/apex/*` |
+| **C+ depth** | #74 | `replay()`, Z-score, Argos, Darts/fallback, proposal-only act, cyanheads CI |
 
-**Kết luận puzzle:** Issue map MC-1..11 **đúng tên module**, nhưng **acceptance criteria trong HTML Prompt 3** (Claude architect vision) **không được implement** — chỉ boundary milestone "no NotImplementedError + wiring".
+| HTML Prompt 3 vision | C-boundary @ #63 | C+ @ #74 |
+|----------------------|------------------|----------|
+| OTel / IsolationForest | Heuristic sense | Z-score + `otel-collector.yaml.example` |
+| Argos 4-stage | Threshold analyze | `AnalyzeAdapter` Detect→Repair→Review→Mutate |
+| Darts forecast | Heuristic predict | Darts optional + rolling fallback |
+| Policy-gated act | Skip high risk | Option C proposal-only |
+| replay API + cyanheads CI | `list_events` only | `replay()` + respx E2E |
+
+**Kết luận puzzle @ `de931b5`:** HTML architect vision **delivered in C+**; boundary milestone **delivered in C**. See [`ACP_AUDIT_PROMPTS_1_3_FINAL.md`](ACP_AUDIT_PROMPTS_1_3_FINAL.md).
+
+### Claude Prompt 3 (historical) vs MC issues — superseded
+
+_Detail table retained for audit trail; live status = all CLOSED._
 
 ---
 
@@ -115,9 +125,13 @@ flowchart TB
 | Invariant có bị vi phạm không? | `ARCHITECTURE.md` + code |
 | Milestone A/B/C đã xong chưa? | `MILESTONE_*_SPRINT_PLAN.md`, `ACP_FULL_AUDIT_RECONCILIATION.md` |
 | Claude vision apex đầy đủ? | `acp_full_audit_report.html` pane ⑤ + `CLAUDE_PROMPT_MILESTONE_C_PLUS.md` |
-| Cursor task tiếp theo? | `ACP_CURSOR_PROMPT_PACKET_POST_MC.md` |
+| Cursor task tiếp theo? | `PUBLIC_BETA_SPRINT_PLAN.md` |
+| Audit prompts 1–3 done? | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` |
+| Public Beta go/no-go? | `PUBLIC_BETA_GO_NO_GO.md` |
 | Smoke / protocol gates? | `DEVELOPMENT_PROTOCOL.md` §5.5 |
 
 ---
 
-**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (historical snapshot only).
+**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (historical @ `fc296d4`).
+
+**Last updated:** 2026-06-24 @ `de931b5`

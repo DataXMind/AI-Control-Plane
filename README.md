@@ -41,7 +41,7 @@ agentctl status rust-gateway --json
 agentctl quota rust-gateway --json
 ```
 
-## Smoke gate (SMK-01..08)
+## Smoke gate (8 tests — SMK-01..06 + 06b + 06c)
 
 Run before merge when touching `core/`, `api/server.py`, or `config/loader.py`:
 
@@ -61,6 +61,16 @@ bash scripts/smoke_acp.sh --live                # optional uvicorn + curl
 | SMK-04 | Fail-closed deny — unknown agent + non-empty `reason` |
 | SMK-05 | `GET /quota/rust-gateway` — `tokens_remaining >= 100000` |
 | SMK-06 | `POST /identity/verify` — valid HS256 JWT |
+| SMK-06b | Invalid JWT → 401 |
+| SMK-06c | Unknown agent → 401 |
+
+## Minimal Docker example
+
+```bash
+docker compose -f examples/minimal/docker-compose.yml up --build
+```
+
+See [examples/minimal/README.md](examples/minimal/README.md).
 
 ## Full verify gate
 
@@ -92,7 +102,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
 - [docs/governance/MILESTONE_B_BACKLOG.md](docs/governance/MILESTONE_B_BACKLOG.md) — Milestone B status (CLOSED)
 - [docs/governance/MILESTONE_C_SPRINT_PLAN.md](docs/governance/MILESTONE_C_SPRINT_PLAN.md) — Milestone C status (CLOSED)
-- [docs/governance/BRANCH_PROTECTION.md](docs/governance/BRANCH_PROTECTION.md) — PR workflow (GAP-BP-1)
+- [docs/governance/PUBLIC_BETA_SPRINT_PLAN.md](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md) — Public Beta PB-1..12
+- [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) · [LICENSE](LICENSE)
 - [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) — public-beta gates
 
 ## Tests
@@ -102,8 +113,8 @@ pytest tests/ -v
 ruff check src/ tests/
 ```
 
-Current gate: **156 pytest**, smoke 8/8 + CI on `master`.
+Current gate: **165 pytest**, smoke 8/8 + CI on `master`.
 
 ## GitHub backlog
 
-https://github.com/DataXMind/AI-Control-Plane/issues — Milestones A/B/C closed; open items: B+ debt (#9, #39), Public Beta gates.
+https://github.com/DataXMind/AI-Control-Plane/issues — Milestones A/B/C/C+ closed; Public Beta [#77–#80](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md).

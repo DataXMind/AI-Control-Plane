@@ -247,5 +247,7 @@ Phase 2 governance: [`docs/governance/PHASE2_SPRINT1_REPORT.md`](docs/governance
 
 Milestone C: **CLOSED** — PR #63 (`6dfffdf`), issues #37, #52–#62. Milestone C+ (ADR depth): **CLOSED** — PR #74.
 
+**Public Beta:** **IN PROGRESS** — [`docs/governance/PUBLIC_BETA_SPRINT_PLAN.md`](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md) (legal + examples done; soak pending human start).
+
 P0-2b shipped YAML notation: **CLOSED — Option A** (adapter permanent; `core/tool_names.py`). See ARCHITECTURE § Tool naming.
 
