@@ -1,0 +1,610 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:16px}
+.sec:first-child{margin-top:0}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,165,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-size:10px;font-weight:600;color:var(--color-text-secondary);min-width:72px;padding-top:2px;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.milestone-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.mc-bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+.mc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.mc-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.mc-pct{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:18px;font-weight:500}
+.mc-progress{height:5px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.mc-fill{height:100%;border-radius:3px;transition:width .4s}
+.mc-items{font-size:11.5px;color:var(--color-text-secondary);line-height:1.7}
+.mc-items code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.mc-a .mc-bar{background:#0F6E56}.mc-a .mc-pct{color:#0F6E56}.mc-a .mc-fill{background:#0F6E56}
+.mc-b .mc-bar{background:#185FA5}.mc-b .mc-pct{color:#185FA5}.mc-b .mc-fill{background:#185FA5}
+.mc-c .mc-bar{background:#534AB7}.mc-c .mc-pct{color:#534AB7}.mc-c .mc-fill{background:#534AB7}
+.mc-pb .mc-bar{background:#854F0B}.mc-pb .mc-pct{color:#854F0B}.mc-pb .mc-fill{background:#854F0B}
+.disc-row{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:10px 13px;margin-bottom:8px}
+.disc-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.disc-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.disc-body{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.disc-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.issue-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.issue-row:last-child{border-bottom:none}
+.issue-num{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;font-weight:600;color:var(--color-text-secondary);min-width:36px;padding-top:2px}
+.issue-body{flex:1}
+.issue-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.issue-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.issue-desc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.verdict-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:600;margin-top:4px}
+.vb-close{background:rgba(52,201,126,.1);color:#0F6E56;border:0.5px solid rgba(52,201,126,.3)}
+.vb-open{background:rgba(163,45,45,.1);color:#A32D2D;border:0.5px solid rgba(163,45,45,.3)}
+.vb-watch{background:rgba(133,79,11,.1);color:#854F0B;border:0.5px solid rgba(133,79,11,.3)}
+.drift-row{padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:10px;align-items:flex-start}
+.drift-row:last-child{border-bottom:none}
+.drift-file{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary);min-width:200px;flex-shrink:0;padding-top:2px}
+.drift-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.gng-item{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:6px;margin-bottom:6px;border:0.5px solid}
+.gng-yes{background:rgba(52,201,126,.05);border-color:rgba(52,201,126,.2)}
+.gng-no{background:rgba(163,45,45,.05);border-color:rgba(163,45,45,.2)}
+.gng-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.gng-body{flex:1;font-size:12px;color:var(--color-text-secondary);line-height:1.55}
+.gng-body strong{color:var(--color-text-primary);font-weight:500}
+.gng-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.verdict-final{border-radius:10px;padding:16px 18px;margin-bottom:16px;border:1px solid}
+.vf-no{background:rgba(163,45,45,.04);border-color:rgba(163,45,45,.25)}
+.vf-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.vf-no .vf-label{color:#A32D2D}
+.vf-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.vf-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.vf-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+@media(max-width:560px){.nav{gap:3px}.drift-row{flex-direction:column}.drift-file{min-width:0}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('completion')">① Completion %</button>
+  <button class="nb" onclick="show('discrepancies')">② Discrepancies</button>
+  <button class="nb" onclick="show('issues')">③ Issues close/keep</button>
+  <button class="nb" onclick="show('drift')">④ Doc drift</button>
+  <button class="nb" onclick="show('gng')">⑤ Go/No-Go Milestone C</button>
+  <button class="nb" onclick="show('cursor')">⑥ Cursor action packet</button>
+</div>
+
+<!-- ① COMPLETION -->
+<div id="pane-completion" class="pane on">
+  <div class="tip tg">
+    <strong>Baseline audit:</strong> master @ <code>fc296d4</code> (per packet — Sprint 2 CLOSED, PR #51 merged). Tất cả dữ liệu từ 18 files + 6 HTML artifacts. Pass 1 artifact vs code; Pass 2 governance vs GitHub.
+  </div>
+
+  <div class="milestone-card mc-a">
+    <div class="mc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="mc-head"><span class="mc-title">Milestone A — PoC Scaffold (#38)</span><span class="mc-pct">100%</span></div>
+      <div class="mc-progress"><div class="mc-fill" style="width:100%"></div></div>
+      <div class="mc-items">
+        <span class="tag tok">CLOSED</span> Issue #38 closed. 8 invariants intact. 91 tests @ baseline.<br>
+        ✅ core/ + api/ + mcp/ facade + cli/assign + cli/status + apex/ stubs<br>
+        ✅ load_policies() YAML adapter + fail-closed PolicyEngine<br>
+        ✅ Tab 7 telemetry hash-chain (InMemoryTelemetryStore sealed)<br>
+        ✅ SMK-01..05 + CI 2-job (smoke + full suite)<br>
+        ✅ Phase 1 v2 remediation: ingress normalize, MCP map, parity CI, MCP integration tests<br>
+        ✅ P0-2b Option A: <code>core/tool_names.py</code> permanent adapter, #8 closed<br>
+        <span style="color:var(--color-text-secondary);font-size:11px">Deferred correctly: branch protection (org free), structlog core/, pre-commit enforcement</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-card mc-b">
+    <div class="mc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="mc-head"><span class="mc-title">Milestone B — Production Hardening</span><span class="mc-pct">100%</span></div>
+      <div class="mc-progress"><div class="mc-fill" style="width:100%"></div></div>
+      <div class="mc-items">
+        <span class="tag tok">CLOSED</span> master @ PR #51 (<code>2026-06-24</code>). Sprint 1 + Sprint 2 both DONE.<br>
+        <strong>Sprint 1 (MB-S1-1..5):</strong> 124 tests · SMK 8/8 · 82% coverage · fail_under=70<br>
+        ✅ MB-S1-1: KillSwitch + load_guardrails() + 6 tests<br>
+        ✅ MB-S1-2: ABAC full — role_not_in, approval_status, read_only<br>
+        ✅ MB-S1-3: policies.py 99% · total 82% · fail_under=70<br>
+        ✅ MB-S1-4: CLI tests (CliRunner + respx) · cli/ ~67%<br>
+        ✅ MB-S1-5: core/identity.py JWTValidator + SMK-06a/06b/06c · identity → 401<br>
+        <strong>Sprint 2 (MB-S2-1..11):</strong><br>
+        ✅ RedisQuotaStore + ACP_REDIS_URL (#29)<br>
+        ✅ cli/approve + cli/quota + cli/logs live (#30–32)<br>
+        ✅ mcp/server_factory.py + MCP HTTP transport E2E (#34)<br>
+        ✅ Task persistence ACP_DATA_DIR FileTaskStore (#36)<br>
+        ✅ JWKS RS256 ACP_JWKS_URL + HS256 fallback (#33-related)<br>
+        ✅ Redis ActionRegistry + quotas by_agent/by_model_profile (GAP-Q-1)<br>
+        ✅ Branch protection workflow doc (GAP-BP-1)<br>
+        <span style="color:var(--color-text-secondary);font-size:11px">All 11 Sprint 2 items closed per MILESTONE_B_BACKLOG.md</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-card mc-c">
+    <div class="mc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="mc-head"><span class="mc-title">Milestone C — APEX SAPAL Live (#37)</span><span class="mc-pct">5%</span></div>
+      <div class="mc-progress"><div class="mc-fill" style="width:5%"></div></div>
+      <div class="mc-items">
+        <span class="tag twn">NOT STARTED</span> Issue #37 open. apex/ = import-clean stubs only.<br>
+        ✅ apex/__init__.py + loop.py + sense.py + analyze.py + predict.py + act.py + learn.py — stubs<br>
+        ✅ test_apex_loop.py — 4 import-clean tests pass<br>
+        ❌ sense.py: OTel IsolationForest adapter — NotImplementedError<br>
+        ❌ analyze.py: Argos-pattern Detect→Repair→Review→Mutate — NotImplementedError<br>
+        ❌ predict.py: Darts forecasting adapter — NotImplementedError<br>
+        ❌ act.py: policy-gated action executor — NotImplementedError<br>
+        ❌ learn.py: policy adaptation from history — NotImplementedError<br>
+        ❌ scripts/run_otel_collector.sh — absent<br>
+        ❌ cyanheads MCP E2E in CI — absent<br>
+        <span style="color:var(--color-text-secondary);font-size:11px">5% = stubs exist + import-clean. 0% business logic.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-card mc-pb">
+    <div class="mc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="mc-head"><span class="mc-title">Public Beta — Phase visibility 2</span><span class="mc-pct">38%</span></div>
+      <div class="mc-progress"><div class="mc-fill" style="width:38%"></div></div>
+      <div class="mc-items">
+        <span class="tag twn">NOT READY</span> Per OPEN_SOURCE_READINESS.md go/no-go checklist:<br>
+        ✅ Milestone B closed · ✅ Config-driven runtime · ✅ Fail-closed proven<br>
+        ✅ Persistence (ACP_DATA_DIR FileTaskStore + Redis) · ✅ Observability (/health, structlog)<br>
+        ✅ CI mandatory (smoke + full suite) · ✅ Core tests (each core/ module)<br>
+        ⏸ Security hygiene: Dependabot + pip-audit — not confirmed<br>
+        ❌ Production soak ≥ 30 days — not started<br>
+        ❌ Staging soak ≥ 2 weeks — not started<br>
+        ❌ Runbook (deploy, rollback, config reload) — absent<br>
+        ❌ LICENSE present in root (declared pyproject.toml — need file)<br>
+        ❌ SECURITY.md — absent<br>
+        ❌ CONTRIBUTING.md — absent<br>
+        ❌ CODE_OF_CONDUCT.md — absent<br>
+        ❌ examples/ minimal config + docker-compose — absent<br>
+        ❌ OpenAPI spec published — absent<br>
+        ❌ README fork-and-run ≤ 15 minutes — not verified<br>
+        <span style="color:var(--color-text-secondary);font-size:11px">Technical gates: ~65%. Legal/operational gates: ~10%. Composite: 38%.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ② DISCREPANCIES -->
+<div id="pane-discrepancies" class="pane">
+  <div class="sec">Pass 1 — artifact vs code (6 discrepancies)</div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag terr">D-01</span><span class="disc-title">PHASE2_SPRINT1_REPORT.md — close commit không phải thực tế merge SHA</span></div>
+    <div class="disc-body">Report ghi close commit = <code>1dae3ea</code> (merge PR #48). Nhưng audit trail cho thấy Sprint 1 được consolidated vào monolithic branch, không phải 7 PR riêng như artifact plan. Close commit nên là merge SHA của PR #48 → master. Nếu <code>1dae3ea</code> là đúng SHA thực tế trên master thì OK — nhưng cần verify vì AUDIT_FINAL.md ghi "sprint close commit = post-merge SHA (not 41ccf65)".</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag twn">D-02</span><span class="disc-title">PHASE1_REPORT_V2.md §4.2 — GAP list stale sau Milestone B CLOSED</span></div>
+    <div class="disc-body">§4.2 "Still open" vẫn liệt kê GAP-Q-1 và GAP-S4-1 là deferred. Nhưng MILESTONE_B_BACKLOG.md Sprint 2 ghi MB-S2-11 (quotas by_agent/by_model_profile) và ARCHITECTURE.md confirm <code>load_model_profile_token_limits()</code> + <code>GET /quota/profile/{id}</code> đã live. GAP-Q-1 và GAP-S4-1 thực chất đã closed trong Sprint 2.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag twn">D-03</span><span class="disc-title">ARCHITECTURE.md §"In-memory runtime stores" — TaskStore mô tả không nhất quán</span></div>
+    <div class="disc-body">Table ghi TaskStore persistence là "File-backed when ACP_DATA_DIR set (FileTaskStore); else in-memory (#36)". Nhưng header section vẫn có title "In-memory runtime stores (Milestone A)" — misleading sau Sprint 2 đã có FileTaskStore + Redis. Section title cần update.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag twn">D-04</span><span class="disc-title">Sprint 1 Rule 1 violation — không có 7 PRs riêng như artifact plan</span></div>
+    <div class="disc-body">Cả hai artifacts (<code>phase2_execution_completion.html</code> và <code>sprint1_master_checklist.html</code>) đặt Rule 1: 1 task = 1 branch = 1 PR. Thực tế: monolithic branch <code>phase2/p2-0-tool-naming-and-p2-2</code> chứa toàn bộ MB-S1-1..5 + agent4 scope creep. CHECKLIST_COMPLETION.md ghi "waived — Path B accepted". Đây là process deviation được document nhưng không được phản ánh trong artifacts HTML — artifacts vẫn nói Rule 1 strict.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag twn">D-05</span><span class="disc-title">ARCHITECTURE.md Milestone mapping — stale sau Sprint 2</span></div>
+    <div class="disc-body">"Milestone B: registry Redis backend + ABAC full + all 5 API endpoints + cli/approve + cli/quota" — Sprint 2 đã deliver nhiều hơn (MCP HTTP transport, JWKS RS256, ActionRegistry, FileTaskStore). Milestone B description cần expand để reflect Sprint 2 scope thực tế.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag tbl">D-06</span><span class="disc-title">DEVELOPMENT_PROTOCOL.md — SMK count có thể stale</span></div>
+    <div class="disc-body">AUDIT_FINAL.md note "Sync DEVELOPMENT_PROTOCOL.md SMK 8 tests" là action item. Nếu chưa done (không thể verify từ file uploaded), protocol §5.5 có thể vẫn ghi SMK-01..05 thay vì SMK-01..06 (06b, 06c). Cần Cursor verify và sync.</div>
+  </div>
+
+  <div class="sec">Pass 2 — governance vs GitHub (3 discrepancies)</div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag terr">D-07</span><span class="disc-title">Issues #35, #45 — trạng thái không rõ trong files uploaded</span></div>
+    <div class="disc-body">AUDIT_FINAL.md (v1.0, dated 2026-06-22) ghi #35 (MB7) và #45 (GAP-ABAC-2) vẫn OPEN. CHECKLIST_COMPLETION.md ghi chúng closed "#35 closed at merge" và "issue #45 exists; closed at merge". Cần verify actual GitHub state — uploaded files có conflict giữa audit v1 và checklist completion doc.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag twn">D-08</span><span class="disc-title">agent4 trên master trước ABAC enforcement — ordering risk documented nhưng chưa resolved</span></div>
+    <div class="disc-body">AUDIT v1 ghi "agent4 + PII restrictions trên master TRƯỚC ABAC role_not_in code — P0 until merge". Sau merge PR #48, ABAC code đã lên master. Nhưng không có explicit confirmation rằng shipped parity test cover agent4 + Restrict-PII + role_not_in exemption. SPRINT1_REPORT ghi "5/5 parity incl. Restrict-PII + role_not_in" — nếu đúng thì resolved. Cần verify test coverage cụ thể.</div>
+  </div>
+
+  <div class="disc-row">
+    <div class="disc-head"><span class="tag tbl">D-09</span><span class="disc-title">Sprint 2 có API additions không có trong original artifact plan</span></div>
+    <div class="disc-body">SPRINT2_EXECUTION.md liệt kê <code>GET /quota/agent/{agent_id}</code> và <code>GET /quota/profile/{profile_id}</code> — không có trong original 7-endpoint list trong ARCHITECTURE.md API surface section. API surface section cần update với Sprint 2 endpoints.</div>
+  </div>
+</div>
+
+<!-- ③ ISSUES -->
+<div id="pane-issues" class="pane">
+  <div class="tip tw">
+    <strong>5 OPEN issues theo audit packet.</strong> Verdict dựa trên code evidence trong uploaded docs — nếu GitHub state khác thì follow GitHub. Mỗi verdict kèm exact GitHub comment text để Cursor paste.
+  </div>
+  <div class="pb"><div style="padding:12px 14px">
+
+    <div class="issue-row">
+      <div class="issue-num">#8</div>
+      <div class="issue-body">
+        <div class="issue-title">S3a — Tool naming adapter (P0-2b)</div>
+        <div class="issue-desc">Code evidence: <code>core/tool_names.py</code> exists on master (S1-2 confirmed). <code>loader.py</code> imports from <code>core/tool_names</code> (S1-3). ARCHITECTURE.md §Tool naming updated. DEVELOPMENT_PROTOCOL P0-2b = CLOSED. CHECKLIST_COMPLETION ghi "issue #8 closed" — nhưng AUDIT v1 (2026-06-22) ghi "#8 still OPEN". Nếu chưa closed trên GitHub: close ngay.</div>
+        <div class="verdict-badge vb-close">✓ CLOSE — code complete, Option A documented</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary)">Comment: "Resolved in PR #44/#48. core/tool_names.py implements Option A (adapter permanent). ARCHITECTURE.md §Tool naming updated. P0-2b CLOSED."</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#35</div>
+      <div class="issue-body">
+        <div class="issue-title">MB7 — Guardrails + kill_switch loader</div>
+        <div class="issue-desc">Code evidence: MB-S1-1 confirmed in MILESTONE_B_BACKLOG (close commit <code>2631c8e</code>). <code>load_guardrails()</code> + <code>load_kill_switch()</code> + <code>KillSwitch</code> model + <code>test_guardrails.py</code> (6 tests) all confirmed. ARCHITECTURE.md §Policy YAML loading shows guardrails ✅ + kill_switch ✅. CHECKLIST_COMPLETION ghi "#35 closed".</div>
+        <div class="verdict-badge vb-close">✓ CLOSE — fully implemented MB-S1-1</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary)">Comment: "Implemented in MB-S1-1 (commit 2631c8e, PR #48). load_guardrails() + load_kill_switch() + KillSwitch model wired into PolicyEngine + create_app(). 6 test cases pass. ARCHITECTURE.md updated."</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#45</div>
+      <div class="issue-body">
+        <div class="issue-title">GAP-ABAC-2 — Restrict-PII role_not_in</div>
+        <div class="issue-desc">Code evidence: MB-S1-2 (commit <code>5f8ce38</code>) implements <code>eval_role_not_in()</code>. ARCHITECTURE.md table shows <code>role_not_in</code> ✅ enforced + "GAP-ABAC-2 closed". SPRINT1_REPORT ghi shipped parity 5/5 "incl. Restrict-PII + role_not_in". CHECKLIST_COMPLETION ghi "closed at merge".</div>
+        <div class="verdict-badge vb-close">✓ CLOSE — GAP-ABAC-2 resolved in MB-S1-2</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary)">Comment: "Implemented in MB-S1-2 (commit 5f8ce38). eval_role_not_in() in ConditionEvaluator. Restrict-PII now exempts privileged roles. Shipped parity test confirms. ARCHITECTURE.md GAP-ABAC-2 closed."</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#37</div>
+      <div class="issue-body">
+        <div class="issue-title">apex/ SAPAL pipeline live — Milestone C</div>
+        <div class="issue-desc">apex/ stubs exist and import-clean. All 7 files (loop, sense, analyze, predict, act, learn, __init__) confirmed. test_apex_loop.py 4 tests pass. Zero business logic — all raise NotImplementedError("Milestone C"). OTel IsolationForest, Argos, Darts not wired. MILESTONE_B_BACKLOG confirms this is "Milestone C" target.</div>
+        <div class="verdict-badge vb-open">⊘ KEEP OPEN — stubs only, Milestone C not started</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary)">Action: Add label "milestone-c". Comment: "apex/ stubs are import-clean (test_apex_loop.py 4/4). Business logic deferred to Milestone C. Tracking #37."</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">GAP-BP-1</div>
+      <div class="issue-body">
+        <div class="issue-title">Branch protection enforcement</div>
+        <div class="issue-desc">BRANCH_PROTECTION.md documents the constraint (org free tier, API 403) and team workflow. <code>scripts/setup_github_milestones_and_protection.sh --protection-only</code> script exists. MB-S2-9 closed as "Doc". Technical enforcement blocked by GitHub Free plan — cannot change without plan upgrade or making repo public.</div>
+        <div class="verdict-badge vb-watch">⚠ KEEP OPEN — blocked on GitHub plan, not code</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary)">Label: "blocked-external". Comment: "Workflow documented in BRANCH_PROTECTION.md. Script ready. Enforcement requires GitHub Team or public repo (pre-public beta). Re-evaluate at Public Beta go/no-go."</div>
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="tip tg">
+    <strong>Summary:</strong> Close #8, #35, #45. Keep #37 (Milestone C), GAP-BP-1 (external blocker). Net: 3 close, 2 keep.
+  </div>
+</div>
+
+<!-- ④ DOC DRIFT -->
+<div id="pane-drift" class="pane">
+  <div class="sec">Doc drift list — 9 items cần sync (ordered by severity)</div>
+  <div class="pb"><div style="padding:12px 14px">
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag terr">HIGH</span> PHASE1_REPORT_V2.md §4.2</div>
+      <div class="drift-desc">Still lists GAP-Q-1 (quotas by_model_profile/by_agent) và GAP-S4-1 (load_model_profiles) as "Still open (defer)". Both closed in Sprint 2 (MB-S2-11 + ARCHITECTURE.md confirms endpoints live). Move these to §4.1 "Closed" with note "MB-S2-11, Sprint 2".</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag terr">HIGH</span> ARCHITECTURE.md §API surface</div>
+      <div class="drift-desc">Only lists 7 endpoints (original plan). Sprint 2 added: <code>GET /quota/agent/{agent_id}</code> + <code>GET /quota/profile/{profile_id}</code>. Also: <code>GET /telemetry/events</code> (cli/logs → MB-S2-4). Table needs 3 new rows. Also update <code>AppState.quota_store</code> to reflect Redis when <code>ACP_REDIS_URL</code> set.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag terr">HIGH</span> ARCHITECTURE.md §In-memory stores</div>
+      <div class="drift-desc">Section title "In-memory runtime stores (Milestone A)" is misleading post-Sprint 2. TaskStore is now FileTaskStore (ACP_DATA_DIR) or in-memory. QuotaStore is Redis (ACP_REDIS_URL) or in-memory. Rename section to "Runtime stores" + update table to reflect actual Sprint 2 state.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag twn">MED</span> ARCHITECTURE.md §Milestone mapping</div>
+      <div class="drift-desc">"Milestone B" description incomplete — only mentions Redis backend + ABAC + CLI. Missing: MCP HTTP transport, JWKS RS256, ActionRegistry, FileTaskStore, quotas by_agent/by_model_profile. Update to reflect full Sprint 2 scope.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag twn">MED</span> ARCHITECTURE.md §Execution status</div>
+      <div class="drift-desc">Currently ends at "Milestone A CLOSED + P0-2b CLOSED". Needs Sprint 1 + Sprint 2 entries: "Milestone B CLOSED 2026-06-24 (master post PR #51)". Update §Execution status to current state.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag twn">MED</span> DEVELOPMENT_PROTOCOL.md §5.5</div>
+      <div class="drift-desc">SMK matrix likely still shows SMK-01..05 (5 tests). Sprint 1 added SMK-06a, SMK-06b, SMK-06c = 8 smoke tests total. Update §5.5 smoke table to SMK-01..08 (or SMK-06 with 3 sub-cases). Confirm actual count from test_smoke.py.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag twn">MED</span> PHASE1_REPORT_V2.md §9</div>
+      <div class="drift-desc">Verify gate shows "91 pytest · SMK 5/5" as final result. Sprint 1 brought 124 pytest · SMK 8/8. This section should be updated to show Sprint 1 final, or add new §9b for Sprint 1. Currently has a note "(Sprint 1 branch)" but not final master state.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag tbl">LOW</span> PHASE2_SPRINT1_REPORT.md</div>
+      <div class="drift-desc">Close commit listed as <code>1dae3ea</code>. If monolithic branch merge = PR #48 on master, this needs confirmation. Also: Coverage delta column values are estimates — final Codecov report should be referenced if available.</div>
+    </div>
+
+    <div class="drift-row">
+      <div class="drift-file"><span class="tag tbl">LOW</span> OPEN_SOURCE_READINESS.md §Milestone mapping</div>
+      <div class="drift-desc">Table shows "Milestone B | Production hardening | Issues #29–#37 + prod soak start". Milestone B is now CLOSED. Update Close when column to "CLOSED 2026-06-24 (PR #51)". Also: "Milestone C | apex SAPAL" needs issue #37 reference.</div>
+    </div>
+
+  </div></div>
+
+  <div class="tip">
+    <strong>Cursor fix priority:</strong> HIGH items (PHASE1_REPORT_V2 §4.2, ARCHITECTURE API surface + stores) first — these are actively misleading. MED items in same PR. LOW items optional follow-up.
+  </div>
+</div>
+
+<!-- ⑤ GO/NO-GO -->
+<div id="pane-gng" class="pane">
+  <div class="verdict-final vf-no">
+    <div class="vf-label">Milestone C go/no-go verdict</div>
+    <div class="vf-title">NO-GO — 6 blockers, 3 pre-conditions unresolved</div>
+    <div class="vf-body">Milestone B code complete nhưng 3 pre-conditions cho Milestone C chưa sẵn sàng: (1) OTel infrastructure chưa có, (2) AppState.telemetry_store chưa được bridge sang EventStore replay API cần cho sense.py, (3) production soak chưa bắt đầu. Bắt đầu Milestone C khi đủ cả 9 gate items.</div>
+  </div>
+
+  <div class="sec">Gates phải pass trước Milestone C start</div>
+
+  <div class="gng-item gng-yes">
+    <div class="gng-ico">✅</div>
+    <div class="gng-body"><strong>Milestone B CLOSED</strong> — confirmed MILESTONE_B_BACKLOG.md. Sprint 1 + Sprint 2 all items closed.</div>
+  </div>
+  <div class="gng-item gng-yes">
+    <div class="gng-ico">✅</div>
+    <div class="gng-body"><strong>8 invariants intact</strong> — PHASE1_REPORT_V2 §6 + audit confirms. PolicyEngine custom, MCP facade, CLI HTTP-only, apex owns SAPAL loop.</div>
+  </div>
+  <div class="gng-item gng-yes">
+    <div class="gng-ico">✅</div>
+    <div class="gng-body"><strong>apex/ stubs import-clean</strong> — 7 files confirmed. test_apex_loop.py 4 tests pass. <code>from ai_control_plane.apex import SapalLoop</code> no ImportError. Milestone C can fill without breaking structure.</div>
+  </div>
+  <div class="gng-item gng-yes">
+    <div class="gng-ico">✅</div>
+    <div class="gng-body"><strong>TelemetryWriter + InMemoryTelemetryStore operational</strong> — Tab 7 confirmed, hash-chain sealed, MCP emits sealed events. sense.py có data source để read từ EventStore.replay().</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-1: OTel IsolationForest collector chưa có</strong> — <code>scripts/run_otel_collector.sh</code> absent. sense.py cần OTel pipeline để detect anomalies từ telemetry stream. Cần setup trước khi sense.py có thể được implemented.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-2: EventStore.replay() API chưa bridge sang AppState</strong> — <code>InMemoryTelemetryStore.list_events()</code> có nhưng không có public replay-by-type API mà sense.py cần. Cần thêm <code>TelemetryStore.replay(from_ts, event_type)</code> trước khi sense.py implement.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-3: Darts + scikit-learn chưa trong dependencies</strong> — <code>pyproject.toml</code> không có Darts. predict.py cần forecasting library. Thêm optional <code>[apex]</code> extras trước Milestone C work.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-4: Argos-pattern không có design doc</strong> — analyze.py spec = "Detect→Repair→Review→Mutate" nhưng không có concrete interface design. Cần architecture decision trước implementation: input/output schema của each agent, retry semantics, approval gate integration.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-5: act.py chưa có policy-gate design</strong> — act.py execute actions phải đi qua PolicyEngine. Nhưng SAPAL loop có thể trigger actions làm thay đổi cùng PolicyEngine đang govern — circular dependency risk. Cần explicit design: act.py dùng separate evaluation context hay snapshot của policy tại loop start.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>BLOCKER-6: cyanheads MCP E2E chưa trong CI</strong> — ARCHITECTURE §Milestone C yêu cầu cyanheads git-mcp-server TS integration. Không có CI job nào test Python facade → TS server → actual git operation. Phải có trước Milestone C production claim.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>PRE-C-1: Production soak chưa bắt đầu</strong> — OPEN_SOURCE_READINESS yêu cầu staging soak ≥ 2 weeks + production soak ≥ 30 days trước Public Beta. Milestone C deliver trên nền chưa soak = risk SAPAL loop gây chaos trên unstable runtime.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>PRE-C-2: Doc drift chưa resolved</strong> — 3 HIGH drift items (API surface, store description, GAP list) cần fix trước Milestone C. Nếu không, Milestone C prompts sẽ reference sai spec.</div>
+  </div>
+  <div class="gng-item gng-no">
+    <div class="gng-ico">❌</div>
+    <div class="gng-body"><strong>PRE-C-3: #37 chưa có concrete acceptance criteria</strong> — Issue #37 là "apex/ SAPAL pipeline live" nhưng không có sub-issues hay acceptance criteria cho từng module (sense, analyze, predict, act, learn). Cần breakdown trước khi Cursor execute Milestone C prompts.</div>
+  </div>
+
+  <div class="sec">Recommended path to Milestone C start</div>
+  <div class="pb"><div class="pbb" style="font-size:11.5px;line-height:2">
+<span class="g">Step 1 (1–2 days):</span> Close #8, #35, #45. Fix HIGH doc drift (ARCHITECTURE + PHASE1_REPORT_V2).
+<span class="g">Step 2 (1 week):</span> Design Argos-pattern interface + act.py policy-gate schema → Claude architect review.
+<span class="g">Step 3 (1 week):</span> Add optional [apex] extras to pyproject.toml.
+                 Add TelemetryStore.replay(from_ts, event_type) API.
+                 Create scripts/run_otel_collector.sh stub.
+                 Break #37 into sub-issues: #37a sense, #37b analyze, #37c predict, #37d act, #37e learn.
+<span class="g">Step 4 (2 weeks):</span> Staging soak với simulated agent workload.
+<span class="g">Step 5 (1 week):</span> cyanheads MCP E2E in CI (basic git_read → TS server → Python facade).
+<span class="g">Step 6:</span> <span class="g">Milestone C GO</span> — implement sense.py → analyze.py → predict.py → act.py → learn.py
+           theo thứ tự, mỗi module = 1 PR với acceptance criteria riêng.
+  </div></div>
+</div>
+
+<!-- ⑥ CURSOR ACTION PACKET -->
+<div id="pane-cursor" class="pane">
+  <div class="tip tg">
+    <strong>3 Cursor prompts — thứ tự thực hiện ngay.</strong> Không touch Milestone C code. Chỉ: issue close + doc sync + doc drift fix.
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor prompt 1 — Issue hygiene + doc sync</span></span><button class="cbtn" onclick="cp(this,'pc1')">Copy</button></div>
+    <div class="pbb" id="pc1"><span class="hi">@docs/governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md
+@docs/governance/PHASE2_SPRINT1_CHECKLIST_COMPLETION.md
+@MILESTONE_B_BACKLOG.md</span>
+
+<span class="key">Task: Close GitHub issues + confirm state (15 min)</span>
+<span class="cm"># No code changes — issue comments only</span>
+
+<span class="key">Close #8 (if still open on GitHub):</span>
+gh issue comment 8 --body "Resolved in PR #44/#48. core/tool_names.py implements Option A (adapter permanent). ARCHITECTURE.md §Tool naming updated. P0-2b CLOSED in DEVELOPMENT_PROTOCOL."
+gh issue close 8 --reason completed
+
+<span class="key">Close #35 (if still open on GitHub):</span>
+gh issue comment 35 --body "Implemented in MB-S1-1 (commit 2631c8e, PR #48). load_guardrails() + load_kill_switch() + KillSwitch model wired into PolicyEngine + create_app(). 6 test cases in test_guardrails.py pass. ARCHITECTURE.md §Policy YAML loading updated."
+gh issue close 35 --reason completed
+
+<span class="key">Close #45 (if still open on GitHub):</span>
+gh issue comment 45 --body "Implemented in MB-S1-2 (commit 5f8ce38). eval_role_not_in() in ConditionEvaluator. Restrict-PII now correctly exempts privileged roles. Shipped parity test_shipped_config_parity.py confirms (5/5 incl. Restrict-PII + role_not_in). ARCHITECTURE.md GAP-ABAC-2 closed."
+gh issue close 45 --reason completed
+
+<span class="key">Add label to #37:</span>
+gh issue edit 37 --add-label "milestone-c"
+gh issue comment 37 --body "apex/ stubs are import-clean (7 files, test_apex_loop.py 4/4 pass). Business logic deferred to Milestone C. Sub-issues needed before execution: sense, analyze, predict, act, learn. Tracking via this issue."
+
+<span class="key">GAP-BP-1 comment:</span>
+gh issue comment [GAP-BP-1 issue number] --body "Workflow documented in BRANCH_PROTECTION.md. Script scripts/setup_github_milestones_and_protection.sh --protection-only ready. Enforcement requires GitHub Team or public repo. Re-evaluate at Public Beta go/no-go."
+
+<span class="key">Verify:</span>
+gh issue list --state open --label "milestone-a"   <span class="cm"># should be empty</span>
+gh issue list --state open --label "milestone-b"   <span class="cm"># should be empty or only non-code items</span>
+gh issue list --state open --label "milestone-c"   <span class="cm"># #37 should appear</span></div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor prompt 2 — HIGH doc drift fixes</span></span><button class="cbtn" onclick="cp(this,'pc2')">Copy</button></div>
+    <div class="pbb" id="pc2"><span class="hi">@ARCHITECTURE.md @docs/governance/PHASE1_REPORT_V2.md
+@docs/governance/PHASE2_SPRINT2_EXECUTION.md</span>
+
+<span class="key">Task: Fix 3 HIGH doc drift items (30 min, docs-only)</span>
+<span class="cm"># No code changes. Verify: pytest still passes after docs-only PR.</span>
+
+<span class="key">Fix 1 — ARCHITECTURE.md §API surface: thêm Sprint 2 endpoints</span>
+After existing 7-endpoint table, add rows:
+| GET  | `/quota/agent/{agent_id}`   | QuotaStatus (agent daily budget) |
+| GET  | `/quota/profile/{profile_id}` | QuotaStatus (model profile budget) |
+| GET  | `/telemetry/events`         | list[TelemetryEvent] (cli/logs) |
+
+<span class="key">Fix 2 — ARCHITECTURE.md §In-memory runtime stores: rename + update</span>
+Rename section: "In-memory runtime stores (Milestone A)"
+→ "Runtime stores (Milestone B+)"
+
+Update table:
+| Store              | Location                  | Persistence                                      |
+|--------------------|---------------------------|--------------------------------------------------|
+| TaskStore          | AppState.task_store       | FileTaskStore (ACP_DATA_DIR) or in-memory        |
+| QuotaStore         | AppState.quota_store      | RedisQuotaStore (ACP_REDIS_URL) or in-memory     |
+| InMemoryTelemetryStore | AppState.telemetry_store | Lost on restart (Milestone C: persistent store) |
+| ActionRegistry     | AppState.action_registry  | Redis (ACP_REDIS_URL set) or in-memory (#33)     |
+
+<span class="key">Fix 3 — ARCHITECTURE.md §Execution status: thêm Milestone B close</span>
+After existing text, add:
+"Milestone B (#29–37): **CLOSED 2026-06-24** (master post PR #51).
+Sprint 1: guardrails, ABAC full, coverage floor, CLI tests, JWT stub.
+Sprint 2: Redis, CLI live, MCP HTTP, JWKS RS256, FileTaskStore, ActionRegistry, quota by_agent/by_model_profile.
+Phase 2 governance: [`docs/governance/PHASE2_SPRINT1_REPORT.md`](docs/governance/PHASE2_SPRINT1_REPORT.md)"
+
+<span class="key">Fix 4 — PHASE1_REPORT_V2.md §4.2: move closed gaps</span>
+Remove from §4.2 "Still open":
+- GAP-Q-1 (quotas.by_model_profile/by_agent)
+- GAP-S4-1 (load_model_profiles() not in AppState)
+
+Add to §4.1 "Closed in Phase 1 v2" (or new sub-section "Closed in Milestone B Sprint 2"):
+| GAP-Q-1  | quotas.by_model_profile / by_agent | MB-S2-11 — load_agent/model_profile_token_limits() + GET /quota/agent+profile |
+| GAP-S4-1 | load_model_profiles() not in AppState | MB-S2-11 — AppState wired at create_app() |
+
+<span class="key">Verify:</span>
+pytest tests/ -v           <span class="cm"># same count as before (docs-only)</span>
+pytest -m smoke -v         <span class="cm"># SMK unchanged</span>
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor prompt 3 — MED drift + Milestone C prep</span></span><button class="cbtn" onclick="cp(this,'pc3')">Copy</button></div>
+    <div class="pbb" id="pc3"><span class="hi">@docs/DEVELOPMENT_PROTOCOL.md @docs/OPEN_SOURCE_READINESS.md
+@ARCHITECTURE.md @docs/governance/PHASE2_SPRINT1_REPORT.md</span>
+
+<span class="key">Task: MED doc drift + Milestone C issue breakdown (45 min, docs-only)</span>
+
+<span class="key">Fix 1 — DEVELOPMENT_PROTOCOL.md §5.5: sync SMK count</span>
+Update smoke test table to reflect Sprint 1 additions:
+Add rows SMK-06a, SMK-06b, SMK-06c (or SMK-06 with 3 sub-cases):
+| SMK-06a | test_smk06_identity_verify_valid_token | POST /identity/verify + valid HS256 token → 200 + AgentIdentity |
+| SMK-06b | test_smk06_identity_verify_invalid_token | invalid JWT → 401 |
+| SMK-06c | test_smk06_identity_verify_unknown_agent | unknown agent_id → 401 |
+Total smoke count: 8 (SMK-01..06 inclusive of 06b, 06c).
+
+<span class="key">Fix 2 — OPEN_SOURCE_READINESS.md §Milestone mapping: update close dates</span>
+Update table:
+| Milestone A | PoC scaffold | CLOSED 2026-06-23 (master #38) |
+| Milestone B | Production hardening | CLOSED 2026-06-24 (PR #51) |
+| Public Beta | Legal, soak, OpenAPI | Go/No-Go checklist — not yet |
+
+<span class="key">Fix 3 — ARCHITECTURE.md §Milestone mapping: expand Milestone B description</span>
+Update "Milestone B" line to:
+"Milestone B: Redis QuotaStore + FileTaskStore + JWKS RS256 + ActionRegistry +
+full ABAC + guardrails + CLI live (approve/quota/logs) + MCP HTTP transport +
+quotas by_agent/by_model_profile + branch protection workflow doc — CLOSED 2026-06-24"
+
+<span class="key">Fix 4 — Create GitHub sub-issues for #37 (Milestone C breakdown)</span>
+gh issue create --title "MC-1: apex/sense.py — OTel IsolationForest adapter" \
+  --label "milestone-c,spec-gap" \
+  --body "Implement sense.py: read InMemoryTelemetryStore.replay(), feed to IsolationForest anomaly detector. Requires: scripts/run_otel_collector.sh + [apex] extras in pyproject.toml. Parent: #37"
+
+gh issue create --title "MC-2: apex/analyze.py — Argos-pattern Detect→Repair→Review→Mutate" \
+  --label "milestone-c,spec-gap" \
+  --body "Design + implement 4-agent pipeline. Requires architecture decision on input/output schema + approval gate integration. Parent: #37"
+
+gh issue create --title "MC-3: apex/predict.py — Darts forecasting adapter" \
+  --label "milestone-c" \
+  --body "Implement token usage forecasting via Darts time series. Add Darts to [apex] optional extras. Parent: #37"
+
+gh issue create --title "MC-4: apex/act.py — policy-gated action executor" \
+  --label "milestone-c,spec-gap" \
+  --body "Design policy-gate for SAPAL actions (circular dependency risk with PolicyEngine). Requires: explicit design — snapshot policy at loop start vs real-time eval. Parent: #37"
+
+gh issue create --title "MC-5: apex/learn.py — policy adaptation from execution history" \
+  --label "milestone-c" \
+  --body "Implement LearnAdapter: ingest EventStore replay, propose policy updates, gate on human approval before apply. Parent: #37"
+
+gh issue create --title "MC-0: Milestone C pre-conditions — OTel infra + replay API + cyanheads CI" \
+  --label "milestone-c,blocker" \
+  --body "Blockers before any Milestone C module: (1) TelemetryStore.replay(from_ts, event_type) API, (2) scripts/run_otel_collector.sh, (3) [apex] optional extras in pyproject.toml, (4) cyanheads MCP E2E in CI (basic git_read). Must resolve before MC-1..5."
+
+<span class="key">Verify:</span>
+pytest tests/ -v && pytest -m smoke -v
+ruff check src/ tests/ && mypy src/ai_control_plane/ --strict
+<span class="cm"># All docs-only — 0 regression expected</span></div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>
