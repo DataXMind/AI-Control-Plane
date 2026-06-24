@@ -31,9 +31,15 @@ dev = [
     "mypy>=1.9",
     "ruff>=0.4",
     "pre-commit",
+    "PyJWT>=2.8",
+    "cryptography>=42",
 ]
 redis = [
     "redis>=5.0",
+]
+jwt = [
+    "PyJWT>=2.8",
+    "cryptography>=42",
 ]
 
 [project.scripts]

@@ -201,11 +201,11 @@ MCP `GitMcpServer._emit_tool_call()` delegates to `TelemetryWriter` — no direc
 
 | Store | Location | Persistence |
 |-------|----------|-------------|
-| `task_status_by_project` | `AppState` | **Lost on API restart** — document only; Milestone B (#20) |
-| `InMemoryQuotaStore` | `AppState.quota_store` | Lost on restart |
+| `TaskStore` | `AppState.task_store` | **File-backed** when `ACP_DATA_DIR` set (`FileTaskStore`); else in-memory (#36) |
+| `QuotaStore` | `AppState.quota_store` | Redis when `ACP_REDIS_URL` set; else in-memory |
 | `InMemoryTelemetryStore` | `AppState.telemetry_store` | Lost on restart |
 
-Do not treat missing task status after reload as a bug in Milestone A PoC.
+Set `ACP_DATA_DIR` in production so `/tasks` and `/status/{project_id}` survive API restarts.
 
 
 

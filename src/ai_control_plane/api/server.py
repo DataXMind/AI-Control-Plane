@@ -39,10 +39,11 @@ from ai_control_plane.config.loader import (
     load_projects,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
-from ai_control_plane.core.identity import JWTValidationError, JWTValidator
+from ai_control_plane.core.identity import JWTValidationError, TokenValidator, create_jwt_validator
 from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState, TelemetryEvent
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import QuotaStore, TokenBudget, create_quota_store
+from ai_control_plane.core.task_store import TaskStore, create_task_store
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
 from ai_control_plane.core.tool_names import resolve_policy_tool_name
 
@@ -88,10 +89,10 @@ class AppState:
     agents_loaded: list[str] = field(default_factory=list)
     projects_loaded: list[str] = field(default_factory=list)
     agent_registry: dict[str, dict[str, Any]] = field(default_factory=dict)
-    task_status_by_project: dict[str, TaskStatus] = field(default_factory=dict)
+    task_store: TaskStore = field(default_factory=create_task_store)
     project_limits: dict[str, float] = field(default_factory=dict)
     telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
-    jwt_validator: JWTValidator = field(default_factory=JWTValidator)
+    jwt_validator: TokenValidator = field(default_factory=create_jwt_validator)
 
 
 def _load_policy_rules() -> list[PolicyRule]:
@@ -440,7 +441,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 progress=0,
                 updated_at=_utc_now(),
             )
-            acp.task_status_by_project[body.project_id] = status
+            acp.task_store.set(body.project_id, status)
             return status
         except Exception:
             logger.exception("register_task_failed")
@@ -455,10 +456,10 @@ def create_app(state: AppState | None = None) -> FastAPI:
     async def project_status(request: Request, project_id: str) -> TaskStatus | JSONResponse:
         acp: AppState = request.app.state.acp
         try:
-            status = acp.task_status_by_project.get(project_id)
+            status = acp.task_store.get(project_id)
             if status is None:
                 status = _default_task_status(project_id)
-                acp.task_status_by_project[project_id] = status
+                acp.task_store.set(project_id, status)
             return status
         except Exception:
             logger.exception("project_status_failed")

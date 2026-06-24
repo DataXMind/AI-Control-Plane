@@ -1,32 +1,44 @@
 # Milestone B — Sprint 2 execution plan
 
-> **Status:** IN PROGRESS (branch `milestone-b/s2-execution`)  
-> **Baseline:** Sprint 1 close `1dae3ea` (PR #48)
+> **Status:** IN PROGRESS (branch `milestone-b/s3-persistence-mcp-jwks`)  
+> **Baseline:** master after PR #49 (`5cc43a7`)
 
 ---
 
-## Sprint 2 scope (#29–34, partial #36)
+## Sprint 2 scope (#29–34, #36)
 
 | ID | Item | Issue | Status |
 |----|------|-------|--------|
-| MB-S2-1 | `RedisQuotaStore` + `ACP_REDIS_URL` | #29 | ✅ Implemented |
-| MB-S2-2 | `cli/approve` → POST `/policy/approve` | #30 | ✅ Implemented |
-| MB-S2-3 | `cli/quota` → GET `/quota/{project_id}` | #31 | ✅ Implemented |
-| MB-S2-4 | `cli/logs` → GET `/telemetry/events` | #32 | ✅ Implemented |
-| MB-S2-5 | `mcp/server_factory.py` | #34 partial | ✅ Factory stub |
-| MB-S2-6 | Task persistence across restart | #36 | 🔲 OPEN |
-| MB-S2-7 | MCP HTTP transport + cyanheads E2E | #34, #37 | 🔲 OPEN |
-| MB-S2-8 | JWKS / RS256 JWT | Milestone C | 🔲 Deferred |
-| MB-S2-9 | Branch protection CI gate | GAP-BP-1 | 🔲 Human/org — blocked |
+| MB-S2-1 | `RedisQuotaStore` + `ACP_REDIS_URL` | #29 | ✅ |
+| MB-S2-2 | `cli/approve` → POST `/policy/approve` | #30 | ✅ |
+| MB-S2-3 | `cli/quota` → GET `/quota/{project_id}` | #31 | ✅ |
+| MB-S2-4 | `cli/logs` → GET `/telemetry/events` | #32 | ✅ |
+| MB-S2-5 | `mcp/server_factory.py` | #34 partial | ✅ |
+| MB-S2-6 | Task persistence (`ACP_DATA_DIR`) | #36 | ✅ |
+| MB-S2-7 | MCP HTTP transport + E2E | #34 | ✅ |
+| MB-S2-8 | JWKS / RS256 JWT (`ACP_JWKS_URL`) | Milestone B | ✅ |
+| MB-S2-9 | Branch protection workflow doc | GAP-BP-1 | ✅ Doc |
+
+---
+
+## Env vars (Sprint 2 batch 2)
+
+| Variable | Purpose |
+|----------|---------|
+| `ACP_DATA_DIR` | File-backed `TaskStore` (`tasks/*.json`) |
+| `ACP_JWKS_URL` | RS256 JWKS validator (else HS256 dev stub) |
+| `ACP_MCP_GIT_URL` | HTTP forwarder to cyanheads git-mcp-server |
+| `ACP_MCP_HTTP_HOST` / `ACP_MCP_HTTP_PORT` | MCP HTTP listen bind |
+| `ACP_API_BASE_URL` | Factory default policy client base URL |
 
 ---
 
 ## Gates (target)
 
 - pytest full pass
-- CLI tests: assign, status, approve, quota, logs
-- `ACP_REDIS_URL` optional — in-memory default unchanged
+- ruff + mypy strict clean
+- Optional extras: `[redis]`, `[jwt]`
 
 ---
 
-**Related:** [`PHASE2_SPRINT1_CHECKLIST_COMPLETION.md`](PHASE2_SPRINT1_CHECKLIST_COMPLETION.md)
+**Related:** [`PHASE2_SPRINT1_CHECKLIST_COMPLETION.md`](PHASE2_SPRINT1_CHECKLIST_COMPLETION.md), [`BRANCH_PROTECTION.md`](BRANCH_PROTECTION.md)

@@ -4,12 +4,17 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import sys
 from collections.abc import Callable
 from typing import Any, NoReturn, Protocol, runtime_checkable
 
 import httpx
 import structlog
+from starlette.applications import Starlette
+from starlette.requests import Request
+from starlette.responses import JSONResponse, Response
+from starlette.routing import Route
 
 from ai_control_plane.api.schemas import PolicyEvalRequest, PolicyEvalResponse
 from ai_control_plane.core.models import (
@@ -116,6 +121,59 @@ class StubGitForwarder:
                 },
             ],
         }
+
+
+class HttpGitForwarder:
+    """Forward tool calls to a remote Git MCP server over HTTP JSON-RPC."""
+
+    def __init__(
+        self,
+        base_url: str,
+        *,
+        path: str = "/mcp",
+        timeout: float = 30.0,
+    ) -> None:
+        self._url = f"{base_url.rstrip('/')}{path}"
+        self._timeout = timeout
+
+    async def call_tool(self, tool_name: str, args: dict[str, Any]) -> dict[str, Any]:
+        request = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {"name": tool_name, "arguments": args},
+        }
+        try:
+            async with httpx.AsyncClient(timeout=self._timeout) as client:
+                response = await client.post(self._url, json=request)
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            raise McpToolError(JSON_RPC_INTERNAL_ERROR, "git forwarder unavailable") from exc
+
+        try:
+            payload = response.json()
+        except ValueError as exc:
+            raise McpToolError(
+                JSON_RPC_INTERNAL_ERROR,
+                "invalid response from git forwarder",
+            ) from exc
+
+        if not isinstance(payload, dict):
+            raise McpToolError(JSON_RPC_INTERNAL_ERROR, "invalid response from git forwarder")
+
+        if "error" in payload:
+            error = payload["error"]
+            if not isinstance(error, dict):
+                raise McpToolError(JSON_RPC_INTERNAL_ERROR, "git forwarder error")
+            raise McpToolError(
+                int(error.get("code", JSON_RPC_INTERNAL_ERROR)),
+                str(error.get("message", "git forwarder error")),
+                data=error.get("data") if isinstance(error.get("data"), dict) else None,
+            )
+
+        result = payload.get("result", {})
+        if isinstance(result, dict) and "content" in result:
+            return dict(result)
+        return {"content": result}
 
 
 def _raise_mcp(code: int, message: str, data: dict[str, Any] | None = None) -> NoReturn:
@@ -262,16 +320,89 @@ class GitMcpServer:
         self._emit_tool_call(tool_name, args, identity, decision.policy_id)
         return result
 
-    async def start(self, transport: str = "stdio") -> None:
-        """Start the MCP server loop (stdio for Milestone A)."""
+    async def start(
+        self,
+        transport: str = "stdio",
+        *,
+        host: str | None = None,
+        port: int | None = None,
+    ) -> None:
+        """Start the MCP server loop (stdio or HTTP JSON-RPC)."""
         if transport == "stdio":
             await self._run_stdio()
             return
         if transport == "http":
-            msg = "HTTP transport is planned for Milestone B"
-            raise NotImplementedError(msg)
+            bind_host = host or os.environ.get("ACP_MCP_HTTP_HOST", "127.0.0.1")
+            bind_port = port or int(os.environ.get("ACP_MCP_HTTP_PORT", "8765"))
+            await self._run_http(bind_host, bind_port)
+            return
         msg = f"unsupported transport '{transport}'"
         raise ValueError(msg)
+
+    async def dispatch_jsonrpc_message(self, message: dict[str, Any]) -> dict[str, Any] | None:
+        """Handle one JSON-RPC message (stdio or HTTP transport)."""
+        method = message.get("method")
+        request_id = message.get("id")
+        if request_id is None:
+            return None
+
+        if method == "initialize":
+            return {
+                "jsonrpc": "2.0",
+                "id": request_id,
+                "result": {
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "ai-control-plane-git", "version": "0.0.1"},
+                },
+            }
+
+        if method == "tools/list":
+            return {
+                "jsonrpc": "2.0",
+                "id": request_id,
+                "result": {"tools": self.list_tools()},
+            }
+
+        if method == "tools/call":
+            params = message.get("params", {})
+            if not isinstance(params, dict):
+                params = {}
+            tool_name = str(params.get("name", ""))
+            arguments = params.get("arguments", {})
+            if not isinstance(arguments, dict):
+                arguments = {}
+
+            identity_payload = arguments.pop("_identity", {})
+            if not isinstance(identity_payload, dict):
+                identity_payload = {}
+
+            identity = AgentIdentity(
+                agent_id=str(identity_payload.get("agent_id", "unknown")),
+                project_id=str(identity_payload.get("project_id", self._project.id)),
+                role=str(identity_payload.get("role", "backend")),
+                jwt_claims=dict(identity_payload.get("jwt_claims", {})),
+                did=identity_payload.get("did"),
+            )
+
+            try:
+                result = await self.handle_tool_call(tool_name, arguments, identity)
+                return {"jsonrpc": "2.0", "id": request_id, "result": result}
+            except McpToolError as exc:
+                return {
+                    "jsonrpc": "2.0",
+                    "id": request_id,
+                    "error": exc.error.model_dump(mode="json"),
+                }
+
+        return {
+            "jsonrpc": "2.0",
+            "id": request_id,
+            "error": {
+                "code": JSON_RPC_INTERNAL_ERROR,
+                "message": f"unsupported method '{method}'",
+            },
+        }
 
     async def _evaluate_policy(
         self,
@@ -346,78 +477,51 @@ class GitMcpServer:
             except json.JSONDecodeError:
                 continue
 
-            response = await self._dispatch_stdio_message(message)
+            response = await self.dispatch_jsonrpc_message(message)
             if response is not None:
                 sys.stdout.write(json.dumps(response) + "\n")
                 sys.stdout.flush()
 
-    async def _dispatch_stdio_message(self, message: dict[str, Any]) -> dict[str, Any] | None:
-        method = message.get("method")
-        request_id = message.get("id")
-        if request_id is None:
-            return None
+    async def _run_http(self, host: str, port: int) -> None:
+        """Serve JSON-RPC over HTTP at ``POST /mcp``."""
+        import uvicorn
 
-        if method == "initialize":
-            return {
-                "jsonrpc": "2.0",
-                "id": request_id,
-                "result": {
-                    "protocolVersion": "2024-11-05",
-                    "capabilities": {"tools": {}},
-                    "serverInfo": {"name": "ai-control-plane-git", "version": "0.0.1"},
-                },
-            }
+        app = create_mcp_http_app(self)
+        config = uvicorn.Config(app, host=host, port=port, log_level="info")
+        server = uvicorn.Server(config)
+        await server.serve()
 
-        if method == "tools/list":
-            return {
-                "jsonrpc": "2.0",
-                "id": request_id,
-                "result": {"tools": self.list_tools()},
-            }
 
-        if method == "tools/call":
-            params = message.get("params", {})
-            tool_name = str(params.get("name", ""))
-            arguments = params.get("arguments", {})
-            if not isinstance(arguments, dict):
-                arguments = {}
+def create_mcp_http_app(server: GitMcpServer) -> Starlette:
+    """Build ASGI app exposing ``POST /mcp`` JSON-RPC for E2E and HTTP transport."""
 
-            identity_payload = arguments.pop("_identity", {})
-            if not isinstance(identity_payload, dict):
-                identity_payload = {}
-
-            identity = AgentIdentity(
-                agent_id=str(identity_payload.get("agent_id", "unknown")),
-                project_id=str(identity_payload.get("project_id", self._project.id)),
-                role=str(identity_payload.get("role", "backend")),
-                jwt_claims=dict(identity_payload.get("jwt_claims", {})),
-                did=identity_payload.get("did"),
+    async def handle_mcp(request: Request) -> Response:
+        try:
+            body = await request.json()
+        except json.JSONDecodeError:
+            return JSONResponse(
+                {"error": "invalid JSON"},
+                status_code=400,
             )
+        if not isinstance(body, dict):
+            return JSONResponse(
+                {"error": "body must be a JSON object"},
+                status_code=400,
+            )
+        response = await server.dispatch_jsonrpc_message(body)
+        if response is None:
+            return Response(status_code=204)
+        return JSONResponse(response)
 
-            try:
-                result = await self.handle_tool_call(tool_name, arguments, identity)
-                return {"jsonrpc": "2.0", "id": request_id, "result": result}
-            except McpToolError as exc:
-                return {
-                    "jsonrpc": "2.0",
-                    "id": request_id,
-                    "error": exc.error.model_dump(mode="json"),
-                }
-
-        return {
-            "jsonrpc": "2.0",
-            "id": request_id,
-            "error": {
-                "code": JSON_RPC_INTERNAL_ERROR,
-                "message": f"unsupported method '{method}'",
-            },
-        }
+    return Starlette(routes=[Route("/mcp", handle_mcp, methods=["POST"])])
 
 
 __all__ = [
     "GitForwarder",
     "GitMcpServer",
+    "HttpGitForwarder",
     "McpToolError",
     "StubGitForwarder",
     "SubprocessGitForwarder",
+    "create_mcp_http_app",
 ]
