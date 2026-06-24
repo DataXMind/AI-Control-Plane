@@ -32,7 +32,7 @@
 
 | Item | Issue / gap | Target |
 |------|-------------|--------|
-| `load_model_profiles()` wired to AppState | #9, GAP-S4-1 | B+ debt |
+| `load_model_profiles()` wired to AppState | ~~#9, GAP-S4-1~~ | ✅ closed |
 | Extended `/health` proof | #39 | B+ debt |
 | cyanheads MCP E2E in CI | MC-8 follow-up | **C+-6** [#72](https://github.com/DataXMind/AI-Control-Plane/issues/72) |
 | OTLP collector config + doc | MC-10 follow-up | **C+-2** [#68](https://github.com/DataXMind/AI-Control-Plane/issues/68) |

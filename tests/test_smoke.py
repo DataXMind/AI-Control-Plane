@@ -33,6 +33,7 @@ def test_smk02_health_readiness(client: TestClient) -> None:
     assert body["policy_rules_count"] > 0
     assert len(body["agents_loaded"]) > 0
     assert len(body["projects_loaded"]) > 0
+    assert len(body["model_profiles_loaded"]) > 0
 
 
 def test_smk03_policy_allow_critical_path(client: TestClient) -> None:

@@ -60,6 +60,7 @@ def test_shipped_health_wire_proof(shipped_acp_config: Path) -> None:
     assert body["policy_rules_count"] >= 3
     assert "agent2" in body["agents_loaded"]
     assert "rust-gateway" in body["projects_loaded"]
+    assert "claude-pro-backend" in body["model_profiles_loaded"]
 
 
 def test_shipped_policy_evaluate_dot_notation(shipped_acp_config: Path) -> None:

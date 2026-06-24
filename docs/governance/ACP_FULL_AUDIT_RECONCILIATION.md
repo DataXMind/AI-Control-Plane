@@ -17,8 +17,8 @@
 | Milestone B | 100% CLOSED | 100% CLOSED | ✅ Aligned |
 | Milestone C | **5% stubs** | **~55% boundary / ~25% architect vision** | ⚠️ **Scope reinterpretation** |
 | Public Beta | 38% | ~38% | ✅ Aligned (unchanged) |
-| Doc truth | 9 drift items | **5 resolved, 4 remain** | ⚠️ Partial |
-| GitHub hygiene | 5 OPEN (HTML) | **2 OPEN (#9, #39)** | ✅ Improved post #64 |
+| Doc truth | 9 drift items | **Resolved** | ✅ |
+| GitHub hygiene | 5 OPEN (HTML) | **0 OPEN** (#9, #39 closed) | ✅ |
 | 8 invariants | Intact | Intact | ✅ |
 
 **Strict Milestone C verdict:** **BOUNDARY CLOSED, DEPTH NO-GO** for architect-grade SAPAL (OTel, Argos, Darts, PolicyEngine-gated act, cyanheads CI). PR #63 đóng milestone *scaffold/wiring*; không đóng milestone *intelligence layer* trong HTML pane ⑤.
@@ -60,14 +60,14 @@ Unchanged. Legal artifacts, soak, OpenAPI, `examples/` absent.
 | ID | HTML claim | Status @ a285539 | Action |
 |----|------------|------------------|--------|
 | D-01 | Sprint 1 close commit ambiguity | ✅ `1dae3ea` = PR #48 merge on master | None |
-| D-02 | PHASE1 §4.2 GAP-Q-1/S4-1 stale | ❌ **Still stale** | Fix PHASE1_REPORT_V2 §4.2 |
-| D-03 | ARCHITECTURE stores section misleading | ✅ Fixed PR #63/#64 (`TelemetryStore`, title) | None |
+| D-02 | PHASE1 §4.2 GAP-Q-1/S4-1 stale | ✅ Fixed — §4.2 empty | None |
+| D-03 | ARCHITECTURE stores section misleading | ✅ Fixed (`Runtime stores Milestone B+`) | None |
 | D-04 | Rule 1 seven PRs waived | ✅ Documented Path B | None |
-| D-05 | Milestone B description incomplete | ⚠️ Partial — C closed, B line still short | Expand ARCHITECTURE §mapping |
+| D-05 | Milestone B description incomplete | ✅ Fixed ARCHITECTURE §execution | None |
 | D-06 | DEVELOPMENT_PROTOCOL SMK count | ✅ v1.4 has 8 smoke tests | None |
 | D-07 | #35, #45 state conflict | ✅ Closed (hygiene) | None |
 | D-08 | agent4 ordering risk | ✅ MB-S1-2 + parity tests | None |
-| D-09 | API surface missing Sprint 2 endpoints | ❌ **Still stale** — table stops at 7 rows | Add quota agent/profile, telemetry, apex |
+| D-09 | API surface missing Sprint 2 endpoints | ✅ Fixed | None |
 
 ---
 
@@ -83,7 +83,7 @@ Unchanged. Legal artifacts, soak, OpenAPI, `examples/` absent.
 
 **Additional closures PR #64:** #3 (exceptions exist), #13 (README runbook), #53–#62 (MC items).
 
-**Remaining OPEN:** #9 (`load_model_profiles` → AppState), #39 (extended `/health` proof).
+**Remaining OPEN:** none (B+ debt #9, #39 closed).
 
 ---
 
@@ -134,13 +134,7 @@ HTML said **NO-GO** to *start* Milestone C. Execution **proceeded** with MVP sco
 
 ## 7. Remaining doc drift (ordered)
 
-| Sev | File | Status @ post step 2 |
-|-----|------|----------------------|
-| HIGH | `PHASE1_REPORT_V2.md` §4.2 | ✅ Fixed PR #66 |
-| HIGH | `ARCHITECTURE.md` §API surface | ✅ Fixed PR #66 |
-| MED | `OPEN_SOURCE_READINESS.md` §Milestone mapping | ✅ Fixed PR #66 |
-| MED | `ARCHITECTURE.md` §Milestone B one-liner | ✅ Fixed PR #66 |
-| LOW | `PHASE2_SPRINT1_REPORT.md` | Open |
+_All HIGH/MED items from audit reconciliation resolved (ARCHITECTURE, PHASE1 §4, OPEN_SOURCE_READINESS)._
 
 ---
 

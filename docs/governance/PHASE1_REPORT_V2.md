@@ -80,14 +80,13 @@ bc5ea40  NEW-2 fixture unify + smoke
 | GAP-ABAC-2 | Restrict-PII partial map (drops `role_not_in`) | MB-S1-2 + shipped parity test |
 | GAP-ID-1 | Identity failures 503; no SMK-06 | MB-S1-5 — JWT stub + 401 contract |
 | GAP-Q-1 | `quotas.by_model_profile` / `by_agent` | MB-S2-11 — `load_agent/model_profile_token_limits()` + GET `/quota/agent` + `/quota/profile` (PR #51) |
+| GAP-S4-1 | `load_model_profiles()` not in AppState | `load_model_profiles()` wired at `create_app()`; `GET /health` exposes `model_profiles_loaded` (#9) |
+| GAP-BP-1 | Branch protection (org free tier) | MB-S2-9 — [`BRANCH_PROTECTION.md`](BRANCH_PROTECTION.md) + `setup_github_milestones_and_protection.sh --protection-only`; API enforcement deferred to GitHub Team / Public Beta go/no-go |
+| GAP-CC-1 | Codecov opt-in only | `CODECOV_ENABLED=true` + `CODECOV_TOKEN` on GitHub; `codecov.yml` (70% target); CI upload in `.github/workflows/ci.yml` |
 
 ### 4.2 Still open (defer)
 
-| ID | Gap | Target |
-|----|-----|--------|
-| GAP-S4-1 | `load_model_profiles()` not wired to AppState | B+ debt — #9 open; quota loaders sufficient for runtime |
-| GAP-BP-1 | Branch protection (org free tier) | Team discipline |
-| GAP-CC-1 | Codecov opt-in only | See §8 |
+_No process gaps remain in §4.2 — residual platform items (branch protection API, Public Beta) tracked in [`MILESTONE_B_BACKLOG.md`](MILESTONE_B_BACKLOG.md) and [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)._
 
 ---
 
@@ -100,9 +99,9 @@ bc5ea40  NEW-2 fixture unify + smoke
 | Tab 7 telemetry | ✅ | + FileTelemetryStore (MC-9 / PR #63) |
 | `mcp/git_server.py` | ✅ | + HTTP transport + factory (MB-S2) |
 | `mcp/server_factory.py` | ✅ | Milestone B Sprint 2 |
-| apex/ SAPAL | ✅ | MVP loop live (PR #63); C+ depth deferred |
+| apex/ SAPAL | ✅ | MVP + C+ depth (PR #63, #74) |
 | CLI assign/status | ✅ | approve/quota/logs/apex live (HTTP-only) |
-| Tests ~12 files plan | ✅ | 156 pytest @ master post MC |
+| Tests ~12 files plan | ✅ | 165 pytest @ master post C+ |
 
 ---
 
@@ -114,30 +113,29 @@ bc5ea40  NEW-2 fixture unify + smoke
 | 2 | models.py owns contracts | ✅ |
 | 3 | MCP facade only | ✅ |
 | 4 | CLI HTTP only | ✅ |
-| 5 | apex owns SAPAL | ✅ MVP loop (PR #63); OSS adapters = C+ |
+| 5 | apex owns SAPAL | ✅ MVP + C+ (PR #63, #74) |
 | 6 | api/ TS bridge | ✅ |
 | 7 | QuotaStore swappable | ✅ Redis when `ACP_REDIS_URL` set |
 | 8 | config/ + ACP_CONFIG_DIR | ✅ + shipped parity CI v2 |
 
 ---
 
-## 7. Pipeline position (post Phase 1 v2)
+## 7. Pipeline position (post Milestone C+)
 
 ```mermaid
 flowchart LR
-  subgraph done [Milestone A + v2 hardening]
-    P0[P0 + NEW gaps]
-    T7[Tab 7]
-    SMK[SMK v2]
-    V2[Ingress + parity + MCP int]
+  subgraph closed [Closed milestones]
+    MA[Milestone A #38]
+    MB[Milestone B PR #51]
+    MC[Milestone C PR #63]
+    MCP[Milestone C+ PR #74]
   end
-  subgraph next [Entry Milestone B]
-    TN[Claude: YAML notation A/B/C]
-    MB7[MB7 guardrails loader]
-    MB[Redis persist #29-37]
+  subgraph next [Public Beta]
+    PB[Legal + soak + OpenAPI]
+    GAPBP[Branch protection API]
   end
-  done --> TN
-  TN --> MB7 --> MB
+  closed --> PB
+  PB --> GAPBP
 ```
 
 ---
@@ -160,7 +158,7 @@ flowchart LR
 | Enforce floor over time | **Medium** — `fail_under=70` since MB-S1-3 |
 | Public beta signal | **Medium** — shows test discipline to contributors |
 
-**Current state:** `CODECOV_ENABLED=true` and `CODECOV_TOKEN` configured on GitHub (2026-06-23). Baseline ~64.5% at `83e3ab5`; Sprint 1 branch ~82% with `fail_under=70`. See [`PHASE2_SPRINT1_REPORT.md`](PHASE2_SPRINT1_REPORT.md).
+**Current state:** `CODECOV_ENABLED=true` and `CODECOV_TOKEN` configured on GitHub (2026-06-23). `codecov.yml` sets project target **70%** (matches `pyproject.toml` `fail_under`). Baseline ~64.5% at `83e3ab5`; master ~82%+ with `fail_under=70`. See [`PHASE2_SPRINT1_REPORT.md`](PHASE2_SPRINT1_REPORT.md).
 
 **Not a substitute for:** SMK-01..05, shipped parity tests, or policy integration tests.
 
@@ -211,6 +209,6 @@ v2 does not invalidate Claude audits — it **narrows** what "done" means for Mi
 
 ---
 
-**Last updated:** 2026-06-24 (post Milestone B/C; GAP-Q-1 closed MB-S2-11)  
+**Last updated:** 2026-06-24 (§4.2 empty — GAP-S4-1/BP-1/CC-1 closed; #9 ModelProfile AppState wired)  
 **Owner:** DataXMind maintainers  
 **Next human action:** Send [`PHASE1_CONSOLIDATED_FOR_CLAUDE.md`](PHASE1_CONSOLIDATED_FOR_CLAUDE.md) to Claude → Phase 2 pack + P0-2b verdict
