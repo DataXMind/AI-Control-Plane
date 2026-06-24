@@ -34,8 +34,9 @@
 |------|-------------|--------|
 | `load_model_profiles()` wired to AppState | #9, GAP-S4-1 | B+ debt |
 | Extended `/health` proof | #39 | B+ debt |
-| cyanheads MCP E2E in CI | MC-8 follow-up | C+ / ops |
-| OTLP collector config + doc | MC-10 follow-up | C+ / ops |
+| cyanheads MCP E2E in CI | MC-8 follow-up | **C+-6** [#72](https://github.com/DataXMind/AI-Control-Plane/issues/72) |
+| OTLP collector config + doc | MC-10 follow-up | **C+-2** [#68](https://github.com/DataXMind/AI-Control-Plane/issues/68) |
+| Architect SAPAL depth (replay, Argos, Darts, act proposals) | `MILESTONE_C_PLUS_ADR.md` | C+-1..C+-5 [#67–#71](https://github.com/DataXMind/AI-Control-Plane/issues/67) |
 | Public beta legal + examples | `OPEN_SOURCE_READINESS.md` | Pre-public |
 | Branch protection enforced | GAP-BP-1 | GitHub Team / public repo |
 
