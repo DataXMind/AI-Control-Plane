@@ -125,6 +125,10 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | **Milestone C sprint plan** | [MILESTONE_C_SPRINT_PLAN.md](governance/MILESTONE_C_SPRINT_PLAN.md) | **CLOSED** — PR #63 (`6dfffdf`) |
 | **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
 | **Phase 2 Sprint 1 audit (final)** | [PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md](governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md) | Checklist 38-item verify + Path B |
+| **Full audit snapshot (Claude)** | [acp_full_audit_report.html](governance/acp_full_audit_report.html) | Baseline `fc296d4` — **historical**; see SNAPSHOT_README |
+| **Full audit reconciliation (live)** | [ACP_FULL_AUDIT_RECONCILIATION.md](governance/ACP_FULL_AUDIT_RECONCILIATION.md) | master @ `a285539` strict audit |
+| **Artifact puzzle map** | [ACP_ARTIFACT_PUZZLE_MAP.md](governance/ACP_ARTIFACT_PUZZLE_MAP.md) | Claude HTML → prompts → execution |
+| **Post-MC Cursor prompts** | [ACP_CURSOR_PROMPT_PACKET_POST_MC.md](governance/ACP_CURSOR_PROMPT_PACKET_POST_MC.md) | Remaining doc drift + C+ seeds |
 
 **Cursor prompts (markdown):**
 
@@ -133,6 +137,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Tab 7 telemetry (#23) | [`docs/prompts/CLAUDE_PROMPT_TAB7_TELEMETRY.md`](prompts/CLAUDE_PROMPT_TAB7_TELEMETRY.md) |
 | Smoke audit (#25) | [`docs/prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md`](prompts/CLAUDE_PROMPT_SMOKE_AUDIT.md) |
 | Tool naming defer (#8, D3) | [`docs/prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md`](prompts/CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md) |
+| Milestone C+ architect depth | [`docs/prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md`](prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md) |
 
 **Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 8 pass (SMK-01..06 incl. 06b/06c) · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
