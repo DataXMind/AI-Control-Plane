@@ -174,6 +174,54 @@ def get_telemetry_events(project_id: str | None = None) -> list[TelemetryEvent]:
     return asyncio.run(_get_telemetry_events_async(project_id))
 
 
+async def _get_apex_status_async() -> dict[str, Any]:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        try:
+            response = await client.get("/apex/status")
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "apex status unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"apex status failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        body = response.json()
+        if not isinstance(body, dict):
+            msg = "invalid apex status response"
+            raise RuntimeError(msg)
+        return body
+
+
+def get_apex_status() -> dict[str, Any]:
+    """Call GET /apex/status."""
+    return asyncio.run(_get_apex_status_async())
+
+
+async def _post_apex_trigger_async() -> dict[str, Any]:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        try:
+            response = await client.post("/apex/trigger")
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "apex trigger unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"apex trigger failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        body = response.json()
+        if not isinstance(body, dict):
+            msg = "invalid apex trigger response"
+            raise RuntimeError(msg)
+        return body
+
+
+def post_apex_trigger() -> dict[str, Any]:
+    """Call POST /apex/trigger."""
+    return asyncio.run(_post_apex_trigger_async())
+
+
 def format_json(data: dict[str, Any]) -> str:
     import json
 

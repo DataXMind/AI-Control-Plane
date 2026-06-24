@@ -120,3 +120,25 @@ def test_telemetry_events_list_empty_by_default() -> None:
     response = client.get("/telemetry/events")
     assert response.status_code == 200
     assert response.json() == []
+
+
+def test_apex_status_empty_cycle() -> None:
+    client = TestClient(create_app())
+    response = client.get("/apex/status")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["telemetry_event_count"] == 0
+    assert body["telemetry_chain_valid"] is True
+    assert body["last_cycle"] is None
+
+
+def test_apex_trigger_runs_sapal_cycle() -> None:
+    client = TestClient(create_app())
+    response = client.post("/apex/trigger")
+    assert response.status_code == 200
+    body = response.json()
+    assert "sense" in body
+    assert body["telemetry_chain_valid"] is True
+
+    status = client.get("/apex/status")
+    assert status.json()["last_cycle"] is not None

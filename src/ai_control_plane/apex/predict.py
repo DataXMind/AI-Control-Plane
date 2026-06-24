@@ -13,4 +13,8 @@ class PredictAdapter:
 
     def predict(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Predict likely outcomes from analysis."""
-        raise NotImplementedError("Milestone C")
+        high_risk = bool(analysis.get("anomaly_detected"))
+        return {
+            "risk_level": "high" if high_risk else "low",
+            "recommended_action": "review" if high_risk else "continue",
+        }

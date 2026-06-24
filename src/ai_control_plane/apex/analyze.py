@@ -13,4 +13,10 @@ class AnalyzeAdapter:
 
     def analyze(self, sense_output: dict[str, Any]) -> dict[str, Any]:
         """Analyze collected signals."""
-        raise NotImplementedError("Milestone C")
+        threshold = int(self._config.get("anomaly_event_threshold", 50))
+        event_count = int(sense_output.get("event_count", 0))
+        return {
+            "anomaly_detected": event_count > threshold,
+            "event_count": event_count,
+            "threshold": threshold,
+        }
