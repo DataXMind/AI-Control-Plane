@@ -134,13 +134,13 @@ HTML said **NO-GO** to *start* Milestone C. Execution **proceeded** with MVP sco
 
 ## 7. Remaining doc drift (ordered)
 
-| Sev | File | Fix |
-|-----|------|-----|
-| HIGH | `PHASE1_REPORT_V2.md` §4.2, §5, §6 | Move GAP-Q-1 to closed; update invariant #5/#7; apex not stubs |
-| HIGH | `ARCHITECTURE.md` §API surface | Add `/quota/agent`, `/quota/profile`, `/telemetry/events`, `/apex/status`, `/apex/trigger` |
-| MED | `OPEN_SOURCE_READINESS.md` §Milestone mapping | Milestone B/C CLOSED dates |
-| MED | `ARCHITECTURE.md` §Milestone B one-liner | Expand Sprint 2 scope |
-| LOW | `PHASE2_SPRINT1_REPORT.md` | Reference final Codecov if available |
+| Sev | File | Status @ post step 2 |
+|-----|------|----------------------|
+| HIGH | `PHASE1_REPORT_V2.md` §4.2 | ✅ Fixed PR #66 |
+| HIGH | `ARCHITECTURE.md` §API surface | ✅ Fixed PR #66 |
+| MED | `OPEN_SOURCE_READINESS.md` §Milestone mapping | ✅ Fixed PR #66 |
+| MED | `ARCHITECTURE.md` §Milestone B one-liner | ✅ Fixed PR #66 |
+| LOW | `PHASE2_SPRINT1_REPORT.md` | Open |
 
 ---
 

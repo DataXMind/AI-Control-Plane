@@ -1,6 +1,6 @@
 # Claude Prompt — Milestone C+ (architect depth)
 
-> **Status:** DRAFT — for Claude architect review before Cursor execution  
+> **Status:** DRAFT complete — ADR @ [`MILESTONE_C_PLUS_ADR.md`](../governance/MILESTONE_C_PLUS_ADR.md); pending human approve before C+-issues/code  
 > **Parent:** Issue umbrella #37 (closed boundary @ PR #63)  
 > **Baseline:** [`ACP_FULL_AUDIT_RECONCILIATION.md`](../governance/ACP_FULL_AUDIT_RECONCILIATION.md)  
 > **Does NOT replace:** Boundary MVP delivered in PR #63
