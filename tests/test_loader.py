@@ -10,6 +10,8 @@ from ai_control_plane.config.loader import (
     build_agent_registry,
     derive_allowed_patterns,
     derive_denied_patterns,
+    load_agent_token_limits,
+    load_model_profile_token_limits,
     load_model_profiles,
     load_policies,
     load_project_token_limits,
@@ -139,6 +141,16 @@ def test_build_agent_registry_from_fixtures() -> None:
 def test_load_project_token_limits_from_fixtures() -> None:
     limits = load_project_token_limits()
     assert limits["rust-gateway"] == 2_000_000.0
+
+
+def test_load_agent_token_limits_from_fixtures() -> None:
+    limits = load_agent_token_limits()
+    assert limits["agent2"] == 1_000_000.0
+
+
+def test_load_model_profile_token_limits_from_fixtures() -> None:
+    limits = load_model_profile_token_limits()
+    assert limits["claude-pro-backend"] == 1_000_000.0
 
 
 def test_load_model_profiles_from_fixtures() -> None:

@@ -1,6 +1,6 @@
 # Milestone B — Sprint 2 execution plan
 
-> **Status:** IN PROGRESS (branch `milestone-b/s3-persistence-mcp-jwks`)  
+> **Status:** CLOSED — master post PR #51  
 > **Baseline:** master after PR #49 (`5cc43a7`)
 
 ---
@@ -18,10 +18,17 @@
 | MB-S2-7 | MCP HTTP transport + E2E | #34 | ✅ |
 | MB-S2-8 | JWKS / RS256 JWT (`ACP_JWKS_URL`) | Milestone B | ✅ |
 | MB-S2-9 | Branch protection workflow doc | GAP-BP-1 | ✅ Doc |
+| MB-S2-10 | Redis ActionRegistry (#33) | #33 | ✅ |
+| MB-S2-11 | Quotas by_agent / by_model_profile | GAP-Q-1 | ✅ |
 
 ---
 
-## Env vars (Sprint 2 batch 2)
+## API additions (Sprint 2 close)
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /quota/agent/{agent_id}` | Agent daily token budget |
+| `GET /quota/profile/{profile_id}` | Model profile daily token budget |
 
 | Variable | Purpose |
 |----------|---------|

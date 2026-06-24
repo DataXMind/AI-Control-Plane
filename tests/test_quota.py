@@ -6,6 +6,7 @@ import pytest
 
 from ai_control_plane.core.quota import (
     InMemoryQuotaStore,
+    ProfileQuotaTracker,
     QuotaTracker,
     RateLimiter,
     RedisQuotaStore,
@@ -59,6 +60,13 @@ def test_token_budget_deduct_and_remaining() -> None:
     assert budget.deduct("rust-gateway", 400) is True
     assert budget.remaining("rust-gateway") == 600.0
     assert budget.deduct("rust-gateway", 700) is False
+
+
+def test_profile_quota_tracker_consume_within_limit() -> None:
+    store = InMemoryQuotaStore()
+    tracker = ProfileQuotaTracker(store, daily_limits={"claude-pro-backend": 100.0})
+    assert tracker.consume("claude-pro-backend", 40) is True
+    assert tracker.remaining("claude-pro-backend") == 60.0
 
 
 def test_rate_limiter_allows_within_capacity() -> None:

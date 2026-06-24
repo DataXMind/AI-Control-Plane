@@ -82,6 +82,12 @@ quotas:
     rust-gateway:
       tokens_per_day: 2000000
       concurrent_tasks: 5
+  by_agent:
+    agent2:
+      tokens_per_day: 1000000
+  by_model_profile:
+    claude-pro-backend:
+      tokens_per_day: 1000000
 
 guardrails:
   - name: "Require-plan-before-code"
