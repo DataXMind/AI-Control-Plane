@@ -30,6 +30,23 @@ CLI entrypoint: agentctl (via console_scripts)
 
 
 
+### Module ownership (Cursor L1 — review triggers)
+
+| Module / area | Risk | Reviewer before merge |
+|---------------|------|------------------------|
+| `core/policies.py` | CRITICAL | Claude architecture + human |
+| `core/models.py` | HIGH | Claude architecture |
+| `config/loader.py` | HIGH | Claude architecture |
+| `apex/**` | HIGH | Claude design spec first |
+| `api/server.py`, `api/schemas.py` | MEDIUM | Invariant + contract test check |
+| `mcp/**` | MEDIUM | Invariant #3 |
+| `cli/**` | MEDIUM | Invariant #4 (HTTP only) |
+| `tests/**`, `docs/**` | LOW | Self + CI |
+
+Detail: [`docs/governance/CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md). Data sensitivity: [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md).
+
+
+
 ### Module inventory (core/models.py)
 
 ProjectConfig, AgentConfig, ModelProfile, PolicyRule, Task, TaskStatus,

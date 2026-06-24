@@ -6,7 +6,8 @@ Thank you for contributing. This project is a **governance control plane** — c
 
 1. Read [ARCHITECTURE.md](ARCHITECTURE.md) — **8 hard invariants** are non-negotiable.
 2. Read [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE workflow, 9-step executor path, smoke gate.
-3. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`).
+3. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) before coding.
+4. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`).
 
 ## Development setup
 
@@ -42,8 +43,9 @@ CI must pass **Smoke gate** and **Full suite**.
 ## PR rules
 
 - Target `master` via pull request only (no direct pushes).
+- State **risk level** (LOW/MEDIUM/HIGH/CRITICAL) per [CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md).
 - Conventional Commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
-- Link the issue in the PR description.
+- Link issues with individual `Closes #N` (not ranges).
 - Update `ARCHITECTURE.md` when HTTP contracts or config loading change.
 
 ## Code of conduct

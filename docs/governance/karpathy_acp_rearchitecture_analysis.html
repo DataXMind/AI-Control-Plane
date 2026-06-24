@@ -1,0 +1,470 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}.tp{border-left-color:#534AB7}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:16px}
+.sec:first-child{margin-top:0}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,164,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.tnew{background:rgba(52,201,126,.1);color:#0F6E56}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-size:10px;font-weight:600;color:var(--color-text-secondary);min-width:80px;padding-top:2px;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.layer-card{border-radius:8px;padding:14px 16px;margin-bottom:10px;border:0.5px solid;position:relative;overflow:hidden}
+.lc-bar{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:8px 0 0 8px}
+.lc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lc-num{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0}
+.lc-title{font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1}
+.lc-badge{font-size:9px;font-weight:600;padding:2px 8px;border-radius:10px;border:0.5px solid}
+.lc-items{font-size:12px;color:var(--color-text-secondary);line-height:1.7}
+.lc-items code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.lc-items strong{font-weight:500;color:var(--color-text-primary)}
+
+.l0{background:rgba(52,201,126,.04);border-color:rgba(52,201,126,.2)}
+.l0 .lc-bar{background:#0F6E56}.l0 .lc-num{background:rgba(52,201,126,.12);color:#0F6E56}
+.l0 .lc-badge{background:rgba(52,201,126,.1);border-color:rgba(52,201,126,.3);color:#0F6E56}
+
+.l1{background:rgba(24,95,164,.04);border-color:rgba(24,95,164,.2)}
+.l1 .lc-bar{background:#185FA5}.l1 .lc-num{background:rgba(24,95,164,.12);color:#185FA5}
+.l1 .lc-badge{background:rgba(24,95,164,.1);border-color:rgba(24,95,164,.3);color:#185FA5}
+
+.l2{background:rgba(163,45,45,.04);border-color:rgba(163,45,45,.2)}
+.l2 .lc-bar{background:#A32D2D}.l2 .lc-num{background:rgba(163,45,45,.12);color:#A32D2D}
+.l2 .lc-badge{background:rgba(163,45,45,.1);border-color:rgba(163,45,45,.3);color:#A32D2D}
+
+.l3{background:rgba(133,79,11,.04);border-color:rgba(133,79,11,.2)}
+.l3 .lc-bar{background:#854F0B}.l3 .lc-num{background:rgba(133,79,11,.12);color:#854F0B}
+.l3 .lc-badge{background:rgba(133,79,11,.1);border-color:rgba(133,79,11,.3);color:#854F0B}
+
+.l4{background:rgba(83,74,183,.04);border-color:rgba(83,74,183,.2)}
+.l4 .lc-bar{background:#534AB7}.l4 .lc-num{background:rgba(83,74,183,.12);color:#534AB7}
+.l4 .lc-badge{background:rgba(83,74,183,.1);border-color:rgba(83,74,183,.3);color:#534AB7}
+
+.l5{background:rgba(180,100,50,.04);border-color:rgba(180,100,50,.2)}
+.l5 .lc-bar{background:#B46432}.l5 .lc-num{background:rgba(180,100,50,.12);color:#B46432}
+.l5 .lc-badge{background:rgba(180,100,50,.1);border-color:rgba(180,100,50,.3);color:#B46432}
+
+.impact-row{display:flex;gap:0;margin-bottom:4px;border-radius:6px;overflow:hidden;height:28px;font-size:11px}
+.ir-label{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);padding:0 12px;display:flex;align-items:center;font-weight:500;color:var(--color-text-primary);min-width:160px;flex-shrink:0;border-right:none}
+.ir-bar{flex:1;display:flex;border:0.5px solid var(--color-border-tertiary);border-left:none}
+.ir-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.9);flex-shrink:0}
+.matrix-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.mc{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.mc h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.mc p,.mc li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.mc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.mc ul{padding-left:14px;margin-top:4px}
+@media(max-width:560px){.matrix-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('karpathy')">① Karpathy vs ACP thực tế</button>
+  <button class="nb" onclick="show('layers')">② 6 layers — fit analysis</button>
+  <button class="nb" onclick="show('impact')">③ Impact map</button>
+  <button class="nb" onclick="show('artifacts')">④ Artifacts nào phù hợp</button>
+  <button class="nb" onclick="show('rearch')">⑤ Rearchitecture plan</button>
+  <button class="nb" onclick="show('cursorrules')">⑥ .cursorrules mới</button>
+</div>
+
+<!-- ① KARPATHY VS ACP -->
+<div id="pane-karpathy" class="pane on">
+  <div class="tip tg">
+    <strong>Karpathy 4 principles = Layer 0 của 6-layer architecture đề xuất.</strong> Repo này là behavioral constitution cho AI coding agent — 175k stars vì nó giải quyết đúng vấn đề LLM drift. Câu hỏi: ACP đã có bao nhiêu, và còn thiếu gì?
+  </div>
+
+  <div class="sec">4 principles — ACP đã có bao nhiêu?</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row">
+      <div class="rn">Think Before</div>
+      <div class="rb">
+        <div class="rt">ACP có: PACE (Plan → Act → Check → Evolve) trong DEVELOPMENT_PROTOCOL</div>
+        <div class="rd"><span class="tag tok">75% có</span> DEVELOPMENT_PROTOCOL.md ghi rõ "Plan phase" trước implement. Claude architect review → Cursor execute. Nhưng thiếu: explicit assumption surfacing. Nhiều lần Cursor implement với silent assumption (agent4 scope creep, monolithic PR). <strong>Gap: không có structured "state assumptions before coding" step trong .cursorrules.</strong></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Simplicity</div>
+      <div class="rb">
+        <div class="rt">ACP có: "Surgical changes" trong .cursorrules hiện tại</div>
+        <div class="rd"><span class="tag twn">50% có</span> .cursorrules ghi "Không thêm feature không được yêu cầu". Nhưng thực tế: monolithic PR #48 chứa MB-S1-1..5 + agent4 (scope creep), MC-1..11 gộp 1 PR. Karpathy: "if 200 lines could be 50, rewrite it" — ACP không có enforcement mechanism cho điều này. <strong>Gap: không có diff size limit, không có abstract complexity check.</strong></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Surgical</div>
+      <div class="rb">
+        <div class="rt">ACP có: Invariant #2 (models.py only), #4 (CLI HTTP only)</div>
+        <div class="rd"><span class="tag tok">80% có</span> 8 invariants là surgical constraint rõ nhất. Nhưng: "touch only what you must" không được enforce ở task level. Agent4 config merge vào PR #46 (doc-only PR) là classic orthogonal edit. <strong>Gap: không có file allowlist/denylist per task type trong .cursorrules.</strong></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">Goal-Driven</div>
+      <div class="rb">
+        <div class="rt">ACP có: acceptance criteria trong mỗi sprint prompt, SMK gates</div>
+        <div class="rd"><span class="tag tok">85% có</span> Đây là điểm mạnh nhất của ACP. Mỗi Cursor prompt có verify gate rõ. SMK-01..08 là success criteria verifiable. Karpathy: "give it success criteria and watch it go" — ACP đã làm tốt. <strong>Chỉ cần formal: mọi task phải có "verify: [command]" trong prompt.</strong></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec">Insight quan trọng nhất từ Karpathy cho ACP</div>
+  <div class="tip tr">
+    <strong>Vấn đề gốc rễ của ACP drift không phải là thiếu rules — mà là rules không được structured đúng layer.</strong> .cursorrules hiện tại là flat list ~30 rules. Khi Cursor không rõ priority, nó silent-picks interpretation. 6-layer architecture giải quyết điều này bằng cách tạo rõ: Layer 0 luôn thắng Layer 3, Layer 2 policy beats Layer 3 guardrails nếu conflict. Đây là thiếu sót kiến trúc lớn nhất của ACP hiện tại.
+  </div>
+</div>
+
+<!-- ② 6 LAYERS FIT -->
+<div id="pane-layers" class="pane">
+  <div class="sec">6-layer analysis — fit với ACP context</div>
+
+  <div class="layer-card l0">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L0</span><span class="lc-title">Behavioral Constitution — Think/Simplicity/Surgical/Goal-Driven</span><span class="lc-badge">CRITICAL FIT</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L0 = <code>.cursorrules</code> hiện tại + PACE L1.<br>
+        <strong>Fit score: 75%</strong> — ACP có PACE, có invariants. Thiếu: explicit assumption surfacing, simplicity test ("senior engineer test"), và formal goal template.<br>
+        <strong>Thêm vào .cursorrules:</strong> (1) "State assumptions before coding", (2) "Senior engineer test: would they say overcomplicated?", (3) "Every task = plan → verify: [command]"<br>
+        <strong>Tại sao critical:</strong> L0 là nhất quán nhất, ảnh hưởng mọi Cursor session. Nếu L0 yếu → mọi layer cao hơn không có value. Agent4 scope creep xảy ra vì L0 không enforce "surgical changes" đủ mạnh.
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-card l1">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L1</span><span class="lc-title">Project Context — architecture map, ownership, conventions, APIs, data, deps</span><span class="lc-badge">HIGH FIT</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L1 = <code>ARCHITECTURE.md</code> (module map) + <code>.cursorrules</code> (conventions) + <code>DEVELOPMENT_PROTOCOL.md</code> (ownership).<br>
+        <strong>Fit score: 80%</strong> — ACP có architecture map, coding conventions, dependency rules (8 invariants). Thiếu: data classification (PII → which fields?), API contracts schema (currently scattered in schemas.py), service ownership per-module (who owns core/policies.py changes?).<br>
+        <strong>Bổ sung:</strong> <code>docs/DATA_CLASSIFICATION.md</code> (PII fields, sensitivity levels), <code>docs/API_CONTRACTS.md</code> (OpenAPI tóm tắt per endpoint), ownership table trong ARCHITECTURE.md.
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-card l2">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L2</span><span class="lc-title">Risk Policy — task classification, mandatory approvals, forbidden ops, migration rules</span><span class="lc-badge">CRITICAL GAP</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L2 hiện tại = <code>policies.yml</code> (agent policy) nhưng <strong>không có Cursor-level risk policy</strong>.<br>
+        <strong>Fit score: 30%</strong> — ACP govern agent tasks nhưng không classify Cursor tasks. Không có: "PR touching PolicyEngine = HIGH risk = require Claude review before execute", "ABAC changes = MEDIUM = require test gate first", "docs-only = LOW = proceed".<br>
+        <strong>Tại sao critical gap:</strong> MC-1..11 monolithic PR xảy ra vì không có enforcement rằng "scope > X files = must split". Không có forbidden ops list cho Cursor (vd: "không được commit trực tiếp vào master").<br>
+        <strong>Bổ sung:</strong> <code>.cursorrules</code> section "Risk Classification" với LOW/MEDIUM/HIGH/CRITICAL per task type.
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-card l3">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L3</span><span class="lc-title">Execution Guardrails — branch isolation, sandbox, tools, diff limits, allowlist</span><span class="lc-badge">MEDIUM FIT</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L3 = <code>BRANCH_PROTECTION.md</code> + <code>.cursorrules</code> Rule 1 (1 branch/PR).<br>
+        <strong>Fit score: 55%</strong> — ACP có branch convention, đã define allowed tools (respx, CliRunner, etc.). Thiếu: diff size limit (monolithic PR #48, #63 đều > 500 lines), file allowlist per task ("docs-only PR không được touch src/"), sandbox enforcement.<br>
+        <strong>Bổ sung thực tế:</strong> "Max 300 LOC diff per PR" trong .cursorrules, file denylist per task type (template trong prompt packets).
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-card l4">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L4</span><span class="lc-title">Evaluation — tests, static analysis, security scans, contract tests, diff quality, regression</span><span class="lc-badge">HIGH FIT — mostly have</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L4 = CI gates (pytest + ruff + mypy + smoke + parity) + <code>DEVELOPMENT_PROTOCOL.md</code> 9-step.<br>
+        <strong>Fit score: 85%</strong> — ACP có comprehensive L4. Thiếu: security scan (Dependabot, pip-audit), contract tests (API schema changes break TS client?), diff quality scoring (heuristic: % new code vs modified code).<br>
+        <strong>Tại sao đã tốt:</strong> 156 tests, SMK-01..08, fail_under=70, shipped parity CI là L4 đủ mạnh cho private PoC. Gap nhỏ: security scan và contract test = pre-Public Beta gate.
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-card l5">
+    <div class="lc-bar"></div>
+    <div style="padding-left:10px">
+      <div class="lc-head"><span class="lc-num">L5</span><span class="lc-title">Governance & Memory — decision log, rationale, reviewer feedback, failure patterns, lessons</span><span class="lc-badge">PARTIAL — exists informally</span></div>
+      <div class="lc-items">
+        <strong>Mapping với ACP:</strong> L5 = Claude HTML artifacts (governance archive) + PHASE1/2 reports + audit docs.<br>
+        <strong>Fit score: 65%</strong> — ACP có decision log phong phú nhất trong bộ (consolidated audit, reconcile analysis). Thiếu: structured failure patterns (vd: "monolithic PR risk — đã xảy ra 2 lần"), reusable lessons extracted từ drift (agent4 scope creep pattern), reviewer feedback loop formal.<br>
+        <strong>Bổ sung:</strong> <code>docs/governance/LESSONS_LEARNED.md</code> — cấu trúc: [Pattern] → [Occurrence] → [Rule added] → [Prevent: where in .cursorrules?]
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ IMPACT MAP -->
+<div id="pane-impact" class="pane">
+  <div class="tip tw">
+    <strong>Rearchitecture tác động theo 3 chiều:</strong> (1) artifacts hiện có cần update gì, (2) files mới cần tạo, (3) workflow Cursor-Claude thay đổi thế nào.
+  </div>
+
+  <div class="sec">Impact per existing artifact</div>
+  <div style="margin-bottom:14px">
+    <div style="margin-bottom:4px;font-size:11px;color:var(--color-text-secondary);display:flex;gap:4px;align-items:center">
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0F6E56"></span>Mở rộng
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#185FA5;margin-left:8px"></span>Giữ nguyên
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#854F0B;margin-left:8px"></span>Restructure
+      <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#A32D2D;margin-left:8px"></span>Deprecated
+    </div>
+    <div class="impact-row"><div class="ir-label">.cursorrules</div><div class="ir-bar"><div class="ir-seg" style="width:40%;background:#854F0B">Restructure → 6 sections</div><div class="ir-seg" style="width:35%;background:#0F6E56">Add L0+L2+L3</div><div class="ir-seg" style="width:25%;background:#185FA5">Keep invariants</div></div></div>
+    <div class="impact-row"><div class="ir-label">ARCHITECTURE.md</div><div class="ir-bar"><div class="ir-seg" style="width:70%;background:#185FA5">Keep — IS L1</div><div class="ir-seg" style="width:30%;background:#0F6E56">Add ownership table</div></div></div>
+    <div class="impact-row"><div class="ir-label">DEVELOPMENT_PROTOCOL</div><div class="ir-bar"><div class="ir-seg" style="width:40%;background:#185FA5">Keep PACE</div><div class="ir-seg" style="width:35%;background:#0F6E56">Add L2 risk triage</div><div class="ir-seg" style="width:25%;background:#0F6E56">Diff limits</div></div></div>
+    <div class="impact-row"><div class="ir-label">Claude HTML artifacts</div><div class="ir-bar"><div class="ir-seg" style="width:80%;background:#185FA5">Keep — L5 governance archive</div><div class="ir-seg" style="width:20%;background:#0F6E56">+lessons.md</div></div></div>
+    <div class="impact-row"><div class="ir-label">Cursor prompts (tabs)</div><div class="ir-bar"><div class="ir-seg" style="width:30%;background:#854F0B">Restructure template</div><div class="ir-seg" style="width:40%;background:#0F6E56">Add L2 risk header</div><div class="ir-seg" style="width:30%;background:#0F6E56">Add assumption block</div></div></div>
+    <div class="impact-row"><div class="ir-label">policies.yml (agent)</div><div class="ir-bar"><div class="ir-seg" style="width:100%;background:#185FA5">Keep — this governs agents, not Cursor</div></div></div>
+    <div class="impact-row"><div class="ir-label">Sprint reports</div><div class="ir-bar"><div class="ir-seg" style="width:65%;background:#185FA5">Keep format</div><div class="ir-seg" style="width:35%;background:#0F6E56">Add drift tally per layer</div></div></div>
+    <div class="impact-row"><div class="ir-label">OPEN_SOURCE_READINESS</div><div class="ir-bar"><div class="ir-seg" style="width:70%;background:#185FA5">Keep gates</div><div class="ir-seg" style="width:30%;background:#0F6E56">Add security scan gate</div></div></div>
+    <div class="impact-row"><div class="ir-label">PHASE1_REPORT_V2</div><div class="ir-bar"><div class="ir-seg" style="width:80%;background:#185FA5">Keep — historical record</div><div class="ir-seg" style="width:20%;background:#854F0B">Sync stale</div></div></div>
+  </div>
+
+  <div class="sec">New artifacts cần tạo</div>
+  <div class="matrix-grid">
+    <div class="mc"><h4><span class="tag tbl">L2</span> CURSOR_RISK_POLICY.md</h4><p>Task risk classification: LOW/MED/HIGH/CRITICAL. Forbidden operations list. PR size limit. Mandatory approval triggers. Đây là artifact quan trọng nhất còn thiếu.</p></div>
+    <div class="mc"><h4><span class="tag tok">L5</span> LESSONS_LEARNED.md</h4><p>[Pattern] → [Occurrence] → [Rule added] → [Layer]. Extracted từ: agent4 scope creep, monolithic PR, auto-close failure, Restrict-PII partial assumption.</p></div>
+    <div class="mc"><h4><span class="tag tbl">L1</span> DATA_CLASSIFICATION.md</h4><p>PII fields definition, sensitivity levels, handling rules. Cần cho: ABAC rules context, test data sanitization, Public Beta prep.</p></div>
+    <div class="mc"><h4><span class="tag twn">L0</span> CLAUDE.md (top-level)</h4><p>Karpathy 4 principles adapted cho ACP context. Được read bởi cả Claude Code và Cursor. Single source of behavioral truth.</p></div>
+    <div class="mc"><h4><span class="tag tpur">L4</span> CONTRACT_TESTS.md</h4><p>API contract test spec: nếu PolicyEvalResponse schema thay đổi → TS client breaks. Cần contract test layer trước Public Beta.</p></div>
+    <div class="mc"><h4><span class="tag tok">L1</span> SERVICE_OWNERSHIP.md</h4><p>Module → owner map. core/policies.py = requires Claude arch review. mcp/ = Cursor-OK with invariant check. apex/ = Claude design first.</p></div>
+  </div>
+
+  <div class="sec">Workflow thay đổi — Claude ↔ Cursor interaction</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Trước</div><div class="rb"><div class="rt">Claude write prompt → Cursor execute → verify gate</div><div class="rd">Flat workflow. Cursor nhận task, không có risk triage. Kết quả: scope creep (agent4), monolithic PR, silent assumption.</div></div></div>
+    <div class="row"><div class="rn">Sau</div><div class="rb"><div class="rt">Claude write prompt (với L2 risk header) → Cursor state assumptions → execute → verify gate</div><div class="rd"><strong>Thêm 2 bước:</strong> (1) Cursor phải state risk level + assumptions trước khi code, (2) Mỗi prompt có explicit file allowlist. Nếu task = HIGH risk → Claude review mid-task, không chỉ post-task.</div></div></div>
+    <div class="row"><div class="rn">L5 loop</div><div class="rb"><div class="rt">Failure → LESSONS_LEARNED.md → update .cursorrules layer tương ứng</div><div class="rd">Hiện tại: failures ghi trong audit reports nhưng không có formal feedback loop vào .cursorrules. Sau: mỗi sprint end có "lessons triage" step — extract pattern → assign to layer → update rule.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ④ ARTIFACTS PHÙ HỢP -->
+<div id="pane-artifacts" class="pane">
+  <div class="sec">Phân loại artifacts hiện có theo 6-layer fit</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">FITS L0</div><div class="rb"><div class="rt">.cursorrules — nhưng cần restructure thành 6 sections</div><div class="rd">Hiện tại là flat list. Karpathy đề xuất: behavioral rules ở top, project rules ở giữa, forbidden list explicit. ACP cần: rearrange theo layer priority, thêm "Assumptions block" và "Senior engineer test".</div></div></div>
+    <div class="row"><div class="rn">FITS L1</div><div class="rb"><div class="rt">ARCHITECTURE.md, DEVELOPMENT_PROTOCOL.md — already IS L1</div><div class="rd">ARCHITECTURE.md = perfect L1 artifact: module map, API contracts, dependency rules, convention table. Chỉ thiếu: ownership table và data classification. Không cần redesign, chỉ bổ sung.</div></div></div>
+    <div class="row"><div class="rn">FITS L2</div><div class="rb"><div class="rt">policies.yml — nhưng govern agents, không govern Cursor</div><div class="rd">Đây là sự nhầm lẫn quan trọng nhất. ACP đã có excellent L2 cho AI agents nhưng hoàn toàn thiếu L2 cho Cursor-as-developer. Cần tạo CURSOR_RISK_POLICY.md như artifact L2 riêng.</div></div></div>
+    <div class="row"><div class="rn">FITS L3</div><div class="rb"><div class="rt">BRANCH_PROTECTION.md + .cursorrules Rule 1</div><div class="rd">Có nhưng enforcement yếu. Rule 1 (1 PR/task) bị waive 2 lần (Sprint 1 + MC). Cần: diff size limit số cụ thể (≤300 LOC), file allowlist per task type, explicit sandbox rule (không modify master trực tiếp).</div></div></div>
+    <div class="row"><div class="rn">FITS L4</div><div class="rb"><div class="rt">CI pipeline + test suite + DEVELOPMENT_PROTOCOL L5 gates</div><div class="rd">Strongest layer hiện tại. 156 tests, 8 SMK, fail_under=70, shipped parity = excellent L4. Thiếu nhỏ: security scan, contract tests cho TS bridge. Đây là gần production-grade nhất.</div></div></div>
+    <div class="row"><div class="rn">FITS L5</div><div class="rb"><div class="rt">Claude HTML artifacts + Phase reports + audit docs = rich L5</div><div class="rd">ACP có L5 phong phú nhất so với L2. Decision log: tất cả Claude audit HTML. Change rationale: sprint reports. Failure patterns: audit final docs. Thiếu chỉ: structured extraction và formal feedback → .cursorrules loop.</div></div></div>
+  </div></div>
+
+  <div class="sec">Verdict: ACP fit với 6-layer tốt như thế nào?</div>
+  <div class="tip tg">
+    <strong>ACP đã có L1, L4, L5 tốt nhất.</strong> L0 đã có 75% (cần refactor structure). L3 có nhưng không enforce. L2 hoàn toàn thiếu cho Cursor (chỉ có cho agents). Đây không phải rearchitecture từ đầu — đây là <strong>gap-fill và restructure</strong> khoảng 20–30% công sức, không phải 100%.
+  </div>
+</div>
+
+<!-- ⑤ REARCHITECTURE PLAN -->
+<div id="pane-rearch" class="pane">
+  <div class="tip tp">
+    <strong>Nguyên tắc rearchitecture:</strong> Không discard artifacts đang hoạt động tốt. Restructure = reframe existing content + fill gaps. Karpathy principle "Simplicity First" áp dụng vào chính việc redesign này.
+  </div>
+
+  <div class="sec">Phase 1 — Restructure L0 (.cursorrules)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Action</div><div class="rb"><div class="rt">Rewrite .cursorrules thành 6 named sections khớp với layers</div><div class="rd">Hiện tại: 30 flat rules. Sau: 6 sections với priority ordering. L0 rules ở top = highest priority. L2 risk policy section explicit. L3 guardrails section với diff limit. Cursor sẽ parse theo thứ tự ưu tiên.</div></div></div>
+    <div class="row"><div class="rn">Thêm mới</div><div class="rb"><div class="rt">Assumptions block trong mọi Cursor prompt template</div><div class="rd">"Before coding: state (1) what files will be touched, (2) what assumptions you're making, (3) what the verify command is. If any assumption unclear → ask, don't proceed." — Karpathy: "Don't assume. Don't hide confusion."</div></div></div>
+    <div class="row"><div class="rn">Effort</div><div class="rb"><div class="rt">~2 giờ. Docs-only. 0 code risk.</div><div class="rd">Restructure .cursorrules + update Claude prompt template để include assumption block. Test: chạy 1 session Cursor với new .cursorrules, verify nó state assumptions trước code.</div></div></div>
+  </div></div>
+
+  <div class="sec">Phase 2 — Tạo CURSOR_RISK_POLICY.md (L2 critical gap)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">LOW risk</div><div class="rb"><div class="rt">Docs-only, test fixes, comment updates</div><div class="rd">Proceed without approval. Max 50 LOC. File allowlist: *.md, tests/, docs/. Forbidden: src/ changes. Verify: ruff + pytest unchanged count.</div></div></div>
+    <div class="row"><div class="rn">MEDIUM risk</div><div class="rb"><div class="rt">New test files, CLI additions, config changes</div><div class="rd">State plan first. Max 200 LOC. Require verify gate pass before PR. Forbidden: touching core/policies.py, models.py without Claude review of changes.</div></div></div>
+    <div class="row"><div class="rn">HIGH risk</div><div class="rb"><div class="rt">core/ changes, API schema changes, policy logic changes</div><div class="rd">Require Claude architecture review mid-task (not just post). Max 300 LOC. Mandatory: diff summary comment in PR. Forbidden: monolithic PR combining HIGH + LOW tasks.</div></div></div>
+    <div class="row"><div class="rn">CRITICAL</div><div class="rb"><div class="rt">Invariant-touching changes, ABAC/PolicyEngine, identity auth</div><div class="rd">Human must explicitly approve before Cursor starts. Claude writes spec first. Cursor implements. Human reviews diff before merge. No exceptions.</div></div></div>
+    <div class="row"><div class="rn">Forbidden ops</div><div class="rb"><div class="rt">Absolute list — Karpathy: "clearly say what not to do"</div><div class="rd">1. Direct push to master. 2. Remove or rename invariant rules. 3. Add OSS policy engine imports to core/. 4. Combine scope from different risk levels in 1 PR. 5. Commit without running verify gate.</div></div></div>
+  </div></div>
+
+  <div class="sec">Phase 3 — LESSONS_LEARNED.md (L5 → L0 feedback loop)</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Pattern 1</div><div class="rb"><div class="rt">Monolithic PR risk</div><div class="rd">Occurred: Sprint 1 PR #48 (MB-S1-1..5 + agent4), PR #63 (MC-1..11). Cause: no LOC limit in .cursorrules. Rule added: "HIGH risk tasks max 300 LOC, no combining with LOW tasks" → L3 guardrails.</div></div></div>
+    <div class="row"><div class="rn">Pattern 2</div><div class="rb"><div class="rt">Scope creep in doc-only PRs</div><div class="rd">Occurred: agent4 config in PR #46 (P2-1 doc-only). Cause: no file allowlist for doc tasks. Rule added: "docs-only PR file allowlist: *.md, docs/, config/*.yml read-only" → L3 guardrails.</div></div></div>
+    <div class="row"><div class="rn">Pattern 3</div><div class="rb"><div class="rt">Auto-close failure</div><div class="rd">Occurred: PR #63 Closes #52..#62 range not parsed. Cause: GitHub not parse range. Rule added: "List each issue separately in PR body: Closes #53, Closes #54..." → L5 process.</div></div></div>
+    <div class="row"><div class="rn">Pattern 4</div><div class="rb"><div class="rt">Silent ABAC assumption</div><div class="rd">Occurred: load_policies() skip role_not_in silently (GAP-ABAC-2). Cause: no "state assumptions before coding" step. Rule added: "Before implementing any policy loader change, state which condition keys will be handled vs skipped" → L0 behavioral.</div></div></div>
+  </div></div>
+
+  <div class="sec">Tác động và rủi ro của rearchitecture</div>
+  <div class="matrix-grid">
+    <div class="mc"><h4><span class="tag tok">LOW risk</span> .cursorrules restructure</h4><p>Không có code risk. Cursor sessions hiện tại sẽ tốt hơn vì rules được prioritized. Downside: Cursor cần learn new structure — 1 session test trước khi dùng production.</p></div>
+    <div class="mc"><h4><span class="tag twn">MED risk</span> New CURSOR_RISK_POLICY.md</h4><p>Nếu risk classification quá strict → Cursor sẽ ask for approval quá nhiều. Cần calibrate: "biases toward caution over speed" (Karpathy) nhưng không block trivial tasks. Solution: LOW tier = no friction.</p></div>
+    <div class="mc"><h4><span class="tag tok">LOW risk</span> LESSONS_LEARNED.md</h4><p>Pure additive. Nếu maintained well, đây là tài sản governance quý nhất. Risk: không maintain → stale. Mitigation: thêm vào sprint-close checklist.</p></div>
+    <div class="mc"><h4><span class="tag tok">NONE</span> Existing artifacts</h4><p>Không discard bất kỳ artifact nào. ARCHITECTURE.md, CI pipeline, sprint reports đều kept. Rearchitecture là additive layer, không replacement.</p></div>
+    <div class="mc"><h4><span class="tag twn">MED</span> Prompt template change</h4><p>Mọi Claude prompt sang Cursor cần có "Assumptions block". Overhead ~5 phút per prompt. Benefit: eliminate silent assumption drift. Trade-off rõ ràng — worth it cho HIGH/CRITICAL tasks.</p></div>
+    <div class="mc"><h4><span class="tag tok">POSITIVE</span> Overall system quality</h4><p>L2 risk policy specifically addresses monolithic PR và scope creep — 2 vấn đề lớn nhất trong ACP history. Nếu implement đúng, sprint 2+ sẽ có cleaner commit history và fewer post-merge hygiene PRs.</p></div>
+  </div>
+</div>
+
+<!-- ⑥ NEW .CURSORRULES -->
+<div id="pane-cursorrules" class="pane">
+  <div class="tip tg">
+    <strong>Template .cursorrules mới — 6 sections, priority-ordered.</strong> Karpathy 4 principles làm L0 section đầu tiên. Hiện tại ACP .cursorrules có gì đúng → keep, thêm missing pieces theo layer.
+  </div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">New .cursorrules — 6-layer structured</span></span><button class="cbtn" onclick="cp(this,'pcr')">Copy</button></div>
+    <div class="pbb" id="pcr"><span class="cm"># ai-control-plane .cursorrules — 6-layer governance
+# Priority: L0 > L1 > L2 > L3 > L4 > L5
+# Conflict resolution: higher layer always wins
+# Last updated: post Milestone C (master @ 6dfffdf)</span>
+
+<span class="hi">## L0 — Behavioral Constitution (Karpathy 4 Principles)</span>
+<span class="cm"># These apply to EVERY task, no exceptions</span>
+
+<span class="key">THINK BEFORE CODING:</span>
+- Before any code: state explicitly (a) files you will touch, (b) assumptions being made, (c) verify command
+- If uncertain about interpretation → ask, do NOT pick silently and run with it
+- If a simpler approach exists → say so before implementing the complex one
+- "Senior engineer test": would a senior say this is overcomplicated? If yes, simplify first.
+
+<span class="key">SIMPLICITY FIRST:</span>
+- Minimum code that solves the problem. Nothing speculative.
+- No abstractions for single-use code; no "flexibility" not requested
+- If 100 lines could be 50 → propose the rewrite, don't add to 100
+- No error handling for impossible scenarios
+
+<span class="key">SURGICAL CHANGES:</span>
+- Touch ONLY what the task requires. Every changed line must trace to the request.
+- Do NOT "improve" adjacent code, comments, or formatting unless asked
+- If you notice dead code → mention it, do NOT delete it
+- Remove only imports/variables YOUR changes made unused (not pre-existing)
+
+<span class="key">GOAL-DRIVEN EXECUTION:</span>
+- Every task must have explicit verify: [command] — state it before starting
+- Transform "fix the bug" → "write test reproducing it, then make it pass"
+- Multi-step tasks: state plan with verify per step before executing step 1
+
+<span class="hi">## L1 — Project Context</span>
+
+Package: ai_control_plane (src/ layout). CLI: agentctl (Typer). API: FastAPI api/server.py.
+Config: Pydantic v2 + PyYAML via ACP_CONFIG_DIR env var.
+Read ARCHITECTURE.md before any non-trivial task. It is the L1 authority.
+
+<span class="key">Module ownership (who must review changes):</span>
+- core/policies.py → Claude architecture review required (CRITICAL)
+- core/models.py → Claude review required (HIGH)
+- api/server.py → Cursor-OK with invariant check (MEDIUM)
+- tests/, docs/ → Cursor-OK (LOW)
+- apex/ → Claude design spec required before implement (HIGH)
+
+<span class="key">Coding conventions:</span>
+- Pydantic v2 (ConfigDict, not class Config)
+- structlog everywhere (not logging stdlib)
+- Async/await for all I/O. Type hints on all public signatures.
+- Docstring 1 line per public class/function.
+
+<span class="hi">## L2 — Risk Policy</span>
+
+<span class="key">Task risk levels — MUST classify before starting:</span>
+LOW:    docs-only, test additions, comment fixes → proceed, max 50 LOC changed
+MEDIUM: new tests, CLI additions, config changes → state plan first, max 200 LOC
+HIGH:   core/ changes, API schema changes, new endpoints → Claude review mid-task, max 300 LOC
+CRITICAL: PolicyEngine, ABAC, invariant-touching, identity auth → human explicit approve first
+
+<span class="key">Forbidden operations (absolute — no exceptions):</span>
+1. Direct push or merge to master
+2. Remove, rename, or weaken any of the 8 invariants
+3. Import OSS policy engines (CrewAI, LangChain, etc.) into core/
+4. Combine tasks of different risk levels in 1 PR
+5. Run git commands that affect master without explicit human instruction
+6. Commit without running the verify gate first
+
+<span class="key">PR size limits:</span>
+LOW tasks: max 50 LOC. MEDIUM: max 200 LOC. HIGH: max 300 LOC.
+If task exceeds limit → split into multiple PRs, do not waive.
+
+<span class="hi">## L3 — Execution Guardrails</span>
+
+<span class="key">Branch isolation:</span>
+Every task = new branch from master. Name: {risk-level}/{issue-id}-{short-desc}
+Never reuse a branch for a different task scope (agent4-in-doc-PR pattern = FORBIDDEN).
+
+<span class="key">File allowlists per task type:</span>
+docs-only task:  allowed = [*.md, docs/**, config/*.yml (read-only)]
+                 forbidden = src/**, tests/** (any changes = scope creep, stop and ask)
+test-only task:  allowed = [tests/**, tests/fixtures/**]
+                 forbidden = src/** (if test requires src change → it's a MEDIUM task, not LOW)
+core/ task:      allowed = [src/ai_control_plane/core/**, tests/test_{module}.py]
+                 forbidden = api/**, mcp/**, cli/** (unless explicitly in task scope)
+
+<span class="key">Invariants (must check before every src/ PR):</span>
+1. core/policies.py: no OSS policy engine imports
+2. core/models.py: all new types here only, in __all__
+3. mcp/git_server.py: facade only, no git logic
+4. cli/: no direct core/policies.py import
+5. apex/: all OSS tool calls FROM apex/, not the reverse
+6. api/: sole cross-language bridge
+7. core/quota.py: QuotaStore ABC, no hardcoded Redis
+8. config/: ACP_CONFIG_DIR env var, no hardcoded paths
+
+<span class="hi">## L4 — Evaluation</span>
+
+<span class="key">Mandatory verify gate (run in this order):</span>
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -v
+pytest tests/test_smoke.py -v -m smoke
+pytest tests/test_shipped_config_parity.py -v -m shipped_config
+
+<span class="key">Coverage requirements:</span>
+fail_under = 70 (in pyproject.toml). core/policies.py >= 80%. cli/ >= 60%.
+
+<span class="key">Before declaring done:</span>
+- All verify gate commands pass
+- No new mypy errors introduced (outside known apex stubs)
+- PR diff reviewed for orthogonal changes (Surgical Changes check)
+- GitHub issues linked in PR body (individual Closes #N, not ranges)
+
+<span class="hi">## L5 — Governance & Memory</span>
+
+<span class="key">Decision log:</span> docs/governance/*.html — Claude architect decisions archived here.
+<span class="key">Change rationale:</span> docs/governance/PHASE*_REPORT.md per sprint.
+<span class="key">Failure patterns:</span> docs/governance/LESSONS_LEARNED.md — update after each sprint.
+<span class="key">Lessons → rules loop:</span> every failure pattern in LESSONS_LEARNED must reference which .cursorrules layer it maps to.
+
+<span class="key">Sprint close checklist:</span>
+1. All GitHub issues closed with individual Closes #N
+2. Doc drift fixed (ARCHITECTURE.md, reports)
+3. LESSONS_LEARNED.md updated with new patterns
+4. .cursorrules reviewed for rule additions from lessons</div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>

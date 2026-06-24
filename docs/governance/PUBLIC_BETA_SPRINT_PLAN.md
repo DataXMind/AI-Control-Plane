@@ -14,6 +14,8 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 
 **Out of scope for this sprint:** Re-open Milestone A/B/C/C+ hygiene; change SAPAL architecture.
 
+**Parallel track:** 6-layer Cursor governance — [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) (docs-only; does not block soak).
+
 ---
 
 ## Sprint tracks (parallel)

@@ -13,6 +13,8 @@ ARCHITECTURE.md + 8 invariants
     ↓
 Claude consolidated architecture (HTML) — decision matrix V1∪V2
     ↓
+Karpathy 6-layer governance (CURSOR_RISK_POLICY, LESSONS_LEARNED) — Cursor agent discipline
+    ↓
 DEVELOPMENT_PROTOCOL.md — PACE, 9-step, smoke gate
     ↓
 GitHub issues (acceptance criteria)
@@ -37,11 +39,17 @@ Code on master (actual behavior)
 | **Telemetry / smoke** | `tab7_telemetry_spec_and_smoke_audit.html`, `CLAUDE_PROMPT_TAB7_TELEMETRY.md` | Claude | Hash-chain spec, SMK matrix |
 | **Tool naming** | `CLAUDE_PROMPT_CONFIG_TOOL_NAMING.md` | Claude | P0-2b Option A decision |
 | **Full audit (snapshot)** | `acp_full_audit_report.html` | Claude | Baseline `fc296d4` — **HISTORICAL ONLY** |
-| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `de931b5` |
+| **Reconcile final (snapshot)** | `audit_reconcile_final.html` | Claude + Cursor | Baseline `6dfffdf` — **HISTORICAL ONLY** |
+| **Reconcile final (live)** | `ACP_AUDIT_RECONCILE_FINAL_STATUS.md` | Cursor | master @ `c5d52e5` |
+| **Reconciliation (live)** | `ACP_FULL_AUDIT_RECONCILIATION.md` | Cursor | master @ `c5d52e5` |
 | **Audit prompts 1–3 final** | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` | Cursor | Hygiene + HIGH/MED drift closed |
 | **Public Beta** | `PUBLIC_BETA_SPRINT_PLAN.md`, `PUBLIC_BETA_GO_NO_GO.md` | Agent + human | PB-1..12 |
 | **Sprint plans** | `MILESTONE_B_BACKLOG.md`, `MILESTONE_C_SPRINT_PLAN.md` | Agent + human | A/B/C CLOSED |
 | **C+ ADR** | `MILESTONE_C_PLUS_ADR.md` | Claude + human | CLOSED PR #74 |
+| **Karpathy 6-layer (snapshot)** | `karpathy_acp_rearchitecture_analysis.html` | Claude | Design proposal @ `6dfffdf` — **HISTORICAL** |
+| **Karpathy rearch (live)** | `ACP_KARPATHY_REARCHITECTURE_PLAN.md` | Cursor + human | Governance track R1–R4 |
+| **Cursor risk policy (L2)** | `CURSOR_RISK_POLICY.md` | Human | Agent-as-developer classification |
+| **Lessons learned (L5)** | `LESSONS_LEARNED.md` | Human | Failure → rule feedback loop |
 
 ---
 
@@ -126,12 +134,20 @@ flowchart TB
 | Milestone A/B/C đã xong chưa? | `MILESTONE_*_SPRINT_PLAN.md`, `ACP_FULL_AUDIT_RECONCILIATION.md` |
 | Claude vision apex đầy đủ? | `acp_full_audit_report.html` pane ⑤ + `CLAUDE_PROMPT_MILESTONE_C_PLUS.md` |
 | Cursor task tiếp theo? | `PUBLIC_BETA_SPRINT_PLAN.md` |
+| Post-#63 hygiene + 15-issue triage? | `audit_reconcile_final.html` (snapshot) + `ACP_AUDIT_RECONCILE_FINAL_STATUS.md` (live) |
 | Audit prompts 1–3 done? | `ACP_AUDIT_PROMPTS_1_3_FINAL.md` |
+| Cursor task risk / LOC limits? | `CURSOR_RISK_POLICY.md` |
+| Why monolithic PRs happened? | `LESSONS_LEARNED.md` + `karpathy_acp_rearchitecture_analysis.html` |
+| 6-layer rearchitecture plan? | `ACP_KARPATHY_REARCHITECTURE_PLAN.md` |
+| New Cursor prompt format? | `docs/prompts/_TEMPLATE.md` |
+| 6-layer audit pass record? | `GOV_6LAYER_AUDIT_PASS.md` |
+| Data classification (L1)? | `docs/DATA_CLASSIFICATION.md` |
+| API contract tests (L4)? | `docs/CONTRACT_TESTS.md` |
 | Public Beta go/no-go? | `PUBLIC_BETA_GO_NO_GO.md` |
 | Smoke / protocol gates? | `DEVELOPMENT_PROTOCOL.md` §5.5 |
 
 ---
 
-**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (historical @ `fc296d4`).
+**Supersedes:** Nothing. Complements `acp_full_audit_report.html` (@ `fc296d4`), `audit_reconcile_final.html` (@ `6dfffdf`), and `karpathy_acp_rearchitecture_analysis.html` (governance design).
 
-**Last updated:** 2026-06-24 @ `de931b5`
+**Last updated:** 2026-06-22 @ `c5d52e5`

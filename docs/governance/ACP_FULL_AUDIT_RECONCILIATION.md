@@ -4,24 +4,25 @@
 **Version:** 1.0  
 **Audit date:** 2026-06-24  
 **Baseline artifact:** [`acp_full_audit_report.html`](acp_full_audit_report.html) (Claude, snapshot @ `fc296d4`)  
-**Code truth:** `master` @ `de931b5` (PR #76 + Public Beta prep)  
+**Reconcile artifact:** [`audit_reconcile_final.html`](audit_reconcile_final.html) @ `6dfffdf` — see [`ACP_AUDIT_RECONCILE_FINAL_STATUS.md`](ACP_AUDIT_RECONCILE_FINAL_STATUS.md)  
+**Code truth:** `master` @ `c5d52e5` (PR #82 — PB-9 soak started)  
 **Method:** Pass 1 artifact vs code; Pass 2 governance vs GitHub; Pass 3 Claude prompt intent vs delivered diff
 
 ---
 
 ## Executive verdict
 
-| Dimension | @ `fc296d4` (HTML) | @ `a285539` (live) | Strict assessment |
+| Dimension | @ `fc296d4` (HTML) | @ `c5d52e5` (live) | Strict assessment |
 |-----------|-------------------|-------------------|-------------------|
 | Milestone A | 100% CLOSED | 100% CLOSED | ✅ Aligned |
 | Milestone B | 100% CLOSED | 100% CLOSED | ✅ Aligned |
-| Milestone C | **5% stubs** | **~55% boundary / ~25% architect vision** | ⚠️ **Scope reinterpretation** |
-| Public Beta | 38% | ~38% | ✅ Aligned (unchanged) |
+| Milestone C | **5% stubs** | **BOUNDARY + C+ CLOSED** | ✅ PR #63 + #74 |
+| Public Beta | 38% | **~60%** (prep done; soak/flip pending) | ⏳ PB-9..12 |
 | Doc truth | 9 drift items | **Resolved** | ✅ |
-| GitHub hygiene | 5 OPEN (HTML) | **0 OPEN** (#9, #39 closed) | ✅ |
+| GitHub hygiene | 5 OPEN (HTML) / 15 @ reconcile | **4 OPEN** (#77–#80 PB only) | ✅ |
 | 8 invariants | Intact | Intact | ✅ |
 
-**Strict Milestone C verdict:** **BOUNDARY CLOSED, DEPTH NO-GO** for architect-grade SAPAL (OTel, Argos, Darts, PolicyEngine-gated act, cyanheads CI). PR #63 đóng milestone *scaffold/wiring*; không đóng milestone *intelligence layer* trong HTML pane ⑤.
+**Strict Milestone C verdict @ `c5d52e5`:** **CLOSED** — boundary (PR #63) + architect depth (C+ PR #74). Reconcile artifact @ `6dfffdf` correctly identified governance lag; see [`ACP_AUDIT_RECONCILE_FINAL_STATUS.md`](ACP_AUDIT_RECONCILE_FINAL_STATUS.md).
 
 ---
 
@@ -44,7 +45,7 @@ No change from HTML audit. Evidence: `MILESTONE_B_BACKLOG.md` Sprint 1+2, PR #48
 | **C-architect** (OTel IF, Argos, Darts, replay API, policy-gated act) | 35% | 0% | **0%** | Not in code; see pane ⑤ blockers in HTML |
 
 | Composite Milestone C (strict) | 50%×100% + 15%×60% + 35%×0% = **59%** @ `a285539` |
-| Post C+ @ `de931b5` | Architect layer **~100%** per ADR — composite **~95%+** (excl. soak/public flip) |
+| Post C+ @ `c5d52e5` | Architect layer **~100%** per ADR — composite **~95%+** (excl. soak/public flip) |
 
 **Reporting labels:**
 
@@ -53,7 +54,7 @@ No change from HTML audit. Evidence: `MILESTONE_B_BACKLOG.md` Sprint 1+2, PR #48
 
 ### Public Beta — in progress
 
-Prep started 2026-06-24: legal artifacts, `examples/minimal`, OpenAPI export. Soak + public flip pending — [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md).
+Prep complete PR #81: legal, `examples/minimal`, OpenAPI. PB-9 staging soak **started 2026-06-22** (PR #82). Flip pending — [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md), [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
 
 ---
 
@@ -85,7 +86,7 @@ Prep started 2026-06-24: legal artifacts, `examples/minimal`, OpenAPI export. So
 
 **Additional closures PR #64:** #3 (exceptions exist), #13 (README runbook), #53–#62 (MC items).
 
-**Remaining OPEN:** none (B+ debt #9, #39 closed).
+**Remaining OPEN:** #77–#80 (Public Beta soak, branch protection, public flip). MC/C+ debt (#9, #39, MC-8, MC-10) closed.
 
 ---
 
@@ -93,17 +94,18 @@ Prep started 2026-06-24: legal artifacts, `examples/minimal`, OpenAPI export. So
 
 HTML said **NO-GO** to *start* Milestone C. Execution **proceeded** with MVP scope (human-approved MC-1..11 bulk). Blocker status now:
 
-| Blocker | @ fc296d4 | @ a285539 | Notes |
+| Blocker | @ fc296d4 | @ c5d52e5 | Notes |
 |---------|-----------|-----------|-------|
-| OTel collector | ❌ absent | ⚠️ stub script only | `scripts/run_otel_collector.sh` — no `otel-collector.yaml` |
-| `TelemetryStore.replay()` | ❌ | ❌ | Only `list_events()` used |
-| Darts / sklearn extras | ❌ | ❌ | Not in `pyproject.toml` |
-| Argos design doc | ❌ | ❌ | Not created |
-| act.py PolicyEngine gate | ❌ | ❌ | Heuristic skip only |
-| cyanheads MCP E2E CI | ❌ | ❌ | `HttpGitForwarder` unit mock only |
-| Production soak | ❌ | ❌ | Unchanged |
-| Doc drift HIGH | ❌ | ⚠️ partial | API table + PHASE1 §4.2 remain |
-| #37 sub-issues | ❌ | ✅ #52–#62 created | Titles match modules; AC depth not met |
+| OTel collector | ❌ absent | ✅ | `otel-collector.yaml.example` + script (C+-6) |
+| `TelemetryStore.replay()` | ❌ | ✅ | C+-1 PR #74 |
+| Darts / sklearn extras | ❌ | ✅ | Optional + rolling fallback |
+| Argos design doc | ❌ | ✅ | `AnalyzeAdapter` 4-stage |
+| act.py PolicyEngine gate | ❌ | ✅ | Proposal-only Option C (C+-5) |
+| cyanheads MCP E2E CI | ❌ | ✅ | respx E2E (C+-2) |
+| Staging soak | ❌ | ⏳ | PB-9 started 2026-06-22 |
+| Production soak | ❌ | ❌ | PB-10 pending |
+| Doc drift HIGH | ❌ | ✅ | Resolved PR #64–#76, #81 |
+| #37 sub-issues | ❌ | ✅ | All closed |
 
 **Interpretation:** HTML NO-GO was **correct for architect-grade C**. Team **overrode** with boundary MVP — valid if labeled honestly (now in this doc + `MILESTONE_C_SPRINT_PLAN.md` beyond section).
 
@@ -153,10 +155,10 @@ _All HIGH/MED items from audit reconciliation resolved (ARCHITECTURE, PHASE1 §4
 | Question | Answer |
 |----------|--------|
 | Project on track for private governance core? | **Yes** |
-| Milestone C "done" per HTML architect spec? | **Yes** @ `de931b5` (C + C+ ADR) |
-| Safe to claim Public Beta? | **No** — soak + PB-12 human go/no-go ([`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)) |
-| HTML `acp_full_audit_report.html` still valid? | **Historical only** @ `fc296d4` — see [`acp_full_audit_report_SNAPSHOT_README.md`](acp_full_audit_report_SNAPSHOT_README.md) |
+| Milestone C "done" per HTML architect spec? | **Yes** @ `c5d52e5` (C + C+ ADR) |
+| Safe to claim Public Beta? | **No** — PB-9 soak until ~2026-07-06 + PB-12 ([`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)) |
+| HTML audits still valid for planning? | **Historical only** — [`acp_full_audit_report_SNAPSHOT_README.md`](acp_full_audit_report_SNAPSHOT_README.md), [`audit_reconcile_final_SNAPSHOT_README.md`](audit_reconcile_final_SNAPSHOT_README.md) |
 
 ---
 
-**Related:** [`ACP_ARTIFACT_PUZZLE_MAP.md`](ACP_ARTIFACT_PUZZLE_MAP.md) · [`MILESTONE_C_SPRINT_PLAN.md`](MILESTONE_C_SPRINT_PLAN.md) · [`docs/prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md`](../prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md)
+**Related:** [`ACP_ARTIFACT_PUZZLE_MAP.md`](ACP_ARTIFACT_PUZZLE_MAP.md) · [`ACP_AUDIT_RECONCILE_FINAL_STATUS.md`](ACP_AUDIT_RECONCILE_FINAL_STATUS.md) · [`GOV_6LAYER_AUDIT_PASS.md`](GOV_6LAYER_AUDIT_PASS.md) · [`MILESTONE_C_SPRINT_PLAN.md`](MILESTONE_C_SPRINT_PLAN.md)

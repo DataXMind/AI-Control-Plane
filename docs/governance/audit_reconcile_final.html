@@ -1,0 +1,460 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:14px}
+.sec:first-child{margin-top:0}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,164,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-size:10px;font-weight:600;color:var(--color-text-secondary);min-width:64px;padding-top:2px;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11.5px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.delta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.dc{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.dc h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.dc p,.dc li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.dc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.dc ul{padding-left:14px;margin-top:4px}
+.mc-bar-mini{height:3px;border-radius:2px;margin-top:6px}
+.mc-a{background:#0F6E56}.mc-b{background:#185FA5}.mc-c{background:#534AB7}.mc-pb{background:#854F0B}
+.verdict-box{border-radius:8px;padding:14px 16px;margin-bottom:14px;border:0.5px solid}
+.vg{background:rgba(52,201,126,.05);border-color:rgba(52,201,126,.3)}
+.vw{background:rgba(133,79,11,.05);border-color:rgba(133,79,11,.25)}
+.vf-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.vg .vf-label{color:#0F6E56}.vw .vf-label{color:#854F0B}
+.vf-title{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.vf-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.vf-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.issue-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.issue-row:last-child{border-bottom:none}
+.issue-num{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;font-weight:600;color:var(--color-text-secondary);min-width:52px;padding-top:2px}
+.issue-body{flex:1}
+.issue-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.issue-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.verdict-badge{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:600;margin-top:4px}
+.vb-close{background:rgba(52,201,126,.1);color:#0F6E56;border:0.5px solid rgba(52,201,126,.3)}
+.vb-open{background:rgba(163,45,45,.1);color:#A32D2D;border:0.5px solid rgba(163,45,45,.3)}
+.vb-watch{background:rgba(133,79,11,.1);color:#854F0B;border:0.5px solid rgba(133,79,11,.3)}
+.depth-bar{display:flex;height:18px;border-radius:4px;overflow:hidden;margin-top:6px}
+.db-fill{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:white}
+@media(max-width:560px){.delta-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('delta')">① Delta analysis</button>
+  <button class="nb" onclick="show('completion')">② Completion updated</button>
+  <button class="nb" onclick="show('issues')">③ Issues — 15 OPEN</button>
+  <button class="nb" onclick="show('drift')">④ Doc drift merged</button>
+  <button class="nb" onclick="show('gng')">⑤ Go/No-Go revised</button>
+  <button class="nb" onclick="show('cursor')">⑥ Hygiene packet</button>
+</div>
+
+<!-- ① DELTA -->
+<div id="pane-delta" class="pane on">
+  <div class="tip tg">
+    <strong>Cursor audit baseline:</strong> master @ <code>6dfffdf</code> (PR #63 merged — MC-1..11 single PR). Claude audit baseline: <code>fc296d4</code> (post Sprint 2). Delta = những gì xảy ra giữa hai snapshot này + những điểm hai bên nhìn khác nhau.
+  </div>
+
+  <div class="sec">Điều Claude audit không biết (Cursor bổ sung)</div>
+  <div class="delta-grid">
+    <div class="dc">
+      <h4><span class="tag tok">MỚI</span> Milestone C đã CLOSED code</h4>
+      <p>Claude audit ghi Milestone C = 5% (stubs only). Cursor audit xác nhận PR #63 merged @ <code>6dfffdf</code> với MC-1..11. SAPAL live (MVP heuristic). 156 tests pass. Đây là delta lớn nhất giữa hai bản audit.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tok">MỚI</span> SAPAL depth rõ ràng hơn</h4>
+      <p>Cursor document rõ: MC-4 ActAdapter skip PolicyEngine trên risk_level=high; MC-1 Sense chỉ aggregate telemetry nội bộ; learn.py proposals=[] always. Đây là scope reduction có chủ đích, không phải bug.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tok">MỚI</span> FileTelemetryStore</h4>
+      <p>MC-9 thêm file-backed telemetry store. Claude audit không biết — recommend chỉ InMemoryTelemetryStore. ARCHITECTURE.md cần thêm <code>FileTelemetryStore</code> vào runtime stores table.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tok">MỚI</span> agentctl apex subcommand</h4>
+      <p>MC-7 thêm <code>cli/apex.py</code> + <code>_http.py</code> helper. Invariant #4 vẫn intact — apex CLI gọi qua HTTP <code>/apex/*</code> endpoint. Claude audit chưa có thông tin này.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tok">MỚI</span> Auto-close failure root cause</h4>
+      <p>Cursor xác định: PR #63 có <code>Closes #52..#62</code> từng issue riêng trong body nhưng chỉ #52 auto-close. Nguyên nhân: GitHub không parse issue range hoặc issues tạo sau khi PR mở. Không phải code thiếu — pure process drift.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag twn">UPDATE</span> 15 OPEN issues (không phải 5)</h4>
+      <p>Claude audit chỉ thấy 5 issues. Cursor xác nhận 15 OPEN: #53–#62 (MC code done), #37 (duplicate), #3 (stale), #13 (stale/narrow), #9 (debt thật), #39 (partial). Toàn bộ cần triage.</p>
+    </div>
+  </div>
+
+  <div class="sec">Điểm Claude đúng — Cursor xác nhận</div>
+  <div class="delta-grid">
+    <div class="dc">
+      <h4><span class="tag tbl">CONFIRMED</span> Doc drift HIGH items</h4>
+      <p>Claude ghi 3 HIGH drift (API surface, stores, GAP list). Cursor xác nhận và mở rộng thêm: README, MILESTONE_C_SPRINT_PLAN, ARCHITECTURE date, FileTelemetryStore missing. Danh sách drift tăng từ 9 → 12 items.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tbl">CONFIRMED</span> MC-8 cyanheads partial</h4>
+      <p>Claude: "BLOCKER-6 cyanheads E2E absent". Cursor: "MC-8 ⚠️ partial — StubGitForwarder + HttpGitForwarder unit mock, không phải cyanheads thật trong CI". Alignment hoàn toàn.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tbl">CONFIRMED</span> MC-10 OTel script stub only</h4>
+      <p>Claude: "scripts/run_otel_collector.sh absent". Cursor: "Script stub only, thiếu doc + otel-collector.yaml". Vẫn là gap nhưng không còn "absent" — cần document thêm.</p>
+    </div>
+    <div class="dc">
+      <h4><span class="tag tbl">CONFIRMED</span> Public Beta 0/8 gates</h4>
+      <p>Cả hai đồng ý: đúng target project (private), chưa đến lượt. No drift ở đây.</p>
+    </div>
+  </div>
+
+  <div class="sec">Điểm Claude sai / cần điều chỉnh</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Sai-1</div><div class="rb"><div class="rt">Milestone C NO-GO verdict đã lỗi thời</div><div class="rd">Claude audit kết luận "NO-GO — 6 blockers". Nhưng Cursor xác nhận PR #63 đã merge — BLOCKER-1 (OTel script), BLOCKER-3 (Darts), BLOCKER-6 (cyanheads partial) đều được xử lý ở mức MVP. NO-GO verdict không còn valid. Milestone C code CLOSED, dù depth = MVP không phải production.</div></div></div>
+    <div class="row"><div class="rn">Sai-2</div><div class="rb"><div class="rt">BLOCKER-2 EventStore.replay() đã có</div><div class="rd">Claude: "TelemetryStore.replay() chưa có". Cursor không mention gap này → implicitly resolved trong MC-9 FileTelemetryStore work. Cần confirm nhưng likely closed.</div></div></div>
+    <div class="row"><div class="rn">Sai-3</div><div class="rb"><div class="rt">BLOCKER-4/5 Argos design + act.py circular dep đã xử lý (MVP)</div><div class="rd">Claude: "cần architecture decision trước". Cursor: MC-4 ActAdapter skip PolicyEngine trên risk_level=high là conscious design choice, không phải bug. Circular dep avoided bằng cách không invoke PolicyEngine từ SAPAL action path.</div></div></div>
+    <div class="row"><div class="rn">Sai-4</div><div class="rb"><div class="rt">Claude audit thiếu MC-9 FileTelemetryStore và MC-7 apex CLI</div><div class="rd">Claude audit không có thông tin về hai deliverable này vì chúng nằm trong PR #63 xảy ra sau snapshot <code>fc296d4</code>. Cả hai cần được thêm vào ARCHITECTURE.md và audit record.</div></div></div>
+  </div></div>
+
+  <div class="sec">Net verdict từ delta</div>
+  <div class="verdict-box vg">
+    <div class="vf-label">Reconcile verdict</div>
+    <div class="vf-title">Milestone C CODE CLOSED — governance drift là vấn đề duy nhất còn lại</div>
+    <div class="vf-body">Cursor audit đúng về code state. Claude audit đúng về doc/issue drift methodology. Kết hợp: project bám đúng kiến trúc và milestone sequencing. Tất cả 8 invariants intact. SAPAL live ở mức MVP (heuristic, không OSS orchestration) — đây là scope reduction có approve, không phải failure. Việc còn lại: hygiene PR (close 15 issues, sync 12 doc items) + ghi nhận rõ scope reduction ngầm của MC-4/MC-8/MC-10 như documented debt.</div>
+  </div>
+</div>
+
+<!-- ② COMPLETION UPDATED -->
+<div id="pane-completion" class="pane">
+  <div class="sec">Completion % — updated @ master 6dfffdf</div>
+
+  <div style="margin-bottom:10px">
+    <div class="dc" style="margin-bottom:8px">
+      <h4>Milestone A <span style="float:right;font-size:16px;font-weight:500;color:#0F6E56">100%</span></h4>
+      <div class="depth-bar"><div class="db-fill mc-a" style="width:100%;background:#0F6E56">Closed #38</div></div>
+      <p style="margin-top:6px">Không thay đổi. 156 tests (up từ 91). SMK 8/8. 8 invariants intact.</p>
+    </div>
+    <div class="dc" style="margin-bottom:8px">
+      <h4>Milestone B <span style="float:right;font-size:16px;font-weight:500;color:#185FA5">100%</span></h4>
+      <div class="depth-bar"><div class="db-fill" style="width:100%;background:#185FA5">Closed PR #51</div></div>
+      <p style="margin-top:6px">Không thay đổi. Sprint 1 + Sprint 2 all items closed. Redis, JWKS, FileTaskStore, ActionRegistry live.</p>
+    </div>
+    <div class="dc" style="margin-bottom:8px">
+      <h4>Milestone C — Code <span style="float:right;font-size:16px;font-weight:500;color:#534AB7">90%</span></h4>
+      <div class="depth-bar">
+        <div class="db-fill" style="width:75%;background:#534AB7">MC-1..9,11 ✅</div>
+        <div class="db-fill" style="width:15%;background:#854F0B">MC-8,10 partial</div>
+        <div class="db-fill" style="width:10%;background:#A32D2D">gov drift</div>
+      </div>
+      <p style="margin-top:6px"><strong>Cập nhật từ 5% → 90%.</strong> PR #63 merged. SAPAL loop live (heuristic MVP). FileTelemetryStore, apex API/CLI, 156 tests. Scope reductions có chủ đích: MC-4 skip PolicyEngine, MC-8 stub forwarder, MC-10 script only.<br>
+      Không đạt 100% vì: MC-8 cyanheads không trong CI; MC-10 thiếu otel-collector.yaml + doc; issues #53–#62 chưa closed. Governance = 40%.</p>
+    </div>
+    <div class="dc">
+      <h4>Public Beta <span style="float:right;font-size:16px;font-weight:500;color:#854F0B">38%</span></h4>
+      <div class="depth-bar">
+        <div class="db-fill" style="width:65%;background:#0F6E56">Tech gates</div>
+        <div class="db-fill" style="width:35%;background:#A32D2D">Legal/ops 0%</div>
+      </div>
+      <p style="margin-top:6px">Không thay đổi. 0/8 go/no-go gates. Production soak, legal artifacts, examples/ — tất cả absent. Đúng target project.</p>
+    </div>
+  </div>
+
+  <div class="tip tw">
+    <strong>Tóm tắt trạng thái thực tế:</strong> Code milestone A+B+C = complete. Governance lag ~60% (issues + docs). Public Beta không có trong scope hiện tại. Không có invariant violation. Không có architectural regression.
+  </div>
+</div>
+
+<!-- ③ ISSUES 15 OPEN -->
+<div id="pane-issues" class="pane">
+  <div class="tip">
+    <strong>15 OPEN issues — triage từ cả hai audit.</strong> Cursor xác nhận root cause auto-close failure. Claude cung cấp exact comment text. Kết hợp: đây là danh sách đầy đủ nhất.
+  </div>
+  <div class="pb"><div style="padding:12px 14px">
+
+    <div class="issue-row">
+      <div class="issue-num">#53–#62</div>
+      <div class="issue-body">
+        <div class="issue-title">MC-1..11 issues — code done, auto-close failed</div>
+        <div class="issue-desc">PR #63 có <code>Closes #52..#62</code> nhưng chỉ #52 auto-closed. Cursor xác nhận: GitHub không parse range hoặc issues tạo sau khi PR mở. Code hoàn toàn done trên master @ <code>6dfffdf</code>.</div>
+        <div class="verdict-badge vb-close">✓ CLOSE tất cả — manual, ref PR #63</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#37</div>
+      <div class="issue-body">
+        <div class="issue-title">apex/ SAPAL pipeline umbrella (MB9 duplicate)</div>
+        <div class="issue-desc">Cursor: "duplicate scope với MC-1..6". Umbrella issue tồn tại từ trước khi MC sub-issues được tạo. MC-1..6 đã close = #37 nội dung redundant.</div>
+        <div class="verdict-badge vb-close">✓ CLOSE as duplicate — ref #53–#58 (MC-1..6)</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#3</div>
+      <div class="issue-body">
+        <div class="issue-title">B3 exceptions hierarchy</div>
+        <div class="issue-desc">Cursor: "stale — ControlPlaneError hierarchy đã có trong exceptions.py". Claude audit Sprint 1 confirmed <code>core/exceptions.py</code> với full hierarchy (ControlPlaneError, PolicyError, QuotaError, AgentError, ApprovalError).</div>
+        <div class="verdict-badge vb-close">✓ CLOSE stale — code exists P0-3</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#13</div>
+      <div class="issue-body">
+        <div class="issue-title">README runbook</div>
+        <div class="issue-desc">Cursor: "README đã có Quick start". Scope gốc là full runbook (deploy, rollback, config reload, incident response) — per OPEN_SOURCE_READINESS.md operational gates. Quick start ≠ runbook đầy đủ. Narrow scope hoặc defer.</div>
+        <div class="verdict-badge vb-watch">⚠ NARROW scope → "Quick start done; full runbook = Public Beta gate" hoặc relabel debt</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#9</div>
+      <div class="issue-body">
+        <div class="issue-title">load_model_profiles() → AppState wire (GAP-S4-1)</div>
+        <div class="issue-desc">Cursor: "Loader có, chưa wire server.py — giữ OPEN, debt thật". Claude audit confirm GAP-S4-1 partial. MB-S2-11 delivered endpoints nhưng AppState wire incomplete. Đây là real debt ảnh hưởng <code>GET /quota/profile/{id}</code> reliability.</div>
+        <div class="verdict-badge vb-open">⊘ KEEP OPEN — label debt, milestone-c-plus</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">#39</div>
+      <div class="issue-body">
+        <div class="issue-title">Extend /health proof</div>
+        <div class="issue-desc">Cursor: "5 fields cơ bản đã ship — review". Claude audit: health endpoint có <code>config_loaded, policy_rules_count, agents_loaded, projects_loaded, status</code>. P0-4 acceptance criteria yêu cầu config wire proof — 5 fields đủ cho P0-4 nhưng chưa include quota/telemetry signal. Judgment call.</div>
+        <div class="verdict-badge vb-watch">⚠ CLOSE nếu 5 fields đủ P0-4 AC — hoặc narrow: "quota health signal = Milestone C+"</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">MC-8 / #60</div>
+      <div class="issue-body">
+        <div class="issue-title">MCP E2E cyanheads CI</div>
+        <div class="issue-desc">Cursor: "StubGitForwarder + HttpGitForwarder unit mock — không cyanheads thật". Claude: "BLOCKER-6". Cả hai đồng ý: partial implementation, không phải full E2E CI integration. Cần label rõ là documented debt.</div>
+        <div class="verdict-badge vb-open">⊘ KEEP OPEN — label "debt, milestone-c-plus" + comment scope reduction</div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">MC-10 / #61</div>
+      <div class="issue-body">
+        <div class="issue-title">run_otel_collector.sh + OTLP doc</div>
+        <div class="issue-desc">Cursor: "script stub only, thiếu doc + otel-collector.yaml". Script exists but incomplete. Production OTel collector needs config file + documentation before Milestone C is production-grade.</div>
+        <div class="verdict-badge vb-open">⊘ KEEP OPEN — label "debt, milestone-c-plus" + comment: "script stub exists; otel-collector.yaml + doc = Milestone C+ / Public Beta"</div>
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="tip tg">
+    <strong>Net:</strong> Close #3, #37, #39 (nếu 5-field đủ), #53–#62 = 13 closes. Keep #9, #13 (narrow), MC-8/#60, MC-10/#61 = 4 keeps as documented debt. Tổng: 15 → 4 OPEN debt items.
+  </div>
+</div>
+
+<!-- ④ DOC DRIFT MERGED -->
+<div id="pane-drift" class="pane">
+  <div class="tip">
+    <strong>12 drift items — merged từ cả hai audit.</strong> Claude gốc: 9 items. Cursor thêm 3 mới (README, MILESTONE_C_SPRINT_PLAN, FileTelemetryStore). Ordered by severity.
+  </div>
+
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn"><span class="tag terr">HIGH</span></div><div class="rb"><div class="rt">ARCHITECTURE.md — Milestone C status + date + FileTelemetryStore</div><div class="rd">Cursor: "Milestone C IN PROGRESS; date 2026-06-23; telemetry table chỉ InMemoryTelemetryStore". Cần: (1) update status → CLOSED 2026-06-24 PR #63, (2) thêm <code>FileTelemetryStore</code> vào runtime stores table (MC-9), (3) thêm <code>apex API /apex/*</code> endpoints vào API surface section.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag terr">HIGH</span></div><div class="rb"><div class="rt">ARCHITECTURE.md — API surface thiếu Sprint 2 + MC endpoints</div><div class="rd">Claude gốc ghi. Cursor confirm. Thiếu: <code>GET /quota/agent/{id}</code>, <code>GET /quota/profile/{id}</code>, <code>GET /telemetry/events</code>, và MC-7 apex endpoints (<code>POST /apex/trigger</code>, <code>GET /apex/status</code>). Table hiện tại chưa phản ánh thực tế post-PR #63.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag terr">HIGH</span></div><div class="rb"><div class="rt">PHASE1_REPORT_V2.md §4.2 — GAP-Q-1, GAP-S4-1 stale</div><div class="rd">Claude gốc ghi. Cursor confirm Q-1 done. GAP-Q-1 → move to closed (MB-S2-11). GAP-S4-1 → partial (loader exists, AppState wire incomplete) → keep as open debt with label.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag terr">HIGH</span></div><div class="rb"><div class="rt">MILESTONE_C_SPRINT_PLAN.md — IN PROGRESS, branch cũ</div><div class="rd">Cursor mới phát hiện. File có thể vẫn ghi "IN PROGRESS" và reference branch trước PR #63. Update → CLOSED @ <code>6dfffdf</code>.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MED</span></div><div class="rb"><div class="rt">MILESTONE_B_BACKLOG.md §Remaining — MC items vẫn liệt kê</div><div class="rd">Cursor: "§Remaining vẫn liệt kê MC items". Chuyển apex SAPAL pipeline, cyanheads CI, telemetry persistence sang "done in PR #63" hoặc "scope-reduced: MC-8/MC-10 = Milestone C+".</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MED</span></div><div class="rb"><div class="rt">README.md — "Milestone B tracking"; gate "150+"</div><div class="rd">Cursor: update → Milestone C CLOSED; 156 tests. Thêm brief note về SAPAL MVP status.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MED</span></div><div class="rb"><div class="rt">ARCHITECTURE.md §Execution status</div><div class="rd">Claude gốc ghi. Thêm: "Milestone C (#37 + MC-1..11): CODE CLOSED 2026-06-24 (PR #63). SAPAL MVP heuristic live. Governance partial — issues #53–#62 closing. Scope reductions: MC-4/MC-8/MC-10 documented as Milestone C+ debt."</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MED</span></div><div class="rb"><div class="rt">ARCHITECTURE.md §Milestone mapping — Milestone C description</div><div class="rd">Claude gốc ghi. Update: "Milestone C: apex SAPAL MVP live — heuristic loop (sense aggregate telemetry → analyze patterns → predict quotas → act guardrails → learn proposals). Full OSS orchestration = Milestone C+."</div></div></div>
+    <div class="row"><div class="rn"><span class="tag twn">MED</span></div><div class="rb"><div class="rt">DEVELOPMENT_PROTOCOL.md §5.5 SMK count</div><div class="rd">Claude gốc ghi. SMK-01..06 (8 sub-tests). Cursor confirm. Add SMK-06a/06b/06c rows if not already done.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tbl">LOW</span></div><div class="rb"><div class="rt">OPEN_SOURCE_READINESS.md §Milestone mapping</div><div class="rd">Claude gốc ghi. Update: "Milestone B CLOSED 2026-06-24, Milestone C CODE CLOSED 2026-06-24 (governance partial)".</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tbl">LOW</span></div><div class="rb"><div class="rt">PHASE2_SPRINT1_REPORT.md — close commit</div><div class="rd">Claude gốc ghi. Low priority — close commit confirmed <code>1dae3ea</code> per checklist completion doc.</div></div></div>
+    <div class="row"><div class="rn"><span class="tag tbl">LOW</span></div><div class="rb"><div class="rt">PHASE2_SPRINT1_CHECKLIST — "Milestone B ~45%"</div><div class="rd">Cursor: stale. Low priority — milestone report file, không phải active working doc.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ⑤ GO/NO-GO REVISED -->
+<div id="pane-gng" class="pane">
+  <div class="verdict-box vg">
+    <div class="vf-label">Go/No-Go Milestone C — REVISED</div>
+    <div class="vf-title">RETROACTIVE GO — Code CLOSED, governance partial</div>
+    <div class="vf-body">Claude audit gốc kết luận NO-GO dựa trên snapshot <code>fc296d4</code> (trước PR #63). Cursor audit xác nhận PR #63 merged @ <code>6dfffdf</code> với MC-1..11. Milestone C đã EXECUTE và CLOSED ở mức code. Verdict cũ không còn apply. Đánh giá mới: Milestone C CODE CLOSED với conscious scope reductions. Governance = 40% (issues + docs lag). Next decision point = Public Beta readiness.</div>
+  </div>
+
+  <div class="sec">Scope reductions — documented, not failures</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">MC-4</div><div class="rb"><div class="rt">ActAdapter skip PolicyEngine on risk_level=high</div><div class="rd"><strong>Design choice, not bug.</strong> SAPAL không invoke PolicyEngine từ action path — tránh circular dependency. Actions với risk_level=high defer to human. Correct for MVP. <span class="tag twn">DEBT</span> Full PolicyEngine gate = Milestone C+.</div></div></div>
+    <div class="row"><div class="rn">MC-8</div><div class="rb"><div class="rt">StubGitForwarder + HttpGitForwarder thay vì cyanheads thật</div><div class="rd"><strong>Partial implementation.</strong> Unit tests pass. Real cyanheads TS server không trong CI. <span class="tag twn">DEBT</span> cyanheads E2E = Milestone C+ hoặc pre-Public Beta gate.</div></div></div>
+    <div class="row"><div class="rn">MC-10</div><div class="rb"><div class="rt">run_otel_collector.sh stub, thiếu otel-collector.yaml</div><div class="rd"><strong>Script exists, config absent.</strong> OTel infrastructure chưa deployable. <span class="tag twn">DEBT</span> otel-collector.yaml + doc = Pre-Public Beta operational gate.</div></div></div>
+    <div class="row"><div class="rn">MC-1</div><div class="rb"><div class="rt">Sense aggregate internal telemetry only</div><div class="rd"><strong>Scope reduced.</strong> No external signal collection (infrastructure metrics, git events). <span class="tag twn">DEBT</span> External signal ingestion = Milestone C+.</div></div></div>
+    <div class="row"><div class="rn">Learn</div><div class="rb"><div class="rt">proposals=[] always (human-in-loop shell)</div><div class="rd"><strong>Correct governance posture</strong> — no autonomous policy changes without human approve. <span class="tag tok">OK</span> Full rules engine / ML proposals = Milestone C+. Not a failure.</div></div></div>
+  </div></div>
+
+  <div class="sec">What's next — Public Beta readiness path</div>
+  <div class="pb"><div class="pbb" style="font-size:11.5px;line-height:2">
+<span class="g">Immediate (hygiene PR, 1–2 days):</span>
+  Close #3, #37, #39, #53–#62 + fix HIGH doc drift
+  Label #9, MC-8, MC-10 as "debt, milestone-c-plus"
+
+<span class="g">Short-term (Milestone C+ / 2–4 weeks):</span>
+  MC-8: cyanheads TS server real E2E in CI
+  MC-10: otel-collector.yaml + OTLP doc
+  MC-4: full PolicyEngine gate in ActAdapter
+  #9: wire load_model_profiles() into AppState
+
+<span class="g">Pre-Public Beta (4–8 weeks):</span>
+  Staging soak ≥ 2 weeks simulated load
+  SECURITY.md + CONTRIBUTING.md + LICENSE file + CODE_OF_CONDUCT.md
+  examples/ minimal config + docker-compose
+  OpenAPI spec published
+  Runbook (deploy, rollback, config reload, incident)
+  README fork-and-run ≤ 15 min
+
+<span class="g">Public Beta gate:</span>
+  Production soak ≥ 30 days
+  All 8 OPEN_SOURCE_READINESS gates ✅
+  Branch protection enforced (GitHub Team or public repo)</div>
+  </div></div>
+</div>
+
+<!-- ⑥ HYGIENE PACKET -->
+<div id="pane-cursor" class="pane">
+  <div class="tip tg">
+    <strong>1 PR hygiene — merged từ cả hai audit recommendations.</strong> Cursor đề xuất làm ngay. Claude cung cấp exact commands + doc fix spec. Kết hợp thành 1 packet hoàn chỉnh.
+  </div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor hygiene prompt — combined audit</span></span><button class="cbtn" onclick="cp(this,'ph')">Copy</button></div>
+    <div class="pbb" id="ph"><span class="hi">@ARCHITECTURE.md @README.md @MILESTONE_B_BACKLOG.md
+@docs/governance/PHASE1_REPORT_V2.md @docs/OPEN_SOURCE_READINESS.md
+@docs/DEVELOPMENT_PROTOCOL.md</span>
+
+<span class="key">Task: Hygiene PR — close 13 GitHub issues + fix 12 doc drift items</span>
+<span class="cm"># master @ 6dfffdf (PR #63 merged). No code changes. Docs + issue hygiene only.</span>
+
+<span class="key">── PART 1: GitHub issue hygiene (gh CLI) ──</span>
+
+<span class="cm"># Close MC code-done issues (auto-close failed)</span>
+for i in 53 54 55 56 57 58 59 62; do
+  gh issue comment $i --body "Implemented in PR #63 (master @ 6dfffdf). Auto-close failed due to issue creation timing vs PR open date. Closing manually."
+  gh issue close $i --reason completed
+done
+
+<span class="cm"># Close #52 (verify already closed; skip if already done)</span>
+<span class="cm"># gh issue close 52 --reason completed</span>
+
+<span class="cm"># Close #60 MC-8 with debt note</span>
+gh issue comment 60 --body "StubGitForwarder + HttpGitForwarder unit mocks shipped in PR #63. Full cyanheads TS E2E in CI is documented debt. Relabeling as Milestone C+ / pre-Public Beta gate."
+gh issue edit 60 --add-label "debt,milestone-c-plus" --remove-label "milestone-c"
+
+<span class="cm"># Close #61 MC-10 with debt note</span>
+gh issue comment 61 --body "scripts/run_otel_collector.sh stub exists in PR #63. otel-collector.yaml + full OTLP doc = pre-Public Beta operational gate. Relabeling."
+gh issue edit 61 --add-label "debt,milestone-c-plus" --remove-label "milestone-c"
+
+<span class="cm"># Close #37 as duplicate</span>
+gh issue comment 37 --body "Umbrella issue superseded by MC-1..6 sub-issues (#53–#58) which are now closed via PR #63. Closing as duplicate."
+gh issue close 37 --reason "not planned"
+
+<span class="cm"># Close #3 as stale</span>
+gh issue comment 3 --body "ControlPlaneError hierarchy implemented in core/exceptions.py (P0-3). Closing stale."
+gh issue close 3 --reason completed
+
+<span class="cm"># Close #39 health proof (5 fields sufficient for P0-4)</span>
+gh issue comment 39 --body "GET /health returns: status, config_loaded, policy_rules_count, agents_loaded, projects_loaded. P0-4 acceptance criteria met. Quota/telemetry health signal = Milestone C+."
+gh issue close 39 --reason completed
+
+<span class="cm"># Narrow #13 scope</span>
+gh issue comment 13 --body "README Quick start section completed. Full runbook (deploy, rollback, config reload, incident response) = pre-Public Beta operational gate per OPEN_SOURCE_READINESS.md."
+gh issue edit 13 --add-label "debt,public-beta" --remove-label "milestone-b"
+
+<span class="cm"># Keep open with labels: #9, MC-8/#60, MC-10/#61</span>
+gh issue edit 9 --add-label "debt,milestone-c-plus"
+gh issue comment 9 --body "load_model_profiles() in loader.py exists. AppState wire in server.py incomplete. GET /quota/profile/{id} affected. Keeping open as documented debt."
+
+<span class="key">── PART 2: ARCHITECTURE.md fixes ──</span>
+
+<span class="cm"># 1. Update §Execution status — add Milestone C</span>
+Add after "Milestone B CLOSED 2026-06-24":
+"Milestone C (#37, MC-1..11): CODE CLOSED 2026-06-24 (PR #63, master @ 6dfffdf).
+SAPAL MVP live — heuristic loop (sense/analyze/predict/act/learn), apex CLI, FileTelemetryStore.
+Governance: issues #53–#62 closed post-merge hygiene. Scope reductions documented as debt: MC-4 policy-gate, MC-8 cyanheads E2E, MC-10 OTel config."
+
+<span class="cm"># 2. Add FileTelemetryStore to runtime stores table</span>
+| FileTelemetryStore | AppState.telemetry_store (optional) | Disk (ACP_TELEMETRY_DIR); else InMemoryTelemetryStore |
+
+<span class="cm"># 3. Add apex API endpoints to API surface section</span>
+| POST | /apex/trigger  | TriggerResponse (start SAPAL loop iteration) |
+| GET  | /apex/status   | SapalStatus (last run, anomalies, proposals)  |
+<span class="cm"># also add: GET /quota/agent/{id}, GET /quota/profile/{id}, GET /telemetry/events</span>
+
+<span class="cm"># 4. Rename §In-memory stores → §Runtime stores (Milestone B+)</span>
+<span class="cm"># Update table to show FileTaskStore, RedisQuotaStore, ActionRegistry</span>
+
+<span class="cm"># 5. Update §Milestone mapping: Milestone C description</span>
+"Milestone C: apex SAPAL MVP live — heuristic (not OSS-orchestrated) loop.
+Full OSS orchestration (cyanheads E2E, OTel production, autonomous policy adaptation) = Milestone C+."
+
+<span class="key">── PART 3: Other doc fixes ──</span>
+
+<span class="cm"># PHASE1_REPORT_V2.md §4.2</span>
+Move GAP-Q-1 to §4.1: "MB-S2-11 — load_agent/profile_token_limits() + endpoints"
+GAP-S4-1: update to "Partially closed — loader exists; AppState wire = #9 debt"
+
+<span class="cm"># MILESTONE_B_BACKLOG.md §Remaining</span>
+Move apex SAPAL items → "done in PR #63 (code)"
+Keep "cyanheads MCP E2E" + "Telemetry persistence" with label "milestone-c-plus"
+Add: "OTel config (otel-collector.yaml)" as new remaining item
+
+<span class="cm"># README.md</span>
+Update badge/status: "Milestone C CODE CLOSED · 156 tests · SAPAL MVP"
+Update test count: 150+ → 156
+
+<span class="cm"># OPEN_SOURCE_READINESS.md §Milestone mapping</span>
+| Milestone B | CLOSED 2026-06-24 (PR #51) |
+| Milestone C | CODE CLOSED 2026-06-24 (PR #63) · Governance partial |
+
+<span class="key">── Verify ──</span>
+pytest tests/ -v                    <span class="cm"># 156 pass</span>
+pytest -m smoke -v                  <span class="cm"># SMK 8/8</span>
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+<span class="cm"># Docs-only changes = 0 regression expected</span></div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>

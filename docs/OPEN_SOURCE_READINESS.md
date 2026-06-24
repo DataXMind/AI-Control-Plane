@@ -36,6 +36,7 @@ Do **not** make the repository public before Phase 2 gates pass.
 | CI mandatory | PR blocked on **Smoke gate** + **Full suite** (when branch protection available) | #25–#27 |
 | Security hygiene | Secret scanning, dependency audit | Dependabot + pip-audit |
 | Core tests | Each `core/` module has tests | #21–#24 |
+| API contract snapshots | `/health`, `/policy/evaluate` schema keys stable | [`CONTRACT_TESTS.md`](CONTRACT_TESTS.md) |
 
 ## Operational gates (production)
 
