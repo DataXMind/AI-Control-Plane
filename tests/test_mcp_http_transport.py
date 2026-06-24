@@ -155,3 +155,54 @@ async def test_mcp_http_e2e_policy_and_tool_call(
     call_body = call_resp.json()
     assert "result" in call_body
     assert call_body["result"]["content"]
+
+
+@pytest.mark.asyncio
+async def test_mcp_http_e2e_cyanheads_forwarder(
+    respx_mock,
+    sample_project_config: ProjectConfig,
+) -> None:
+    """C+-6 / ADR-6a — full HTTP MCP path with mocked cyanheads Git forwarder."""
+    cyanheads_base = "http://cyanheads-git-mcp.test"
+    respx_mock.post(f"{cyanheads_base}/mcp").respond(
+        200,
+        json={
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": {"content": [{"type": "text", "text": "cyanheads-ok"}]},
+        },
+    )
+    async with httpx.AsyncClient(
+        transport=_policy_transport(POLICY_ALLOW),
+        base_url="http://acp.test",
+    ) as policy_client:
+        server = GitMcpServer(
+            sample_project_config,
+            policy_client,
+            git_forwarder=HttpGitForwarder(cyanheads_base),
+        )
+        app = create_mcp_http_app(server)
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+            response = await client.post(
+                "/mcp",
+                json={
+                    "jsonrpc": "2.0",
+                    "id": 99,
+                    "method": "tools/call",
+                    "params": {
+                        "name": "git_status",
+                        "arguments": {
+                            "_identity": {
+                                "agent_id": "agent2",
+                                "project_id": "rust-gateway",
+                                "role": "backend",
+                            },
+                        },
+                    },
+                },
+            )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["result"]["content"][0]["text"] == "cyanheads-ok"

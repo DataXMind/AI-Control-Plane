@@ -8,8 +8,10 @@ import os
 import threading
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from datetime import datetime
 from pathlib import Path
 
+from ai_control_plane.core.exceptions import ControlPlaneError
 from ai_control_plane.core.models import TelemetryEvent
 
 
@@ -48,6 +50,29 @@ def verify_event_chain(events: Sequence[TelemetryEvent]) -> bool:
     return True
 
 
+def filter_telemetry_events(
+    events: Sequence[TelemetryEvent],
+    *,
+    from_ts: datetime | None = None,
+    to_ts: datetime | None = None,
+    event_type: str | None = None,
+    project_id: str | None = None,
+) -> list[TelemetryEvent]:
+    """Return events in append order matching optional filters."""
+    filtered: list[TelemetryEvent] = []
+    for event in events:
+        if from_ts is not None and event.timestamp < from_ts:
+            continue
+        if to_ts is not None and event.timestamp > to_ts:
+            continue
+        if event_type is not None and event.event_type != event_type:
+            continue
+        if project_id is not None and event.project_id != project_id:
+            continue
+        filtered.append(event)
+    return filtered
+
+
 class TelemetryStore(ABC):
     """Abstract append-only telemetry persistence."""
 
@@ -66,6 +91,26 @@ class TelemetryStore(ABC):
     @abstractmethod
     def verify_chain(self) -> bool:
         """Return True when the stored event chain is intact."""
+
+    def replay(
+        self,
+        *,
+        from_ts: datetime | None = None,
+        to_ts: datetime | None = None,
+        event_type: str | None = None,
+        project_id: str | None = None,
+    ) -> list[TelemetryEvent]:
+        """Return filtered events after chain verification (ADR-1 / C+-1)."""
+        if not self.verify_chain():
+            msg = "telemetry chain integrity failed"
+            raise ControlPlaneError(msg)
+        return filter_telemetry_events(
+            self.list_events(),
+            from_ts=from_ts,
+            to_ts=to_ts,
+            event_type=event_type,
+            project_id=project_id,
+        )
 
 
 class InMemoryTelemetryStore(TelemetryStore):

@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import pytest
+
+from ai_control_plane.core.exceptions import ControlPlaneError
 from ai_control_plane.core.models import TelemetryEvent
 from ai_control_plane.core.telemetry import (
     InMemoryTelemetryStore,
     TelemetryWriter,
     compute_event_hash,
+    filter_telemetry_events,
     seal_event,
     verify_event_chain,
 )
@@ -94,3 +98,30 @@ def test_writer_emits_sealed_and_chained() -> None:
     assert r1.event_hash != r2.event_hash
     assert r2.previous_hash == r1.event_hash
     assert store.verify_chain() is True
+
+
+def test_replay_filters_by_event_type() -> None:
+    store = InMemoryTelemetryStore()
+    store.append(_sample_event(event_type=EVENT_TOOL_CALL))
+    store.append(_sample_event(event_type=EVENT_POLICY))
+    replayed = store.replay(event_type=EVENT_TOOL_CALL)
+    assert len(replayed) == 1
+    assert replayed[0].event_type == EVENT_TOOL_CALL
+
+
+def test_replay_fail_closed_on_broken_chain(monkeypatch: pytest.MonkeyPatch) -> None:
+    store = InMemoryTelemetryStore()
+    store.append(_sample_event())
+    monkeypatch.setattr(store, "verify_chain", lambda: False)
+    with pytest.raises(ControlPlaneError, match="telemetry chain integrity failed"):
+        store.replay()
+
+
+def test_filter_telemetry_events_by_project() -> None:
+    events = [
+        _sample_event(project_id="p1"),
+        _sample_event(project_id="p2"),
+    ]
+    filtered = filter_telemetry_events(events, project_id="p1")
+    assert len(filtered) == 1
+    assert filtered[0].project_id == "p1"
