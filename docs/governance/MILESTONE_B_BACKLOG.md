@@ -51,9 +51,10 @@
 | MB-S2-3 | cli/quota live | ✅ DONE | #31 |
 | MB-S2-4 | cli/logs + GET `/telemetry/events` | ✅ DONE | #32 |
 | MB-S2-5 | mcp/server_factory.py | ✅ DONE | #34 partial |
-| MB-S2-6 | Task persistence (#36) | 🔲 OPEN | #36 |
-| MB-S2-7 | MCP HTTP + cyanheads E2E | 🔲 OPEN | #34, #37 |
-| MB-S2-8 | JWKS RS256 | 🔲 Milestone C | — |
+| MB-S2-6 | Task persistence (#36) | ✅ DONE | #36 |
+| MB-S2-7 | MCP HTTP transport + E2E | ✅ DONE | #34 |
+| MB-S2-8 | JWKS RS256 (`ACP_JWKS_URL`) | ✅ DONE | — |
+| MB-S2-9 | Branch protection workflow | ✅ DOC | GAP-BP-1 |
 
 See [`PHASE2_SPRINT2_EXECUTION.md`](PHASE2_SPRINT2_EXECUTION.md).
 
@@ -87,4 +88,4 @@ gh issue create --repo DataXMind/AI-Control-Plane \
 
 ---
 
-**Last updated:** 2026-06-22 (Phase 2 Sprint 1 close)
+**Last updated:** 2026-06-22 (Sprint 2 batch 2 — persistence, MCP HTTP, JWKS)
