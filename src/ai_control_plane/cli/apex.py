@@ -2,12 +2,32 @@
 
 from __future__ import annotations
 
+import json
+
 import typer
 
-app = typer.Typer(help="APEX loop controls", invoke_without_command=True)
+from ai_control_plane.cli._http import get_apex_status, post_apex_trigger
+
+app = typer.Typer(help="APEX loop controls")
 
 
-@app.callback()
-def apex() -> None:
-    """Placeholder for APEX pipeline controls."""
-    typer.echo("apex: not implemented (Milestone C)")
+@app.command("status")
+def apex_status() -> None:
+    """Fetch GET /apex/status."""
+    try:
+        body = get_apex_status()
+    except RuntimeError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+    typer.echo(json.dumps(body, indent=2, default=str))
+
+
+@app.command("trigger")
+def apex_trigger() -> None:
+    """Run POST /apex/trigger to execute one SAPAL cycle."""
+    try:
+        body = post_apex_trigger()
+    except RuntimeError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+    typer.echo(json.dumps(body, indent=2, default=str))

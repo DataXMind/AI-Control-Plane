@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import threading
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from pathlib import Path
 
 from ai_control_plane.core.models import TelemetryEvent
 
@@ -96,6 +98,59 @@ class InMemoryTelemetryStore(TelemetryStore):
     def verify_chain(self) -> bool:
         with self._lock:
             return verify_event_chain(self._events)
+
+
+class FileTelemetryStore(TelemetryStore):
+    """JSON file-backed store under ``ACP_DATA_DIR/telemetry/events.json`` (#MC-9)."""
+
+    def __init__(self, path: Path) -> None:
+        self._path = path
+        self._path.parent.mkdir(parents=True, exist_ok=True)
+        self._lock = threading.Lock()
+        if not self._path.exists():
+            self._path.write_text("[]", encoding="utf-8")
+
+    def _load(self) -> list[TelemetryEvent]:
+        raw = json.loads(self._path.read_text(encoding="utf-8"))
+        if not isinstance(raw, list):
+            return []
+        return [TelemetryEvent.model_validate(item) for item in raw]
+
+    def _save(self, events: list[TelemetryEvent]) -> None:
+        payload = [event.model_dump(mode="json") for event in events]
+        self._path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    def append(self, event: TelemetryEvent) -> TelemetryEvent:
+        with self._lock:
+            events = self._load()
+            previous_hash = events[-1].event_hash if events else None
+            sealed = seal_event(previous_hash, event)
+            events.append(sealed)
+            self._save(events)
+            return sealed.model_copy(deep=True)
+
+    def get(self, event_id: str) -> TelemetryEvent | None:
+        with self._lock:
+            for event in self._load():
+                if event.event_id == event_id:
+                    return event.model_copy(deep=True)
+            return None
+
+    def list_events(self) -> list[TelemetryEvent]:
+        with self._lock:
+            return [event.model_copy(deep=True) for event in self._load()]
+
+    def verify_chain(self) -> bool:
+        with self._lock:
+            return verify_event_chain(self._load())
+
+
+def create_telemetry_store() -> TelemetryStore:
+    """File store when ``ACP_DATA_DIR`` set; else in-memory."""
+    data_dir = os.environ.get("ACP_DATA_DIR")
+    if data_dir:
+        return FileTelemetryStore(Path(data_dir) / "telemetry" / "events.json")
+    return InMemoryTelemetryStore()
 
 
 class TelemetryWriter:

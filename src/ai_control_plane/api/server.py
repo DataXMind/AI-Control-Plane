@@ -18,6 +18,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
+from ai_control_plane.apex.pipeline import run_sapal_pipeline
 from ai_control_plane.api.schemas import (
     AgentQuotaStatus,
     ApprovalResolveRequest,
@@ -59,7 +60,7 @@ from ai_control_plane.core.registry import (
     seed_registry_from_rules,
 )
 from ai_control_plane.core.task_store import TaskStore, create_task_store
-from ai_control_plane.core.telemetry import InMemoryTelemetryStore
+from ai_control_plane.core.telemetry import TelemetryStore, create_telemetry_store
 from ai_control_plane.core.tool_names import resolve_policy_tool_name
 
 logger = structlog.get_logger(__name__)
@@ -111,8 +112,9 @@ class AppState:
     project_limits: dict[str, float] = field(default_factory=dict)
     agent_limits: dict[str, float] = field(default_factory=dict)
     model_profile_limits: dict[str, float] = field(default_factory=dict)
-    telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
+    telemetry_store: TelemetryStore = field(default_factory=create_telemetry_store)
     jwt_validator: TokenValidator = field(default_factory=create_jwt_validator)
+    sapal_last_result: dict[str, Any] | None = None
 
 
 def _load_policy_rules() -> list[PolicyRule]:
@@ -133,7 +135,7 @@ def build_policy_engine() -> PolicyEngine:
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = create_quota_store()
-    telemetry_store = InMemoryTelemetryStore()
+    telemetry_store = create_telemetry_store()
     policies_path = get_config_dir() / "policies.yml"
     all_rules = _load_policy_rules()
     kill_switch = load_kill_switch(policies_path)
@@ -609,6 +611,45 @@ def create_app(state: AppState | None = None) -> FastAPI:
                 status_code=SERVICE_UNAVAILABLE,
                 content=ServiceUnavailableResponse(
                     reason="telemetry unavailable",
+                ).model_dump(mode="json"),
+            )
+
+    @app.get("/apex/status", response_model=None)
+    async def apex_status(request: Request) -> JSONResponse | dict[str, Any]:
+        acp: AppState = request.app.state.acp
+        try:
+            events = acp.telemetry_store.list_events()
+            return {
+                "telemetry_event_count": len(events),
+                "telemetry_chain_valid": acp.telemetry_store.verify_chain(),
+                "last_cycle": acp.sapal_last_result,
+            }
+        except Exception:
+            logger.exception("apex_status_failed")
+            return JSONResponse(
+                status_code=SERVICE_UNAVAILABLE,
+                content=ServiceUnavailableResponse(
+                    reason="apex status unavailable",
+                ).model_dump(mode="json"),
+            )
+
+    @app.post("/apex/trigger", response_model=None)
+    async def apex_trigger(request: Request) -> JSONResponse | dict[str, Any]:
+        acp: AppState = request.app.state.acp
+        try:
+            result = await asyncio.to_thread(
+                run_sapal_pipeline,
+                acp.telemetry_store,
+                {},
+            )
+            acp.sapal_last_result = result
+            return result
+        except Exception:
+            logger.exception("apex_trigger_failed")
+            return JSONResponse(
+                status_code=SERVICE_UNAVAILABLE,
+                content=ServiceUnavailableResponse(
+                    reason="apex trigger failed",
                 ).model_dump(mode="json"),
             )
 

@@ -12,5 +12,10 @@ class ActAdapter:
         self._config = config
 
     def execute(self, prediction: dict[str, Any]) -> dict[str, Any]:
-        """Execute an action plan derived from prediction."""
-        raise NotImplementedError("Milestone C")
+        """Execute an action plan derived from prediction (fail-closed on high risk)."""
+        high_risk = prediction.get("risk_level") == "high"
+        return {
+            "executed": not high_risk,
+            "action": prediction.get("recommended_action"),
+            "status": "skipped_high_risk" if high_risk else "ok",
+        }
