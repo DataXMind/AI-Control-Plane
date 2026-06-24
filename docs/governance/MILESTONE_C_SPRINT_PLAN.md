@@ -1,50 +1,42 @@
 # Milestone C — Sprint Plan
 
-**Status:** IN PROGRESS  
-**Branch:** `milestone-c/mc-1-11`  
-**Base:** `master` @ PR #51 (`fc296d4`)
+**Status:** **CLOSED** (code) — 2026-06-24  
+**Master:** post PR #63 (`6dfffdf`) — branch `milestone-c/mc-1-11`
 
 ## Issue map (GitHub)
 
-| MC ID | GitHub | Title |
-|-------|--------|-------|
-| MC-9 | #52 | Durable TelemetryStore |
-| MC-1 | #53 | SenseAdapter.collect |
-| MC-2 | #54 | AnalyzeAdapter.analyze |
-| MC-3 | #55 | PredictAdapter.predict |
-| MC-4 | #56 | ActAdapter.execute |
-| MC-5 | #57 | LearnAdapter propose/apply |
-| MC-6 | #58 | SapalLoop + pipeline |
-| MC-7 | #59 | agentctl apex status/trigger |
-| MC-8 | #60 | MCP HTTP E2E |
-| MC-10 | #61 | run_otel_collector.sh |
-| MC-11 | #62 | apex/ tests & coverage |
+| MC ID | GitHub | Title | Close |
+|-------|--------|-------|-------|
+| MC-9 | #52 | Durable TelemetryStore | PR #63 |
+| MC-1 | #53 | SenseAdapter.collect | hygiene close |
+| MC-2 | #54 | AnalyzeAdapter.analyze | hygiene close |
+| MC-3 | #55 | PredictAdapter.predict | hygiene close |
+| MC-4 | #56 | ActAdapter.execute | hygiene close |
+| MC-5 | #57 | LearnAdapter propose/apply | hygiene close |
+| MC-6 | #58 | SapalLoop + pipeline | hygiene close |
+| MC-7 | #59 | agentctl apex status/trigger | hygiene close |
+| MC-8 | #60 | MCP HTTP E2E | hygiene close |
+| MC-10 | #61 | run_otel_collector.sh | hygiene close |
+| MC-11 | #62 | apex/ tests & coverage | hygiene close |
+| MB9 umbrella | #37 | apex/ SAPAL pipeline | hygiene close |
 
-## Priority matrix (execution order)
+## Delivered (PR #63)
 
-1. **Foundation:** MC-9 (telemetry persistence)
-2. **SAPAL core:** MC-1 → MC-2 → MC-3 → MC-4 → MC-5 → MC-6
-3. **Integration:** MC-7 (API + CLI), MC-8 (MCP E2E), MC-10 (otel script)
-4. **Quality gate:** MC-11 (tests)
-
-## Sprint breakdown
-
-| Sprint | Items | Deliverable |
-|--------|-------|-------------|
-| C1 | MC-9, MC-1, MC-2, MC-11 partial | Telemetry + Sense/Analyze |
-| C2 | MC-3..MC-6, MC-11 | Full SAPAL loop |
-| C3 | MC-7, MC-8, MC-10, MC-11 final | CLI/API + ops |
-
-## Acceptance
-
-- `FileTelemetryStore` when `ACP_DATA_DIR` set; `create_telemetry_store()` factory
-- SAPAL adapters implemented (no `NotImplementedError`)
+- `FileTelemetryStore` + `create_telemetry_store()` when `ACP_DATA_DIR` set
+- SAPAL adapters + `SapalLoop` + `run_sapal_pipeline()` (MVP heuristic loop)
 - `GET /apex/status`, `POST /apex/trigger`; `agentctl apex status|trigger`
-- pytest + ruff + mypy strict green
-- Close #52–#62 on merge
+- `scripts/run_otel_collector.sh` stub; MCP HTTP E2E test (stub forwarder)
+- **156 pytest**, smoke 8/8, ruff, mypy strict
 
-## Beyond Milestone C
+## Beyond Milestone C (open debt)
 
-- B+ debt: #9, #3, #39, extended quota YAML
-- Public Beta (`OPEN_SOURCE_READINESS.md`)
-- Ops: soak tests, branch protection API (#37)
+| Item | Issue / gap | Target |
+|------|-------------|--------|
+| `load_model_profiles()` wired to AppState | #9, GAP-S4-1 | B+ debt |
+| Extended `/health` proof | #39 | B+ debt |
+| cyanheads MCP E2E in CI | MC-8 follow-up | C+ / ops |
+| OTLP collector config + doc | MC-10 follow-up | C+ / ops |
+| Public beta legal + examples | `OPEN_SOURCE_READINESS.md` | Pre-public |
+| Branch protection enforced | GAP-BP-1 | GitHub Team / public repo |
+
+**Last updated:** 2026-06-24 (Milestone C code complete; issue hygiene)
