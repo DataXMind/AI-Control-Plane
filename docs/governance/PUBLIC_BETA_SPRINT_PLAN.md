@@ -37,9 +37,9 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | repo root |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | `scripts/export_openapi.py`, `docs/openapi/` |
-| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 | Human verify after PB-5 |
-| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | Pre-flip |
-| PB-9 | Staging soak ≥2 weeks | Operational | ❌ | [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) — human start |
+| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 | Docker path documented; operator verify |
+| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | `CHANGELOG.md` added; tag at PB-12 |
+| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | Started 2026-06-22 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ❌ | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) |
 | PB-11 | Branch protection API enforced | Platform | ❌ | [#79](https://github.com/DataXMind/AI-Control-Plane/issues/79) — 403 free tier |
 | PB-12 | Flip repo public + disclaimer | Go/No-Go | ❌ | [#80](https://github.com/DataXMind/AI-Control-Plane/issues/80) |
@@ -68,7 +68,7 @@ PB-1..4 (legal) ──┬──> PB-5..6 (fork surface) ──> PB-7..8 ──> 
 PB-11 (platform) ─┘                                      └──> PB-12 (human go/no-go)
 ```
 
-**Human approve required before:** PB-12 (public flip), starting PB-9 soak clock, upgrading org plan for PB-11.
+**Human approve required before:** PB-12 (public flip), ~~PB-9 soak start~~ ✅ 2026-06-22, upgrading org plan for PB-11 (deferred to PB-12).
 
 ---
 
@@ -84,4 +84,4 @@ pytest -m smoke -q
 
 ---
 
-**Last updated:** 2026-06-24
+**Last updated:** 2026-06-22 (PB-9 soak started)
