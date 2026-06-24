@@ -148,6 +148,7 @@ class HealthResponse(BaseModel):
     policy_rules_count: int
     agents_loaded: list[str]
     projects_loaded: list[str]
+    model_profiles_loaded: list[str]
 
 
 __all__ = [

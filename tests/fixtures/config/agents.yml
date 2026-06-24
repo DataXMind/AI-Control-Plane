@@ -1,6 +1,15 @@
 version: 1
 
 model_profiles:
+  claude-team-infra:
+    provider: anthropic
+    account_type: team
+    api_key_env: ANTHROPIC_API_KEY_INFRA
+    max_tokens_per_day: 500000
+    allowed_tasks:
+      - git.read
+      - k8s.apply
+
   claude-pro-backend:
     provider: anthropic
     account_type: pro
@@ -9,6 +18,15 @@ model_profiles:
     allowed_tasks:
       - git.read
       - test.run
+
+  claude-team-review:
+    provider: anthropic
+    account_type: team
+    api_key_env: ANTHROPIC_API_KEY_REVIEW
+    max_tokens_per_day: 300000
+    allowed_tasks:
+      - git.read
+      - code.review
 
 agents:
   agent1:

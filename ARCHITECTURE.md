@@ -58,7 +58,7 @@ At `create_app()` / `build_default_app_state()`, YAML from `ACP_CONFIG_DIR` or s
 
 | `policies.yml` | `load_policies()` | `policy_engine`, `policy_rules_count` |
 
-| `agents.yml` | `build_agent_registry()` | `agent_registry`, `agents_loaded` |
+| `agents.yml` | `build_agent_registry()` + `load_model_profiles()` | `agent_registry`, `agents_loaded`, `model_profiles` |
 
 | `projects.yml` | `load_projects()` | `projects_loaded` |
 
@@ -147,11 +147,11 @@ Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 | GET | `/quota/{project_id}` | QuotaStatus |
 
-| GET | `/quota/agent/{agent_id}` | AgentQuotaStatus |
+| GET | `/quota/agent/{agent_id}` | QuotaStatus (agent daily budget) |
 
-| GET | `/quota/profile/{profile_id}` | ModelProfileQuotaStatus |
+| GET | `/quota/profile/{profile_id}` | QuotaStatus (model profile budget) |
 
-| GET | `/telemetry/events` | list[TelemetryEvent] |
+| GET | `/telemetry/events` | list[TelemetryEvent] (cli/logs) |
 
 | GET | `/apex/status` | apex cycle status (telemetry count, last SAPAL result) |
 
@@ -159,7 +159,7 @@ Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 
 
-`GET /health` returns: `status`, `config_loaded`, `policy_rules_count`, `agents_loaded`, `projects_loaded` (#39).
+`GET /health` returns: `status`, `config_loaded`, `policy_rules_count`, `agents_loaded`, `projects_loaded`, `model_profiles_loaded` (#9, #39).
 
 
 
@@ -208,13 +208,14 @@ MCP `GitMcpServer._emit_tool_call()` delegates to `TelemetryWriter` — no direc
 
 `AppState.telemetry_store` uses `create_telemetry_store()` — in-memory by default; **file-backed** when `ACP_DATA_DIR` set (`FileTelemetryStore`, MC-9 / PR #63).
 
-### In-memory runtime stores (Milestone A)
+### Runtime stores (Milestone B+)
 
 | Store | Location | Persistence |
 |-------|----------|-------------|
-| `TaskStore` | `AppState.task_store` | **File-backed** when `ACP_DATA_DIR` set (`FileTaskStore`); else in-memory (#36) |
-| `QuotaStore` | `AppState.quota_store` | Redis when `ACP_REDIS_URL` set; else in-memory |
-| `TelemetryStore` | `AppState.telemetry_store` | **File-backed** when `ACP_DATA_DIR` set (`FileTelemetryStore`); else in-memory (#52 / PR #63) |
+| `TaskStore` | `AppState.task_store` | `FileTaskStore` (`ACP_DATA_DIR`) or in-memory |
+| `QuotaStore` | `AppState.quota_store` | `RedisQuotaStore` (`ACP_REDIS_URL`) or in-memory |
+| `TelemetryStore` | `AppState.telemetry_store` | `FileTelemetryStore` (`ACP_DATA_DIR`) or in-memory (MC-9 / PR #63) |
+| `ActionRegistry` | `AppState.action_registry` | Redis (`ACP_REDIS_URL` set) or in-memory (#33) |
 
 Set `ACP_DATA_DIR` in production so `/tasks`, `/status/{project_id}`, and telemetry events survive API restarts.
 
@@ -236,7 +237,15 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 Milestone A (#38): **CLOSED** — PoC scaffold. Phase 1 v2 record: [`docs/governance/PHASE1_REPORT_V2.md`](docs/governance/PHASE1_REPORT_V2.md).
 
-Milestone B: **CLOSED** — PR #48–#51. Milestone C: **CLOSED** — PR #63 (`6dfffdf`), issues #37, #52–#62.
+Milestone B (#29–37): **CLOSED 2026-06-24** (master post PR #51).
+
+Sprint 1: guardrails, ABAC full, coverage floor, CLI tests, JWT stub.
+
+Sprint 2: Redis, CLI live, MCP HTTP, JWKS RS256, FileTaskStore, ActionRegistry, quota by_agent/by_model_profile.
+
+Phase 2 governance: [`docs/governance/PHASE2_SPRINT1_REPORT.md`](docs/governance/PHASE2_SPRINT1_REPORT.md).
+
+Milestone C: **CLOSED** — PR #63 (`6dfffdf`), issues #37, #52–#62. Milestone C+ (ADR depth): **CLOSED** — PR #74.
 
 P0-2b shipped YAML notation: **CLOSED — Option A** (adapter permanent; `core/tool_names.py`). See ARCHITECTURE § Tool naming.
 

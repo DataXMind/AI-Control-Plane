@@ -21,6 +21,7 @@ Do **not** make the repository public before Phase 2 gates pass.
 | **Milestone A** | PoC scaffold: core, api, mcp, cli assign/status | **CLOSED** 2026-06-23 (#38) |
 | **Milestone B** | Production hardening: Redis, persistence, CLI live | **CLOSED** 2026-06-24 (PR #51) |
 | **Milestone C (boundary)** | SAPAL MVP + file telemetry + `/apex/*` | **CLOSED** 2026-06-24 (PR #63) |
+| **Milestone C+ (depth)** | OTel, Argos, Darts, replay, proposal-only act, cyanheads CI | **CLOSED** 2026-06-24 (PR #74) |
 | **Public Beta** | Legal docs, examples, OpenAPI, `0.x` public | Go/No-Go checklist below (all ✅) — **not started** |
 
 ## Technical gates (before public beta)

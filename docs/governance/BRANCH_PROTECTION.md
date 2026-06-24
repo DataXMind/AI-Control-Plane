@@ -1,6 +1,6 @@
 # Branch protection — team workflow (GAP-BP-1)
 
-> **Status:** Documented workflow until GitHub Team / public repo enables API enforcement  
+> **Status:** Process workflow documented (GAP-BP-1 closed MB-S2-9); API enforcement pending GitHub Team / public repo  
 > **Script:** [`scripts/setup_github_milestones_and_protection.sh`](../../scripts/setup_github_milestones_and_protection.sh)
 
 ---

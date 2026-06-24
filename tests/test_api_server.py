@@ -11,6 +11,7 @@ def test_create_app_loads_policy_rules_from_config() -> None:
     app = create_app()
     assert app.state.acp.policy_rules_count > 0
     assert app.state.acp.config_loaded is True
+    assert "claude-pro-backend" in app.state.acp.model_profiles
 
 
 def test_health_reports_config_wire_proof() -> None:
@@ -23,6 +24,7 @@ def test_health_reports_config_wire_proof() -> None:
     assert body["policy_rules_count"] > 0
     assert "agent2" in body["agents_loaded"]
     assert "rust-gateway" in body["projects_loaded"]
+    assert "claude-pro-backend" in body["model_profiles_loaded"]
 
 
 def test_policy_evaluate_backend_git_read_allowed() -> None:

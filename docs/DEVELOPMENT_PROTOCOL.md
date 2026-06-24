@@ -168,7 +168,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 python -c "from ai_control_plane.core import registry, telemetry; print('P0 OK')"
 pytest tests/ -v                    # 91+ tests (incl. v2 parity + MCP integration)
 curl -s http://localhost:8000/health | jq .
-# Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded
+# Expect: config_loaded=true, policy_rules_count>0, agents_loaded, projects_loaded, model_profiles_loaded
 ```
 
 **Phase 2 execution order (sau P0 + NEW-2):**

@@ -39,13 +39,20 @@ from ai_control_plane.config.loader import (
     load_guardrails,
     load_kill_switch,
     load_model_profile_token_limits,
+    load_model_profiles,
     load_policies,
     load_project_token_limits,
     load_projects,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
 from ai_control_plane.core.identity import JWTValidationError, TokenValidator, create_jwt_validator
-from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState, TelemetryEvent
+from ai_control_plane.core.models import (
+    AgentIdentity,
+    ModelProfile,
+    PolicyRule,
+    TaskState,
+    TelemetryEvent,
+)
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
 from ai_control_plane.core.quota import (
     ProfileQuotaTracker,
@@ -108,6 +115,7 @@ class AppState:
     agents_loaded: list[str] = field(default_factory=list)
     projects_loaded: list[str] = field(default_factory=list)
     agent_registry: dict[str, dict[str, Any]] = field(default_factory=dict)
+    model_profiles: dict[str, ModelProfile] = field(default_factory=dict)
     task_store: TaskStore = field(default_factory=create_task_store)
     project_limits: dict[str, float] = field(default_factory=dict)
     agent_limits: dict[str, float] = field(default_factory=dict)
@@ -132,6 +140,23 @@ def build_policy_engine() -> PolicyEngine:
     return PolicyEngine(rules=all_rules, kill_switch=kill_switch)
 
 
+def _validate_agent_model_profiles(
+    agent_registry: dict[str, dict[str, Any]],
+    model_profiles: dict[str, ModelProfile],
+) -> None:
+    """Ensure every agent references a loaded model profile (#9 / GAP-S4-1)."""
+    for agent_id, meta in agent_registry.items():
+        profile_name = str(meta.get("model_profile", ""))
+        if not profile_name:
+            continue
+        if profile_name not in model_profiles:
+            msg = (
+                f"agent '{agent_id}' references unknown model_profile "
+                f"'{profile_name}' — check agents.yml model_profiles section"
+            )
+            raise ConfigError(msg)
+
+
 def build_default_app_state() -> AppState:
     """Construct default AppState from ACP_CONFIG_DIR YAML (P0-2, P0-4)."""
     quota_store = create_quota_store()
@@ -140,6 +165,8 @@ def build_default_app_state() -> AppState:
     all_rules = _load_policy_rules()
     kill_switch = load_kill_switch(policies_path)
     agent_registry = build_agent_registry()
+    model_profiles = load_model_profiles()
+    _validate_agent_model_profiles(agent_registry, model_profiles)
     projects = load_projects()
     project_limits = load_project_token_limits()
     agent_limits = load_agent_token_limits()
@@ -163,6 +190,7 @@ def build_default_app_state() -> AppState:
         agents_loaded=sorted(agent_registry.keys()),
         projects_loaded=sorted(projects.keys()),
         agent_registry=agent_registry,
+        model_profiles=model_profiles,
         project_limits=project_limits,
         agent_limits=agent_limits,
         model_profile_limits=model_profile_limits,
@@ -386,11 +414,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
             )
         except Exception as exc:
             logger.exception("policy_approve_failed")
-            reason = (
-                str(exc)
-                if isinstance(exc, ApprovalError)
-                else "approval resolution failed"
-            )
+            reason = str(exc) if isinstance(exc, ApprovalError) else "approval resolution failed"
             return JSONResponse(
                 status_code=SERVICE_UNAVAILABLE,
                 content=ServiceUnavailableResponse(reason=reason).model_dump(mode="json"),
@@ -450,6 +474,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
             policy_rules_count=acp.policy_rules_count,
             agents_loaded=acp.agents_loaded,
             projects_loaded=acp.projects_loaded,
+            model_profiles_loaded=sorted(acp.model_profiles.keys()),
         )
 
     @app.post("/tasks", response_model=TaskStatus)
