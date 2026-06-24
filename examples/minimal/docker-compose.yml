@@ -1,0 +1,15 @@
+services:
+  acp-api:
+    build:
+      context: ../..
+      dockerfile: examples/minimal/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      ACP_CONFIG_DIR: /app/tests/fixtures/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

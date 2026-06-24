@@ -22,7 +22,7 @@ Do **not** make the repository public before Phase 2 gates pass.
 | **Milestone B** | Production hardening: Redis, persistence, CLI live | **CLOSED** 2026-06-24 (PR #51) |
 | **Milestone C (boundary)** | SAPAL MVP + file telemetry + `/apex/*` | **CLOSED** 2026-06-24 (PR #63) |
 | **Milestone C+ (depth)** | OTel, Argos, Darts, replay, proposal-only act, cyanheads CI | **CLOSED** 2026-06-24 (PR #74) |
-| **Public Beta** | Legal, soak, OpenAPI, `0.x` public | Go/No-Go checklist — **not yet** |
+| **Public Beta** | Legal, soak, OpenAPI, `0.x` public | Go/No-Go — **in progress** ([`PUBLIC_BETA_SPRINT_PLAN.md`](governance/PUBLIC_BETA_SPRINT_PLAN.md)) |
 
 ## Technical gates (before public beta)
 
@@ -48,11 +48,11 @@ Do **not** make the repository public before Phase 2 gates pass.
 
 ## Legal and trust artifacts (required at public beta)
 
-- [ ] `LICENSE` (MIT — declared in `pyproject.toml`)
-- [ ] `SECURITY.md` — vulnerability reporting process
-- [ ] `CONTRIBUTING.md` — PR rules, invariant list
-- [ ] `CODE_OF_CONDUCT.md`
-- [ ] No production secrets or internal cluster IDs in shipped `config/`
+- [x] `LICENSE` (MIT — declared in `pyproject.toml`)
+- [x] `SECURITY.md` — vulnerability reporting process
+- [x] `CONTRIBUTING.md` — PR rules, invariant list
+- [x] `CODE_OF_CONDUCT.md`
+- [x] No production secrets or internal cluster IDs in shipped `config/` (verify before PB-12)
 
 ## Fork-friendly public surface
 
@@ -145,6 +145,8 @@ Before `1.0.0`: prefer `pip install git+https://...` or private registry only.
 ## References
 
 - [ARCHITECTURE.md](../ARCHITECTURE.md) — invariants and module inventory
+- [PUBLIC_BETA_SPRINT_PLAN.md](governance/PUBLIC_BETA_SPRINT_PLAN.md) — PB-1..12
+- [PUBLIC_BETA_GO_NO_GO.md](governance/PUBLIC_BETA_GO_NO_GO.md) — flip checklist
+- [CONTRIBUTING.md](../CONTRIBUTING.md) · [SECURITY.md](../SECURITY.md)
 - [.cursorrules](../.cursorrules) — code generation rules
 - [GitHub Issues](https://github.com/DataXMind/AI-Control-Plane/issues) — labeled backlog
-- Tracking: [Milestone A Definition of Done](https://github.com/DataXMind/AI-Control-Plane/issues/38)

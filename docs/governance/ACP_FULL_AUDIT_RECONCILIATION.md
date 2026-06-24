@@ -4,7 +4,7 @@
 **Version:** 1.0  
 **Audit date:** 2026-06-24  
 **Baseline artifact:** [`acp_full_audit_report.html`](acp_full_audit_report.html) (Claude, snapshot @ `fc296d4`)  
-**Code truth:** `master` @ `a285539` (PR #63 Milestone C + PR #64 hygiene)  
+**Code truth:** `master` @ `de931b5` (PR #76 + Public Beta prep)  
 **Method:** Pass 1 artifact vs code; Pass 2 governance vs GitHub; Pass 3 Claude prompt intent vs delivered diff
 
 ---
@@ -43,15 +43,17 @@ No change from HTML audit. Evidence: `MILESTONE_B_BACKLOG.md` Sprint 1+2, PR #48
 | **C-integration** (otel script, MCP E2E) | 15% | 0% | **60%** | `run_otel_collector.sh` stub; MCP E2E with `StubGitForwarder` only |
 | **C-architect** (OTel IF, Argos, Darts, replay API, policy-gated act) | 35% | 0% | **0%** | Not in code; see pane ⑤ blockers in HTML |
 
-**Composite Milestone C (strict):** 50%×100% + 15%×60% + 35%×0% = **59%** overall.  
+| Composite Milestone C (strict) | 50%×100% + 15%×60% + 35%×0% = **59%** @ `a285539` |
+| Post C+ @ `de931b5` | Architect layer **~100%** per ADR — composite **~95%+** (excl. soak/public flip) |
+
 **Reporting labels:**
 
 - **Milestone C (boundary):** CLOSED — issues #37, #52–#62, PR #63  
-- **Milestone C+ (architect depth):** NOT STARTED — see `CLAUDE_PROMPT_MILESTONE_C_PLUS.md`
+- **Milestone C+ (architect depth):** **CLOSED** — PR #74, issues #67–#72
 
-### Public Beta — ~38% ✅
+### Public Beta — in progress
 
-Unchanged. Legal artifacts, soak, OpenAPI, `examples/` absent.
+Prep started 2026-06-24: legal artifacts, `examples/minimal`, OpenAPI export. Soak + public flip pending — [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md).
 
 ---
 
@@ -79,7 +81,7 @@ Unchanged. Legal artifacts, soak, OpenAPI, `examples/` absent.
 | #35 | CLOSE | ✅ Closed (prior hygiene) |
 | #45 | CLOSE | ✅ Closed (prior hygiene) |
 | #37 | KEEP OPEN (stubs) | ✅ Closed PR #64 — **was stale verdict**; SAPAL MVP live |
-| GAP-BP-1 | KEEP OPEN | ✅ Still open (external) — no GitHub issue #, doc only |
+| GAP-BP-1 | KEEP OPEN | ✅ Process closed; API 403 on free private org |
 
 **Additional closures PR #64:** #3 (exceptions exist), #13 (README runbook), #53–#62 (MC items).
 
@@ -140,9 +142,9 @@ _All HIGH/MED items from audit reconciliation resolved (ARCHITECTURE, PHASE1 §4
 
 ## 8. Recommended next artifacts / prompts
 
-1. **`CLAUDE_PROMPT_MILESTONE_C_PLUS.md`** — architect review for OTel, Argos, Darts, act policy-gate (before code)  
-2. **`ACP_CURSOR_PROMPT_PACKET_POST_MC.md`** — Cursor: fix remaining doc drift + optional C+ issues  
-3. Update **`DEVELOPMENT_PROTOCOL.md`** D8 footnote: "MVP live; C+ = OSS adapters"
+1. **[`PUBLIC_BETA_SPRINT_PLAN.md`](PUBLIC_BETA_SPRINT_PLAN.md)** — PB-1..12 execution  
+2. **[`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)** — flip decision tracker  
+3. **[`ACP_AUDIT_PROMPTS_1_3_FINAL.md`](ACP_AUDIT_PROMPTS_1_3_FINAL.md)** — hygiene + drift audit record
 
 ---
 
@@ -151,9 +153,9 @@ _All HIGH/MED items from audit reconciliation resolved (ARCHITECTURE, PHASE1 §4
 | Question | Answer |
 |----------|--------|
 | Project on track for private governance core? | **Yes** |
-| Milestone C "done" per HTML architect spec? | **No** (59% strict composite) |
-| Safe to claim Public Beta? | **No** |
-| HTML `acp_full_audit_report.html` still valid? | **Historical only** — use this reconciliation |
+| Milestone C "done" per HTML architect spec? | **Yes** @ `de931b5` (C + C+ ADR) |
+| Safe to claim Public Beta? | **No** — soak + PB-12 human go/no-go ([`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)) |
+| HTML `acp_full_audit_report.html` still valid? | **Historical only** @ `fc296d4` — see [`acp_full_audit_report_SNAPSHOT_README.md`](acp_full_audit_report_SNAPSHOT_README.md) |
 
 ---
 
