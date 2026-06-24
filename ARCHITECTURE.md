@@ -161,7 +161,7 @@ Milestone A: core/ + mcp/ + api/ + cli/assign + cli/status + apex/ stubs
 
 Milestone B: registry Redis backend + ABAC full + all 5 API endpoints + cli/approve + cli/quota — **CLOSED** (PR #48–#51)
 
-Milestone C: apex/ live — sense, analyze, predict, act, learn + `FileTelemetryStore` + `/apex/*` API + `agentctl apex` — **IN PROGRESS** (`milestone-c/mc-1-11`)
+Milestone C: apex/ live — sense, analyze, predict, act, learn + `FileTelemetryStore` + `/apex/*` API + `agentctl apex` — **CLOSED** (PR #63, `6dfffdf`)
 
 
 
@@ -183,7 +183,7 @@ Không có fallback, không có default-allow.
 
 ### Telemetry hash-chain contract
 
-Every `TelemetryEvent` appended via `InMemoryTelemetryStore.append()` is sealed:
+Every `TelemetryEvent` appended via `TelemetryStore.append()` (in-memory or `FileTelemetryStore`) is sealed:
 
 - `event_hash` = SHA-256(`previous_hash` + canonical JSON of event, excluding `event_hash`, `previous_hash`, `id`)
 - `previous_hash` = previous event's `event_hash` (empty string / `None` chain start for first event)
@@ -194,9 +194,9 @@ MCP `GitMcpServer._emit_tool_call()` delegates to `TelemetryWriter` — no direc
 
 **Failure mode:** Telemetry emit failures are fail-silent (`structlog.warning`) — they must not alter `PolicyDecision`.
 
-**Thread safety:** `InMemoryTelemetryStore.append()` uses `threading.Lock` (Milestone A in-process store).
+**Thread safety:** `InMemoryTelemetryStore` and `FileTelemetryStore` use `threading.Lock`.
 
-`AppState.telemetry_store` holds the shared in-process store for API/MCP wiring (no HTTP ingest endpoint in Milestone A).
+`AppState.telemetry_store` uses `create_telemetry_store()` — in-memory by default; **file-backed** when `ACP_DATA_DIR` set (`FileTelemetryStore`, MC-9 / PR #63).
 
 ### In-memory runtime stores (Milestone A)
 
@@ -204,9 +204,9 @@ MCP `GitMcpServer._emit_tool_call()` delegates to `TelemetryWriter` — no direc
 |-------|----------|-------------|
 | `TaskStore` | `AppState.task_store` | **File-backed** when `ACP_DATA_DIR` set (`FileTaskStore`); else in-memory (#36) |
 | `QuotaStore` | `AppState.quota_store` | Redis when `ACP_REDIS_URL` set; else in-memory |
-| `InMemoryTelemetryStore` | `AppState.telemetry_store` | Lost on restart |
+| `TelemetryStore` | `AppState.telemetry_store` | **File-backed** when `ACP_DATA_DIR` set (`FileTelemetryStore`); else in-memory (#52 / PR #63) |
 
-Set `ACP_DATA_DIR` in production so `/tasks` and `/status/{project_id}` survive API restarts.
+Set `ACP_DATA_DIR` in production so `/tasks`, `/status/{project_id}`, and telemetry events survive API restarts.
 
 
 
@@ -222,9 +222,11 @@ Before any non-trivial code change, follow [docs/DEVELOPMENT_PROTOCOL.md](docs/D
 
 
 
-### Execution status (2026-06-23)
+### Execution status (2026-06-24)
 
 Milestone A (#38): **CLOSED** — PoC scaffold. Phase 1 v2 record: [`docs/governance/PHASE1_REPORT_V2.md`](docs/governance/PHASE1_REPORT_V2.md).
+
+Milestone B: **CLOSED** — PR #48–#51. Milestone C: **CLOSED** — PR #63 (`6dfffdf`), issues #37, #52–#62.
 
 P0-2b shipped YAML notation: **CLOSED — Option A** (adapter permanent; `core/tool_names.py`). See ARCHITECTURE § Tool naming.
 

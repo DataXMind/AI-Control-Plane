@@ -90,7 +90,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — invariants, API contract, config wiring
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
-- [docs/governance/MILESTONE_B_BACKLOG.md](docs/governance/MILESTONE_B_BACKLOG.md) — Milestone B status
+- [docs/governance/MILESTONE_B_BACKLOG.md](docs/governance/MILESTONE_B_BACKLOG.md) — Milestone B status (CLOSED)
+- [docs/governance/MILESTONE_C_SPRINT_PLAN.md](docs/governance/MILESTONE_C_SPRINT_PLAN.md) — Milestone C status (CLOSED)
 - [docs/governance/BRANCH_PROTECTION.md](docs/governance/BRANCH_PROTECTION.md) — PR workflow (GAP-BP-1)
 - [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) — public-beta gates
 
@@ -101,8 +102,8 @@ pytest tests/ -v
 ruff check src/ tests/
 ```
 
-Current gate: **150+ pytest**, smoke + CI on `master`.
+Current gate: **156 pytest**, smoke 8/8 + CI on `master`.
 
 ## GitHub backlog
 
-https://github.com/DataXMind/AI-Control-Plane/issues — Milestone B tracking: [`MILESTONE_B_BACKLOG.md`](docs/governance/MILESTONE_B_BACKLOG.md)
+https://github.com/DataXMind/AI-Control-Plane/issues — Milestones A/B/C closed; open items: B+ debt (#9, #39), Public Beta gates.

@@ -5,7 +5,7 @@
 **Document ID:** ACP-DEV-PROTOCOL-001  
 **Version:** 1.4  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-22 — Milestone C pre-merge: apex live (PR #63), pytest 156, smoke 8/8  
+**Last updated:** 2026-06-24 — Milestone C merged (PR #63 `6dfffdf`); hygiene closes #37, #3, #13, #53–#62  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -122,7 +122,7 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | **Phase 1 consolidated (Claude)** | [PHASE1_CONSOLIDATED_FOR_CLAUDE.md](governance/PHASE1_CONSOLIDATED_FOR_CLAUDE.md) | Pre–Phase 2 architect review packet |
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
 | **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | **CLOSED** (PR #48–#51) |
-| **Milestone C sprint plan** | [MILESTONE_C_SPRINT_PLAN.md](governance/MILESTONE_C_SPRINT_PLAN.md) | MC-1..MC-11 — PR #63 pre-merge |
+| **Milestone C sprint plan** | [MILESTONE_C_SPRINT_PLAN.md](governance/MILESTONE_C_SPRINT_PLAN.md) | **CLOSED** — PR #63 (`6dfffdf`) |
 | **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
 | **Phase 2 Sprint 1 audit (final)** | [PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md](governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md) | Checklist 38-item verify + Path B |
 
@@ -418,7 +418,7 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 - [ ] Không vi phạm 8 invariants / `.cursorrules`
 - [ ] Issue cập nhật hoặc PR link issue
 
-**Milestone A:** **CLOSED** ([#38](https://github.com/DataXMind/AI-Control-Plane/issues/38)) — archive §4.1. **Milestone B:** **CLOSED** (PR #48–#51). **Milestone C:** PR [#63](https://github.com/DataXMind/AI-Control-Plane/pull/63) — issues #52–#62.
+**Milestone A:** **CLOSED** ([#38](https://github.com/DataXMind/AI-Control-Plane/issues/38)) — archive §4.1. **Milestone B:** **CLOSED** (PR #48–#51). **Milestone C:** **CLOSED** (PR [#63](https://github.com/DataXMind/AI-Control-Plane/pull/63), `6dfffdf`).
 
 ---
 

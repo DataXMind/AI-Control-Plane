@@ -38,16 +38,17 @@ See [`PHASE2_SPRINT2_EXECUTION.md`](PHASE2_SPRINT2_EXECUTION.md).
 
 ---
 
-## Remaining (Milestone C / Public Beta)
+## Remaining (Public Beta / ops)
 
 | Item | Issue / gap | Target |
 |------|-------------|--------|
-| apex/ SAPAL pipeline live | #37 | Milestone C |
-| cyanheads MCP E2E in CI | — | Milestone C |
-| Telemetry persistence | — | Milestone C |
+| ~~apex/ SAPAL pipeline live~~ | ~~#37~~ | ✅ Milestone C — PR #63 |
+| ~~Telemetry persistence~~ | ~~#52~~ | ✅ PR #63 |
+| cyanheads MCP E2E in CI | MC-8 follow-up | C+ / ops |
 | Public beta legal + examples | `OPEN_SOURCE_READINESS.md` | Pre-public |
 | Branch protection enforced | GAP-BP-1 | GitHub Team / public repo |
+| Model profiles in AppState | #9, GAP-S4-1 | B+ debt |
 
 ---
 
-**Last updated:** 2026-06-24 (Milestone B code complete)
+**Last updated:** 2026-06-24 (Milestone B + C code complete)
