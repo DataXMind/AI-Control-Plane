@@ -214,6 +214,46 @@ class TelemetryEvent(BaseModel):
     id: UUID = Field(default_factory=uuid4)
 
 
+class AnalyzeFinding(BaseModel):
+    """Argos Detect stage output (C+-3 / ADR-3)."""
+
+    model_config = _FROZEN
+
+    anomaly_detected: bool
+    event_count: int
+    z_score_anomaly: bool = False
+    details: dict[str, Any] = Field(default_factory=dict)
+
+
+class RepairProposal(BaseModel):
+    """Argos Repair stage output."""
+
+    model_config = _FROZEN
+
+    action: str
+    target: str
+    rationale: str
+
+
+class ReviewDecision(BaseModel):
+    """Argos Review stage output."""
+
+    model_config = _FROZEN
+
+    approved: bool
+    requires_approval: bool
+    approval_id: str | None = None
+
+
+class MutateResult(BaseModel):
+    """Argos Mutate stage output — proposal only, no YAML write."""
+
+    model_config = _FROZEN
+
+    applied: bool
+    proposal: dict[str, Any] = Field(default_factory=dict)
+
+
 class McpError(BaseModel):
     """JSON-RPC style error envelope for MCP tool failures."""
 
@@ -227,6 +267,7 @@ class McpError(BaseModel):
 __all__ = [
     "AgentConfig",
     "AgentIdentity",
+    "AnalyzeFinding",
     "ApprovalDecision",
     "ApprovalRequest",
     "Guardrail",
@@ -234,12 +275,15 @@ __all__ = [
     "KillSwitch",
     "McpError",
     "ModelProfile",
+    "MutateResult",
     "PolicyDecision",
     "PolicyRule",
     "ProjectConfig",
     "RbacConfig",
     "RbacRolePolicy",
     "RegisteredAction",
+    "RepairProposal",
+    "ReviewDecision",
     "Task",
     "TaskState",
     "TaskStatus",

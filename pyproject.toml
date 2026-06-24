@@ -41,6 +41,10 @@ jwt = [
     "PyJWT>=2.8",
     "cryptography>=42",
 ]
+apex = [
+    "scikit-learn>=1.4",
+    "darts>=0.27",
+]
 
 [project.scripts]
 agentctl = "ai_control_plane.main:app"

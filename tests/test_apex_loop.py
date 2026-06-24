@@ -37,22 +37,25 @@ def test_sense_collect_aggregates_events() -> None:
 
 def test_analyze_detects_anomaly_above_threshold() -> None:
     adapter = AnalyzeAdapter({"anomaly_event_threshold": 1})
-    assert adapter.analyze({"event_count": 5})["anomaly_detected"] is True
-    assert adapter.analyze({"event_count": 0})["anomaly_detected"] is False
+    assert adapter.analyze({"event_count": 5, "z_score_anomaly": False})["anomaly_detected"] is True
+    no_anomaly = adapter.analyze({"event_count": 0, "z_score_anomaly": False})
+    assert no_anomaly["anomaly_detected"] is False
 
 
 def test_predict_maps_risk_level() -> None:
-    high = PredictAdapter({}).predict({"anomaly_detected": True})
-    low = PredictAdapter({}).predict({"anomaly_detected": False})
+    high = PredictAdapter({}).predict({"anomaly_detected": True}, [])
+    low = PredictAdapter({}).predict({"anomaly_detected": False}, [])
     assert high["risk_level"] == "high"
     assert low["risk_level"] == "low"
 
 
-def test_act_skips_high_risk() -> None:
-    skipped = ActAdapter({}).execute({"risk_level": "high", "recommended_action": "review"})
-    ok = ActAdapter({}).execute({"risk_level": "low", "recommended_action": "continue"})
-    assert skipped["executed"] is False
-    assert ok["executed"] is True
+def test_act_proposal_only() -> None:
+    low = ActAdapter({}).execute({"risk_level": "low", "recommended_action": "continue"})
+    high = ActAdapter({}).execute({"risk_level": "high", "recommended_action": "review"})
+    assert low["executed"] is False
+    assert high["executed"] is False
+    assert low["status"] == "proposal_only"
+    assert low["proposals"]
 
 
 def test_learn_requires_approval() -> None:
