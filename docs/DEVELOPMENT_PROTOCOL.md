@@ -3,9 +3,9 @@
 > **Purpose:** Chuẩn hóa mọi thay đổi code/docs trên **ai-control-plane** — chất lượng, 8 hard invariants, fail-closed governance, tránh schema/wiring drift.
 
 **Document ID:** ACP-DEV-PROTOCOL-001  
-**Version:** 1.3  
+**Version:** 1.4  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-23 — Phase 1 v2: ingress normalize, shipped parity CI, governance record  
+**Last updated:** 2026-06-22 — Milestone C pre-merge: apex live (PR #63), pytest 156, smoke 8/8  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -121,7 +121,8 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 | Tab 7 + SMK audit | [tab7_telemetry_spec_and_smoke_audit.html](governance/tab7_telemetry_spec_and_smoke_audit.html) | Telemetry APPROVED, SMK APPROVE WITH CHANGES, CI yaml |
 | **Phase 1 consolidated (Claude)** | [PHASE1_CONSOLIDATED_FOR_CLAUDE.md](governance/PHASE1_CONSOLIDATED_FOR_CLAUDE.md) | Pre–Phase 2 architect review packet |
 | **Phase 1 v2 report** | [PHASE1_REPORT_V2.md](governance/PHASE1_REPORT_V2.md) | Re-audit, gap IDs, v2 remediation, Codecov |
-| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | Sprint 1 closed; Sprint 2 open |
+| **Milestone B backlog** | [MILESTONE_B_BACKLOG.md](governance/MILESTONE_B_BACKLOG.md) | **CLOSED** (PR #48–#51) |
+| **Milestone C sprint plan** | [MILESTONE_C_SPRINT_PLAN.md](governance/MILESTONE_C_SPRINT_PLAN.md) | MC-1..MC-11 — PR #63 pre-merge |
 | **Phase 2 Sprint 1 report** | [PHASE2_SPRINT1_REPORT.md](governance/PHASE2_SPRINT1_REPORT.md) | MB-S1-1..5 close, gates, coverage |
 | **Phase 2 Sprint 1 audit (final)** | [PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md](governance/PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md) | Checklist 38-item verify + Path B |
 
@@ -135,11 +136,13 @@ Artifact Claude (HTML) và prompt Cursor lưu tại repo để audit trail Phase
 
 **Verify gate at close:** `pytest tests/` pass · `pytest -m smoke` 8 pass (SMK-01..06 incl. 06b/06c) · `pytest -m shipped_config` pass · CI jobs `Smoke gate` + `Full suite` green.
 
+**Milestone C pre-merge gate (PR #63):** `pytest tests/` **156 passed** · `pytest -m smoke` **8/8** · `ruff` clean · `mypy src --strict` clean.
+
 **Phase 1 v2 (post-close hardening):** `core/tool_names.py`; `test_shipped_config_parity.py`; `test_mcp_policy_integration.py`.
 
 **Milestone B Sprint 1 (closed):** Guardrails/kill_switch (MB-S1-1), ABAC full (MB-S1-2), coverage floor (MB-S1-3), CLI tests (MB-S1-4), identity JWT (MB-S1-5) — see [`PHASE2_SPRINT1_REPORT.md`](governance/PHASE2_SPRINT1_REPORT.md).
 
-**Deferred to Sprint 2:** Redis quota, MCP factory, live CLI approve/quota — see [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
+**Deferred to Sprint 2:** ~~Redis quota, MCP factory, live CLI approve/quota~~ — **CLOSED** in Milestone B (PR #49–#51). See [`MILESTONE_B_BACKLOG.md`](governance/MILESTONE_B_BACKLOG.md).
 
 **P0-2b closed (Phase 2 P2-0):** Option A — dot notation in shipped `config/`; `core/tool_names.py` is single source of truth.
 
@@ -295,7 +298,7 @@ Liệt kê file **sẽ đổi** vs **bị ảnh hưởng**:
 | MCP | `mcp/git_server.py` | Facade — policy via HTTP |
 | Config | `config/*.yml`, `config/loader.py` | `ACP_CONFIG_DIR` |
 | Tests | `tests/`, `tests/fixtures/config/` | Dùng `conftest.py` |
-| Apex | `apex/` | Stubs only until Milestone C |
+| Apex | `apex/` | SAPAL loop live (Milestone C, PR #63); không `NotImplementedError` stub |
 
 - Xác nhận path tồn tại; **đọc nội dung** trước patch.
 - Config runtime: `ACP_CONFIG_DIR`, `ACP_API_URL`, shipped `config/`.
@@ -336,7 +339,7 @@ Mỗi mục: ✅ / ⚠️ + mitigation / N/A có lý do.
 | BS-09 | **OSS in core?** CrewAI/LangChain/AutoGen? |
 | BS-10 | **Secrets?** API keys / prod cluster IDs trong diff? |
 | BS-11 | **Invariant #2?** `registry`/`telemetry` khớp `models.py`? |
-| BS-12 | **Milestone guard?** `apex/` có logic thật trước Milestone C? |
+| BS-12 | **Milestone guard?** `apex/` có logic thật trước Milestone C? — ✅ N/A sau PR #63 |
 | BS-13 | **Thread safety?** `InMemoryQuotaStore` / shared `AppState`? |
 | BS-14 | **Policy timeout?** 2s — có deny đúng không? |
 | BS-15 | **Regression tests?** `core/` module có test tương ứng? |
@@ -398,7 +401,7 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 | **D5** | Fail-closed: lỗi policy → deny; không fallback allow (Invariant fail-closed) |
 | **D6** | `config/` shipped + `ACP_CONFIG_DIR` runtime (Invariant #8) |
 | **D7** | `QuotaStore` inject — không hardcode Redis URL (Invariant #7) |
-| **D8** | `apex/` stub `NotImplementedError` until Milestone C (`.cursorrules`) |
+| **D8** | `apex/` SAPAL adapters + `SapalLoop` live since Milestone C (PR #63); pre-C stubs removed |
 | **D9** | Tool names: `snake_case` canonical (`git_read`, `k8s_apply_prod`) |
 | **D10** | Mỗi file `core/*.py` có `tests/test_*.py` tương ứng |
 
@@ -415,7 +418,7 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 - [ ] Không vi phạm 8 invariants / `.cursorrules`
 - [ ] Issue cập nhật hoặc PR link issue
 
-**Milestone A:** **CLOSED** ([#38](https://github.com/DataXMind/AI-Control-Plane/issues/38)) — archive §4.1. **Milestone B** entry: issues #29–#37.
+**Milestone A:** **CLOSED** ([#38](https://github.com/DataXMind/AI-Control-Plane/issues/38)) — archive §4.1. **Milestone B:** **CLOSED** (PR #48–#51). **Milestone C:** PR [#63](https://github.com/DataXMind/AI-Control-Plane/pull/63) — issues #52–#62.
 
 ---
 
@@ -452,6 +455,6 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`.
 
 ---
 
-**Version:** 1.3 · **Last updated:** 2026-06-23 (Phase 1 v2 governance + ingress normalize)  
+**Version:** 1.4 · **Last updated:** 2026-06-22 (Milestone C pre-merge — apex live, gate counts)  
 **Supersedes:** ACOP-DEV-PROTOCOL-001 import (nội dung ACOP-specific đã loại bỏ)  
 **Project:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane) (private until public-beta gates)
