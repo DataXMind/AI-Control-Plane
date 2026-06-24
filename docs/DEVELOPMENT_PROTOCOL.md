@@ -231,7 +231,7 @@ agentctl assign rust-gateway agent2 git_read --json
 curl -s http://localhost:8000/health | jq .
 ```
 
-### 5.5 ACP Smoke Gate — 5 tests (gold pattern)
+### 5.5 ACP Smoke Gate — 8 tests (gold pattern)
 
 > **Nguồn:** Harness CI/CD smoke pattern + qa-checklist.dev + ISTQB build verification — rút gọn cho control-plane PoC.
 
@@ -239,15 +239,18 @@ curl -s http://localhost:8000/health | jq .
 
 | ID | Tên | Lệnh / test | Pass criteria |
 | -- | --- | ----------- | ------------- |
-| **SMK-01** | Core import | Python `import ai_control_plane.core.registry, telemetry` | No ImportError |
-| **SMK-02** | Readiness | `GET /health` hoặc `test_smk02_health_readiness` | HTTP 200, `config_loaded=true`, `policy_rules_count>0` |
-| **SMK-03** | Policy allow | `POST /policy/evaluate` backend + `git_read` | `allowed=true` |
-| **SMK-04** | Fail-closed deny | `POST /policy/evaluate` unknown agent | `allowed=false`, non-empty `reason` |
-| **SMK-05** | Quota/config read | `GET /quota/rust-gateway` | HTTP 200, `tokens_remaining >= 100000` |
-| **SMK-06** | Identity verify | `POST /identity/verify` valid HS256 stub JWT | HTTP 200, `agent_id` matches claim |
-| **SMK-06b** | Identity auth fail | `POST /identity/verify` invalid token | HTTP **401** (not 503, not 200+deny) |
+| **SMK-01** | Core import | `test_smk01_core_import_python` | No ImportError |
+| **SMK-02** | Readiness | `test_smk02_health_readiness` | HTTP 200, `config_loaded=true`, `policy_rules_count>0`, `agents_loaded`, `projects_loaded`, `model_profiles_loaded` |
+| **SMK-03** | Policy allow | `test_smk03_policy_allow_critical_path` | `allowed=true` |
+| **SMK-04** | Fail-closed deny | `test_smk04_policy_deny_fail_closed` | `allowed=false`, non-empty `reason` |
+| **SMK-05** | Quota/config read | `test_smk05_quota_dependency_read` | HTTP 200, `tokens_remaining >= 100000` |
+| **SMK-06** | Identity verify | `test_smk06_identity_verify_valid_token` | HTTP 200, `agent_id` matches claim |
+| **SMK-06b** | Identity auth fail | `test_smk06b_identity_verify_invalid_token` | HTTP **401** (not 503, not 200+deny) |
+| **SMK-06c** | Unknown agent | `test_smk06c_identity_verify_unknown_agent` | HTTP **401** |
 
-**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. Identity uses HS256 stub in `core/identity.py` (JWKS deferred Milestone C).
+**Total:** 8 smoke tests (SMK-01..06 inclusive of 06b, 06c). CI job `Smoke gate` runs `pytest -m smoke`.
+
+**Note:** Smoke runs against `tests/fixtures/config` (production schema after NEW-2). Manual `scripts/smoke_acp.sh --live` covers live HTTP. Identity: HS256 dev stub or JWKS RS256 when `ACP_JWKS_URL` set (MB-S2-8).
 
 **Automated:** `tests/test_smoke.py` (marker `@pytest.mark.smoke`)  
 **Script:** `scripts/smoke_acp.sh` — CI: pytest smoke; `scripts/smoke_acp.sh --live` — optional live curl
@@ -260,7 +263,7 @@ curl -s http://localhost:8000/health | jq .
 L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..06 smoke
 ```
 
-### 5.5 Session **Evolve**
+### 5.6 Session **Evolve**
 
 - Comment issue: done / blocked / cần review
 - Cập nhật `ARCHITECTURE.md` hoặc README nếu contract đổi (#14, #13)

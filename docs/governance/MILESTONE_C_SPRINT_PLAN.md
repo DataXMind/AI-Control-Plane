@@ -26,18 +26,17 @@
 - SAPAL adapters + `SapalLoop` + `run_sapal_pipeline()` (MVP heuristic loop)
 - `GET /apex/status`, `POST /apex/trigger`; `agentctl apex status|trigger`
 - `scripts/run_otel_collector.sh` stub; MCP HTTP E2E test (stub forwarder)
-- **156 pytest**, smoke 8/8, ruff, mypy strict
+- **165 pytest**, smoke 8/8, ruff, mypy strict
 
-## Beyond Milestone C (open debt)
+## C+ depth (PR #74)
 
-| Item | Issue / gap | Target |
-|------|-------------|--------|
-| `load_model_profiles()` wired to AppState | ~~#9, GAP-S4-1~~ | ✅ closed |
-| Extended `/health` proof | #39 | B+ debt |
-| cyanheads MCP E2E in CI | MC-8 follow-up | **C+-6** [#72](https://github.com/DataXMind/AI-Control-Plane/issues/72) |
-| OTLP collector config + doc | MC-10 follow-up | **C+-2** [#68](https://github.com/DataXMind/AI-Control-Plane/issues/68) |
-| Architect SAPAL depth (replay, Argos, Darts, act proposals) | `MILESTONE_C_PLUS_ADR.md` | C+-1..C+-5 [#67–#71](https://github.com/DataXMind/AI-Control-Plane/issues/67) |
-| Public beta legal + examples | `OPEN_SOURCE_READINESS.md` | Pre-public |
-| Branch protection enforced | GAP-BP-1 | GitHub Team / public repo |
+Architect ADR items delivered: `replay()`, Z-score sense, Argos analyze, Darts/rolling predict, proposal-only act, cyanheads MCP E2E CI — issues #67–#72 closed.
 
-**Last updated:** 2026-06-24 (Milestone C code complete; issue hygiene)
+## Beyond Milestone C+ (open)
+
+| Item | Target |
+|------|--------|
+| Public beta legal + examples | `OPEN_SOURCE_READINESS.md` |
+| Branch protection API enforced | GitHub Team / public repo |
+
+**Last updated:** 2026-06-24 (Milestone C + C+ complete; #9/#39 closed PR #75)

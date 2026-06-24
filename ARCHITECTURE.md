@@ -169,7 +169,7 @@ Milestone A: core/ + mcp/ + api/ + cli/assign + cli/status + apex/ stubs
 
 **CLI tests (MB-S1-4):** `tests/test_cli_assign.py`, `tests/test_cli_status.py` — `CliRunner` + `respx` mock `ACP_API_URL`; no direct `core/policies.py` import (Invariant #4).
 
-Milestone B: Redis QuotaStore + FileTaskStore + JWKS RS256 + Redis ActionRegistry + full ABAC + guardrails + CLI live (approve/quota/logs) + MCP HTTP transport + quotas by_agent/by_model_profile + branch protection workflow doc — **CLOSED** (PR #48–#51)
+Milestone B: Redis QuotaStore + FileTaskStore + JWKS RS256 + Redis ActionRegistry + full ABAC + guardrails + CLI live (approve/quota/logs) + MCP HTTP transport + quotas by_agent/by_model_profile + branch protection workflow doc — **CLOSED 2026-06-24** (PR #48–#51)
 
 Milestone C: apex/ live — sense, analyze, predict, act, learn + `FileTelemetryStore` + `/apex/*` API + `agentctl apex` — **CLOSED** (PR #63, `6dfffdf`)
 
