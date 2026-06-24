@@ -3,7 +3,7 @@
 **Document ID:** ACP-GOV-KARPATHY-REARCH-001  
 **Artifact:** [`karpathy_acp_rearchitecture_analysis.html`](karpathy_acp_rearchitecture_analysis.html)  
 **Code truth:** `master` @ `c5d52e5`  
-**Status:** **APPROVED FOR GOVERNANCE TRACK** — docs-only; parallel to Public Beta PB-O (soak), does not block #77–#80
+**Status:** **R1–R3 COMPLETE** on consolidation branch — `.cursorrules` 6-layer, L2/L5 docs, DATA_CLASSIFICATION, CONTRACT_TESTS, PR template. See [`GOV_6LAYER_AUDIT_PASS.md`](GOV_6LAYER_AUDIT_PASS.md).
 
 ---
 

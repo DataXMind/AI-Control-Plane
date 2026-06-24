@@ -22,6 +22,7 @@ File này là **cổng bắt buộc trước khi sửa code** cho agent và dev.
 | ---------- | -------- | ------- |
 | **Development Protocol (file này)** | `docs/DEVELOPMENT_PROTOCOL.md` | _Khi nào_ áp dụng, PACE, 9 bước, task mới/cập nhật |
 | **Architecture & invariants** | [`ARCHITECTURE.md`](../ARCHITECTURE.md) | 8 hard invariants, module inventory, milestones |
+| **6-layer Cursor governance** | [`.cursorrules`](../.cursorrules), [`docs/governance/CURSOR_RISK_POLICY.md`](governance/CURSOR_RISK_POLICY.md) | L0–L5: behavior, risk, allowlists |
 | **Code generation rules** | [`.cursorrules`](../.cursorrules) | Pydantic v2, structlog, async I/O, test rules |
 | **Open source gates** | [`docs/OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md) | Khi nào public repo / PyPI |
 | **Milestone A archive** | [`docs/governance/`](governance/) | Claude audit HTML + **Phase 1 v2 report** (closed #38) |
@@ -59,6 +60,8 @@ TASK (một issue / một PR) — Standard+ và High-risk
 
 ## 2. Khi nào áp dụng (ba mức)
 
+**L2 triage (bắt buộc trước Act):** Classify every task LOW / MEDIUM / HIGH / CRITICAL per [`CURSOR_RISK_POLICY.md`](governance/CURSOR_RISK_POLICY.md). State assumptions + verify command (L0).
+
 | Mức | Ví dụ | Bắt buộc |
 | --- | ----- | -------- |
 | **Trivial** | Typo doc, comment, format không đổi hành vi | `ruff` nếu chạm `.py`; không cần 9 bước đầy đủ |
@@ -79,11 +82,12 @@ TASK (một issue / một PR) — Standard+ và High-risk
 Khi mâu thuẫn, xử lý theo thứ tự:
 
 1. **`ARCHITECTURE.md`** — 8 invariants, milestone scope  
-2. **`.cursorrules`** — code style và NEVER rules  
-3. **`core/models.py`** — data contracts (code là truth cho types)  
-4. **`config/*.yml`** — shipped defaults (runtime qua `ACP_CONFIG_DIR`)  
-5. **GitHub issue đang implement** — acceptance criteria  
-6. **README / docs phụ** — mô tả, không override code  
+2. **`.cursorrules`** (L0 > L1 > L2 > L3 > L4 > L5) — behavior, risk, guardrails  
+3. **`docs/governance/CURSOR_RISK_POLICY.md`** — task risk when `.cursorrules` L2 applies  
+4. **`core/models.py`** — data contracts (code là truth cho types)  
+5. **`config/*.yml`** — shipped defaults (runtime qua `ACP_CONFIG_DIR`)  
+6. **GitHub issue đang implement** — acceptance criteria  
+7. **README / docs phụ** — mô tả, không override code  
 
 **Code** quyết định hành vi thực tế. Nếu code vi phạm invariant → **dừng**, không “sửa lặng”. Nếu docs lệch code → sửa docs hoặc mở issue `debt`.
 
