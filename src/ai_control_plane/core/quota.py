@@ -176,6 +176,47 @@ class TokenBudget:
         return max(0.0, limit - used)
 
 
+def _profile_usage_key(profile_id: str) -> str:
+    return f"quota:profile:{profile_id}:daily_tokens"
+
+
+class ProfileQuotaTracker:
+    """Model-profile daily token quota backed by a QuotaStore (GAP-Q-1)."""
+
+    def __init__(self, store: QuotaStore, daily_limits: dict[str, float]) -> None:
+        self._store = store
+        self._daily_limits = daily_limits
+
+    def consume(self, profile_id: str, tokens: int) -> bool:
+        if tokens < 0:
+            msg = "tokens must be non-negative"
+            raise ValueError(msg)
+
+        limit = self._daily_limits.get(profile_id)
+        if limit is None:
+            self._store.increment(_profile_usage_key(profile_id), float(tokens))
+            return True
+
+        key = _profile_usage_key(profile_id)
+        used = self._store.get(key)
+        if used + tokens > limit:
+            return False
+
+        self._store.increment(key, float(tokens))
+        return True
+
+    def remaining(self, profile_id: str) -> float:
+        limit = self._daily_limits.get(profile_id)
+        if limit is None:
+            return float("inf")
+
+        used = self._store.get(_profile_usage_key(profile_id))
+        return max(0.0, limit - used)
+
+    def reset_daily(self, profile_id: str) -> None:
+        self._store.reset(_profile_usage_key(profile_id))
+
+
 @dataclass
 class _TokenBucket:
     tokens: float
@@ -224,6 +265,7 @@ class RateLimiter:
 
 __all__ = [
     "InMemoryQuotaStore",
+    "ProfileQuotaTracker",
     "QuotaStore",
     "QuotaTracker",
     "RateLimiter",

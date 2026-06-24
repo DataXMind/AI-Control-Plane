@@ -401,6 +401,53 @@ def build_agent_registry() -> dict[str, dict[str, Any]]:
 
 def load_project_token_limits() -> dict[str, float]:
     """Load per-project daily token limits from policies.yml quotas.by_project."""
+    by_project = _load_quotas_section().get("by_project", {})
+    if not isinstance(by_project, dict):
+        return {}
+
+    limits: dict[str, float] = {}
+    for project_id, entry in by_project.items():
+        if not isinstance(entry, dict):
+            continue
+        tokens = entry.get("tokens_per_day")
+        if tokens is not None:
+            limits[str(project_id)] = float(tokens)
+    return limits
+
+
+def load_agent_token_limits() -> dict[str, float]:
+    """Load per-agent daily token limits from policies.yml quotas.by_agent."""
+    by_agent = _load_quotas_section().get("by_agent", {})
+    if not isinstance(by_agent, dict):
+        return {}
+
+    limits: dict[str, float] = {}
+    for agent_id, entry in by_agent.items():
+        if not isinstance(entry, dict):
+            continue
+        tokens = entry.get("tokens_per_day")
+        if tokens is not None:
+            limits[str(agent_id)] = float(tokens)
+    return limits
+
+
+def load_model_profile_token_limits() -> dict[str, float]:
+    """Load per-model-profile daily token limits from policies.yml quotas.by_model_profile."""
+    by_profile = _load_quotas_section().get("by_model_profile", {})
+    if not isinstance(by_profile, dict):
+        return {}
+
+    limits: dict[str, float] = {}
+    for profile_id, entry in by_profile.items():
+        if not isinstance(entry, dict):
+            continue
+        tokens = entry.get("tokens_per_day")
+        if tokens is not None:
+            limits[str(profile_id)] = float(tokens)
+    return limits
+
+
+def _load_quotas_section() -> dict[str, Any]:
     path = get_config_dir() / "policies.yml"
     if not path.is_file():
         msg = f"policies file not found: {path}"
@@ -414,19 +461,7 @@ def load_project_token_limits() -> dict[str, float]:
     quotas = raw.get("quotas", {})
     if not isinstance(quotas, dict):
         return {}
-
-    by_project = quotas.get("by_project", {})
-    if not isinstance(by_project, dict):
-        return {}
-
-    limits: dict[str, float] = {}
-    for project_id, entry in by_project.items():
-        if not isinstance(entry, dict):
-            continue
-        tokens = entry.get("tokens_per_day")
-        if tokens is not None:
-            limits[str(project_id)] = float(tokens)
-    return limits
+    return quotas
 
 
 def _normalize_guardrail_effect(effect: Any) -> Literal["allow", "deny"]:

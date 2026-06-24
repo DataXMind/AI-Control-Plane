@@ -19,9 +19,11 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.responses import Response
 
 from ai_control_plane.api.schemas import (
+    AgentQuotaStatus,
     ApprovalResolveRequest,
     HealthResponse,
     IdentityVerifyRequest,
+    ModelProfileQuotaStatus,
     PolicyEvalRequest,
     PolicyEvalResponse,
     QuotaStatus,
@@ -32,8 +34,10 @@ from ai_control_plane.api.schemas import (
 from ai_control_plane.config.loader import (
     build_agent_registry,
     get_config_dir,
+    load_agent_token_limits,
     load_guardrails,
     load_kill_switch,
+    load_model_profile_token_limits,
     load_policies,
     load_project_token_limits,
     load_projects,
@@ -42,7 +46,18 @@ from ai_control_plane.core.exceptions import ApprovalError, ConfigError, Control
 from ai_control_plane.core.identity import JWTValidationError, TokenValidator, create_jwt_validator
 from ai_control_plane.core.models import AgentIdentity, PolicyRule, TaskState, TelemetryEvent
 from ai_control_plane.core.policies import ApprovalGate, PolicyEngine
-from ai_control_plane.core.quota import QuotaStore, TokenBudget, create_quota_store
+from ai_control_plane.core.quota import (
+    ProfileQuotaTracker,
+    QuotaStore,
+    QuotaTracker,
+    TokenBudget,
+    create_quota_store,
+)
+from ai_control_plane.core.registry import (
+    ActionRegistryLike,
+    create_action_registry,
+    seed_registry_from_rules,
+)
 from ai_control_plane.core.task_store import TaskStore, create_task_store
 from ai_control_plane.core.telemetry import InMemoryTelemetryStore
 from ai_control_plane.core.tool_names import resolve_policy_tool_name
@@ -84,6 +99,9 @@ class AppState:
     approval_gate: ApprovalGate
     token_budget: TokenBudget
     quota_store: QuotaStore
+    quota_tracker: QuotaTracker
+    profile_quota_tracker: ProfileQuotaTracker
+    action_registry: ActionRegistryLike
     policy_rules_count: int = 0
     config_loaded: bool = False
     agents_loaded: list[str] = field(default_factory=list)
@@ -91,6 +109,8 @@ class AppState:
     agent_registry: dict[str, dict[str, Any]] = field(default_factory=dict)
     task_store: TaskStore = field(default_factory=create_task_store)
     project_limits: dict[str, float] = field(default_factory=dict)
+    agent_limits: dict[str, float] = field(default_factory=dict)
+    model_profile_limits: dict[str, float] = field(default_factory=dict)
     telemetry_store: InMemoryTelemetryStore = field(default_factory=InMemoryTelemetryStore)
     jwt_validator: TokenValidator = field(default_factory=create_jwt_validator)
 
@@ -120,6 +140,10 @@ def build_default_app_state() -> AppState:
     agent_registry = build_agent_registry()
     projects = load_projects()
     project_limits = load_project_token_limits()
+    agent_limits = load_agent_token_limits()
+    model_profile_limits = load_model_profile_token_limits()
+    action_registry = create_action_registry()
+    seed_registry_from_rules(action_registry, all_rules)
 
     if not projects:
         raise ConfigError("no projects loaded from projects.yml")
@@ -128,6 +152,9 @@ def build_default_app_state() -> AppState:
         policy_engine=PolicyEngine(rules=all_rules, kill_switch=kill_switch),
         approval_gate=ApprovalGate(),
         quota_store=quota_store,
+        quota_tracker=QuotaTracker(quota_store, agent_limits),
+        profile_quota_tracker=ProfileQuotaTracker(quota_store, model_profile_limits),
+        action_registry=action_registry,
         token_budget=TokenBudget(quota_store, project_limits),
         policy_rules_count=len(all_rules),
         config_loaded=True,
@@ -135,6 +162,8 @@ def build_default_app_state() -> AppState:
         projects_loaded=sorted(projects.keys()),
         agent_registry=agent_registry,
         project_limits=project_limits,
+        agent_limits=agent_limits,
+        model_profile_limits=model_profile_limits,
         telemetry_store=telemetry_store,
     )
 
@@ -495,6 +524,67 @@ def create_app(state: AppState | None = None) -> FastAPI:
             )
         except Exception:
             logger.exception("project_quota_failed")
+            return JSONResponse(
+                status_code=SERVICE_UNAVAILABLE,
+                content=ServiceUnavailableResponse(
+                    reason="quota unavailable",
+                ).model_dump(mode="json"),
+            )
+
+    @app.get("/quota/agent/{agent_id}", response_model=AgentQuotaStatus)
+    async def agent_quota(request: Request, agent_id: str) -> AgentQuotaStatus | JSONResponse:
+        acp: AppState = request.app.state.acp
+        try:
+            limit = acp.agent_limits.get(agent_id)
+            if limit is None:
+                return JSONResponse(
+                    status_code=SERVICE_UNAVAILABLE,
+                    content=ServiceUnavailableResponse(
+                        reason=f"unknown agent '{agent_id}'",
+                    ).model_dump(mode="json"),
+                )
+
+            tokens_remaining = acp.quota_tracker.remaining(agent_id)
+            tokens_used = max(0.0, limit - tokens_remaining)
+            return AgentQuotaStatus(
+                agent_id=agent_id,
+                tokens_used=tokens_used,
+                tokens_remaining=tokens_remaining,
+            )
+        except Exception:
+            logger.exception("agent_quota_failed")
+            return JSONResponse(
+                status_code=SERVICE_UNAVAILABLE,
+                content=ServiceUnavailableResponse(
+                    reason="quota unavailable",
+                ).model_dump(mode="json"),
+            )
+
+    @app.get("/quota/profile/{profile_id}", response_model=ModelProfileQuotaStatus)
+    async def profile_quota(
+        request: Request,
+        profile_id: str,
+    ) -> ModelProfileQuotaStatus | JSONResponse:
+        acp: AppState = request.app.state.acp
+        try:
+            limit = acp.model_profile_limits.get(profile_id)
+            if limit is None:
+                return JSONResponse(
+                    status_code=SERVICE_UNAVAILABLE,
+                    content=ServiceUnavailableResponse(
+                        reason=f"unknown model profile '{profile_id}'",
+                    ).model_dump(mode="json"),
+                )
+
+            tokens_remaining = acp.profile_quota_tracker.remaining(profile_id)
+            tokens_used = max(0.0, limit - tokens_remaining)
+            return ModelProfileQuotaStatus(
+                model_profile=profile_id,
+                tokens_used=tokens_used,
+                tokens_remaining=tokens_remaining,
+            )
+        except Exception:
+            logger.exception("profile_quota_failed")
             return JSONResponse(
                 status_code=SERVICE_UNAVAILABLE,
                 content=ServiceUnavailableResponse(

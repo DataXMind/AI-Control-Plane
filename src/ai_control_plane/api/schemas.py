@@ -68,6 +68,26 @@ class QuotaStatus(BaseModel):
     requests_today: int
 
 
+class AgentQuotaStatus(BaseModel):
+    """GET /quota/agent/{agent_id} response."""
+
+    model_config = _HTTP
+
+    agent_id: str
+    tokens_used: float
+    tokens_remaining: float
+
+
+class ModelProfileQuotaStatus(BaseModel):
+    """GET /quota/profile/{profile_id} response."""
+
+    model_config = _HTTP
+
+    model_profile: str
+    tokens_used: float
+    tokens_remaining: float
+
+
 class ApprovalSubmitRequest(BaseModel):
     """HTTP wrapper to create an approval request."""
 
@@ -131,6 +151,7 @@ class HealthResponse(BaseModel):
 
 
 __all__ = [
+    "AgentQuotaStatus",
     "ApprovalDecision",
     "ApprovalRequest",
     "ApprovalResolveRequest",
@@ -138,6 +159,7 @@ __all__ = [
     "ApprovalSubmitResponse",
     "HealthResponse",
     "IdentityVerifyRequest",
+    "ModelProfileQuotaStatus",
     "PolicyEvalRequest",
     "PolicyEvalResponse",
     "QuotaStatus",

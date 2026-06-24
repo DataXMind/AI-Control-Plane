@@ -117,9 +117,10 @@ Telemetry records MCP tool name; `PolicyEngine` evaluates policy action name.
 | `abac.rules` | ✅ Full condition adapter (MB-S1-2) | A |
 | `guardrails` | ✅ Loaded → `PolicyRule` with `rule_type: guardrail` | A (MB-S1-1) |
 | `kill_switch` | ✅ Loaded; when active, all `/policy/evaluate` deny (HTTP 200) | A (MB-S1-1) |
-| `quotas.by_model_profile` | ❌ Not wired to runtime quota API | B |
-| `quotas.by_agent` | ❌ Not wired | B |
+| `quotas.by_model_profile` | ✅ `load_model_profile_token_limits()` + GET `/quota/profile/{id}` | B |
+| `quotas.by_agent` | ✅ `load_agent_token_limits()` + GET `/quota/agent/{id}` | B |
 | `quotas.by_project` | ✅ Via `load_project_token_limits()` | A |
+| `ActionRegistry` | ✅ `create_action_registry()` — Redis when `ACP_REDIS_URL` | B (#33) |
 
 **Guardrails and kill_switch:** loaded at startup via `load_guardrails()` / `load_kill_switch()` (MB-S1-1, closes GAP-GR-1/2 for load path). `GET /health` bypasses `PolicyEngine`.
 

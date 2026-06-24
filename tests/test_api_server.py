@@ -97,6 +97,24 @@ def test_quota_reflects_configured_project_limit() -> None:
     assert body["tokens_remaining"] >= 100_000
 
 
+def test_agent_quota_reflects_configured_limit() -> None:
+    client = TestClient(create_app())
+    response = client.get("/quota/agent/agent2")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["agent_id"] == "agent2"
+    assert body["tokens_remaining"] == 1_000_000.0
+
+
+def test_profile_quota_reflects_configured_limit() -> None:
+    client = TestClient(create_app())
+    response = client.get("/quota/profile/claude-pro-backend")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["model_profile"] == "claude-pro-backend"
+    assert body["tokens_remaining"] == 1_000_000.0
+
+
 def test_telemetry_events_list_empty_by_default() -> None:
     client = TestClient(create_app())
     response = client.get("/telemetry/events")
