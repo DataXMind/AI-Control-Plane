@@ -72,6 +72,8 @@ docker compose -f examples/minimal/docker-compose.yml up --build
 
 See [examples/minimal/README.md](examples/minimal/README.md).
 
+**Staging soak (PB-9):** after `docker compose up`, run `bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log`. Tracker: [docs/governance/PB9_STAGING_SOAK_LOG.md](docs/governance/PB9_STAGING_SOAK_LOG.md).
+
 ## Full verify gate
 
 ```bash
@@ -115,6 +117,15 @@ ruff check src/ tests/
 
 Current gate: **165 pytest**, smoke 8/8 + CI on `master`.
 
+## Maintainer & security
+
+- **Maintainer:** DataXMind ([GitHub org](https://github.com/DataXMind))
+- **Security:** See [SECURITY.md](SECURITY.md) — use private report path before public beta flip
+
+## Pre-release notice
+
+This repository is **private** during staging soak (PB-9). Public beta (`0.x`) will ship with an explicit disclaimer that the HTTP API and config schema may change until `1.0.0`. See [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md).
+
 ## GitHub backlog
 
-https://github.com/DataXMind/AI-Control-Plane/issues — Milestones A/B/C/C+ closed; Public Beta [#77–#80](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md).
+https://github.com/DataXMind/AI-Control-Plane/issues — Public Beta [#77–#80](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md). PB-9 soak **in progress** since 2026-06-22.

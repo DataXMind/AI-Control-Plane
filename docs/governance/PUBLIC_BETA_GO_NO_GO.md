@@ -7,13 +7,14 @@
 
 ---
 
-## Verdict (today)
+## Verdict (2026-06-22 — post human approve)
 
 | Question | Answer |
 |----------|--------|
-| **GO** — flip repository public now? | **NO** |
-| **GO** — start staging soak? | **YES** (after human confirms PB-5 deploy path) |
-| **GO** — legal/trust artifacts in repo? | **YES** (PB-1..4 delivered this sprint prep) |
+| **GO** — flip repository public now? | **NO** — PB-9 soak in progress |
+| **GO** — start staging soak? | **STARTED** 2026-06-22 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
+| **GO** — legal/trust artifacts in repo? | **YES** |
+| **PB-11** | **Approved:** process-only until PB-12 public flip (API 403 unchanged) |
 
 ---
 
@@ -27,8 +28,8 @@
 | LICENSE, SECURITY, CONTRIBUTING, CoC | ✅ | PB-1..4 |
 | OpenAPI published; CI green | 🔄 | PB-6 export script; publish on flip |
 | `config/` no production secrets | ✅ | Shipped config is template-only |
-| Maintainer + security contact in README | 🔄 | Add on PB-12 prep |
-| Public beta `0.x` disclaimer | 🔄 | README section on flip |
+| Maintainer + security contact in README | ✅ | Maintainer + SECURITY.md linked |
+| Public beta `0.x` disclaimer | 🔄 | Pre-release notice in README; full on PB-12 |
 
 ---
 
@@ -48,7 +49,7 @@ gh api repos/DataXMind/AI-Control-Plane/branches/master/protection
 | Flip public (PB-12) | Protection API may become available on public repo |
 | Process-only (current) | [`BRANCH_PROTECTION.md`](BRANCH_PROTECTION.md) team workflow |
 
-**Decision:** PB-11 **blocked on platform** until Team upgrade **or** public flip. CI + PR convention remains mandatory.
+**Decision (2026-06-22):** Maintainer approved **process-only** workflow until PB-12 public flip. Re-evaluate API enforcement when repo goes public or org upgrades to Team.
 
 ---
 
@@ -62,7 +63,9 @@ gh api repos/DataXMind/AI-Control-Plane/branches/master/protection
 | 1–14 | Simulated agent workload: policy eval, quota, MCP stub, `/apex/trigger` hourly |
 | 14 | Review: SEV-1/2 count, p99 `/policy/evaluate`, disk growth on telemetry |
 
-**Start criteria:** PB-5 green locally; maintainer signs soak start in issue comment.
+**Start criteria:** ✅ Maintainer approved 2026-06-22. Tracker: [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
+
+**Clock:** Day 0 = 2026-06-22 · Target review = **2026-07-06**.
 
 ### Production (PB-10) — target ≥30 days
 
