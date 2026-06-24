@@ -1,52 +1,150 @@
-# ai-control-plane .cursorrules
-# Đọc ARCHITECTURE.md để hiểu đầy đủ context trước khi generate code.
+# ai-control-plane .cursorrules — 6-layer governance
+# Priority: L0 > L1 > L2 > L3 > L4 > L5
+# Conflict resolution: higher layer always wins
+# Detail: docs/governance/CURSOR_RISK_POLICY.md
+# Last updated: 2026-06-22 (Milestones A/B/C/C+ CLOSED; Public Beta IN PROGRESS)
 
-## Project identity
-- Python package: ai_control_plane (src/ layout)
-- CLI: agentctl (Typer)
-- API: FastAPI at api/server.py
-- Config: Pydantic v2 + PyYAML, path via ACP_CONFIG_DIR env var
+## L0 — Behavioral Constitution (Karpathy 4 Principles)
+# These apply to EVERY task, no exceptions
 
-## Code generation rules
+THINK BEFORE CODING:
+- Before any code: state explicitly (a) files you will touch, (b) assumptions being made, (c) verify command
+- If uncertain about interpretation → ask, do NOT pick silently and run with it
+- If a simpler approach exists → say so before implementing the complex one
+- "Senior engineer test": would a senior say this is overcomplicated? If yes, simplify first.
 
-ALWAYS:
-- Dùng Pydantic v2 syntax (model_config = ConfigDict(...), không class Config)
-- Type hint đầy đủ tất cả function signatures
-- Dùng structlog thay vì logging.getLogger
-- Async/await cho tất cả I/O operations
-- Docstring 1 dòng cho mỗi public class và function
+SIMPLICITY FIRST:
+- Minimum code that solves the problem. Nothing speculative.
+- No abstractions for single-use code; no "flexibility" not requested
+- If 100 lines could be 50 → propose the rewrite, don't add to 100
+- No error handling for impossible scenarios
 
-NEVER:
-- Import OSS agent frameworks (CrewAI, LangChain, AutoGen) vào bất kỳ core/ file nào
-- Viết Git logic trong Python (chỉ có trong TypeScript cyanheads fork)
-- Hardcode Redis connection string (phải qua env var hoặc constructor injection)
-- Default-allow khi policy evaluation fail (luôn fail-closed)
-- Import trực tiếp từ core/policies.py trong cli/ (phải qua api/ HTTP)
+SURGICAL CHANGES:
+- Touch ONLY what the task requires. Every changed line must trace to the request.
+- Do NOT "improve" adjacent code, comments, or formatting unless asked
+- If you notice dead code → mention it, do NOT delete it
+- Remove only imports/variables YOUR changes made unused (not pre-existing)
 
-## File ownership rules
-- core/models.py: source of truth cho types — import từ đây, không tạo duplicate
-- core/policies.py: pure logic, không I/O — test bằng cách inject mock QuotaStore
-- api/server.py: HTTP interface duy nhất cho TypeScript bridge
-- mcp/git_server.py: facade only — không business logic Git
+GOAL-DRIVEN EXECUTION:
+- Every task must have explicit verify: [command] — state it before starting
+- Transform "fix the bug" → "write test reproducing it, then make it pass"
+- Multi-step tasks: state plan with verify per step before executing step 1
 
-## Test requirements
-Mỗi file trong core/ phải có test file tương ứng trong tests/.
-Test file phải dùng fixtures từ conftest.py.
-Không mock PolicyEngine trong integration tests — dùng real instance với test yml.
+## L1 — Project Context
 
-## Naming conventions
-- Classes: PascalCase
-- Functions/vars: snake_case
-- Constants: UPPER_SNAKE_CASE
-- Private: _leading_underscore
-- Config env vars: ACP_ prefix (ACP_CONFIG_DIR, ACP_API_HOST, ACP_LOG_LEVEL)
+Package: ai_control_plane (src/ layout). CLI: agentctl (Typer). API: FastAPI api/server.py.
+Config: Pydantic v2 + PyYAML via ACP_CONFIG_DIR env var.
+Read ARCHITECTURE.md before any non-trivial task. It is the L1 authority.
 
-## Error handling pattern
-- Domain errors: custom exceptions kế thừa từ ControlPlaneError base class
-- HTTP errors: HTTPException với status_code + detail JSON
-- MCP errors: McpError(code, message, data) — không raise raw exceptions
-- Luôn log trước khi raise: logger.error("...", exc_info=True)
+Module ownership (who must review changes):
+- core/policies.py → Claude architecture review required (CRITICAL)
+- core/models.py → Claude review required (HIGH)
+- config/loader.py → Claude review required (HIGH)
+- api/server.py → Cursor-OK with invariant check (MEDIUM)
+- apex/ → Claude design spec required before implement (HIGH)
+- mcp/ → Cursor-OK with invariant #3 check (MEDIUM)
+- tests/, docs/ → Cursor-OK (LOW)
 
-## Milestone guard
-Apex/ files ở Milestone A: chỉ được có __init__.py và stub files với NotImplementedError.
-Không viết logic thực trong apex/ cho đến khi Milestone C bắt đầu.
+Coding conventions:
+- Pydantic v2 (ConfigDict, not class Config)
+- structlog everywhere (not logging stdlib)
+- Async/await for all I/O. Type hints on all public signatures.
+- Docstring 1 line per public class/function
+- Classes: PascalCase; functions/vars: snake_case; constants: UPPER_SNAKE_CASE
+- Config env vars: ACP_ prefix (ACP_CONFIG_DIR, ACP_API_URL, ACP_DATA_DIR, ACP_REDIS_URL)
+
+Error handling:
+- Domain errors: ControlPlaneError hierarchy (core/exceptions.py)
+- HTTP: HTTPException with status_code + detail JSON
+- MCP: McpError(code, message, data) — no raw exceptions
+- Log before raise: logger.error("...", exc_info=True)
+
+Test requirements:
+- Each core/ module has tests/test_{module}.py; use conftest.py fixtures
+- Integration tests: real PolicyEngine with fixture YAML — do not mock PolicyEngine
+
+Milestone status (do not contradict ARCHITECTURE.md):
+- Milestones A, B, C, C+ — CLOSED. apex/ SAPAL loop is live.
+- Public Beta — IN PROGRESS (soak + flip). See docs/governance/PUBLIC_BETA_SPRINT_PLAN.md
+
+## L2 — Risk Policy
+
+Full policy: docs/governance/CURSOR_RISK_POLICY.md
+
+Task risk levels — MUST classify before starting:
+LOW:    docs-only, test additions, comment fixes → proceed, max 50 LOC changed
+MEDIUM: new tests, CLI additions, config changes → state plan first, max 200 LOC
+HIGH:   core/ changes, API schema changes, new endpoints → Claude review mid-task, max 300 LOC
+CRITICAL: PolicyEngine, ABAC, invariant-touching, identity auth → human explicit approve first
+
+Forbidden operations (absolute — no exceptions):
+1. Direct push or merge to master without explicit human instruction
+2. Remove, rename, or weaken any of the 8 invariants (ARCHITECTURE.md)
+3. Import OSS policy engines (CrewAI, LangChain, AutoGen, etc.) into core/
+4. Combine tasks of different risk levels in 1 PR
+5. Commit without running the verify gate first
+6. Closes #52..#62 range syntax — use individual Closes #N per issue
+
+PR size limits:
+LOW: max 50 LOC. MEDIUM: max 200 LOC. HIGH/CRITICAL: max 300 LOC.
+If task exceeds limit → split into multiple PRs; do not waive without human approval.
+
+## L3 — Execution Guardrails
+
+Branch isolation:
+Every task = new branch from master. Name: {risk-level}/{issue-id}-{short-desc}
+Never reuse a branch for a different task scope.
+
+File allowlists per task type:
+docs-only:  allowed = *.md, docs/**, CHANGELOG.md | forbidden = src/**, tests/**
+test-only:  allowed = tests/**, tests/fixtures/** | forbidden = src/** (if needed → MEDIUM)
+core/:      allowed = src/ai_control_plane/core/**, tests/test_{module}.py
+             forbidden = api/**, mcp/**, cli/** unless explicitly in task scope
+
+Invariants (check before every src/ PR):
+1. core/policies.py: no OSS policy engine imports
+2. core/models.py: all new types here only, in __all__
+3. mcp/git_server.py: facade only, no git logic in Python
+4. cli/: no direct core/policies.py import — HTTP/API only
+5. apex/: OSS tool calls FROM apex/, not the reverse
+6. api/: sole cross-language bridge
+7. core/quota.py: QuotaStore ABC, no hardcoded Redis
+8. config/: ACP_CONFIG_DIR env var, no hardcoded paths
+
+Additional NEVER rules:
+- Default-allow on policy evaluation failure (always fail-closed)
+- Hardcode Redis connection strings (env var or constructor injection)
+- Git logic in Python (cyanheads TypeScript fork only)
+
+## L4 — Evaluation
+
+Mandatory verify gate (run in this order):
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -v
+pytest tests/test_smoke.py -v -m smoke
+pytest tests/test_shipped_config_parity.py -v -m shipped_config
+
+Coverage: fail_under = 70 (pyproject.toml). core/policies.py >= 80%. cli/ >= 60%.
+
+Before declaring done:
+- All verify gate commands pass
+- No new mypy errors introduced
+- PR diff reviewed for orthogonal changes (Surgical Changes check)
+- GitHub issues linked individually in PR body (Closes #N, not ranges)
+
+## L5 — Governance & Memory
+
+Decision log: docs/governance/*.html — Claude architect decisions archived.
+Change rationale: docs/governance/PHASE*_REPORT.md, MILESTONE_*_SPRINT_PLAN.md.
+Failure patterns: docs/governance/LESSONS_LEARNED.md — update after each sprint.
+Karpathy rearchitecture plan: docs/governance/ACP_KARPATHY_REARCHITECTURE_PLAN.md.
+Cursor prompt template: docs/prompts/_TEMPLATE.md.
+
+Lessons → rules loop: every failure pattern in LESSONS_LEARNED must map to an L0–L3 rule.
+
+Sprint close checklist:
+1. All GitHub issues closed with individual Closes #N
+2. Doc drift fixed (ARCHITECTURE.md, sprint plans)
+3. LESSONS_LEARNED.md updated with new patterns
+4. .cursorrules reviewed for rule additions from lessons
