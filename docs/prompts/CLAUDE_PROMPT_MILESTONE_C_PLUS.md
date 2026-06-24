@@ -1,6 +1,6 @@
 # Claude Prompt — Milestone C+ (architect depth)
 
-> **Status:** DRAFT complete — ADR @ [`MILESTONE_C_PLUS_ADR.md`](../governance/MILESTONE_C_PLUS_ADR.md); pending human approve before C+-issues/code  
+> **Status:** **APPROVED** 2026-06-24 — issues [#67](https://github.com/DataXMind/AI-Control-Plane/issues/67)–[#72](https://github.com/DataXMind/AI-Control-Plane/issues/72)  
 > **Parent:** Issue umbrella #37 (closed boundary @ PR #63)  
 > **Baseline:** [`ACP_FULL_AUDIT_RECONCILIATION.md`](../governance/ACP_FULL_AUDIT_RECONCILIATION.md)  
 > **Does NOT replace:** Boundary MVP delivered in PR #63

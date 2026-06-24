@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-MC-PLUS-ADR-001  
 **Version:** 1.0  
-**Status:** DRAFT — pending human architect approve before Cursor execution  
+**Status:** **APPROVED** — 2026-06-24 (human maintainer)  
 **Baseline:** `master` @ post PR #65 (`a0ae399`)  
 **Parent:** [`CLAUDE_PROMPT_MILESTONE_C_PLUS.md`](../prompts/CLAUDE_PROMPT_MILESTONE_C_PLUS.md)  
 **Supersedes:** Architect vision in `acp_full_audit_report.html` pane ⑤ (not delivered in PR #63 boundary)
@@ -233,14 +233,14 @@ env:
 
 Create **only after human approves this ADR pack**. Label: `milestone-c-plus`, `spec-gap`.
 
-| ID | Title | Acceptance (summary) |
-|----|-------|----------------------|
-| **C+-1** | TelemetryStore.replay() API | ADR-1 tests green |
-| **C+-2** | Sense Z-score + otel-collector.example | ADR-2a + yaml example |
-| **C+-3** | Analyze Argos 4-stage protocol | ADR-3 models + tests |
-| **C+-4** | Predict Darts token burn + fallback | ADR-4 optional extra |
-| **C+-5** | Act proposal-only policy path | ADR-5 Option C |
-| **C+-6** | cyanheads MCP E2E CI (respx) | ADR-6a test |
+| ID | GitHub | Title | Acceptance (summary) |
+|----|--------|-------|----------------------|
+| **C+-1** | [#67](https://github.com/DataXMind/AI-Control-Plane/issues/67) | TelemetryStore.replay() API | ADR-1 tests green |
+| **C+-2** | [#68](https://github.com/DataXMind/AI-Control-Plane/issues/68) | Sense Z-score + otel-collector.example | ADR-2a + yaml example |
+| **C+-3** | [#69](https://github.com/DataXMind/AI-Control-Plane/issues/69) | Analyze Argos 4-stage protocol | ADR-3 models + tests |
+| **C+-4** | [#70](https://github.com/DataXMind/AI-Control-Plane/issues/70) | Predict Darts token burn + fallback | ADR-4 optional extra |
+| **C+-5** | [#71](https://github.com/DataXMind/AI-Control-Plane/issues/71) | Act proposal-only policy path | ADR-5 Option C |
+| **C+-6** | [#72](https://github.com/DataXMind/AI-Control-Plane/issues/72) | cyanheads MCP E2E CI (respx) | ADR-6a test |
 
 ---
 
@@ -249,12 +249,13 @@ Create **only after human approves this ADR pack**. Label: `milestone-c-plus`, `
 | Gate | Required |
 |------|----------|
 | Milestone C boundary CLOSED | ✅ PR #63 |
-| This ADR approved by human | ⏸ |
-| Doc drift HIGH items fixed | ✅ PR #66 (this branch) |
-| #9, #39 remain tracked as B+ | ✅ separate from C+ |
-| Each C+-issue approved before code | ⏸ |
+| This ADR approved by human | ✅ 2026-06-24 |
+| Doc drift HIGH items fixed | ✅ PR #66 |
+| #9, #39 remain tracked as B+ | ✅ |
+| C+-issues #67–#72 created | ✅ |
+| Each C+-issue approved before code | ⏸ per-issue sprint pick |
 
-**Verdict:** **NO-GO for code** until ADR human sign-off. **GO for issue creation** after sign-off.
+**Verdict:** **GO for C+-1..C+-6 implementation** — one issue per PR, DEVELOPMENT_PROTOCOL Standard+.
 
 ---
 
@@ -262,8 +263,8 @@ Create **only after human approves this ADR pack**. Label: `milestone-c-plus`, `
 
 | Role | Name | Date | Approve |
 |------|------|------|---------|
-| Architect (Claude packet) | Cursor draft | 2026-06-24 | ☐ |
-| Human maintainer | | | ☐ |
+| Architect (Claude packet) | Cursor draft | 2026-06-24 | ✅ |
+| Human maintainer | Approved via chat | 2026-06-24 | ✅ |
 
 ---
 
