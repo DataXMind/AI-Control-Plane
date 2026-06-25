@@ -148,6 +148,11 @@ Change rationale: docs/governance/PHASE*_REPORT.md, MILESTONE_*_SPRINT_PLAN.md.
 Failure patterns: docs/governance/LESSONS_LEARNED.md — update after each sprint.
 Karpathy rearchitecture plan: docs/governance/ACP_KARPATHY_REARCHITECTURE_PLAN.md.
 Next phase plan: docs/governance/GOVERNANCE_NEXT_PHASE_PLAN.md.
+L5 maturity model: docs/governance/L5_MATURITY_MODEL.md (target ML5).
+Agent entry: AGENTS.md (root) — all coding agents start here.
+Scoped rules: .cursor/rules/*.mdc — Cursor loads by file context.
+Session anchor: docs/prompts/SESSION_ANCHOR_TEMPLATE.md — every session open.
+Gold patterns (public export): docs/governance/gold-patterns/GP-01-agent-session-memory.md.
 Cursor prompt template: docs/prompts/_TEMPLATE.md.
 Behavioral SSOT (agents): CLAUDE.md (root).
 

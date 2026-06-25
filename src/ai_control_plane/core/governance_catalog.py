@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.0"
+GOVERNANCE_VERSION = "1.1"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -17,9 +17,15 @@ VERIFY_GATE_COMMANDS: list[str] = [
 
 DOC_LINKS: dict[str, str] = {
     "architecture": "ARCHITECTURE.md",
+    "agents_md": "AGENTS.md",
     "cursorrules": ".cursorrules",
+    "cursor_rules": ".cursor/rules/",
     "risk_policy": "docs/governance/CURSOR_RISK_POLICY.md",
     "lessons_learned": "docs/governance/LESSONS_LEARNED.md",
+    "session_anchor": "docs/prompts/SESSION_ANCHOR_TEMPLATE.md",
+    "l5_maturity": "docs/governance/L5_MATURITY_MODEL.md",
+    "pre_approval_audit": "docs/governance/GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md",
+    "gold_patterns": "docs/governance/gold-patterns/README.md",
     "audit_pass": "docs/governance/GOV_6LAYER_AUDIT_PASS.md",
     "ux_runtime": "docs/governance/GOVERNANCE_UX_RUNTIME.md",
     "public_beta_plan": "docs/governance/PUBLIC_BETA_SPRINT_PLAN.md",
@@ -31,7 +37,7 @@ LAYER_SUMMARY: dict[str, str] = {
     "L2": "Risk — CURSOR_RISK_POLICY.md (LOW/MED/HIGH/CRITICAL)",
     "L3": "Guardrails — branch isolation, file allowlists, invariants",
     "L4": "Evaluation — ruff, mypy, pytest, smoke, parity",
-    "L5": "Memory — LESSONS_LEARNED.md, governance HTML archive",
+    "L5": "Memory — LESSONS_LEARNED.md, AGENTS.md, .cursor/rules/, GP-01 gold pattern",
 }
 
 MILESTONE_STATUS: dict[str, str] = {

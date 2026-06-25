@@ -5,9 +5,11 @@ Thank you for contributing. This project is a **governance control plane** — c
 ## Before you start
 
 1. Read [ARCHITECTURE.md](ARCHITECTURE.md) — **8 hard invariants** are non-negotiable.
-2. Read [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE workflow, 9-step executor path, smoke gate.
-3. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) before coding.
-4. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`).
+2. Read [AGENTS.md](AGENTS.md) — agent entry, session anchor, memory tiers (ML5).
+3. Read [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE workflow, 9-step executor path, smoke gate.
+4. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) before coding.
+5. Open sessions with [docs/prompts/SESSION_ANCHOR_TEMPLATE.md](docs/prompts/SESSION_ANCHOR_TEMPLATE.md).
+6. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`).
 
 ## Development setup
 
@@ -25,6 +27,7 @@ ruff check src/ tests/
 mypy src/ai_control_plane/ --strict
 pytest tests/ -q
 pytest -m smoke -q
+bash scripts/verify_governance_memory.sh
 ```
 
 CI must pass **Smoke gate** and **Full suite**.

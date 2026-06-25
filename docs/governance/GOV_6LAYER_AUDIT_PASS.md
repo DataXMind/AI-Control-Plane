@@ -17,6 +17,7 @@
 | 5 | Phase R2 | ✅ | `docs/DATA_CLASSIFICATION.md`, ARCHITECTURE §Module ownership, DEVELOPMENT_PROTOCOL L2 |
 | 6 | Phase R3 + harden | ✅ | `CONTRACT_TESTS.md`, `test_api_contract_snapshot.py`, PR template |
 | 7 | Governance UX runtime | ✅ | `GET /governance/status`, `agentctl gov status`, `GOVERNANCE_UX_RUNTIME.md` |
+| 8 | L5 ML5 memory pack | ✅ | `AGENTS.md`, `.cursor/rules/`, `SESSION_ANCHOR_TEMPLATE`, GP-01, CI `governance-memory` |
 
 ---
 
@@ -38,7 +39,7 @@
 | L2 | `docs/governance/CURSOR_RISK_POLICY.md` |
 | L3 | `.cursorrules` §L3, `CONTRIBUTING.md` |
 | L4 | CI + `docs/CONTRACT_TESTS.md` + `GET /governance/status` |
-| L5 | `LESSONS_LEARNED.md`, governance HTML archive |
+| L5 | `LESSONS_LEARNED.md`, `AGENTS.md`, `.cursor/rules/`, GP-01 |
 
 ---
 

@@ -1,0 +1,30 @@
+---
+description: Python src layout — conventions, verify gate, module boundaries
+globs: src/**/*.py,tests/**/*.py
+alwaysApply: false
+---
+
+# Python (src layout)
+
+## Package
+
+`src/ai_control_plane/` — import as `ai_control_plane.*`.
+
+## Module boundaries
+
+- `cli/` → HTTP/API only; no direct `core/policies` imports in CLI paths.
+- `mcp/git_server.py` — sole Git facade.
+- `api/` — TypeScript bridge; schema changes need `docs/CONTRACT_TESTS.md` check.
+
+## Style
+
+- Pydantic v2, structlog, async I/O where existing code does.
+- Surgical diff only — no drive-by refactors.
+
+## Verify (minimum)
+
+```bash
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -v
+```

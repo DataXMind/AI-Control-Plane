@@ -11,9 +11,14 @@
 - [`GOVERNANCE_UX_RUNTIME.md`](GOVERNANCE_UX_RUNTIME.md) — CS-01..06 runtime catalog
 - [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md)
 
+**Post-G0 closure:** PR [#90](https://github.com/DataXMind/AI-Control-Plane/pull/90) merged 2026-06-25 (`c6e8cc1`). §1 table below is the **pre-G0 snapshot** (why reconciliation was opened). Current drift severity → see **§1.1**.
+
 ---
 
-## 1. Executive verdict
+## 1. Executive verdict (pre-G0 snapshot @ open)
+
+> **Do not use this table for go/no-go after #90.** Use §1.1.
+
 
 | Area | HTML artifact state | Master @ 2026-06-25 | Drift severity |
 |------|---------------------|----------------------|----------------|
@@ -27,6 +32,21 @@
 | PB-9 soak | Not in HTML | 🔄 calendar IN PROGRESS | **Info** — separate clock |
 
 **Rule for Claude:** When HTML artifact conflicts with `practice-evidence/` or `GOVERNANCE_UX_RUNTIME.md`, **live operator evidence + code** win. Mark HTML tabs as **historical design** unless reconciled here.
+
+### 1.1 Post-G0 closure @ PR #90 (`c6e8cc1`)
+
+| Area | Status after #90 | Residual |
+|------|------------------|----------|
+| 6-layer `.cursorrules` | ✅ L1/L5 refreshed | None |
+| `CURSOR_RISK_POLICY.md` | ✅ Ops #7–11, PR template, waiver | Labeling uses numbers not “F8” — cosmetic |
+| `LESSONS_LEARNED.md` | ✅ P-01..P-12 | Quarterly review calendar open (G1-3) |
+| `CLAUDE.md` | ✅ Root file | Link from CONTRIBUTING optional (G1) |
+| Deploy checklist pytest 156 | ✅ Reconciled → 165 in CURSOR_RISK | HTML still 156 — historical |
+| Gov UX + Studies 01–07 | ✅ | CS-01/03/04 weak — see pre-approval audit §7 |
+| PB-9 soak | 🔄 | **Ops gap** — daily log unchecked |
+| ML5 memory pack | ✅ | `AGENTS.md`, `.cursor/rules/`, GP-01, CI `governance-memory` |
+
+**Next audit:** [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md)
 
 ---
 
