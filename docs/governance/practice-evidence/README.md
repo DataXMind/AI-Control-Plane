@@ -14,7 +14,22 @@
 | Study 01 | A — fixture / CI | **PASS** | 2026-06-25 | [`study-01-profile-a/`](study-01-profile-a/) |
 | Study 02 | B — shipped `config/` | **PASS** | 2026-06-25 | [`study-02-profile-b/`](study-02-profile-b/) |
 | Study 03 | C — Docker / PB-9 soak | **PASS** | 2026-06-25 | [`study-03-profile-c/`](study-03-profile-c/) |
-| Study 04 | Ops edge cases | OPTIONAL | — | [`study-04-ops-edge/`](study-04-ops-edge/) |
+| Study 04 | Ops edge cases | OPTIONAL | — | [`study-04-ops-edge/RUNBOOK.md`](study-04-ops-edge/RUNBOOK.md) |
+| Study 05 | Advanced surprises | OPTIONAL | — | [`study-05-advanced-surprises/RUNBOOK.md`](study-05-advanced-surprises/RUNBOOK.md) |
+| Study 06 | Multi-host (2+ machines) | OPTIONAL | — | [`study-06-multi-host/RUNBOOK.md`](study-06-multi-host/RUNBOOK.md) |
+
+---
+
+## Lộ trình đề xuất
+
+| Bước | Study | Máy |
+|------|-------|-----|
+| 1 | 01 Profile A (fixture) | 1 |
+| 2 | 02 Profile B (shipped) | 1 |
+| 3 | 03 Profile C (Docker soak) | 1 |
+| 4 | 04 Ops edge (4a–4c) | 1 |
+| 5 | 05 Advanced (5a–5g) | 1 |
+| 6 | 06 Multi-host | **2+** |
 
 ---
 

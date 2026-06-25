@@ -95,4 +95,6 @@
 
 ## Next step
 
-→ [**Study 04 — Ops edge cases**](../study-04-ops-edge/README.md) (optional — port conflict, `ACP_API_URL` mismatch, config without restart)
+→ [**Study 04 — Ops edge**](../study-04-ops-edge/RUNBOOK.md) (optional)  
+→ [**Study 05 — Advanced**](../study-05-advanced-surprises/RUNBOOK.md)  
+→ [**Study 06 — Multi-host**](../study-06-multi-host/RUNBOOK.md)
