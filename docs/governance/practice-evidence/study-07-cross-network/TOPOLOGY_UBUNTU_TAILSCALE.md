@@ -104,11 +104,27 @@ Cả hai đều hợp lệ miễn Tailscale IP ổn định trong tailnet.
 
 ---
 
-## Evidence (sau khi chạy)
+## Evidence (operator run 2026-06-25 — PASS)
 
-Điền [`RESULTS.md`](RESULTS.md) với:
+| Field | Giá trị |
+|-------|---------|
+| API host | `ubuntu-vps` `100.94.21.33` |
+| Client | MSI `100.102.105.47` |
+| `ACP_API_URL` | `http://100.94.21.33:8000` |
+| Path | **Tailscale only** (VPS log chỉ TS IP client) |
+| Mac Mini | **Không dùng** — xem [`RESULTS.md`](RESULTS.md) § Mac |
 
-- Screenshot/log negative LAN test
-- `ACP_API_URL` dùng Tailscale IP
-- Ubuntu access log với IP `100.x` client
-- (Optional) soak log excerpt
+Artifacts: `artifacts/*.json`, `terminal-ubuntu-server.md`, `terminal-windows-client-external.md`.
+
+---
+
+## Vì sao không dùng Mac Mini? (operator FAQ)
+
+| Câu hỏi | Trả lời |
+|---------|---------|
+| Mac đã có trong tailnet? | Có (`100.72.15.27`) — nhưng **không cần** cho PASS |
+| Mac làm API được không? | Được — nhưng **trùng Study 06 round B** (Mac API trên LAN) |
+| Mac làm client được không? | Được — nhưng Mac **cố định tại nhà**, không mô phỏng laptop mang đi |
+| Vai trò hợp lý của Mac | **Witness** (Study 07b): so sánh LAN vs TS — tùy chọn |
+| API tại sao là VPS? | Luôn online; cloud ≠ LAN nhà; giống staging PB-9 |
+

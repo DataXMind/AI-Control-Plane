@@ -1,7 +1,7 @@
 # Study 06 — Multi-host — Checklist & hướng đi
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-06-CHECKLIST  
-**Status:** **PASS** — 2026-06-25 (bidirectional LAN; xem [`RESULTS.md`](RESULTS.md))  
+**Status:** **PASS** — 2026-06-25 (full bidirectional LAN, round B policy+assign @ 17:34)  
 **Full runbook:** [`RUNBOOK.md`](RUNBOOK.md)
 
 ---
@@ -82,7 +82,7 @@ agentctl assign rust-gateway agent2 git_read --json
 - [x] Test 6-2 gov status (cả hai chiều)
 - [x] Test 6-3 policy allow (round A)
 - [x] Test 6-4 assign + server log (round A; WSL thấy `192.168.16.1`)
-- [x] Round B đảo vai: Mac API, Laptop `agentctl gov` → Mac log `192.168.1.59`
+- [x] Round B đảo vai: Mac API, Laptop full suite @ 17:34 (`ae6c13a4-...`)
 
 ---
 
@@ -94,6 +94,7 @@ agentctl assign rust-gateway agent2 git_read --json
 - `artifacts/direction-a-health-remote.json`
 - `artifacts/direction-a-policy-assign.json`
 - `artifacts/direction-b-remote-gov.json`
+- `artifacts/direction-b-policy-assign.json`
 - `terminal-direction-a-laptop-server.md` / `terminal-direction-a-mac-client.md`
 - `terminal-direction-b-mac-server.md` / `terminal-direction-b-laptop-client.md`
 

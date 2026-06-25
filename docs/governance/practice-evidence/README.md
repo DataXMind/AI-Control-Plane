@@ -5,6 +5,8 @@
 
 **Không thay thế CI.** Smoke gate chính thức vẫn là `pytest tests/test_smoke.py -m smoke` trên GitHub Actions.
 
+**Audit toàn chuỗi (Claude analyzer pack):** [`PRACTICE_STUDIES_AUDIT_01-07.md`](PRACTICE_STUDIES_AUDIT_01-07.md)
+
 ---
 
 ## Index
@@ -17,7 +19,7 @@
 | Study 04 | Ops edge cases | **PASS** | 2026-06-25 | [`study-04-ops-edge/`](study-04-ops-edge/) |
 | Study 05 | Advanced surprises | **PASS**† | 2026-06-25 | [`study-05-advanced-surprises/`](study-05-advanced-surprises/) |
 | Study 06 | Multi-host (2+ machines) | **PASS** | 2026-06-25 | [`study-06-multi-host/`](study-06-multi-host/) |
-| Study 07 | Cross-network (Tailscale) | PENDING | — | [`study-07-cross-network/CHECKLIST.md`](study-07-cross-network/CHECKLIST.md) |
+| Study 07 | Cross-network (Tailscale) | **PASS** | 2026-06-25 | [`study-07-cross-network/`](study-07-cross-network/) |
 
 † 5g kill switch SKIPPED; 5e partial (no src edit).
 
