@@ -1,0 +1,9 @@
+{
+  "study": "05-advanced",
+  "drill": "5a",
+  "captured": "2026-06-25",
+  "context": "No API listener on :8000",
+  "agentctl_gov_status": "RuntimeError: governance status unavailable",
+  "agentctl_assign": "policy service unavailable",
+  "verdict": "PASS"
+}

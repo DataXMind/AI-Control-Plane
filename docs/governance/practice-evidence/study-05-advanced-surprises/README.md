@@ -1,8 +1,5 @@
-# Study 05 — Advanced / surprise scenarios
+# Study 05 — Advanced surprises
 
-**Status:** PENDING — runbook ready  
-**Difficulty:** High  
-**Commands:** [`RUNBOOK.md`](RUNBOOK.md) (drills 5a–5g)  
-**Results template:** [`RESULTS.md`](RESULTS.md)
-
-Unexpected ops: API down, policy deny, 422, Docker+uvicorn conflict, stale image, bad JWT, kill switch.
+**Status:** **PASS** @ 2026-06-25 (5a–5f); 5g SKIPPED  
+**Results:** [`RESULTS.md`](RESULTS.md)  
+**Commands:** [`RUNBOOK.md`](RUNBOOK.md)

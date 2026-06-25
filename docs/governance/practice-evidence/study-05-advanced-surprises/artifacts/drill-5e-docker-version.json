@@ -1,0 +1,12 @@
+{
+  "study": "05-advanced",
+  "drill": "5e",
+  "captured": "2026-06-25",
+  "governance_version_without_src_change": {
+    "after_up_d": "1.0",
+    "after_up_d_build": "1.0"
+  },
+  "note": "No edit to governance_catalog.py — stale vs fresh not demonstrated",
+  "verdict": "PARTIAL",
+  "rerun_hint": "Edit GOVERNANCE_VERSION in catalog, compose up without --build vs with --build"
+}

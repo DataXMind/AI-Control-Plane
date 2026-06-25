@@ -1,0 +1,9 @@
+{
+  "study": "05-advanced",
+  "drill": "5d",
+  "captured": "2026-06-25",
+  "docker_health_policy_rules_count": 8,
+  "uvicorn_second_instance_error": "Address already in use",
+  "curl_rules_stable": [8, 8, 8],
+  "verdict": "PASS"
+}

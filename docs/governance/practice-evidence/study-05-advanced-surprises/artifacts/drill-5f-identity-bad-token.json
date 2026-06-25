@@ -1,0 +1,16 @@
+{
+  "study": "05-advanced",
+  "drill": "5f",
+  "captured": "2026-06-25",
+  "request": {
+    "token": "not-a-valid-jwt",
+    "agent_id": "agent2"
+  },
+  "response": {
+    "allowed": false,
+    "reason": "invalid request",
+    "latency_ms": 0.0
+  },
+  "server_http_status": 503,
+  "verdict": "PASS"
+}

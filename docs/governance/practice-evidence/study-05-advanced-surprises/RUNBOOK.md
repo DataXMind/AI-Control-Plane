@@ -95,7 +95,7 @@ curl -s -X POST "$ACP_API_URL/policy/evaluate" \
   | python3 -m json.tool
 ```
 
-**Kỳ vọng:** HTTP **422** validation error — không 500, không default-allow.
+**Kỳ vọng:** HTTP **503** + `"allowed": false` + reason chứa validation errors — **không** default-allow. (ACP fail-closed, không phải 422 thuần.)
 
 ---
 
@@ -197,30 +197,69 @@ curl -s -X POST "$ACP_API_URL/identity/verify" \
 
 ---
 
-## Drill 5g — Kill switch (nếu bật trong config)
+## Drill 5g — Kill switch (optional; chi tiết đầy đủ)
 
-Đọc `tests/fixtures/config/policies.yml` → `kill_switch.active`.
+**Đọc trước:** `tests/fixtures/config/policies.yml` → `kill_switch.active` (fixture mặc định **`false`**).
 
-Nếu `false`, **chỉ ghi nhận** “skipped — kill_switch inactive”.  
-Để test thật (chỉ trên branch local / không commit):
+### Cách A — Copy config tạm (không sửa repo)
 
-1. Sửa tạm `kill_switch.active: true` trong fixture copy hoặc override file test.  
-2. Restart uvicorn.  
-3. `POST /policy/evaluate` allow path → kỳ vọng **deny** toàn cục.
+**Terminal 1:**
 
-**Không commit** thay đổi kill_switch vào repo.
+```bash
+cd /mnt/d/Projects/ai-control-plane
+mkdir -p /tmp/acp-killswitch-config
+cp -r tests/fixtures/config/* /tmp/acp-killswitch-config/
+# Bật kill switch trong bản copy
+python3 - <<'PY'
+from pathlib import Path
+import yaml
+p = Path("/tmp/acp-killswitch-config/policies.yml")
+data = yaml.safe_load(p.read_text())
+data.setdefault("kill_switch", {})["active"] = True
+data["kill_switch"]["reason"] = "study-05-drill-5g"
+p.write_text(yaml.dump(data, default_flow_style=False))
+PY
+
+export ACP_CONFIG_DIR=/tmp/acp-killswitch-config
+uvicorn ai_control_plane.api.server:app --reload --host 127.0.0.1 --port 8000
+```
+
+**Terminal 2:**
+
+```bash
+export ACP_API_URL=http://localhost:8000
+# Trước khi bật kill switch (nếu test trên config false) — allow
+curl -s -X POST "$ACP_API_URL/policy/evaluate" \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","role":"backend"}' \
+  | python3 -m json.tool
+
+# Sau khi T1 chạy với kill_switch.active=true — kỳ vọng DENY toàn cục
+curl -s -X POST "$ACP_API_URL/policy/evaluate" \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","role":"backend"}' \
+  | python3 -m json.tool
+```
+
+**Kỳ vọng khi active:** `"allowed": false` + reason liên quan kill switch.
+
+**Dọn:** `rm -rf /tmp/acp-killswitch-config`; **không commit** thay đổi `policies.yml` trong repo.
+
+### Cách B — Skip hợp lệ
+
+Nếu `kill_switch.active: false` và không muốn copy config → ghi **SKIPPED** trong `RESULTS.md`.
 
 ---
 
 ## Ghi evidence
 
-Điền `study-05-advanced-surprises/RESULTS.md` sau khi chạy. Mỗi drill một dòng PASS/FAIL.
+Điền `study-05-advanced-surprises/RESULTS.md` sau khi chạy.
 
 | Drill | Mức độ |
 |-------|--------|
 | 5a | API down / CLI |
 | 5b | Policy deny |
-| 5c | Validation 422 |
+| 5c | Validation fail-closed (**503**, không 422) |
 | 5d | Port stack war |
 | 5e | Docker stale image |
 | 5f | Identity bad token |
@@ -230,4 +269,4 @@ Nếu `false`, **chỉ ghi nhận** “skipped — kill_switch inactive”.
 
 ## Next
 
-→ [Study 06 — Multi-host](../study-06-multi-host/RUNBOOK.md)
+→ [Study 06 — Multi-host](../study-06-multi-host/RUNBOOK.md) + [CHECKLIST.md](../study-06-multi-host/CHECKLIST.md)
