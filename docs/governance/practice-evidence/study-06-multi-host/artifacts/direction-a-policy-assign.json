@@ -1,0 +1,46 @@
+{
+  "study": "06-multi-host",
+  "direction": "A",
+  "captured": "2026-06-25",
+  "acp_api_url": "http://192.168.1.59:8000",
+  "client_host": "mac_mini",
+  "policy_evaluate": {
+    "request": {
+      "agent_id": "agent2",
+      "project_id": "rust-gateway",
+      "tool_name": "git_read",
+      "role": "backend"
+    },
+    "response": {
+      "allowed": true,
+      "reason": "action permitted",
+      "requires_approval": false,
+      "policy_id": null,
+      "latency_ms": 4.17
+    },
+    "verdict": "PASS"
+  },
+  "assign": {
+    "command": "agentctl assign rust-gateway agent2 git_read --json",
+    "response": {
+      "task_id": "03c332db-645a-481f-834f-6b9420fb9375",
+      "project_id": "rust-gateway",
+      "agent_id": "agent2",
+      "task_type": "git_read",
+      "state": "PENDING"
+    },
+    "verdict": "PASS"
+  },
+  "server_log_wsl": {
+    "timestamp_utc_approx": "2026-06-25T16:59:55",
+    "remote_ip_observed": "192.168.16.1",
+    "note": "Windows NAT hop via portproxy; not Mac LAN IP directly",
+    "paths": [
+      "GET /health",
+      "GET /governance/status",
+      "POST /policy/evaluate",
+      "POST /tasks"
+    ]
+  },
+  "verdict": "PASS"
+}
