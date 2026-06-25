@@ -51,7 +51,12 @@ Code on master (actual behavior)
 | **Cursor risk policy (L2)** | `CURSOR_RISK_POLICY.md` | Human | Agent-as-developer classification |
 | **Lessons learned (L5)** | `LESSONS_LEARNED.md` | Human | Failure → rule feedback loop |
 | **Governance UX runtime** | `GOVERNANCE_UX_RUNTIME.md`, `GET /governance/status` | Cursor | PR #86 — API + CLI case studies |
-| **Practice evidence** | `practice-evidence/` | Operator | Hands-on Profile A/B/C runs — audit trail for PB-12 |
+| **Practice evidence** | `practice-evidence/` | Operator | Hands-on Profile A/B/C + Studies 01–07 — audit trail for PB-12 |
+| **Practice audit pack** | `PRACTICE_STUDIES_AUDIT_01-07.md` | Operator + Claude | Cross-study matrix, CS coverage, gaps |
+| **Drift reconciliation** | `GOVERNANCE_DRIFT_RECONCILIATION.md` | Claude + human | HTML artifacts vs master post Studies |
+| **Next phase plan** | `GOVERNANCE_NEXT_PHASE_PLAN.md` | Human | G0–G4 tasks after reconciliation |
+| **CLAUDE.md (L0)** | `CLAUDE.md` (root) | All agents | Karpathy 4 principles — companion to `.cursorrules` |
+| **HTML deploy packet** | `karpathy_acp_artifacts_fixed.html` (external) | Claude | **HISTORICAL** — pytest 156; use reconciliation doc |
 
 ---
 
@@ -143,6 +148,10 @@ flowchart TB
 | 6-layer rearchitecture plan? | `ACP_KARPATHY_REARCHITECTURE_PLAN.md` |
 | New Cursor prompt format? | `docs/prompts/_TEMPLATE.md` |
 | Governance UX runtime? | `GOVERNANCE_UX_RUNTIME.md` + `GET /governance/status` |
+| Practice Studies 01–07? | `practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md` |
+| HTML artifact vs master drift? | `GOVERNANCE_DRIFT_RECONCILIATION.md` |
+| What to do next (G0–G4)? | `GOVERNANCE_NEXT_PHASE_PLAN.md` |
+| Agent behavioral SSOT? | `CLAUDE.md` + `.cursorrules` L0 |
 | 6-layer audit pass record? | `GOV_6LAYER_AUDIT_PASS.md` |
 | Data classification (L1)? | `docs/DATA_CLASSIFICATION.md` |
 | API contract tests (L4)? | `docs/CONTRACT_TESTS.md` |
@@ -153,4 +162,4 @@ flowchart TB
 
 **Supersedes:** Nothing. Complements `acp_full_audit_report.html` (@ `fc296d4`), `audit_reconcile_final.html` (@ `6dfffdf`), and `karpathy_acp_rearchitecture_analysis.html` (governance design).
 
-**Last updated:** 2026-06-22 @ `c5d52e5`
+**Last updated:** 2026-06-25 @ post Studies 01–07 + drift reconciliation

@@ -1,0 +1,168 @@
+# Governance drift reconciliation — HTML artifacts vs master @ Studies 01–07
+
+**Document ID:** ACP-GOV-DRIFT-RECON-001  
+**Reconcile date:** 2026-06-25  
+**Baseline code:** `master` post PR #89 (`30ace00`)  
+**HTML sources (Claude pre–Gov UX / pre–Studies):**
+- `karpathy_acp_artifacts_fixed.html` — CURSOR_RISK_POLICY, CLAUDE.md, deploy packet, 14-item checklist
+- `lessons_learned_md.html` — LESSONS_LEARNED P-01..P-07
+
+**Live SSOT after operator work:**
+- [`GOVERNANCE_UX_RUNTIME.md`](GOVERNANCE_UX_RUNTIME.md) — CS-01..06 runtime catalog
+- [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md)
+
+---
+
+## 1. Executive verdict
+
+| Area | HTML artifact state | Master @ 2026-06-25 | Drift severity |
+|------|---------------------|----------------------|----------------|
+| 6-layer `.cursorrules` | Deploy checklist item | ✅ Deployed (R1) | **Low** — needs L1/L5 refresh |
+| `CURSOR_RISK_POLICY.md` | Full L2 (F1–F10, PR template) | Condensed L2 (F1–F7) | **Medium** — missing F8–F10, PR template |
+| `LESSONS_LEARNED.md` | P-01..P-07 rich registry | Patterns 1–7 different mapping | **High** — P-05/P-06 missing; numbering diverged |
+| `CLAUDE.md` | Root L0 constitution | **Not in repo** | **High** — R1-B never merged |
+| Deploy checklist | 14 items, pytest **156** | Partially done | **High** — counts stale |
+| Gov UX runtime | Not in HTML | ✅ PR #86 | **N/A** — new capability |
+| Practice Studies 01–07 | Not in HTML | ✅ PASS + audit pack | **N/A** — new evidence layer |
+| PB-9 soak | Not in HTML | 🔄 calendar IN PROGRESS | **Info** — separate clock |
+
+**Rule for Claude:** When HTML artifact conflicts with `practice-evidence/` or `GOVERNANCE_UX_RUNTIME.md`, **live operator evidence + code** win. Mark HTML tabs as **historical design** unless reconciled here.
+
+---
+
+## 2. Timeline (context anti-drift)
+
+```text
+[HTML artifacts]     Karpathy 6-layer proposal + deploy packet (pytest 156 era)
+        ↓
+[R1–R3 governance]   .cursorrules 6-layer, CURSOR_RISK (condensed), LESSONS (7 patterns)
+        ↓
+[PR #86]             GET /governance/status, agentctl gov, CS-01..06 catalog
+        ↓
+[Studies 01–07]      Operator hands-on: Profile A/B/C, ops, multi-host, Tailscale
+        ↓
+[PR #89]             PRACTICE_STUDIES_AUDIT_01-07.md
+        ↓
+[This doc]           Reconcile HTML ↔ master; plan Phase G1–G4
+```
+
+---
+
+## 3. LESSONS_LEARNED.md — pattern mapping
+
+| HTML ID | Repo before reconcile | Status | Action |
+|---------|----------------------|--------|--------|
+| P-01 Monolithic PR | Pattern 1 | ✅ Same intent | Merge rich format |
+| P-02 Doc scope creep | Pattern 2 | ✅ Same | Merge |
+| P-03 GitHub ranges | Pattern 3 | ✅ Same | Merge |
+| P-04 Silent ABAC | Pattern 4 | ✅ Same | Merge |
+| P-05 Step 7 timing | **Missing** | ❌ Gap | **Add** |
+| P-06 SAPAL scope reduction | **Missing** | ❌ Gap | **Add** |
+| P-07 Doc drift | Partial (Pattern 5 overlap) | ⚠️ Split | P-07 = sprint doc sync; P-08 = stale `.cursorrules` |
+| — Stale `.cursorrules` | Pattern 5 | ✅ Keep as P-08 |
+| — Pilot no branch | Pattern 6 | ✅ Keep as P-09 |
+| — Gov UX runtime | Pattern 7 | ✅ **RULE ENCODED** → P-10 |
+| — HTML artifact stale | **New** | ⚠️ | **P-11** (this reconciliation) |
+| — WSL portproxy / multi-host | **New** from Study 06 | Info | **P-12** ops note |
+
+Full merged registry: [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).
+
+---
+
+## 4. `.cursorrules` drift analysis
+
+| Topic | HTML / deploy packet | Current `.cursorrules` | Fix |
+|-------|---------------------|------------------------|-----|
+| `CURSOR_RISK` path | `docs/CURSOR_RISK_POLICY.md` | `docs/governance/CURSOR_RISK_POLICY.md` | ✅ Repo path correct — HTML wrong |
+| Forbidden ops | F1–F10 | F1–F6 only | Add F7–F10 (see CURSOR_RISK) |
+| Milestone L1 | N/A | A/B/C/C+ CLOSED, PB IN PROGRESS | ✅ Correct |
+| Gov UX / practice | Not present | Missing | Add L1 pointers |
+| pytest baseline | 156 | Not stated in rules | L4 in CURSOR_RISK = 165 |
+| `CLAUDE.md` pointer | Expected at root | Missing | Add after R1-B |
+| Last updated | Deploy era | 2026-06-22 | → 2026-06-25 |
+
+**Why `.cursorrules` diverged from HTML deploy packet:** Deploy packet was a **one-shot Cursor prompt**; repo received **condensed** R1 merge (`low/gov-karpathy-rearch-import`) without full HTML §4–§5 (PR template, waivers) or `CLAUDE.md`. Subsequent work (Gov UX #86, Studies 01–07) updated **downstream** docs but not L0/L5 pointers.
+
+---
+
+## 5. CURSOR_RISK_POLICY.md drift
+
+| HTML section | In repo? | Notes |
+|--------------|----------|-------|
+| §1 Risk levels (full prose) | Partial table | Repo shorter — OK if F-rules complete |
+| §2 Forbidden F1–F10 | F1–F7 only | **Add F8–F10** |
+| §3 PR size enforcement | In table | ✅ |
+| §4 PR body template | **Missing** | **Add** |
+| §5 Waiver process | **Missing** | **Add** |
+| Verify gate pytest count | 165 | HTML deploy: 156 — **repo correct** |
+
+**F-rules gap detail:**
+
+| ID | HTML rule | In repo? |
+|----|-----------|----------|
+| F7 | Mark sprint DONE before PRs on master | ❌ |
+| F8 | Skip assumptions step for ABAC/policy | ❌ (covered in L0 prose only) |
+| F9 | Delete LESSONS_LEARNED entries | ❌ |
+| F10 | core/ imports from mcp/ or cli/ | Partial (invariant list only) |
+
+---
+
+## 6. CLAUDE.md drift
+
+| Field | HTML artifact | Repo |
+|-------|---------------|------|
+| File exists | Yes (tab content) | **No** |
+| Karpathy 4 principles | Full | In `.cursorrules` L0 only |
+| ACP-specific invariants | Listed | `.cursorrules` L3 |
+| Path to CURSOR_RISK | `docs/CURSOR_RISK_POLICY.md` | Should be `docs/governance/...` |
+| Lessons pointer | Yes | N/A until file created |
+| Practice evidence | N/A | **Should add** post Studies 01–07 |
+
+**R1-B status:** Planned in [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) — **still open**.
+
+---
+
+## 7. Studies 01–07 vs HTML governance model
+
+| Governance layer | What Studies proved | CS / invariant |
+|------------------|---------------------|----------------|
+| L4 Evaluation | SMK 8/8 (Study 01); shipped parity via Profile B | CS-06 partial |
+| L4 Runtime | `gov status` remote (06–07) | CS-02 visibility |
+| L4 PB-9 | soak local (03) + remote (07) | **CS-05** strong slice |
+| L3 Ops | portproxy, URL mismatch, Docker conflict | P-12 new |
+| Invariant #4 | CLI HTTP-only across LAN + Tailscale | Studies 06–07 |
+
+**Not proven by Studies (do not claim):** CS-01, CS-03, CS-04 hands-on; 5g kill switch; 14-day PB-9 calendar.
+
+Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).
+
+---
+
+## 8. Deploy checklist (HTML) — honest status
+
+| # | Item | Status @ master |
+|---|------|-----------------|
+| 1–3 | Pre-deploy read / baseline / branch | ✅ Historical |
+| 4 | Create `CLAUDE.md` | ❌ **Open** |
+| 5 | Create `CURSOR_RISK_POLICY.md` | ✅ `docs/governance/` |
+| 6 | Create `LESSONS_LEARNED.md` | ✅ Needs P-05/P-06 merge |
+| 7 | Replace `.cursorrules` 6-layer | ✅ |
+| 8 | ARCHITECTURE links | ✅ Partial (RISK only) |
+| 9 | DEVELOPMENT_PROTOCOL sprint item | ⚠️ Verify |
+| 10–13 | Verify + PR merge | ✅ Governance PRs merged |
+| 14 | Post-deploy Cursor session | 🔄 Ongoing (Studies = extended validation |
+
+---
+
+## 9. Supersession rules (for Claude)
+
+1. **Code + `ARCHITECTURE.md`** > reconciliation doc > HTML artifact > old audit HTML snapshots.
+2. **`practice-evidence/RESULTS.md`** > conversation memory for operator runs.
+3. **`GOVERNANCE_UX_RUNTIME.md`** > static HTML panes for CS-01..06 **runtime** wording.
+4. HTML `karpathy_acp_artifacts_fixed.html` deploy packet pytest **156** → use **165** from CI / `CURSOR_RISK_POLICY.md`.
+5. New drift event → row in `LESSONS_LEARNED.md` (P-11+) before next sprint close.
+
+---
+
+**Next:** [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md)  
+**Last updated:** 2026-06-25

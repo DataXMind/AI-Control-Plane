@@ -38,6 +38,48 @@ Classify every Cursor task **before** coding. Prevents monolithic PRs, scope cre
 5. Commit without running the verify gate (`DEVELOPMENT_PROTOCOL.md` §5.5).
 6. `Closes #52..#62` range syntax — use **individual** `Closes #53`, `Closes #54`, …
 7. Doc-only PR touching `src/**` (scope creep — stop and reclassify).
+8. Mark sprint DONE before all sprint PRs are merged to `master` (P-05).
+9. Skip "state assumptions" for ABAC/policy/loader changes without documenting GAP (P-04).
+10. Delete or archive entries in `LESSONS_LEARNED.md` (audit trail — P-11).
+11. `core/` modules importing from `mcp/` or `cli/` (dependency direction).
+
+---
+
+## PR body template (mandatory for master)
+
+```markdown
+Risk level: [LOW / MEDIUM / HIGH / CRITICAL]
+
+Files touched:
+- [path] — [why]
+
+Assumptions made:
+- [assumption]
+(or: No assumptions — task fully specified)
+
+Scope reductions (if any):
+- [item] → [milestone] because [reason]
+(or: N/A)
+
+Closes #N
+Closes #M
+(individual lines — no ranges)
+
+Verify gate passed:
+- [ ] ruff check src/ tests/
+- [ ] mypy src/ai_control_plane/ --strict
+- [ ] pytest tests/ -v
+- [ ] pytest tests/test_smoke.py -v -m smoke
+- [ ] pytest tests/test_shipped_config_parity.py -v -m shipped_config (if HIGH+)
+```
+
+---
+
+## Waiver process
+
+Waivers require human + documented entry in [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).  
+PR body must include: `Waiver: [rule] because [reason], approved [date]`.  
+Same waiver type not granted twice per milestone without new lesson row.
 
 ---
 
@@ -84,8 +126,9 @@ pytest tests/test_smoke.py -v -m smoke
 pytest tests/test_shipped_config_parity.py -v -m shipped_config
 ```
 
-Current baseline: **165** pytest, smoke **8/8**.
+Current baseline: **165** pytest, smoke **8/8** (not 156 — pre-R1 HTML artifact stale).
 
 ---
 
-**Last updated:** 2026-06-22 @ `c5d52e5`
+**Reconciliation:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md)  
+**Last updated:** 2026-06-25 @ post Studies 01–07

@@ -440,7 +440,12 @@ Artifact: study-NN-*/artifacts/<file>.json
 | [`practice-evidence/README.md`](README.md) | Index Studies 01–07 |
 | [`GOVERNANCE_UX_RUNTIME.md`](../GOVERNANCE_UX_RUNTIME.md) | CS-01..06 catalog |
 | [`ACP_ARTIFACT_PUZZLE_MAP.md`](../ACP_ARTIFACT_PUZZLE_MAP.md) | Doc map |
+| [`GOVERNANCE_DRIFT_RECONCILIATION.md`](../GOVERNANCE_DRIFT_RECONCILIATION.md) | HTML artifacts ↔ master |
+| [`GOVERNANCE_NEXT_PHASE_PLAN.md`](../GOVERNANCE_NEXT_PHASE_PLAN.md) | G0–G4 tasks |
+| [`CLAUDE.md`](../../../CLAUDE.md) | L0 behavioral SSOT |
 | `.cursorrules` L0–L5 | Invariants & verify gate |
 | `scripts/soak_staging.sh` | PB-9 soak script |
+
+**Drift:** HTML `karpathy_acp_artifacts_fixed.html` deploy packet (pytest 156) is stale — use this audit + reconciliation doc.
 
 **Last updated:** 2026-06-25

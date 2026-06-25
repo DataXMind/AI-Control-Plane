@@ -43,7 +43,8 @@ CLI entrypoint: agentctl (via console_scripts)
 | `cli/**` | MEDIUM | Invariant #4 (HTTP only) |
 | `tests/**`, `docs/**` | LOW | Self + CI |
 
-Detail: [`docs/governance/CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md). Data sensitivity: [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md).
+Detail: [`docs/governance/CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md). Data sensitivity: [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md).  
+Agent behavior: [`CLAUDE.md`](CLAUDE.md). Lessons: [`docs/governance/LESSONS_LEARNED.md`](docs/governance/LESSONS_LEARNED.md). Operator evidence: [`docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).
 
 
 
