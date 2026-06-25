@@ -1,51 +1,183 @@
-# Cursor Risk Policy (L2)
+# Cursor Risk Policy — AI Control Plane
 
 **Document ID:** ACP-GOV-CURSOR-RISK-001  
-**Layer:** L2 — Risk Policy (agent-as-developer governance)  
-**Authority:** Subordinate to `ARCHITECTURE.md` invariants; supersedes flat `.cursorrules` on conflict  
+**Layer:** L2 — Risk Policy (6-layer governance)  
+**Governs:** Cursor-as-developer (not runtime agents — see `config/policies.yml`)  
+**Authority:** Claude architect for policy changes; subordinate to `ARCHITECTURE.md` invariants  
 **Parent:** [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md)  
-**Not to confuse with:** `config/policies.yml` — that governs **runtime agents**, not Cursor sessions.
+**Read before:** Any non-trivial Cursor task
 
 ---
 
-## Purpose
+## 1. Task risk classification
 
-Classify every Cursor task **before** coding. Prevents monolithic PRs, scope creep in doc-only PRs, and silent assumption drift documented in [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).
+Classify every task **before** coding. When uncertain → escalate to the higher risk level.
 
 **Priority stack:** L0 behavior > L1 context > **L2 risk** > L3 guardrails > L4 evaluation > L5 memory.
 
----
+### LOW — proceed without approval
 
-## Risk levels
+**Characteristics:** No `src/` changes, isolated scope, fully reversible.
 
-| Level | Task examples | Pre-work | LOC limit (net diff) | Approval |
-|-------|---------------|----------|----------------------|----------|
-| **LOW** | `*.md`, `docs/**`, comment-only, test assertion fixes | State verify command | ≤ 50 | None — proceed |
-| **MEDIUM** | New tests, CLI subcommands, `config/*.yml`, `api/schemas` non-breaking | Plan + file allowlist | ≤ 200 | Self-check plan |
-| **HIGH** | `core/**`, new API endpoints, loader/schema changes, `apex/**` | Claude arch review **before** code | ≤ 300 | Human or Claude spec in prompt |
-| **CRITICAL** | `core/policies.py`, ABAC/PolicyEngine, identity/JWT, invariant edits | Human explicit approve + Claude spec | ≤ 300 | Human must approve start |
+- docs-only (`*.md`, `docs/**`)
+- **test-only** additions (no `src/` in diff)
+- comment or docstring fixes
+- non-breaking dependency bumps in `pyproject.toml`
+- GitHub issue hygiene (comments, labels, individual `Closes #N`)
 
-**Waivers:** Path B monolithic PRs (#48, #63) were **one-time** exceptions — documented in `PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md`. **No new waivers** without human + entry in `LESSONS_LEARNED.md`.
+**Constraints:**
 
----
+- Max **50** LOC changed (net diff)
+- Allowlist: `*.md`, `docs/**`, `tests/**`, `pyproject.toml`, `.github/**` (templates only)
+- No `src/` files — if needed, reclassify **MEDIUM**
 
-## Forbidden operations (absolute)
+**Verify:**
 
-1. Direct push or merge to `master` without human instruction.
-2. Remove, rename, or weaken any of the **8 invariants** (`ARCHITECTURE.md`).
-3. Import OSS policy engines (CrewAI, LangChain, etc.) into `core/`.
-4. Combine tasks of **different risk levels** in one PR.
-5. Commit without running the verify gate (`DEVELOPMENT_PROTOCOL.md` §5.5).
-6. `Closes #52..#62` range syntax — use **individual** `Closes #53`, `Closes #54`, …
-7. Doc-only PR touching `src/**` (scope creep — stop and reclassify).
-8. Mark sprint DONE before all sprint PRs are merged to `master` (P-05).
-9. Skip "state assumptions" for ABAC/policy/loader changes without documenting GAP (P-04).
-10. Delete or archive entries in `LESSONS_LEARNED.md` (audit trail — P-11).
-11. `core/` modules importing from `mcp/` or `cli/` (dependency direction).
+```bash
+git diff --name-only master | grep '^src/' && exit 1 || true
+```
 
 ---
 
-## PR body template (mandatory for master)
+### MEDIUM — state plan first, then proceed
+
+**Characteristics:** New functionality in non-critical modules.
+
+- new test files **paired with** `src/` fixes
+- CLI subcommand additions or fixes
+- new API endpoints (non-schema-breaking)
+- `config/loader.py` additions (`load_*`)
+- migration scripts or utilities
+- sprint report creation
+
+**Constraints:**
+
+- Max **200** LOC changed
+- Plan required: *Files I will touch · Assumptions · Verify command*
+- One risk level per PR — do not combine with HIGH/CRITICAL
+- Forbidden without separate HIGH/CRITICAL task: `core/policies.py`, `core/models.py`
+
+**Verify:**
+
+```bash
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -v
+```
+
+---
+
+### HIGH — Claude architecture review before implement
+
+**Characteristics:** Core domain logic, schema changes, security-adjacent.
+
+- `core/models.py` (new types, field changes)
+- `core/identity.py` authentication logic
+- `config/loader.py` schema-breaking loader changes
+- `api/server.py` schema-breaking changes
+- `mcp/git_server.py` policy gate changes
+- `core/quota.py` rate-limit logic
+- new Pydantic models in `api/schemas.py`
+- `apex/**` design and wiring (non–SAPAL-act execution)
+- changes touching **3+ modules** simultaneously
+
+**Constraints:**
+
+- Max **300** LOC changed
+- Claude reviews spec **before** Cursor implements
+- PR body: `Architecture decision: [why this approach]`
+- Document scope reductions: `Scope reduction: [item] → [milestone] because [reason]`
+- Forbidden: combine HIGH + MEDIUM/LOW in one PR
+
+**Verify:** full gate + shipped parity:
+
+```bash
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -v
+pytest tests/test_smoke.py -v -m smoke
+pytest tests/test_shipped_config_parity.py -v -m shipped_config
+```
+
+---
+
+### CRITICAL — human explicit approve before starting
+
+**Characteristics:** Invariant-touching, security-critical, irreversible at scale.
+
+- any change to **8 invariants** in `ARCHITECTURE.md`
+- `core/policies.py` (PolicyEngine, ConditionEvaluator, ApprovalGate)
+- ABAC evaluator additions (affects all policy decisions)
+- identity contract changes (HTTP 401 vs 200+deny semantics)
+- persistence format changes (`FileTaskStore`, Redis keys)
+- `apex/` **SAPAL loop execution** (act path, not proposal-only)
+- removing or deprecating public API endpoints
+- any change to documented **fail-closed** behavior
+
+**Process:**
+
+1. Human reads spec and types **approved** in chat
+2. Claude writes architecture spec (not code)
+3. Cursor implements per spec
+4. Human reviews diff before merge
+5. Separate invariant compliance pass
+
+**Constraints:**
+
+- LOC: no hard cap if human approves full scope upfront; default split target ≤300 unless waived
+- Forbidden: start without step 1
+
+**Verify:** same as HIGH + explicit invariant checklist in PR body.
+
+---
+
+## 2. Forbidden operations — absolute (no exceptions)
+
+| ID | Operation | Why |
+|----|-----------|-----|
+| **F1** | Direct push or force-push to `master` | Branch protection convention |
+| **F2** | Remove, rename, or weaken any **8 invariant** | Architectural foundation |
+| **F3** | Import OSS policy runtimes into `core/` (CrewAI, LangChain, …) | Invariant #1 |
+| **F4** | Combine different risk levels in one PR | Bisectability; audit clarity |
+| **F5** | Commit without running verify gate | Local-only misses (`DEVELOPMENT_PROTOCOL.md` §5.5) |
+| **F6** | Issue ranges in PR body (`Closes #52..#62`) | GitHub parses only first (P-03) |
+| **F7** | Mark sprint DONE before all sprint PRs on `master` | Step 7 timing (P-05) |
+| **F8** | Skip “state assumptions” for ABAC/policy/loader work | Silent skip (P-04) |
+| **F9** | Delete or archive `LESSONS_LEARNED.md` entries | Audit trail (P-11) |
+| **F10** | `core/` imports from `mcp/` or `cli/` | Dependency direction |
+| **F11** | Doc-only PR touching `src/**` | Scope creep (P-02) — reclassify MEDIUM |
+
+**Historical waivers:** Path B (#48, #63) — one-time; see `PHASE2_SPRINT1_CONSOLIDATED_AUDIT_FINAL.md`. No new waivers without §5.
+
+---
+
+## 3. PR size enforcement
+
+| Risk | Max LOC (net diff) | Waiver |
+|------|-------------------|--------|
+| LOW | 50 | None — reclassify or split |
+| MEDIUM | 200 | Claude architect + documented reason |
+| HIGH | 300 | Claude architect + why split not possible |
+| CRITICAL | Human-approved scope | Human approves entire scope before start |
+
+**Check:**
+
+```bash
+git diff master --stat | tail -1
+```
+
+If MEDIUM/HIGH exceeded:
+
+1. Stop — do not commit
+2. Split at natural boundary
+3. New branch per sub-task
+4. Ask Claude for split plan if unclear
+
+---
+
+## 4. Mandatory PR body template
+
+Every PR to `master` must include:
 
 ```markdown
 Risk level: [LOW / MEDIUM / HIGH / CRITICAL]
@@ -55,7 +187,7 @@ Files touched:
 
 Assumptions made:
 - [assumption]
-(or: No assumptions — task fully specified)
+(or: No assumptions — task was fully specified)
 
 Scope reductions (if any):
 - [item] → [milestone] because [reason]
@@ -70,53 +202,59 @@ Verify gate passed:
 - [ ] mypy src/ai_control_plane/ --strict
 - [ ] pytest tests/ -v
 - [ ] pytest tests/test_smoke.py -v -m smoke
-- [ ] pytest tests/test_shipped_config_parity.py -v -m shipped_config (if HIGH+)
+- [ ] pytest tests/test_shipped_config_parity.py -v -m shipped_config (HIGH+)
 ```
 
----
-
-## Waiver process
-
-Waivers require human + documented entry in [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).  
-PR body must include: `Waiver: [rule] because [reason], approved [date]`.  
-Same waiver type not granted twice per milestone without new lesson row.
+GitHub template: [`.github/pull_request_template.md`](../../.github/pull_request_template.md)
 
 ---
 
-## File allowlists (L3 — enforce with risk level)
+## 5. Waiver process
 
-| Task type | Allowed paths | Forbidden |
-|-----------|---------------|-----------|
+Waivers require **Claude architect** written approval in chat **and** human acknowledgment for HIGH+.
+
+- Document in [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md)
+- PR body: `Waiver: [rule] waived because [reason], approved by Claude [date]`
+- Same waiver type **not twice** per milestone without new lesson row
+
+---
+
+## 6. File allowlists (L3 — enforce with risk level)
+
+| Task type | Allowed | Forbidden |
+|-----------|---------|-----------|
 | **docs-only** | `*.md`, `docs/**`, `CHANGELOG.md` | `src/**`, `tests/**` |
-| **test-only** | `tests/**`, `tests/fixtures/**` | `src/**` (if needed → MEDIUM) |
-| **core/** | `src/ai_control_plane/core/**`, `tests/test_{module}.py` | `api/**`, `mcp/**`, `cli/**` unless in scope |
+| **test-only** | `tests/**`, `tests/fixtures/**` | `src/**` (→ MEDIUM if needed) |
+| **core/** | `src/ai_control_plane/core/**`, matching tests | `api/**`, `mcp/**`, `cli/**` unless in scope |
 | **api/** | `src/ai_control_plane/api/**`, related tests | `core/policies.py` without CRITICAL path |
 
 ---
 
-## Module ownership (review triggers)
+## 7. Module ownership (review triggers)
 
 | Module | Default risk | Reviewer |
 |--------|--------------|----------|
 | `core/policies.py` | CRITICAL | Claude arch + human |
 | `core/models.py` | HIGH | Claude arch |
 | `config/loader.py` | HIGH | Claude arch |
-| `api/server.py` | MEDIUM | Invariant checklist |
-| `apex/**` | HIGH | Claude design spec first |
+| `core/identity.py` | HIGH | Claude arch |
+| `api/server.py` | MEDIUM–HIGH | Invariant checklist |
+| `apex/**` (SAPAL act) | CRITICAL | Claude design + human |
+| `apex/**` (other) | HIGH | Claude design spec first |
 | `mcp/**` | MEDIUM | Invariant #3 |
 | `tests/**`, `docs/**` | LOW | Self |
 
 ---
 
-## PR hygiene
+## 8. PR hygiene
 
-- Branch: `{risk}/{issue-id}-{short-desc}` (e.g. `low/pb7-readme-fork-verify`).
-- PR body: risk level, assumptions, verify commands, individual `Closes #N`.
-- HIGH/CRITICAL: diff summary comment — what changed and why per invariant.
+- Branch: `{risk}/{issue-id}-{short-desc}` (e.g. `low/test-cli-gov-coverage`)
+- HIGH/CRITICAL: diff summary per invariant touched
+- Link patterns: [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md) P-01..P-12
 
 ---
 
-## Verify gate (mandatory — L4)
+## 9. Verify gate (mandatory — L4)
 
 ```bash
 ruff check src/ tests/
@@ -126,9 +264,9 @@ pytest tests/test_smoke.py -v -m smoke
 pytest tests/test_shipped_config_parity.py -v -m shipped_config
 ```
 
-Current baseline: **165** pytest, smoke **8/8** (not 156 — pre-R1 HTML artifact stale).
+Baseline: **165+** pytest, smoke **8/8** (HTML deploy artifact “156” is stale).
 
 ---
 
 **Reconciliation:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md)  
-**Last updated:** 2026-06-25 @ post Studies 01–07
+**Last updated:** 2026-06-25 @ L2 full policy alignment (post ML5 #91)
