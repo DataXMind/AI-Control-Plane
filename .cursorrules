@@ -2,7 +2,8 @@
 # Priority: L0 > L1 > L2 > L3 > L4 > L5
 # Conflict resolution: higher layer always wins
 # Detail: docs/governance/CURSOR_RISK_POLICY.md
-# Last updated: 2026-06-22 (Milestones A/B/C/C+ CLOSED; Public Beta IN PROGRESS)
+# Last updated: 2026-06-25 (Studies 01–07 PASS; Gov UX runtime; drift reconciliation)
+# L0 companion: CLAUDE.md (root) — Karpathy 4 principles summary for all agents
 
 ## L0 — Behavioral Constitution (Karpathy 4 Principles)
 # These apply to EVERY task, no exceptions
@@ -35,6 +36,11 @@ GOAL-DRIVEN EXECUTION:
 Package: ai_control_plane (src/ layout). CLI: agentctl (Typer). API: FastAPI api/server.py.
 Config: Pydantic v2 + PyYAML via ACP_CONFIG_DIR env var.
 Read ARCHITECTURE.md before any non-trivial task. It is the L1 authority.
+
+Governance runtime (operators):
+- GET /governance/status · agentctl gov status — docs/governance/GOVERNANCE_UX_RUNTIME.md
+- Practice evidence Studies 01–07 — docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md
+- Drift reconciliation — docs/governance/GOVERNANCE_DRIFT_RECONCILIATION.md
 
 Module ownership (who must review changes):
 - core/policies.py → Claude architecture review required (CRITICAL)
@@ -84,6 +90,8 @@ Forbidden operations (absolute — no exceptions):
 4. Combine tasks of different risk levels in 1 PR
 5. Commit without running the verify gate first
 6. Closes #52..#62 range syntax — use individual Closes #N per issue
+7. Mark sprint DONE before all sprint PRs merged to master (P-05)
+8. Delete or archive LESSONS_LEARNED.md entries (P-11 audit trail)
 
 PR size limits:
 LOW: max 50 LOC. MEDIUM: max 200 LOC. HIGH/CRITICAL: max 300 LOC.
@@ -139,12 +147,15 @@ Decision log: docs/governance/*.html — Claude architect decisions archived.
 Change rationale: docs/governance/PHASE*_REPORT.md, MILESTONE_*_SPRINT_PLAN.md.
 Failure patterns: docs/governance/LESSONS_LEARNED.md — update after each sprint.
 Karpathy rearchitecture plan: docs/governance/ACP_KARPATHY_REARCHITECTURE_PLAN.md.
+Next phase plan: docs/governance/GOVERNANCE_NEXT_PHASE_PLAN.md.
 Cursor prompt template: docs/prompts/_TEMPLATE.md.
+Behavioral SSOT (agents): CLAUDE.md (root).
 
 Lessons → rules loop: every failure pattern in LESSONS_LEARNED must map to an L0–L3 rule.
 
 Sprint close checklist:
 1. All GitHub issues closed with individual Closes #N
 2. Doc drift fixed (ARCHITECTURE.md, sprint plans)
-3. LESSONS_LEARNED.md updated with new patterns
+3. LESSONS_LEARNED.md updated with new patterns (P-01..P-12 registry)
 4. .cursorrules reviewed for rule additions from lessons
+5. Reconcile HTML governance artifacts if milestone shipped (GOVERNANCE_DRIFT_RECONCILIATION.md)

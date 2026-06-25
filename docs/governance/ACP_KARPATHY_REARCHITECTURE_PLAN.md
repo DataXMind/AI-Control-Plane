@@ -17,8 +17,8 @@ Karpathy's 4 principles (Think Before, Simplicity, Surgical, Goal-Driven) map to
 | **L1** | Project context | **85%** | `ARCHITECTURE.md` strong; missing ownership table + data classification |
 | **L2** | Risk policy (Cursor) | **15% → 80%** | Was critical gap; **`CURSOR_RISK_POLICY.md` now seeded** |
 | **L3** | Execution guardrails | **55%** | Branch rules exist; Path B waived; no LOC/file allowlist enforcement |
-| **L4** | Evaluation | **90%** | 165 pytest, SMK 8/8, parity CI, pip-audit — artifact understated current L4 |
-| **L5** | Governance memory | **70%** | Rich HTML archive; **`LESSONS_LEARNED.md` now seeded** |
+| **L4** | Evaluation | **95%** | 165 pytest, SMK 8/8; **Studies 01–07** operator evidence |
+| **L5** | Governance memory | **85%** | LESSONS P-01..P-12; practice audit; drift reconciliation |
 
 **Root cause of historical drift** (validated): rules exist but are **not priority-ordered by layer**. Cursor silent-picks when flat `.cursorrules` conflicts with sprint urgency → monolithic PRs, doc PR scope creep, assumption drift.
 
@@ -95,7 +95,7 @@ Current `.cursorrules` lines 50–52 still require apex stubs for "Milestone A" 
 | ID | Artifact | Layer | When | Effort |
 |----|----------|-------|------|--------|
 | **R1-A** | `.cursorrules` 6-section rewrite | L0/L3 | Phase R1 | ~2h docs |
-| **R1-B** | `CLAUDE.md` top-level (optional) | L0 | Phase R1 | ~1h — single behavioral SSOT for Claude Code + Cursor |
+| **R1-B** | `CLAUDE.md` top-level | L0 | Phase R1 | ✅ @ 2026-06-25 drift reconciliation |
 | **R2-A** | `docs/DATA_CLASSIFICATION.md` | L1 | Pre-public flip | ~2h — PII fields for ABAC + test fixtures |
 | **R2-B** | Ownership table in `ARCHITECTURE.md` | L1 | Phase R2 | ~1h — extract from `CURSOR_RISK_POLICY.md` |
 | **R3-A** | `docs/CONTRACT_TESTS.md` + optional TS parity test | L4 | Pre-PB-12 | ~4h — PolicyEvalResponse schema lock |

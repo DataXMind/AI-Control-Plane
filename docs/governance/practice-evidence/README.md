@@ -7,6 +7,8 @@
 
 **Audit toàn chuỗi (Claude analyzer pack):** [`PRACTICE_STUDIES_AUDIT_01-07.md`](PRACTICE_STUDIES_AUDIT_01-07.md)
 
+**Drift reconciliation (HTML artifacts ↔ master):** [`../GOVERNANCE_DRIFT_RECONCILIATION.md`](../GOVERNANCE_DRIFT_RECONCILIATION.md) · **Next tasks:** [`../GOVERNANCE_NEXT_PHASE_PLAN.md`](../GOVERNANCE_NEXT_PHASE_PLAN.md)
+
 ---
 
 ## Index
