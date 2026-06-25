@@ -83,14 +83,4 @@
 
 ## Next step
 
-→ **Study 03 — Profile C** — `docs/governance/practice-evidence/study-03-profile-c/` (sẽ thêm sau operator run)
-
-Commands:
-
-```bash
-# T1: Ctrl+C uvicorn
-docker compose -f examples/minimal/docker-compose.yml up --build
-# T2:
-export ACP_API_URL=http://localhost:8000
-bash scripts/soak_staging.sh --log /tmp/acp-soak-staging.log
-```
+→ [**Study 03 — Profile C**](../study-03-profile-c/RESULTS.md) — **PASS** @ 2026-06-25
