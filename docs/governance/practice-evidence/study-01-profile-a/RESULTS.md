@@ -84,4 +84,6 @@
 
 ## Next step
 
-→ [**Study 02 — Profile B**](../study-02-profile-b/README.md) (shipped `config/`, kỳ vọng `policy_rules_count: 10`)
+→ [**Study 02 — Profile B**](../study-02-profile-b/RESULTS.md) — **PASS** @ 2026-06-25
+
+→ **Study 03 — Profile C** — [`study-03-profile-c/README.md`](../study-03-profile-c/README.md) (pending)

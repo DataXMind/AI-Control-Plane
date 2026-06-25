@@ -1,0 +1,21 @@
+{
+  "study": "02-profile-b",
+  "command": "agentctl assign rust-gateway agent2 git_read --json",
+  "acp_api_url": "http://localhost:8000",
+  "captured": "2026-06-25",
+  "response": {
+    "task_id": "5fcbe7f5-c943-4e0e-9e3e-d3897597f5ae",
+    "project_id": "rust-gateway",
+    "agent_id": "agent2",
+    "task_type": "git_read",
+    "state": "PENDING"
+  },
+  "server_correlation": {
+    "terminal_1": [
+      "POST /policy/evaluate status=200 agent_id=agent2",
+      "POST /tasks status=200 agent_id=agent2"
+    ],
+    "timestamp_local": "2026-06-25T12:29:28"
+  },
+  "verdict": "PASS"
+}
