@@ -1,0 +1,30 @@
+{
+  "study": "07-cross-network",
+  "captured": "2026-06-25",
+  "network_path": "tailscale_only",
+  "hosts": {
+    "api": {
+      "name": "ubuntu-vps",
+      "tailscale_ip": "100.94.21.33",
+      "role": "api",
+      "option": "B_cloud_vps"
+    },
+    "client": {
+      "name": "msi",
+      "tailscale_ip": "100.102.105.47",
+      "role": "remote_client",
+      "acp_api_url": "http://100.94.21.33:8000"
+    },
+    "mac_mini": {
+      "tailscale_ip": "100.72.15.27",
+      "used": false,
+      "reason": "Study 06 LAN peer; Study 07 requires mobile laptop client + stable cloud API"
+    }
+  },
+  "negative_lan": {
+    "explicit_ping_logged": false,
+    "inferred": "ubuntu server logs show only 100.102.105.47, no client LAN IP",
+    "verdict": "PASS"
+  },
+  "verdict": "PASS"
+}

@@ -1,0 +1,21 @@
+{
+  "study": "07-cross-network",
+  "drill": "7-5",
+  "captured": "2026-06-25",
+  "acp_api_url": "http://100.94.21.33:8000",
+  "command": "bash scripts/soak_staging.sh",
+  "output": "2026-06-25T11:18:21Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok",
+  "server_log": {
+    "client_tailscale_ip": "100.102.105.47",
+    "paths": [
+      "GET /health",
+      "POST /policy/evaluate",
+      "GET /quota/rust-gateway",
+      "POST /apex/trigger"
+    ],
+    "timestamp_utc": "2026-06-25T11:18:20Z"
+  },
+  "governance_case_study": "CS-05",
+  "verdict": "PASS",
+  "note": "One iteration sufficient for practice evidence; PB-9 calendar soak remains separate"
+}

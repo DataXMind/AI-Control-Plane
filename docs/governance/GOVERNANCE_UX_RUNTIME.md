@@ -95,6 +95,6 @@ agentctl gov status --json
 | `/health` | CI smoke, config wire proof, k8s liveness |
 | `/governance/status` | On-call governance checklist, pre-merge review, onboarding |
 
-**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–06 PASS; Study 07 cross-network (Tailscale) PENDING.
+**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–07 PASS. **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).
 
 **Last updated:** 2026-06-25

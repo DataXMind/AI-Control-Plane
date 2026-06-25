@@ -1,0 +1,27 @@
+{
+  "study": "07-cross-network",
+  "captured": "2026-06-25",
+  "acp_api_url": "http://100.94.21.33:8000",
+  "client_tailscale_ip": "100.102.105.47",
+  "agentctl_gov_status": {
+    "policy_rules": 8,
+    "public_beta": "IN_PROGRESS",
+    "timestamp_utc_approx": "2026-06-25T11:17:57",
+    "verdict": "PASS"
+  },
+  "assign": {
+    "task_id": "6206697f-eab5-49c8-83e0-0dcf887d4999",
+    "project_id": "rust-gateway",
+    "agent_id": "agent2",
+    "task_type": "git_read",
+    "state": "PENDING",
+    "timestamp_utc_approx": "2026-06-25T11:18:10",
+    "verdict": "PASS"
+  },
+  "server_log_paths": [
+    "GET /governance/status",
+    "POST /policy/evaluate",
+    "POST /tasks"
+  ],
+  "verdict": "PASS"
+}
