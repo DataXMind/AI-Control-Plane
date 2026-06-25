@@ -12,12 +12,22 @@
 |---|------|--------|----------|
 | 1 | 6-layer `.cursorrules` on master | ✅ PR branch | `## L0` … `## L5` in `.cursorrules` |
 | 2 | Post-merge verify | ✅ | This doc + puzzle map links |
-| 3 | Pilot session (L0 pre-flight) | 📋 Human | First Cursor task must state risk + assumptions |
+| 3 | Pilot session (L0 pre-flight) | ✅ | Chat pilot 2026-06-22; branch `low/gov-ux-runtime` for L3 fix |
 | 4 | Audit reconcile artifact | ✅ | `audit_reconcile_final.html` + `ACP_AUDIT_RECONCILE_FINAL_STATUS.md` |
 | 5 | Phase R2 | ✅ | `docs/DATA_CLASSIFICATION.md`, ARCHITECTURE §Module ownership, DEVELOPMENT_PROTOCOL L2 |
-| 6 | Phase R3 + harden | ✅ | `docs/CONTRACT_TESTS.md`, `test_api_contract_snapshot.py`, PR template |
+| 6 | Phase R3 + harden | ✅ | `CONTRACT_TESTS.md`, `test_api_contract_snapshot.py`, PR template |
+| 7 | Governance UX runtime | ✅ | `GET /governance/status`, `agentctl gov status`, `GOVERNANCE_UX_RUNTIME.md` |
 
 ---
+
+## L3 / L5 audit @ `low/gov-ux-runtime`
+
+| Layer | Check | Result |
+|-------|-------|--------|
+| L3 | Branch `low/gov-ux-runtime` from master | ✅ |
+| L3 | PR template risk + verify checklist | ✅ |
+| L5 | Patterns 6–7 in LESSONS_LEARNED | ✅ |
+| L5 | GOV_6LAYER item #7 + pilot #3 closed | ✅ |
 
 ## Layer live map @ merge
 
@@ -27,7 +37,7 @@
 | L1 | `ARCHITECTURE.md`, `docs/DATA_CLASSIFICATION.md` |
 | L2 | `docs/governance/CURSOR_RISK_POLICY.md` |
 | L3 | `.cursorrules` §L3, `CONTRIBUTING.md` |
-| L4 | CI + `docs/CONTRACT_TESTS.md` |
+| L4 | CI + `docs/CONTRACT_TESTS.md` + `GET /governance/status` |
 | L5 | `LESSONS_LEARNED.md`, governance HTML archive |
 
 ---

@@ -22,6 +22,8 @@ from ai_control_plane.apex.pipeline import run_sapal_pipeline
 from ai_control_plane.api.schemas import (
     AgentQuotaStatus,
     ApprovalResolveRequest,
+    GovernanceCaseStudy,
+    GovernanceStatusResponse,
     HealthResponse,
     IdentityVerifyRequest,
     ModelProfileQuotaStatus,
@@ -45,6 +47,16 @@ from ai_control_plane.config.loader import (
     load_projects,
 )
 from ai_control_plane.core.exceptions import ApprovalError, ConfigError, ControlPlaneError
+from ai_control_plane.core.governance_catalog import (
+    CASE_STUDIES,
+    DOC_LINKS,
+    GOVERNANCE_FRAMEWORK,
+    GOVERNANCE_VERSION,
+    LAYER_SUMMARY,
+    MILESTONE_STATUS,
+    PUBLIC_BETA,
+    VERIFY_GATE_COMMANDS,
+)
 from ai_control_plane.core.identity import JWTValidationError, TokenValidator, create_jwt_validator
 from ai_control_plane.core.models import (
     AgentIdentity,
@@ -475,6 +487,25 @@ def create_app(state: AppState | None = None) -> FastAPI:
             agents_loaded=acp.agents_loaded,
             projects_loaded=acp.projects_loaded,
             model_profiles_loaded=sorted(acp.model_profiles.keys()),
+        )
+
+    @app.get("/governance/status", response_model=GovernanceStatusResponse)
+    async def governance_status(request: Request) -> GovernanceStatusResponse:
+        """Governance UX runtime — 6-layer status, case studies, verify gate."""
+        acp: AppState = request.app.state.acp
+        studies = [GovernanceCaseStudy.model_validate(cs) for cs in CASE_STUDIES]
+        return GovernanceStatusResponse(
+            status="ok",
+            framework=GOVERNANCE_FRAMEWORK,
+            governance_version=GOVERNANCE_VERSION,
+            config_loaded=acp.config_loaded,
+            policy_rules_count=acp.policy_rules_count,
+            milestones=dict(MILESTONE_STATUS),
+            layers=dict(LAYER_SUMMARY),
+            verify_gate=list(VERIFY_GATE_COMMANDS),
+            doc_links=dict(DOC_LINKS),
+            public_beta=dict(PUBLIC_BETA),
+            case_studies=studies,
         )
 
     @app.post("/tasks", response_model=TaskStatus)
