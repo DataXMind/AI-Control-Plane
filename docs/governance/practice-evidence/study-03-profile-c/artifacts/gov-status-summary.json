@@ -1,0 +1,13 @@
+{
+  "study": "03-profile-c",
+  "command": "agentctl gov status",
+  "acp_api_url": "http://localhost:8000",
+  "captured": "2026-06-25",
+  "summary": {
+    "framework": "6-layer-karpathy",
+    "policy_rules_count": 8,
+    "public_beta_phase": "PB-9 staging soak",
+    "case_studies_count": 6
+  },
+  "verdict": "PASS"
+}

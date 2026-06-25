@@ -1,0 +1,29 @@
+{
+  "study": "05-advanced",
+  "drill": "5b",
+  "captured": "2026-06-25",
+  "allow_request": {
+    "agent_id": "agent1",
+    "project_id": "rust-gateway",
+    "tool_name": "git_read",
+    "role": "infra"
+  },
+  "allow_response": {
+    "allowed": true,
+    "reason": "action permitted",
+    "latency_ms": 0.62
+  },
+  "deny_request": {
+    "agent_id": "agent3",
+    "project_id": "rust-gateway",
+    "tool_name": "git_push",
+    "role": "reviewer"
+  },
+  "deny_response": {
+    "allowed": false,
+    "reason": "tool 'git_push' denied for role 'reviewer'",
+    "policy_id": "rbac-reviewer",
+    "latency_ms": 0.21
+  },
+  "verdict": "PASS"
+}

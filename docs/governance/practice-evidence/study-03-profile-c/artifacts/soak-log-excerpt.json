@@ -1,0 +1,26 @@
+{
+  "study": "03-profile-c",
+  "governance_case_study": "CS-05",
+  "command": "bash scripts/soak_staging.sh --log /tmp/acp-soak-staging.log",
+  "acp_api_url": "http://localhost:8000",
+  "captured": "2026-06-25",
+  "iterations": [
+    {
+      "timestamp_utc": "2026-06-25T05:39:51Z",
+      "health": "ok",
+      "policy_allowed": true,
+      "tokens_remaining": 2000000.0,
+      "apex": "ok"
+    },
+    {
+      "timestamp_utc": "2026-06-25T05:40:47Z",
+      "health": "ok",
+      "policy_allowed": true,
+      "tokens_remaining": 2000000.0,
+      "apex": "ok"
+    }
+  ],
+  "log_path": "/tmp/acp-soak-staging.log",
+  "log_line_count": 2,
+  "verdict": "PASS"
+}

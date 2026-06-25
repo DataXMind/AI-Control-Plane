@@ -1,0 +1,18 @@
+{
+  "study": "01-profile-a",
+  "endpoint": "POST /policy/evaluate",
+  "request": {
+    "agent_id": "agent2",
+    "project_id": "rust-gateway",
+    "tool_name": "git_read",
+    "role": "backend"
+  },
+  "response": {
+    "allowed": true,
+    "reason": "action permitted",
+    "requires_approval": false,
+    "policy_id": null,
+    "latency_ms": 0.57
+  },
+  "verdict": "PASS"
+}

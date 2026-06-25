@@ -1,0 +1,21 @@
+{
+  "study": "04-profile-ops",
+  "drill": "4b",
+  "captured": "2026-06-25",
+  "wrong_url_phase": {
+    "acp_api_url": "http://localhost:8000",
+    "context": "T1 stopped between 4a and 4b — no listener on 8000",
+    "curl_health": "Expecting value: line 1 column 1 (char 0)",
+    "agentctl_gov_status": "RuntimeError: governance status unavailable (ConnectError)",
+    "verdict": "PASS",
+    "note": "Fail-closed CLI when API unreachable"
+  },
+  "correct_url_phase": {
+    "terminal_1_port": 8002,
+    "terminal_1_pid": 6610,
+    "acp_api_url": "http://localhost:8002",
+    "policy_rules_count": 8,
+    "agentctl_gov_rules": 8,
+    "verdict": "PASS"
+  }
+}

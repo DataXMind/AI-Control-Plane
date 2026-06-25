@@ -1,0 +1,19 @@
+{
+  "study": "01-profile-a",
+  "endpoint": "GET /health",
+  "acp_api_url": "http://localhost:8000",
+  "acp_config_dir": "tests/fixtures/config",
+  "captured": "2026-06-25",
+  "response": {
+    "status": "ok",
+    "config_loaded": true,
+    "policy_rules_count": 8,
+    "agents_loaded": ["agent1", "agent2", "agent3"],
+    "projects_loaded": ["rust-gateway"],
+    "model_profiles_loaded": [
+      "claude-pro-backend",
+      "claude-team-infra",
+      "claude-team-review"
+    ]
+  }
+}

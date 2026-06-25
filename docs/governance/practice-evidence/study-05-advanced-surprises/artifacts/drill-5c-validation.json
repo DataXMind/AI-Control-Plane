@@ -1,0 +1,14 @@
+{
+  "study": "05-advanced",
+  "drill": "5c",
+  "captured": "2026-06-25",
+  "request_body": {"agent_id": "agent2"},
+  "response": {
+    "allowed": false,
+    "reason_contains": ["missing", "project_id", "tool_name"],
+    "latency_ms": 0.0
+  },
+  "server_http_status": 503,
+  "note": "ACP fail-closed uses 503 + PolicyEvalResponse deny body, not HTTP 422",
+  "verdict": "PASS"
+}

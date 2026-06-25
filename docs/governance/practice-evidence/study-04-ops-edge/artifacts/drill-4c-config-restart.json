@@ -1,0 +1,25 @@
+{
+  "study": "04-profile-ops",
+  "drill": "4c",
+  "captured": "2026-06-25",
+  "fixture_phase": {
+    "terminal_1_acp_config_dir": "tests/fixtures/config",
+    "terminal_1_pid": 6649,
+    "curl_before_unset": { "policy_rules_count": 8, "agents_count": 3 }
+  },
+  "shell_unset_without_restart": {
+    "terminal_2_acp_config_dir": "unset",
+    "terminal_1_restarted": false,
+    "curl_after_unset": { "policy_rules_count": 8, "agents_count": 3 },
+    "agentctl_gov_rules": 8,
+    "verdict": "PASS",
+    "lesson": "ACP_CONFIG_DIR in client shell does not change running server"
+  },
+  "shipped_restart": {
+    "terminal_1_acp_config_dir": "unset",
+    "terminal_1_pid": 6676,
+    "health_at": "2026-06-25T14:10:11",
+    "curl_after_restart": { "policy_rules_count": 10, "agents_count": 4 },
+    "verdict": "PASS"
+  }
+}
