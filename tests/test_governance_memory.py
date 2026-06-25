@@ -30,7 +30,15 @@ def test_governance_status_includes_ml5_doc_links() -> None:
     response = client.get("/governance/status")
     assert response.status_code == 200
     doc_links = response.json()["doc_links"]
-    for key in ("agents_md", "session_anchor", "gold_patterns", "l5_maturity", "cursor_rules", "pre_approval_audit"):
+    ml5_keys = (
+        "agents_md",
+        "session_anchor",
+        "gold_patterns",
+        "l5_maturity",
+        "cursor_rules",
+        "pre_approval_audit",
+    )
+    for key in ml5_keys:
         assert key in doc_links
         assert key in DOC_LINKS
 
