@@ -7,8 +7,17 @@ on:
     branches: [master, main]
 
 jobs:
+  governance-memory:
+    name: L5 memory pack (ML5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: chmod +x scripts/verify_governance_memory.sh
+      - run: bash scripts/verify_governance_memory.sh
+
   smoke:
     name: Smoke gate
+    needs: governance-memory
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

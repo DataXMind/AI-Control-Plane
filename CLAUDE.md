@@ -112,6 +112,9 @@ See [`docs/governance/CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY
 ### Governance memory
 
 - Failure patterns: [`docs/governance/LESSONS_LEARNED.md`](docs/governance/LESSONS_LEARNED.md)
+- Agent entry + ML5: [`AGENTS.md`](AGENTS.md) · [`L5_MATURITY_MODEL.md`](docs/governance/L5_MATURITY_MODEL.md)
+- Session anchor: [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md)
+- Gold pattern GP-01: [`docs/governance/gold-patterns/GP-01-agent-session-memory.md`](docs/governance/gold-patterns/GP-01-agent-session-memory.md)
 - Runtime case studies: [`docs/governance/GOVERNANCE_UX_RUNTIME.md`](docs/governance/GOVERNANCE_UX_RUNTIME.md)
 - Operator evidence: [`docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md)
 - Drift reconciliation: [`docs/governance/GOVERNANCE_DRIFT_RECONCILIATION.md`](docs/governance/GOVERNANCE_DRIFT_RECONCILIATION.md)

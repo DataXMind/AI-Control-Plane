@@ -1,0 +1,29 @@
+---
+description: Operator practice evidence — RESULTS format, artifacts, citation rules
+globs: docs/governance/practice-evidence/**
+alwaysApply: false
+---
+
+# Practice evidence
+
+## Structure per study
+
+- `RESULTS.md` — verdict PASS/FAIL/SKIPPED per step
+- `artifacts/*.json` — raw API/CLI output
+- `terminal*.md` — operator command log (paste-friendly)
+
+## Citation format (PR/issues)
+
+```text
+Practice evidence Study NN — docs/governance/practice-evidence/study-NN-*/RESULTS.md
+Artifact: study-NN-*/artifacts/<file>.json
+```
+
+## Cross-study index
+
+Update `PRACTICE_STUDIES_AUDIT_01-07.md` gap registry when adding studies; do not remove documented gaps without new evidence.
+
+## Network claims
+
+- Study 06 = LAN `192.168.x`
+- Study 07 = Tailscale `100.x` only — do not infer hotspot disconnect without log (G-03).

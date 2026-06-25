@@ -3,9 +3,9 @@
 > **Purpose:** Chuẩn hóa mọi thay đổi code/docs trên **ai-control-plane** — chất lượng, 8 hard invariants, fail-closed governance, tránh schema/wiring drift.
 
 **Document ID:** ACP-DEV-PROTOCOL-001  
-**Version:** 1.4  
+**Version:** 1.5  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-24 — Milestone C merged (PR #63 `6dfffdf`); hygiene closes #37, #3, #13, #53–#62  
+**Last updated:** 2026-06-25 — ML5 memory pack (`AGENTS.md`, `.cursor/rules/`, session anchor, CI `governance-memory`)  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -22,7 +22,7 @@ File này là **cổng bắt buộc trước khi sửa code** cho agent và dev.
 | ---------- | -------- | ------- |
 | **Development Protocol (file này)** | `docs/DEVELOPMENT_PROTOCOL.md` | _Khi nào_ áp dụng, PACE, 9 bước, task mới/cập nhật |
 | **Architecture & invariants** | [`ARCHITECTURE.md`](../ARCHITECTURE.md) | 8 hard invariants, module inventory, milestones |
-| **6-layer Cursor governance** | [`.cursorrules`](../.cursorrules), [`docs/governance/CURSOR_RISK_POLICY.md`](governance/CURSOR_RISK_POLICY.md) | L0–L5: behavior, risk, allowlists |
+| **6-layer Cursor governance** | [`.cursorrules`](../.cursorrules), [`AGENTS.md`](../AGENTS.md), [`.cursor/rules/`](../.cursor/rules/), [`docs/governance/CURSOR_RISK_POLICY.md`](governance/CURSOR_RISK_POLICY.md) | L0–L5: behavior, risk, allowlists, **ML5 memory** |
 | **Code generation rules** | [`.cursorrules`](../.cursorrules) | Pydantic v2, structlog, async I/O, test rules |
 | **Open source gates** | [`docs/OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md) | Khi nào public repo / PyPI |
 | **Milestone A archive** | [`docs/governance/`](governance/) | Claude audit HTML + **Phase 1 v2 report** (closed #38) |
@@ -272,7 +272,8 @@ L1 ruff → L2 mypy → L3 pytest full → L4 integration → SMK-01..06 smoke
 - Comment issue: done / blocked / cần review
 - Cập nhật `ARCHITECTURE.md` hoặc README nếu contract đổi (#14, #13)
 - `CHANGELOG.md` khi release tag (chưa bắt buộc mỗi PR)
-- Pitfall lặp → mở issue `debt` hoặc ghi vào PR description
+- Pitfall lặp → **`docs/governance/LESSONS_LEARNED.md`** (pattern P-xx) hoặc issue `debt`; map pattern → L0–L3 rule (`.cursorrules` / `CURSOR_RISK_POLICY.md`)
+- Session anchor: đóng phiên bằng cập nhật Tier C (`practice-evidence/`, soak logs) — **không** chỉ lưu trong chat ([`SESSION_ANCHOR_TEMPLATE.md`](prompts/SESSION_ANCHOR_TEMPLATE.md))
 
 **Commit / push:** chỉ khi human yêu cầu. Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`.
 

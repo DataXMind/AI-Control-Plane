@@ -1,0 +1,25 @@
+---
+description: L5 agent memory — session anchor, SSOT hierarchy, no chat-only memory
+alwaysApply: true
+---
+
+# ACP L5 — Agent memory (ML5)
+
+## Every session
+
+1. Fill `docs/prompts/SESSION_ANCHOR_TEMPLATE.md` (baseline SHA, risk, gates, allowlist).
+2. Read `AGENTS.md` if task spans governance, ops, or multi-PR work.
+
+## SSOT order
+
+`ARCHITECTURE.md` + code > `practice-evidence/` > `GOVERNANCE_UX_RUNTIME.md` > drift reconciliation > HTML artifacts (historical).
+
+## Do not
+
+- Rely on prior chat for study results, PB-9 soak, or approval gates.
+- Claim CS-01/03/04 hands-on PASS — catalog visibility only (`PRACTICE_STUDIES_AUDIT_01-07.md` §7).
+- Delete or rewrite `LESSONS_LEARNED.md` patterns (audit trail).
+
+## Sprint close
+
+Update `LESSONS_LEARNED.md` when a pitfall repeats; map pattern → L0–L3 rule per `.cursorrules` §L5.

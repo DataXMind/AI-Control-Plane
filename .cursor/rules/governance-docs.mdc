@@ -1,0 +1,23 @@
+---
+description: Governance markdown — SSOT paths, drift banners, no over-claim
+globs: docs/governance/**
+alwaysApply: false
+---
+
+# Governance docs
+
+## Write rules
+
+- Mark HTML artifacts (`*.html` in this tree) as **HISTORICAL** when counts conflict with CI (pytest 165, not 156).
+- Post-#90 drift closure: use `GOVERNANCE_DRIFT_RECONCILIATION.md` §1.1 for current state, not §1 snapshot alone.
+- Phase plans: `GOVERNANCE_NEXT_PHASE_PLAN.md`; pre-approval: `GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`.
+
+## Forbidden claims in docs
+
+- PB-9 closed by Studies 01–07 alone.
+- CS-01/03/04 operator-validated without a dedicated drill `RESULTS.md`.
+- "CLAUDE.md missing" on master post PR #90.
+
+## Docs-only PR
+
+Risk LOW; allowlist `docs/**`, `*.md` only — zero `src/` files in diff.

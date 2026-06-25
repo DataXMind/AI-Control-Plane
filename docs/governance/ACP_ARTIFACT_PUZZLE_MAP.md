@@ -57,6 +57,11 @@ Code on master (actual behavior)
 | **Next phase plan** | `GOVERNANCE_NEXT_PHASE_PLAN.md` | Human | G0–G4 tasks after reconciliation |
 | **CLAUDE.md (L0)** | `CLAUDE.md` (root) | All agents | Karpathy 4 principles — companion to `.cursorrules` |
 | **HTML deploy packet** | `karpathy_acp_artifacts_fixed.html` (external) | Claude | **HISTORICAL** — pytest 156; use reconciliation doc |
+| **L5 maturity model** | `L5_MATURITY_MODEL.md` | Human | ML0–ML5 definitions; project target ML5 |
+| **Agent entry (ML5)** | `AGENTS.md` | All agents | Session anchor + memory tiers |
+| **Scoped Cursor rules** | `.cursor/rules/*.mdc` | Maintainers | Context-loaded L0–L3 hints |
+| **Session anchor** | `docs/prompts/SESSION_ANCHOR_TEMPLATE.md` | Operator | Tier B memory every session |
+| **Gold patterns** | `docs/governance/gold-patterns/GP-01-*.md` | Human | Public-ready export for adopters |
 
 ---
 

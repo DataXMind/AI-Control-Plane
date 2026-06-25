@@ -1,0 +1,27 @@
+---
+description: CRITICAL/HIGH — PolicyEngine, loader, policies.yml; assumptions required
+globs: src/**/core/policies.py,src/**/config/loader.py,config/policies.yml,config/**/*.yml
+alwaysApply: false
+---
+
+# Core policy & config (CRITICAL path)
+
+## Before any edit
+
+1. Risk: **CRITICAL** if `core/policies.py`; **HIGH** if `config/loader.py`.
+2. List ABAC condition keys you will implement vs skip (P-04 / CS-04).
+3. Human or Claude arch review before code for CRITICAL.
+
+## Invariants
+
+- No OSS policy engine in `core/`.
+- `core/models.py` owns contracts — do not duplicate types in loader.
+- Runtime agents use `config/policies.yml`; Cursor uses `CURSOR_RISK_POLICY.md` (different L2).
+
+## Verify
+
+```bash
+pytest tests/test_policies.py tests/test_loader.py -v
+pytest tests/test_shipped_config_parity.py -v -m shipped_config
+mypy src/ai_control_plane/ --strict
+```

@@ -35,9 +35,10 @@ Close governance DRIFT (HTML ↔ master)
 
 ---
 
-## 3. Phase G0 — Drift closure (immediate)
+## 3. Phase G0 — Drift closure ✅ COMPLETE
 
-**Branch:** `low/gov-drift-reconcile-post-studies`  
+**Merged:** PR [#90](https://github.com/DataXMind/AI-Control-Plane/pull/90) → `master` @ `c6e8cc1` (2026-06-25)  
+**Branch (historical):** `low/gov-drift-reconcile-post-studies`  
 **Verify:** docs-only; `git diff --name-only master | grep '^src/'` → 0
 
 | Task | ID | Deliverable | Acceptance |
@@ -59,8 +60,8 @@ Close governance DRIFT (HTML ↔ master)
 
 | Task | ID | Source | Effort |
 |------|-----|--------|--------|
-| Sprint-close LESSONS mandatory | G1-1 | P-05, P-07 | Verify `DEVELOPMENT_PROTOCOL.md` Evolve step |
-| Prompt template v2 audit | G1-2 | R3-B `docs/prompts/_TEMPLATE.md` | Risk header + assumptions block |
+| Sprint-close LESSONS mandatory | G1-1 | P-05, P-07 | ✅ `DEVELOPMENT_PROTOCOL.md` §5.6 Evolve |
+| Prompt template v2 audit | G1-2 | R3-B `docs/prompts/_TEMPLATE.md` | ✅ Template exists; adoption via `SESSION_ANCHOR_TEMPLATE` |
 | Quarterly LESSONS review | G1-3 | HTML maintenance § | Calendar: first review 2026-09 |
 | `GOV_6LAYER_AUDIT_PASS.md` addendum | G1-4 | Post-studies L4 proof | Link practice-evidence |
 
@@ -111,9 +112,9 @@ Checklist source: [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
 
 Pre-conditions:
 - PB-9 calendar PASS
-- G0 drift reconciliation merged
-- Practice audit pack on master
-- No open HIGH governance drift items
+- G0 drift reconciliation merged ✅ (#90)
+- Practice audit pack on master ✅ (#89)
+- No open HIGH governance drift items (see [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md) §6 meta-drift)
 
 ---
 
@@ -162,6 +163,9 @@ flowchart TB
 
 ---
 
-| G0-1..G0-8 in [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md) | Documented 2026-06-25 — merge via LOW PR |
+## 12. Pre-approval audit (operator review before G1+)
 
-**Last updated:** 2026-06-25
+**Harsh audit packet:** [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md)  
+**Rule:** Do not start G1–G4 execution until maintainer signs §11 approval gates.
+
+**Last updated:** 2026-06-25 @ post PR #90

@@ -18,7 +18,7 @@ Karpathy's 4 principles (Think Before, Simplicity, Surgical, Goal-Driven) map to
 | **L2** | Risk policy (Cursor) | **15% → 80%** | Was critical gap; **`CURSOR_RISK_POLICY.md` now seeded** |
 | **L3** | Execution guardrails | **55%** | Branch rules exist; Path B waived; no LOC/file allowlist enforcement |
 | **L4** | Evaluation | **95%** | 165 pytest, SMK 8/8; **Studies 01–07** operator evidence |
-| **L5** | Governance memory | **85%** | LESSONS P-01..P-12; practice audit; drift reconciliation |
+| **L5** | Governance memory | **95% (ML5)** | LESSONS P-01..P-12; `AGENTS.md`; `.cursor/rules/`; GP-01; CI `governance-memory` |
 
 **Root cause of historical drift** (validated): rules exist but are **not priority-ordered by layer**. Cursor silent-picks when flat `.cursorrules` conflicts with sprint urgency → monolithic PRs, doc PR scope creep, assumption drift.
 

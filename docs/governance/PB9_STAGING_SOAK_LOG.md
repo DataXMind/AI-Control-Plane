@@ -5,6 +5,8 @@
 **Target end:** 2026-07-06 (≥14 calendar days)  
 **Stack:** `examples/minimal/docker-compose.yml` + `ACP_DATA_DIR=/data/acp`
 
+**Agent rule (ML5):** Soak evidence lives **only** in this file. Operator chat *"đã tick ngày YYYY-MM-DD"* → update that row; do not store soak state in chat or other docs.
+
 ---
 
 ## Day 0 — deploy
