@@ -3,10 +3,11 @@
 **Document ID:** ACP-GOV-LESSONS-001  
 **Layer:** L5 — Governance & Memory  
 **Format:** `[Pattern]` → `[When]` → `[Root cause]` → `[Rule added]` → `[Layer]`  
-**Feedback loop:** Each pattern maps to `.cursorrules`, [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md), or `DEVELOPMENT_PROTOCOL.md`.  
-**Reconciliation:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) (HTML artifact P-01..P-07 merged 2026-06-25)
+**Update when:** Sprint close, hygiene PR, or significant drift event  
+**L5 → L0 loop:** Every pattern must map to a layer in [`.cursorrules`](../../.cursorrules) and/or [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md)  
+**Reconciliation:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md)
 
-**Do not delete patterns** — historical audit trail (CURSOR_RISK F9).
+**Do not delete patterns** — historical audit trail ([`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) **F9**).
 
 ---
 
@@ -16,13 +17,13 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | PR #48 (MB bulk); PR #63 (MC-1..11 single PR) |
-| **Root cause** | No LOC limit; Path B accepted as pattern |
-| **Impact** | CI bisect hard; issue auto-close ambiguity |
-| **Rule added** | HIGH ≤300 LOC; no mixing risk levels in one PR |
-| **Layer** | L3 — [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) §Risk levels |
-| **Prevention** | `git diff master --stat \| tail -1` before open PR |
-| **Status** | [ACTIVE — monitor] |
+| **When** | Sprint 1 — PR #48 (MB-S1-1..5 + agent4 scope creep); Milestone C — PR #63 (MC-1..11 single PR) |
+| **Root cause** | No LOC limit or task-scope enforcement; Path B accepted as one-off but became pattern |
+| **Impact** | CI hard to bisect; issue auto-close ambiguity; reviewer audit complexity |
+| **Rule added** | L3 — max **300 LOC** per HIGH PR; no combining risk levels (F4). See [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) §3 PR size enforcement |
+| **Layer** | L3 (Execution Guardrails) |
+| **Prevention** | Before open PR: `git diff master --stat \| tail -1` → verify LOC |
+| **Status** | [ACTIVE — monitor next 2 sprints] |
 
 ---
 
@@ -30,12 +31,12 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | PR #46 — agent4 config in doc-only PR |
-| **Root cause** | No file allowlist for LOW tasks |
-| **Impact** | GAP-ABAC-2 ordering risk |
-| **Rule added** | docs-only: `*.md`, `docs/**` only — `src/**` forbidden |
-| **Layer** | L3 + L0 Surgical Changes |
-| **Prevention** | `git diff --name-only master` → no `src/` |
+| **When** | PR #46 — P2-1 doc-only PR merged agent4 config alongside documentation |
+| **Root cause** | No file allowlist per task type; Cursor added “helpful” config during doc work |
+| **Impact** | agent4 PII restrictions on master before ABAC `role_not_in` code → GAP-ABAC-2 ordering risk |
+| **Rule added** | L3 allowlist: docs-only → `*.md`, `docs/**` only; **forbidden** `src/**`, `tests/**` (F11). L0 Surgical Changes. See [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) §1 LOW + §6 |
+| **Layer** | L3 + L0 |
+| **Prevention** | After stage: `git diff --name-only master` → no `src/` or `tests/` |
 | **Status** | [ACTIVE] |
 
 ---
@@ -44,25 +45,27 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | PR #63 — `Closes #52..#62` closed only #52 |
-| **Root cause** | GitHub does not parse ranges |
-| **Rule added** | Individual `Closes #N` per issue |
-| **Layer** | L5 — PR template |
+| **When** | PR #63 — body had `Closes #52..#62`; only #52 closed |
+| **Root cause** | GitHub does not parse issue ranges; issues created after PR open also do not auto-close |
+| **Impact** | ~10 issues remained OPEN post-merge → hygiene PR → governance lag |
+| **Rule added** | L5 process — list each issue: `Closes #53`, `Closes #54`, … never ranges (**F6**). See PR body template §4 |
+| **Layer** | L5 (Governance & Memory) |
 | **Prevention** | `grep "Closes #.*\.\."` on PR body → 0 matches |
-| **Status** | [RULE ENCODED] |
+| **Status** | [RULE ENCODED — verify at next PR] |
 
 ---
 
-### P-04 — Silent ABAC / policy-loader assumption
+### P-04 — Silent ABAC assumption (`role_not_in` skip)
 
 | Field | Detail |
 |-------|--------|
-| **When** | GAP-ABAC-2 — `role_not_in` handling unclear |
-| **Root cause** | No "state assumptions before coding" |
-| **Rule added** | List condition keys handled vs skipped before loader/policy edits |
-| **Layer** | L0 — Think Before Coding |
-| **Prevention** | ABAC prompts include explicit key list |
-| **Status** | [ACTIVE — highest priority] |
+| **When** | `load_policies()` initially skipped `role_not_in`, `approval_status`, `read_only` silently |
+| **Root cause** | No “state assumptions before coding”; partial ABAC without flagging skips |
+| **Impact** | GAP-ABAC-2 — operators assumed full PII enforcement; runtime silently over-denied |
+| **Rule added** | L0 — before policy/loader changes: list condition keys **handled vs skipped**; if skip → document GAP-* in same PR (**F8**). See [`CLAUDE.md`](../../CLAUDE.md) §Think before coding |
+| **Layer** | L0 (Behavioral Constitution) |
+| **Prevention** | ABAC task prompt: “State all keys in `policies.yml` and which you will implement.” |
+| **Status** | [ACTIVE — highest priority prevention] |
 
 ---
 
@@ -70,11 +73,12 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | Sprint 1 — report on branch before MB-S1 merged |
-| **Root cause** | No "close commit = post-merge SHA" rule |
-| **Rule added** | Sprint archive only after all PRs on master |
-| **Layer** | L5 — CURSOR_RISK F7 |
-| **Prevention** | Sprint report: `git log master -1 --format=%H` after final merge |
+| **When** | Sprint 1 — `PHASE2_SPRINT1_REPORT.md` on branch before MB-S1 PRs merged to master |
+| **Root cause** | No explicit rule: close commit = post-merge SHA only |
+| **Impact** | Close commit in report ambiguous; governance record inaccurate |
+| **Rule added** | L5 — Step 7 archive **only after** all sprint PRs on master; close commit = merge SHA, never branch SHA (**F7**) |
+| **Layer** | L5 |
+| **Prevention** | Sprint report: `git log master -1 --format=%H` **after** final merge |
 | **Status** | [RULE ENCODED] |
 
 ---
@@ -83,11 +87,12 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | Milestone C — ActAdapter skip on high risk; `learn.py` proposals=[] |
-| **Root cause** | Conscious reduction not in PR body |
-| **Rule added** | PR body: `Scope reduction: [item] → [milestone] because [reason]` |
-| **Layer** | L2 + L5 |
-| **Prevention** | PR template scope section not N/A when deferred |
+| **When** | Milestone C — ActAdapter skipped PolicyEngine on `risk_level=high`; `learn.py` `proposals=[]` always |
+| **Root cause** | Conscious, correct reduction not documented in PR body or issue |
+| **Impact** | Audit had to infer intent; ARCHITECTURE Milestone C description drifted |
+| **Rule added** | L2 — PR body: `Scope reduction: [item] → [milestone] because [reason]` (or N/A). See [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) §4 |
+| **Layer** | L2 (Risk Policy) + L5 (Decision log) |
+| **Prevention** | PR template scope section required when deferring |
 | **Status** | [ENCODED IN PR TEMPLATE] |
 
 ---
@@ -96,12 +101,13 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | Post Sprint 2 + post MC — ARCHITECTURE, README, backlog drifted |
-| **Root cause** | No mandatory doc sync at sprint close |
-| **Rule added** | Sprint-close: ARCHITECTURE + README reflect master |
-| **Layer** | L5 sprint-close checklist |
-| **Prevention** | Hygiene PR or same-sprint doc commit |
-| **Status** | [ACTIVE] |
+| **When** | Post Sprint 2 + post MC — `ARCHITECTURE.md`, README, `PHASE1_REPORT_V2`, `MILESTONE_B_BACKLOG` drifted |
+| **Root cause** | No mandatory doc sync at sprint close; docs updated on branch but not always synced to master truth |
+| **Impact** | Dedicated hygiene PRs; ~12 drift items across two audit cycles |
+| **Rule added** | L5 sprint-close — doc sync mandatory before sprint DONE; `ARCHITECTURE.md` + README reflect master. See `.cursorrules` §L5 sprint-close checklist; [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md) §5.6 Evolve |
+| **Layer** | L5 |
+| **Prevention** | Sprint close: `grep -E 'IN PROGRESS|TODO|stale' ARCHITECTURE.md` → 0 unintended hits |
+| **Status** | [ACTIVE — enforce at next sprint close] |
 
 ---
 
@@ -109,10 +115,11 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | `.cursorrules` said "apex stub" while C/C+ CLOSED |
+| **When** | `.cursorrules` said “apex stub” while C/C+ CLOSED |
 | **Root cause** | L1 not synced when milestones close |
-| **Rule added** | Sprint-close: review `.cursorrules` + ARCHITECTURE status |
+| **Rule added** | Sprint-close: review `.cursorrules` + `ARCHITECTURE.md` milestone status |
 | **Layer** | L5 — [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) R4 |
+| **Prevention** | Sprint-close checklist item 4 |
 | **Status** | [RULE ENCODED @ R1] |
 
 ---
@@ -125,6 +132,7 @@
 | **Root cause** | Demo task skipped branch isolation |
 | **Rule added** | Even LOW → `{risk}/{desc}` branch + PR |
 | **Layer** | L3 |
+| **Prevention** | `git branch --show-current` ≠ `master` before commit |
 | **Status** | [RULE ENCODED] |
 
 ---
@@ -137,6 +145,7 @@
 | **Root cause** | Governance docs static only |
 | **Rule added** | `GET /governance/status` + `agentctl gov status` + [`GOVERNANCE_UX_RUNTIME.md`](GOVERNANCE_UX_RUNTIME.md) |
 | **Layer** | L1/L4 — `governance_catalog.py` |
+| **Prevention** | `agentctl gov status` shows CS-01..06 |
 | **Status** | [RULE ENCODED — PR #86] |
 
 ---
@@ -145,10 +154,11 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | `karpathy_acp_artifacts_fixed.html` deploy packet (pytest 156, `docs/CURSOR_RISK` path) vs master post Studies 01–07 |
+| **When** | `karpathy_acp_artifacts_fixed.html` (pytest 156, wrong `docs/CURSOR_RISK` path) vs master post Studies 01–07 |
 | **Root cause** | HTML not reconciled after Gov UX + practice evidence |
 | **Rule added** | [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md); code + practice-evidence > HTML |
 | **Layer** | L5 |
+| **Prevention** | Reconcile at each major governance milestone (G0, ML5, PB-12) |
 | **Status** | [ACTIVE — reconcile each major governance milestone] |
 
 ---
@@ -157,32 +167,41 @@
 
 | Field | Detail |
 |-------|--------|
-| **When** | Study 06 — Mac timeout until Admin portproxy + correct LAN IP |
+| **When** | Study 06 — Mac timeout until Admin portproxy + correct Windows LAN IP |
 | **Root cause** | WSL2 NAT; ping WSL IP from LAN; non-Admin portproxy |
-| **Rule added** | [`study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md`](practice-evidence/study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md) |
+| **Rule added** | [`practice-evidence/study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md`](practice-evidence/study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md) |
 | **Layer** | L3 ops (not code) |
+| **Prevention** | Study 06 topology before multi-host drills |
 | **Status** | [STABLE — encoded in practice evidence] |
 
 ---
 
 ## Maintenance
 
-Add a pattern at each sprint close **before** declaring DONE.
+Add a pattern at each **sprint close** (before declaring sprint DONE).  
+New failures may be added **immediately** — do not wait for sprint end.
 
 Each pattern must:
-1. Reference `.cursorrules` layer / section
-2. Include prevention check (command or template)
+
+1. Reference `.cursorrules` layer / section it maps to  
+2. Include a **prevention check** (command or template)  
 3. Set `Status: [ACTIVE | RULE ENCODED | STABLE]`
 
-**Quarterly review:** 0 recurrence for 2 sprints → [STABLE]; do not delete.
+**Quarterly review** (first calendar: **2026-09**, G1-3):
 
-**Sprint-close checklist:**
-1. GitHub issues — individual `Closes #N`
-2. Doc drift fixed (`ARCHITECTURE.md`, sprint plans)
-3. New pattern row here if failure occurred
-4. `.cursorrules` / `CURSOR_RISK_POLICY.md` updated if rule added
-5. Reconcile HTML artifacts if governance milestone shipped
+- 0 recurrence for 2 sprints → mark **[STABLE]** (do not delete)  
+- Rule prevented recurrence 3+ times → consider promote to `.cursorrules` L0  
+- Do not delete patterns — F9 audit trail
+
+**Sprint-close checklist** (sync with `.cursorrules` §L5):
+
+1. GitHub issues — individual `Closes #N` (P-03)  
+2. Doc drift fixed — `ARCHITECTURE.md`, README, sprint plans (P-07)  
+3. New pattern row here if a failure occurred  
+4. `.cursorrules` / `CURSOR_RISK_POLICY.md` updated if rule added  
+5. Reconcile HTML artifacts if governance milestone shipped (P-11)  
+6. `LESSONS_LEARNED.md` updated — [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md) §5.6 Evolve
 
 ---
 
-**Last updated:** 2026-06-25 @ post Studies 01–07 + drift reconciliation
+**Last updated:** 2026-06-25 @ P-01..P-07 enriched from architect prompt; P-08..P-12 retained
