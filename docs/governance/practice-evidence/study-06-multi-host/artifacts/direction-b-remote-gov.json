@@ -1,0 +1,30 @@
+{
+  "study": "06-multi-host",
+  "direction": "B",
+  "captured": "2026-06-25",
+  "api_host": "mac_mini_native",
+  "api_lan_ip": "192.168.1.99",
+  "api_bind": "0.0.0.0:8000",
+  "acp_config_dir": "tests/fixtures/config",
+  "client_host": "laptop_wsl",
+  "acp_api_url": "http://192.168.1.99:8000",
+  "agentctl_gov_status": {
+    "framework": "6-layer-karpathy (v1.0)",
+    "config_loaded": true,
+    "policy_rules": 8,
+    "public_beta": "IN_PROGRESS",
+    "verdict": "PASS"
+  },
+  "server_log_mac": {
+    "timestamp_local": "2026-06-25T17:03:54",
+    "remote_ip": "192.168.1.59",
+    "remote_port": 59566,
+    "method": "GET",
+    "path": "/governance/status",
+    "status": 200,
+    "latency_ms": 2.17,
+    "note": "Direct LAN IP of Windows laptop — no WSL NAT"
+  },
+  "policy_assign_round_b": "not_captured_in_operator_log",
+  "verdict": "PASS"
+}

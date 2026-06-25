@@ -1,5 +1,12 @@
 # Study 06 — Multi-host (2+ machines)
 
-**Status:** PENDING — [CHECKLIST.md](CHECKLIST.md) + [RUNBOOK.md](RUNBOOK.md)
+**Status:** **PASS** — 2026-06-25 (bidirectional LAN)
 
-API on host A (`0.0.0.0:8000`); client on host B with `ACP_API_URL=http://<A-IP>:8000`.
+| Doc | Purpose |
+|-----|---------|
+| [RESULTS.md](RESULTS.md) | Verdict + matrix |
+| [TOPOLOGY_WINDOWS_MAC.md](TOPOLOGY_WINDOWS_MAC.md) | Win WSL + Mac setup |
+| [CHECKLIST.md](CHECKLIST.md) | Operator checklist |
+| [RUNBOOK.md](RUNBOOK.md) | Generic multi-host runbook |
+
+**Round A:** Laptop API (`192.168.1.59` + portproxy) → Mac client. **Round B:** Mac API (`192.168.1.99`) → Laptop client.

@@ -1,7 +1,7 @@
 # Study 06 — Multi-host — Checklist & hướng đi
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-06-CHECKLIST  
-**Status:** PENDING — sẵn sàng sau Study 05 PASS  
+**Status:** **PASS** — 2026-06-25 (bidirectional LAN; xem [`RESULTS.md`](RESULTS.md))  
 **Full runbook:** [`RUNBOOK.md`](RUNBOOK.md)
 
 ---
@@ -12,7 +12,15 @@ Study 06 **không chạy được trên 1 terminal giả lập** — cần **2 e
 
 ---
 
-## Chọn topology
+## Topology cụ thể (operator)
+
+| Setup | Doc |
+|-------|-----|
+| **Laptop Windows (WSL) + Mac Mini M2** — LAN + Tailscale | [**TOPOLOGY_WINDOWS_MAC.md**](TOPOLOGY_WINDOWS_MAC.md) |
+
+---
+
+## Chọn topology (generic)
 
 | Option | Máy A (API) | Máy B (client) | Độ khó |
 |--------|-------------|----------------|--------|
@@ -24,11 +32,11 @@ Study 06 **không chạy được trên 1 terminal giả lập** — cần **2 e
 
 ## Phase 0 — Trước khi bắt đầu
 
-- [ ] Study 05 PASS (hoặc tối thiểu 01–04 + 05a/05b)
-- [ ] Biết IP LAN máy A: `hostname -I | awk '{print $1}'`
-- [ ] Máy B `ping <IP-A>` thành công
-- [ ] Port 8000 trống trên A: `ss -tlnp | grep 8000`
-- [ ] **Không** dùng `127.0.0.1` bind trên A
+- [x] Study 05 PASS
+- [x] IP LAN: Laptop `192.168.1.59`, Mac `192.168.1.99` (WSL `192.168.21.3` chỉ portproxy)
+- [x] Mac `ping 192.168.1.59` — 0% loss
+- [x] Port 8000 trống trước start; bind `0.0.0.0:8000`
+- [x] **Không** dùng `127.0.0.1` cho remote client
 
 ---
 
@@ -44,10 +52,10 @@ export ACP_CONFIG_DIR=tests/fixtures/config
 uvicorn ai_control_plane.api.server:app --reload --host 0.0.0.0 --port 8000
 ```
 
-- [ ] Local smoke: `curl -s http://127.0.0.1:8000/health` → rules **8**
-- [ ] (Nếu B không kết nối) mở firewall: `sudo ufw allow 8000/tcp`
+- [x] Local smoke: rules **8**
+- [x] Windows Admin portproxy + firewall `ACP-Study06-TCP8000`
 
-Ghi: `API_HOST_IP=____________`
+Ghi: Round A API = `192.168.1.59:8000` (via portproxy); Round B API = `192.168.1.99:8000`
 
 ---
 
@@ -70,21 +78,24 @@ curl -s -X POST "$ACP_API_URL/policy/evaluate" \
 agentctl assign rust-gateway agent2 git_read --json
 ```
 
-- [ ] Test 6-1 remote health → 200, rules **8**
-- [ ] Test 6-2 gov status khớp A
-- [ ] Test 6-3 policy allow true
-- [ ] Test 6-4 assign → task_id; **log A** thấy request từ IP B
+- [x] Test 6-1 remote health (round A Mac → Laptop)
+- [x] Test 6-2 gov status (cả hai chiều)
+- [x] Test 6-3 policy allow (round A)
+- [x] Test 6-4 assign + server log (round A; WSL thấy `192.168.16.1`)
+- [x] Round B đảo vai: Mac API, Laptop `agentctl gov` → Mac log `192.168.1.59`
 
 ---
 
 ## Phase 3 — Evidence
 
-Sau khi PASS, điền [`RESULTS.md`](RESULTS.md) + artifacts:
+Đã điền [`RESULTS.md`](RESULTS.md) + artifacts:
 
-- `artifacts/machine-a-health.json`
-- `artifacts/machine-b-health-remote.json`
-- `terminal-machine-a-server.md`
-- `terminal-machine-b-client.md`
+- `artifacts/topology-lan.json`
+- `artifacts/direction-a-health-remote.json`
+- `artifacts/direction-a-policy-assign.json`
+- `artifacts/direction-b-remote-gov.json`
+- `terminal-direction-a-laptop-server.md` / `terminal-direction-a-mac-client.md`
+- `terminal-direction-b-mac-server.md` / `terminal-direction-b-laptop-client.md`
 
 ---
 
