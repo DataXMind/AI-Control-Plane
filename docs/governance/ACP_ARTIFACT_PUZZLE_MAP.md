@@ -50,6 +50,8 @@ Code on master (actual behavior)
 | **Karpathy rearch (live)** | `ACP_KARPATHY_REARCHITECTURE_PLAN.md` | Cursor + human | Governance track R1–R4 |
 | **Cursor risk policy (L2)** | `CURSOR_RISK_POLICY.md` | Human | Agent-as-developer classification |
 | **Lessons learned (L5)** | `LESSONS_LEARNED.md` | Human | Failure → rule feedback loop |
+| **Governance UX runtime** | `GOVERNANCE_UX_RUNTIME.md`, `GET /governance/status` | Cursor | PR #86 — API + CLI case studies |
+| **Practice evidence** | `practice-evidence/` | Operator | Hands-on Profile A/B/C runs — audit trail for PB-12 |
 
 ---
 

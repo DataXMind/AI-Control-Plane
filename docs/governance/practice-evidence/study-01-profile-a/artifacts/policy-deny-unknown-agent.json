@@ -1,0 +1,19 @@
+{
+  "study": "01-profile-a",
+  "endpoint": "POST /policy/evaluate",
+  "governance_case_study": "CS-06",
+  "request": {
+    "agent_id": "unknown-agent",
+    "project_id": "rust-gateway",
+    "tool_name": "git_read",
+    "role": "backend"
+  },
+  "response": {
+    "allowed": false,
+    "reason": "agent 'unknown-agent' not authorized for project 'rust-gateway'",
+    "requires_approval": false,
+    "policy_id": null,
+    "latency_ms": 0.006616999598918483
+  },
+  "verdict": "PASS"
+}

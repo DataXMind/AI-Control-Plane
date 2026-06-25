@@ -1,0 +1,21 @@
+{
+  "study": "01-profile-a",
+  "command": "pytest tests/test_smoke.py -v -m smoke --tb=short",
+  "acp_config_dir": "tests/fixtures/config",
+  "captured": "2026-06-25",
+  "platform": "linux Python 3.12.3 pytest-9.1.1",
+  "passed": 8,
+  "failed": 0,
+  "duration_seconds": 2.19,
+  "tests": [
+    "test_smk01_core_import_python",
+    "test_smk02_health_readiness",
+    "test_smk03_policy_allow_critical_path",
+    "test_smk04_policy_deny_fail_closed",
+    "test_smk05_quota_dependency_read",
+    "test_smk06_identity_verify_valid_token",
+    "test_smk06b_identity_verify_invalid_token",
+    "test_smk06c_identity_verify_unknown_agent"
+  ],
+  "verdict": "PASS"
+}

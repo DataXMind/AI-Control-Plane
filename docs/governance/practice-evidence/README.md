@@ -1,0 +1,28 @@
+# Practice evidence — Profile A/B/C hands-on runs
+
+**Document ID:** ACP-GOV-PRACTICE-EVIDENCE-001  
+**Purpose:** Bằng chứng thực hành local (operator-run), tách theo terminal, dùng cho audit Public Beta và onboarding sau PB-12.
+
+**Không thay thế CI.** Smoke gate chính thức vẫn là `pytest tests/test_smoke.py -m smoke` trên GitHub Actions.
+
+---
+
+## Index
+
+| Study | Profile | Verdict | Date | Evidence |
+|-------|---------|---------|------|----------|
+| Study 01 | A — fixture / CI | **PASS** | 2026-06-25 | [`study-01-profile-a/`](study-01-profile-a/) |
+
+---
+
+## Cấu trúc mỗi study
+
+```text
+study-NN-profile-x/
+  RESULTS.md          # Ma trận PASS/FAIL + giá trị kỳ vọng
+  terminal-1-server.md   # API / uvicorn / docker
+  terminal-2-client.md   # curl / agentctl / pytest
+  artifacts/          # JSON trích xuất (machine-readable)
+```
+
+**Ghi chú:** Log gốc operator có thể lưu ngoài repo; bản trong repo là bản đã sanitize (không secret).
