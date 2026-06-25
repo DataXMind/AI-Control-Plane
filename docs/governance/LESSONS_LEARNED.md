@@ -64,6 +64,28 @@
 
 ---
 
+## Pattern 6 — Pilot without branch (L3 gap)
+
+| Field | Detail |
+|-------|--------|
+| **Occurrence** | README pilot link edited on `master` working tree without branch |
+| **Cause** | Demo task skipped L3 branch isolation |
+| **Rule added** | Even LOW tasks use `{risk}/{desc}` branch + PR |
+| **Prevent** | L3 — fixed in `low/gov-ux-runtime` with full 6-layer delivery |
+
+---
+
+## Pattern 7 — Governance UX at runtime
+
+| Field | Detail |
+|-------|--------|
+| **Occurrence** | Operators needed milestone/risk context without reading HTML artifacts |
+| **Cause** | Governance docs static only |
+| **Rule added** | `GET /governance/status` + `agentctl gov status` + `GOVERNANCE_UX_RUNTIME.md` |
+| **Prevent** | L1/L4 — catalog in `core/governance_catalog.py`; tests in `test_governance_status.py` |
+
+---
+
 ## Sprint-close checklist (add to DEVELOPMENT_PROTOCOL Evolve)
 
 1. GitHub issues closed with individual `Closes #N`.

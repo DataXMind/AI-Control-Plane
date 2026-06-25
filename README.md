@@ -104,6 +104,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
 - [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — 6-layer L2 risk classification
 - [.cursorrules](.cursorrules) — L0–L5 Cursor governance (Karpathy)
+- [docs/governance/GOVERNANCE_UX_RUNTIME.md](docs/governance/GOVERNANCE_UX_RUNTIME.md) — governance UX runtime + case studies (`GET /governance/status`, `agentctl gov status`)
+- [docs/governance/GOV_6LAYER_AUDIT_PASS.md](docs/governance/GOV_6LAYER_AUDIT_PASS.md) — 6-layer governance audit record
 - [docs/governance/MILESTONE_B_BACKLOG.md](docs/governance/MILESTONE_B_BACKLOG.md) — Milestone B status (CLOSED)
 - [docs/governance/MILESTONE_C_SPRINT_PLAN.md](docs/governance/MILESTONE_C_SPRINT_PLAN.md) — Milestone C status (CLOSED)
 - [docs/governance/PUBLIC_BETA_SPRINT_PLAN.md](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md) — Public Beta PB-1..12

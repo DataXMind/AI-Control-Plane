@@ -11,6 +11,7 @@
 | Method | Path | Schema | Breaking change policy |
 |--------|------|--------|----------------------|
 | GET | `/health` | `HealthResponse` | Additive fields OK until `1.0.0`; no removals |
+| GET | `/governance/status` | `GovernanceStatusResponse` | Additive; case study list may grow |
 | POST | `/policy/evaluate` | `PolicyEvaluateRequest` → `PolicyDecision` | `allowed` + `reason` required |
 | POST | `/identity/verify` | JWT body → `AgentIdentity` | Auth fail = **401** (not 200+deny) |
 | GET | `/quota/{project_id}` | `QuotaStatus` | — |

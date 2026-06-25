@@ -226,3 +226,27 @@ def format_json(data: dict[str, Any]) -> str:
     import json
 
     return json.dumps(data, indent=2, default=str)
+
+
+async def _get_governance_status_async() -> dict[str, Any]:
+    async with httpx.AsyncClient(base_url=api_base_url(), timeout=API_TIMEOUT_SECONDS) as client:
+        try:
+            response = await client.get("/governance/status")
+        except (httpx.TimeoutException, httpx.RequestError) as exc:
+            msg = "governance status unavailable"
+            raise RuntimeError(msg) from exc
+
+        if response.status_code != 200:
+            msg = f"governance status failed ({response.status_code})"
+            raise RuntimeError(msg)
+
+        body = response.json()
+        if not isinstance(body, dict):
+            msg = "invalid governance status response"
+            raise RuntimeError(msg)
+        return body
+
+
+def get_governance_status() -> dict[str, Any]:
+    """Call GET /governance/status."""
+    return asyncio.run(_get_governance_status_async())

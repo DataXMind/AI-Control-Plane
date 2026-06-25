@@ -151,6 +151,37 @@ class HealthResponse(BaseModel):
     model_profiles_loaded: list[str]
 
 
+class GovernanceCaseStudy(BaseModel):
+    """Case study reference for governance UX runtime."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    title: str
+    layer: str
+    occurrence: str
+    runtime_check: str
+    action: str
+
+
+class GovernanceStatusResponse(BaseModel):
+    """GET /governance/status — 6-layer governance UX for operators."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    status: str
+    framework: str
+    governance_version: str
+    config_loaded: bool
+    policy_rules_count: int
+    milestones: dict[str, str]
+    layers: dict[str, str]
+    verify_gate: list[str]
+    doc_links: dict[str, str]
+    public_beta: dict[str, str]
+    case_studies: list[GovernanceCaseStudy]
+
+
 __all__ = [
     "AgentQuotaStatus",
     "ApprovalDecision",
@@ -158,6 +189,8 @@ __all__ = [
     "ApprovalResolveRequest",
     "ApprovalSubmitRequest",
     "ApprovalSubmitResponse",
+    "GovernanceCaseStudy",
+    "GovernanceStatusResponse",
     "HealthResponse",
     "IdentityVerifyRequest",
     "ModelProfileQuotaStatus",

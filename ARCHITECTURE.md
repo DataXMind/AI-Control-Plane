@@ -158,6 +158,8 @@ Shipped parity: `tests/test_shipped_config_parity.py` (CI).
 
 | GET | `/health` | HealthResponse (config wire proof) |
 
+| GET | `/governance/status` | GovernanceStatusResponse (6-layer UX, case studies) |
+
 | POST | `/tasks` | TaskStatus |
 
 | GET | `/status/{project_id}` | TaskStatus |

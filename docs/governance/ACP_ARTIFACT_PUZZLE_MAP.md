@@ -140,6 +140,7 @@ flowchart TB
 | Why monolithic PRs happened? | `LESSONS_LEARNED.md` + `karpathy_acp_rearchitecture_analysis.html` |
 | 6-layer rearchitecture plan? | `ACP_KARPATHY_REARCHITECTURE_PLAN.md` |
 | New Cursor prompt format? | `docs/prompts/_TEMPLATE.md` |
+| Governance UX runtime? | `GOVERNANCE_UX_RUNTIME.md` + `GET /governance/status` |
 | 6-layer audit pass record? | `GOV_6LAYER_AUDIT_PASS.md` |
 | Data classification (L1)? | `docs/DATA_CLASSIFICATION.md` |
 | API contract tests (L4)? | `docs/CONTRACT_TESTS.md` |
