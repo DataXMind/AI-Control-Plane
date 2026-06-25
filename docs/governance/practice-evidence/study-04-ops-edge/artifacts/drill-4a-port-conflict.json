@@ -1,0 +1,17 @@
+{
+  "study": "04-profile-ops",
+  "drill": "4a",
+  "captured": "2026-06-25",
+  "terminal_2_uvicorn_second_instance": {
+    "command": "uvicorn ai_control_plane.api.server:app --reload --host 127.0.0.1 --port 8000",
+    "error": "ERROR: [Errno 98] Address already in use",
+    "verdict": "PASS"
+  },
+  "terminal_2_curl_health": {
+    "acp_api_url": "http://localhost:8000",
+    "policy_rules_count": 8,
+    "agents_count": 3,
+    "verdict": "PASS"
+  },
+  "terminal_1_server_pid": 6549
+}

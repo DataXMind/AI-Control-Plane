@@ -1,7 +1,7 @@
 # Study 04 — Ops edge cases
 
-**Status:** PENDING — runbook ready  
-**Commands:** [`RUNBOOK.md`](RUNBOOK.md) (Terminal 1 & 2 chi tiết cho 4a, 4b, 4c)  
-**Results template:** [`RESULTS.md`](RESULTS.md)
+**Status:** **PASS** @ 2026-06-25  
+**Commands:** [`RUNBOOK.md`](RUNBOOK.md)  
+**Results:** [`RESULTS.md`](RESULTS.md)
 
 Prerequisite: Study 01–03 PASS. Optional — không chặn PB-9.

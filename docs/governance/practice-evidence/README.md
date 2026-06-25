@@ -14,7 +14,7 @@
 | Study 01 | A — fixture / CI | **PASS** | 2026-06-25 | [`study-01-profile-a/`](study-01-profile-a/) |
 | Study 02 | B — shipped `config/` | **PASS** | 2026-06-25 | [`study-02-profile-b/`](study-02-profile-b/) |
 | Study 03 | C — Docker / PB-9 soak | **PASS** | 2026-06-25 | [`study-03-profile-c/`](study-03-profile-c/) |
-| Study 04 | Ops edge cases | OPTIONAL | — | [`study-04-ops-edge/RUNBOOK.md`](study-04-ops-edge/RUNBOOK.md) |
+| Study 04 | Ops edge cases | **PASS** | 2026-06-25 | [`study-04-ops-edge/`](study-04-ops-edge/) |
 | Study 05 | Advanced surprises | OPTIONAL | — | [`study-05-advanced-surprises/RUNBOOK.md`](study-05-advanced-surprises/RUNBOOK.md) |
 | Study 06 | Multi-host (2+ machines) | OPTIONAL | — | [`study-06-multi-host/RUNBOOK.md`](study-06-multi-host/RUNBOOK.md) |
 
