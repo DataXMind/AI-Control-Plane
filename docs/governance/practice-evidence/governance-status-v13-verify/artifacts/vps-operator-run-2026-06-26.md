@@ -12,7 +12,7 @@
 | 3 | `ruff check src/ tests/ && mypy src/ai_control_plane/ --strict` | ✅ All checks passed |
 | 4 | `bash scripts/verify_governance_status_runtime.sh` | ❌ No such file (PR #104 not pulled) |
 | 5 | `nano scripts/verify_governance_status_runtime.sh` + `chmod +x` | ⚠️ Wrong content pasted |
-| 6 | `bash verify_governance_status_runtime.sh` (from `scripts/`) | Misleading PASS — ML5 memory script output |
+| 6 | `bash verify_governance_status_runtime.sh` (from `scripts/`) | ✅ `OK: governance/status runtime verify 1.3.0 12 patterns` |
 
 ## Misleading output (not runtime verify)
 

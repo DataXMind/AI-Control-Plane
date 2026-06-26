@@ -24,7 +24,7 @@
 | Study 07 | Cross-network (Tailscale) | **PASS** | 2026-06-25 | [`study-07-cross-network/`](study-07-cross-network/) |
 | Study 08 | B — shipped remote VPS | **PASS** | 2026-06-26 | [`study-08-shipped-remote/`](study-08-shipped-remote/) |
 | Gov status v1.2 | Docker dual-host (PR #99) | **PASS** | 2026-06-26 | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
-| Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PARTIAL** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) |
+| Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PASS** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) |
 
 † Study 05: 5g G2-1 + 5e G2-2 closed @ 2026-06-26.
 
