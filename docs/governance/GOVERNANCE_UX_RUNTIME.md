@@ -113,6 +113,8 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `/health` | CI smoke, config wire proof, k8s liveness |
 | `/governance/status` | On-call governance checklist, pre-merge review, onboarding |
 
+**Operator verify (catalog v1.2):** After merges touching `src/`, rebuild Docker staging then run canonical assert — see [`practice-evidence/governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md) (dual-host PASS @ 2026-06-26).
+
 **Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–07 PASS.  
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).

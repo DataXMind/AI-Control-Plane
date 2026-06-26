@@ -406,7 +406,20 @@ Khi trích dẫn evidence trong PR/issue:
 ```text
 Practice evidence Study NN — docs/governance/practice-evidence/study-NN-*/RESULTS.md
 Artifact: study-NN-*/artifacts/<file>.json
+Governance UX v1.2 verify — practice-evidence/governance-status-v12-verify/RESULTS.md
 ```
+
+### 14.3b Supplemental — governance status v1.2 (PR #99)
+
+| Field | Value |
+|-------|--------|
+| **Verdict** | **PASS** dual-host |
+| **Date** | 2026-06-26 |
+| **Path** | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
+| **Assert** | `governance_version` 1.2 · 7 `known_gaps` · `practice_evidence` PASS |
+| **Hosts** | MSI Docker + `ubuntu-vps` systemd/Docker |
+
+Documents stale-image lesson (rebuild required after `src/` merge).
 
 ### 14.4 Đề xuất follow-up studies (optional)
 
