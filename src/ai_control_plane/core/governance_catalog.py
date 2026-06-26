@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.2.2"
+GOVERNANCE_VERSION = "1.3.0"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -169,12 +169,125 @@ KNOWN_GAPS: list[dict[str, str]] = [
     },
 ]
 
+# LESSONS_LEARNED pattern registry (P-01..P-12) — summary only; full prose in markdown SSOT
+LESSON_PATTERNS: list[dict[str, Any]] = [
+    {
+        "id": "P-01",
+        "title": "Monolithic PR risk",
+        "layer": "L3",
+        "status": "ACTIVE",
+        "rule_ref": "CURSOR_RISK_POLICY.md F4",
+        "case_study_id": "CS-01",
+        "prevention": "git diff master --stat | tail -1 → verify LOC",
+    },
+    {
+        "id": "P-02",
+        "title": "Scope creep in doc-only PRs",
+        "layer": "L3",
+        "status": "ACTIVE",
+        "rule_ref": "CURSOR_RISK_POLICY.md F11",
+        "case_study_id": "CS-02",
+        "prevention": "git diff --name-only master → no src/ or tests/",
+    },
+    {
+        "id": "P-03",
+        "title": "GitHub auto-close failure (issue ranges)",
+        "layer": "L5",
+        "status": "ENCODED",
+        "rule_ref": "CURSOR_RISK_POLICY.md F6",
+        "case_study_id": "CS-03",
+        "prevention": 'grep "Closes #.*\\.\\." PR body → 0 matches',
+    },
+    {
+        "id": "P-04",
+        "title": "Silent ABAC assumption (role_not_in skip)",
+        "layer": "L0",
+        "status": "ACTIVE",
+        "rule_ref": "CURSOR_RISK_POLICY.md F8",
+        "case_study_id": "CS-04",
+        "prevention": "List ABAC keys handled vs skipped before loader edits",
+    },
+    {
+        "id": "P-05",
+        "title": "Step 7 timing (archive before merge)",
+        "layer": "L5",
+        "status": "ENCODED",
+        "rule_ref": "DEVELOPMENT_PROTOCOL.md §5.6",
+        "case_study_id": None,
+        "prevention": "Sprint report close commit = post-merge master SHA",
+    },
+    {
+        "id": "P-06",
+        "title": "SAPAL scope reduction undocumented",
+        "layer": "L2",
+        "status": "ENCODED",
+        "rule_ref": "CURSOR_RISK_POLICY.md §4",
+        "case_study_id": None,
+        "prevention": "PR body: Scope reduction: [item] → [milestone] because [reason]",
+    },
+    {
+        "id": "P-07",
+        "title": "Doc drift between sprints",
+        "layer": "L5",
+        "status": "ACTIVE",
+        "rule_ref": "DEVELOPMENT_PROTOCOL.md §5.6 Evolve",
+        "case_study_id": None,
+        "prevention": "Sprint close: ARCHITECTURE.md + README synced to master",
+    },
+    {
+        "id": "P-08",
+        "title": "Stale .cursorrules L1 after milestone close",
+        "layer": "L5",
+        "status": "ENCODED",
+        "rule_ref": "ACP_KARPATHY_REARCHITECTURE_PLAN.md R4",
+        "case_study_id": None,
+        "prevention": "Sprint-close: review .cursorrules milestone status",
+    },
+    {
+        "id": "P-09",
+        "title": "Pilot without branch (L3 gap)",
+        "layer": "L3",
+        "status": "ENCODED",
+        "rule_ref": "CURSOR_RISK_POLICY.md §1",
+        "case_study_id": None,
+        "prevention": "git branch --show-current ≠ master before commit",
+    },
+    {
+        "id": "P-10",
+        "title": "Governance UX static-only",
+        "layer": "L4",
+        "status": "ENCODED",
+        "rule_ref": "GOVERNANCE_UX_RUNTIME.md",
+        "case_study_id": None,
+        "prevention": "agentctl gov status → case_studies CS-01..06",
+    },
+    {
+        "id": "P-11",
+        "title": "HTML artifact context drift",
+        "layer": "L5",
+        "status": "ACTIVE",
+        "rule_ref": "GOVERNANCE_DRIFT_RECONCILIATION.md",
+        "case_study_id": None,
+        "prevention": "Reconcile HTML at each major governance milestone",
+    },
+    {
+        "id": "P-12",
+        "title": "WSL2 multi-host ingress (operator)",
+        "layer": "L3",
+        "status": "STABLE",
+        "rule_ref": "study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md",
+        "case_study_id": None,
+        "prevention": "Study 06 topology before multi-host drills",
+    },
+]
+
 PRACTICE_EVIDENCE: dict[str, str | int] = {
-    "studies_completed": 7,
+    "studies_completed": 8,
     "last_run": "2026-06-26",
     "overall_verdict": "PASS",
     "index_url": "docs/governance/practice-evidence/README.md",
     "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
+    "study_08_url": "docs/governance/practice-evidence/study-08-shipped-remote/RESULTS.md",
 }
 
 __all__ = [
@@ -183,6 +296,7 @@ __all__ = [
     "GOVERNANCE_FRAMEWORK",
     "GOVERNANCE_VERSION",
     "KNOWN_GAPS",
+    "LESSON_PATTERNS",
     "LAYER_SUMMARY",
     "MILESTONE_STATUS",
     "PRACTICE_EVIDENCE",

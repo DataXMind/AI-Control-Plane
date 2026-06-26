@@ -177,8 +177,22 @@ class GovernanceKnownGap(BaseModel):
     remediation: str
 
 
+class LessonPattern(BaseModel):
+    """LESSONS_LEARNED pattern summary (P-01..P-12)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    title: str
+    layer: str
+    status: str
+    rule_ref: str
+    case_study_id: str | None = None
+    prevention: str
+
+
 class PracticeEvidenceSummary(BaseModel):
-    """Operator practice studies 01–07 summary."""
+    """Operator practice studies summary."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -187,6 +201,7 @@ class PracticeEvidenceSummary(BaseModel):
     overall_verdict: str
     index_url: str
     audit_url: str
+    study_08_url: str
 
 
 class GovernanceStatusResponse(BaseModel):
@@ -206,6 +221,7 @@ class GovernanceStatusResponse(BaseModel):
     public_beta: dict[str, str]
     case_studies: list[GovernanceCaseStudy]
     known_gaps: list[GovernanceKnownGap]
+    lessons_patterns: list[LessonPattern]
     practice_evidence: PracticeEvidenceSummary
 
 
@@ -219,6 +235,7 @@ __all__ = [
     "GovernanceCaseStudy",
     "GovernanceKnownGap",
     "GovernanceStatusResponse",
+    "LessonPattern",
     "PracticeEvidenceSummary",
     "HealthResponse",
     "IdentityVerifyRequest",

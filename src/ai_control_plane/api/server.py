@@ -27,6 +27,7 @@ from ai_control_plane.api.schemas import (
     GovernanceStatusResponse,
     HealthResponse,
     IdentityVerifyRequest,
+    LessonPattern,
     ModelProfileQuotaStatus,
     PolicyEvalRequest,
     PolicyEvalResponse,
@@ -56,6 +57,7 @@ from ai_control_plane.core.governance_catalog import (
     GOVERNANCE_VERSION,
     KNOWN_GAPS,
     LAYER_SUMMARY,
+    LESSON_PATTERNS,
     MILESTONE_STATUS,
     PRACTICE_EVIDENCE,
     PUBLIC_BETA,
@@ -499,6 +501,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
         acp: AppState = request.app.state.acp
         studies = [GovernanceCaseStudy.model_validate(cs) for cs in CASE_STUDIES]
         gaps = [GovernanceKnownGap.model_validate(g) for g in KNOWN_GAPS]
+        patterns = [LessonPattern.model_validate(p) for p in LESSON_PATTERNS]
         practice = PracticeEvidenceSummary.model_validate(PRACTICE_EVIDENCE)
         return GovernanceStatusResponse(
             status="ok",
@@ -513,6 +516,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
             public_beta=dict(PUBLIC_BETA),
             case_studies=studies,
             known_gaps=gaps,
+            lessons_patterns=patterns,
             practice_evidence=practice,
         )
 
