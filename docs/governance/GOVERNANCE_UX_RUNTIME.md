@@ -100,8 +100,9 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `doc_links` | Paths to governance markdown |
 | `public_beta` | PB-9 soak metadata |
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
+| `lessons_patterns` | P-01..P-12 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
 | `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
-| `practice_evidence` | Studies 01–07 summary + index URLs |
+| `practice_evidence` | Studies 01–08 summary + index URLs |
 | `config_loaded`, `policy_rules_count` | Live wire proof (like `/health`) |
 
 ---
@@ -113,10 +114,16 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `/health` | CI smoke, config wire proof, k8s liveness |
 | `/governance/status` | On-call governance checklist, pre-merge review, onboarding |
 
-**Operator verify (catalog v1.2):** After merges touching `src/`, rebuild Docker staging then run canonical assert — see [`practice-evidence/governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md) (dual-host PASS @ 2026-06-26).
+**Operator verify (catalog v1.3):** After merges touching `src/`, rebuild Docker staging then:
 
-**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–07 PASS.  
+```bash
+bash scripts/verify_governance_status_runtime.sh   # ACP_API_URL defaults to http://127.0.0.1:8000
+```
+
+See also [`practice-evidence/governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md).
+
+**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 PASS.  
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-26 — G-04 process-layer note; `known_gaps` + `practice_evidence` fields (catalog v1.2)
+**Last updated:** 2026-06-26 — catalog v1.3: `lessons_patterns` P-01..P-12; `practice_evidence` studies=8

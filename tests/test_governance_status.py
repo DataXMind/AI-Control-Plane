@@ -6,7 +6,11 @@ from fastapi.testclient import TestClient
 
 from ai_control_plane.api.schemas import GovernanceStatusResponse
 from ai_control_plane.api.server import create_app
-from ai_control_plane.core.governance_catalog import CASE_STUDIES, GOVERNANCE_FRAMEWORK
+from ai_control_plane.core.governance_catalog import (
+    CASE_STUDIES,
+    GOVERNANCE_FRAMEWORK,
+    LESSON_PATTERNS,
+)
 
 
 def test_governance_status_returns_6_layer_payload() -> None:
@@ -29,7 +33,14 @@ def test_governance_status_returns_6_layer_payload() -> None:
     closed = {g.id for g in parsed.known_gaps if g.status == "CLOSED"}
     assert "G-01" in closed and "G-02" in closed and "G-03" in closed and "G-04" in closed
     assert "G-06" in closed and "G-07" in closed
-    assert parsed.practice_evidence.studies_completed == 7
+    open_gaps = {g.id for g in parsed.known_gaps if g.status == "OPEN"}
+    assert open_gaps == {"G-05"}
+    assert len(parsed.lessons_patterns) == len(LESSON_PATTERNS)
+    assert parsed.lessons_patterns[0].id == "P-01"
+    assert parsed.lessons_patterns[0].case_study_id == "CS-01"
+    assert parsed.governance_version == "1.3.0"
+    assert parsed.practice_evidence.studies_completed == 8
+    assert parsed.practice_evidence.study_08_url.endswith("study-08-shipped-remote/RESULTS.md")
     assert parsed.practice_evidence.overall_verdict == "PASS"
 
 
