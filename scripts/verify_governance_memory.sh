@@ -46,7 +46,7 @@ if [[ -f "$MATURITY" ]]; then ok "$MATURITY"; else fail "missing $MATURITY"; fi
 
 # M5-5 — catalog doc_links (grep SSOT)
 CATALOG="src/ai_control_plane/core/governance_catalog.py"
-for key in agents_md session_anchor gold_patterns l5_maturity pre_approval_audit; do
+for key in agents_md session_anchor gold_patterns l5_maturity pre_approval_audit behavioral_constitution cursor_risk_policy practice_evidence_index; do
   if grep -q "\"$key\"" "$CATALOG"; then
     ok "governance_catalog doc_links.$key"
   else

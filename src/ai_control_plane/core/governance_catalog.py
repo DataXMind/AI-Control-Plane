@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.3.0"
+GOVERNANCE_VERSION = "1.3.1"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -18,28 +18,31 @@ VERIFY_GATE_COMMANDS: list[str] = [
 DOC_LINKS: dict[str, str] = {
     "architecture": "ARCHITECTURE.md",
     "agents_md": "AGENTS.md",
+    "behavioral_constitution": "CLAUDE.md",
+    "claude_md": "CLAUDE.md",
     "cursorrules": ".cursorrules",
     "cursor_rules": ".cursor/rules/",
     "risk_policy": "docs/governance/CURSOR_RISK_POLICY.md",
+    "cursor_risk_policy": "docs/governance/CURSOR_RISK_POLICY.md",
     "lessons_learned": "docs/governance/LESSONS_LEARNED.md",
     "session_anchor": "docs/prompts/SESSION_ANCHOR_TEMPLATE.md",
     "l5_maturity": "docs/governance/L5_MATURITY_MODEL.md",
     "pre_approval_audit": "docs/governance/GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md",
     "gold_patterns": "docs/governance/gold-patterns/README.md",
     "audit_pass": "docs/governance/GOV_6LAYER_AUDIT_PASS.md",
-    "claude_md": "CLAUDE.md",
+    "practice_evidence_index": "docs/governance/practice-evidence/README.md",
     "practice_audit": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "ux_runtime": "docs/governance/GOVERNANCE_UX_RUNTIME.md",
     "public_beta_plan": "docs/governance/PUBLIC_BETA_SPRINT_PLAN.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
-    "L0": "Behavioral — think before coding, simplicity, surgical, goal-driven",
+    "L0": "Behavioral — think before coding; P-04 ABAC (see lessons_patterns)",
     "L1": "Context — ARCHITECTURE.md, DATA_CLASSIFICATION.md",
     "L2": "Risk — CURSOR_RISK_POLICY.md (LOW/MED/HIGH/CRITICAL)",
-    "L3": "Guardrails — branch isolation, file allowlists, invariants",
+    "L3": "Guardrails — branch isolation; P-01/P-02 (see lessons_patterns)",
     "L4": "Evaluation — ruff, mypy, pytest, smoke, parity",
-    "L5": "Memory — LESSONS_LEARNED.md, AGENTS.md, .cursor/rules/, GP-01 gold pattern",
+    "L5": "Memory — LESSONS P-03/P-05/P-07; AGENTS.md; GP-01 (see lessons_patterns)",
 }
 
 MILESTONE_STATUS: dict[str, str] = {
@@ -281,10 +284,15 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
     },
 ]
 
-PRACTICE_EVIDENCE: dict[str, str | int] = {
+PRACTICE_EVIDENCE: dict[str, str | int | list[str]] = {
     "studies_completed": 8,
     "last_run": "2026-06-26",
     "overall_verdict": "PASS",
+    "open_gaps_count": 1,
+    "artifacts_count": 32,
+    "hosts": ["MSI WSL", "Mac Mini M2", "ubuntu-vps"],
+    "network_topologies": ["localhost", "Docker", "LAN", "Tailscale"],
+    "note": "Studies 01–08 PASS; PB-9 calendar soak (G-05) separate from one-shot drills.",
     "index_url": "docs/governance/practice-evidence/README.md",
     "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "study_08_url": "docs/governance/practice-evidence/study-08-shipped-remote/RESULTS.md",
