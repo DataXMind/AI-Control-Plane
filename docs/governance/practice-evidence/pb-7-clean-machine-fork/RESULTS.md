@@ -1,7 +1,7 @@
 # PB-7 — Clean-machine fork — Results
 
 **Document ID:** ACP-GOV-PRACTICE-PB7-RESULTS  
-**Status:** **PENDING**  
+**Status:** **PAUSED** — operator will run on separate laptop  
 **Run date:** —  
 **Operator:** —  
 **Path:** — (A Docker / B native)
