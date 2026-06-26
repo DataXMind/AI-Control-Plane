@@ -98,13 +98,13 @@ sudo ufw allow 8000/tcp
 sudo ufw status
 ```
 
-**Windows host + WSL:** có thể cần portproxy — xem **§ Windows/WSL2 LAN bind** bên dưới. Ưu tiên cả A và B đều WSL/Linux cùng LAN nếu có thể.
+**Windows host + WSL:** portproxy required — **SSOT:** [`docs/RUNBOOK.md`](../../../RUNBOOK.md) § Windows / WSL2 — LAN network bind. Summary below.
 
 ### Windows/WSL2 LAN bind (Study 06 Round A)
 
 Khi **máy A** chạy uvicorn trong WSL2, máy B trên LAN không reach được `127.0.0.1` trong WSL. Cần publish port ra Windows host IP.
 
-**SSOT chi tiết:** [`TOPOLOGY_WINDOWS_MAC.md`](TOPOLOGY_WINDOWS_MAC.md) § portproxy.
+**SSOT chi tiết:** [`TOPOLOGY_WINDOWS_MAC.md`](TOPOLOGY_WINDOWS_MAC.md) · [`docs/RUNBOOK.md`](../../../RUNBOOK.md)
 
 **Tóm tắt (PowerShell Admin):**
 

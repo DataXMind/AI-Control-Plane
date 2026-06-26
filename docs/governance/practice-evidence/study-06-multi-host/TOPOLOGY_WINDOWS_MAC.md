@@ -306,4 +306,5 @@ netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0
 ## Liên kết
 
 - [CHECKLIST.md](CHECKLIST.md) — checklist chung  
-- [RUNBOOK.md](RUNBOOK.md) — runbook generic multi-host
+- [RUNBOOK.md](RUNBOOK.md) — Study 06 multi-host drill
+- [`docs/RUNBOOK.md`](../../../RUNBOOK.md) — operator SSOT (Windows/WSL LAN bind)
