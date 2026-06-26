@@ -23,12 +23,14 @@ from ai_control_plane.api.schemas import (
     AgentQuotaStatus,
     ApprovalResolveRequest,
     GovernanceCaseStudy,
+    GovernanceKnownGap,
     GovernanceStatusResponse,
     HealthResponse,
     IdentityVerifyRequest,
     ModelProfileQuotaStatus,
     PolicyEvalRequest,
     PolicyEvalResponse,
+    PracticeEvidenceSummary,
     QuotaStatus,
     ServiceUnavailableResponse,
     TaskRegisterRequest,
@@ -52,8 +54,10 @@ from ai_control_plane.core.governance_catalog import (
     DOC_LINKS,
     GOVERNANCE_FRAMEWORK,
     GOVERNANCE_VERSION,
+    KNOWN_GAPS,
     LAYER_SUMMARY,
     MILESTONE_STATUS,
+    PRACTICE_EVIDENCE,
     PUBLIC_BETA,
     VERIFY_GATE_COMMANDS,
 )
@@ -494,6 +498,8 @@ def create_app(state: AppState | None = None) -> FastAPI:
         """Governance UX runtime — 6-layer status, case studies, verify gate."""
         acp: AppState = request.app.state.acp
         studies = [GovernanceCaseStudy.model_validate(cs) for cs in CASE_STUDIES]
+        gaps = [GovernanceKnownGap.model_validate(g) for g in KNOWN_GAPS]
+        practice = PracticeEvidenceSummary.model_validate(PRACTICE_EVIDENCE)
         return GovernanceStatusResponse(
             status="ok",
             framework=GOVERNANCE_FRAMEWORK,
@@ -506,6 +512,8 @@ def create_app(state: AppState | None = None) -> FastAPI:
             doc_links=dict(DOC_LINKS),
             public_beta=dict(PUBLIC_BETA),
             case_studies=studies,
+            known_gaps=gaps,
+            practice_evidence=practice,
         )
 
     @app.post("/tasks", response_model=TaskStatus)

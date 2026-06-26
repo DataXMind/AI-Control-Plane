@@ -28,6 +28,18 @@ CLI entrypoint: agentctl (via console_scripts)
 
 8. config/ ở root = shipped defaults, runtime path = ACP_CONFIG_DIR env var
 
+### Deployment config profiles (operator practice evidence)
+
+Three validated tiers from Studies 01–07 — use when choosing `ACP_CONFIG_DIR` vs shipped defaults:
+
+| Profile | Config source | Typical `policy_rules_count` | Studies | Use case |
+|---------|---------------|------------------------------|---------|----------|
+| **A** | `tests/fixtures/config` (`ACP_CONFIG_DIR`) | 8 | 01, 04–07 | Dev, CI, remote fixture drill |
+| **B** | Shipped `config/` (`ACP_CONFIG_DIR` unset) | 10 | 02 | Staging/production-like local |
+| **C** | Docker image fixture (`examples/minimal`) | 8 | 03, PB-9 | Container staging / soak |
+
+**Note:** `ACP_CONFIG_DIR` on a **client shell** does not change a running API — config loads at server startup only (Study 04c). Remote Profile B (shipped on VPS) is gap **G-06** — see `PRACTICE_STUDIES_AUDIT_01-07.md`.
+
 
 
 ### Module ownership (Cursor L1 — review triggers)

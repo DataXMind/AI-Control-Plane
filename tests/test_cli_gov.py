@@ -17,7 +17,7 @@ API_BASE = "http://localhost:8000"
 GOV_PAYLOAD: dict[str, object] = {
     "status": "ok",
     "framework": "6-layer-karpathy",
-    "governance_version": "1.1",
+    "governance_version": "1.2",
     "config_loaded": True,
     "policy_rules_count": 8,
     "milestones": {
@@ -49,6 +49,23 @@ GOV_PAYLOAD: dict[str, object] = {
             "action": "DENY on API down",
         },
     ],
+    "known_gaps": [
+        {
+            "id": "G-01",
+            "study": "05",
+            "title": "Kill switch drill",
+            "severity": "medium",
+            "status": "CLOSED",
+            "remediation": "G2-1",
+        },
+    ],
+    "practice_evidence": {
+        "studies_completed": 7,
+        "last_run": "2026-06-25",
+        "overall_verdict": "PASS",
+        "index_url": "docs/governance/practice-evidence/README.md",
+        "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
+    },
 }
 
 
@@ -65,7 +82,7 @@ def test_gov_status_text_output(respx_mock: respx.MockRouter) -> None:
     result = runner.invoke(app, ["gov", "status"])
 
     assert result.exit_code == 0
-    assert "6-layer-karpathy (v1.1)" in result.output
+    assert "6-layer-karpathy (v1.2)" in result.output
     assert "Config loaded: True | Policy rules: 8" in result.output
     assert "milestone_c_plus: CLOSED" in result.output
     assert "PB-9 staging soak (#77-#80)" in result.output
@@ -84,7 +101,7 @@ def test_gov_status_json_output(respx_mock: respx.MockRouter) -> None:
     assert result.exit_code == 0
     parsed = json.loads(result.output)
     assert parsed["framework"] == "6-layer-karpathy"
-    assert parsed["governance_version"] == "1.1"
+    assert parsed["governance_version"] == "1.2"
     assert len(parsed["case_studies"]) == 2
     assert parsed["case_studies"][0]["id"] == "CS-01"
 

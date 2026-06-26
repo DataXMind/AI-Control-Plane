@@ -43,6 +43,8 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 | G-03 | 07 | ~~**7-0n** negative LAN ping không paste~~ **CLOSED G2-4** @ 2026-06-26 | — | `study-07/artifacts/terminal-7-0n-negative-lan.md` |
 | G-04 | 01–07 | CS-01/03/04 **không có hands-on drill** | Info | Runtime listed in `gov status`; process checks manual |
 | G-05 | PB-9 | Calendar soak 14d ≠ practice one-shot | Info | `PB9_STAGING_SOAK_LOG.md` |
+| G-06 | 08 | **Profile B remote** — shipped config on remote host | Low | Study 08 on `ubuntu-vps` without `ACP_CONFIG_DIR` |
+| G-07 | 08 | **apex/trigger** with shipped config remote | Low | Study 08 soak with rules=10 |
 
 ---
 
@@ -196,7 +198,7 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 
 | Field | Value |
 |-------|--------|
-| **Verdict** | **PASS** (6/7 drills) |
+| **Verdict** | **PASS** (7/7 drills; 5g G2-1) |
 | **Hypothesis** | Fail-closed under stress; RBAC deny; Docker vs uvicorn |
 | **Evidence path** | [`study-05-advanced-surprises/`](study-05-advanced-surprises/) |
 

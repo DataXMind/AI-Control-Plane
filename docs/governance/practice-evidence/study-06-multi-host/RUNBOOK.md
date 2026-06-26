@@ -98,7 +98,38 @@ sudo ufw allow 8000/tcp
 sudo ufw status
 ```
 
-**Windows host + WSL:** có thể cần portproxy — ưu tiên cả A và B đều WSL/Linux cùng LAN trước.
+**Windows host + WSL:** có thể cần portproxy — xem **§ Windows/WSL2 LAN bind** bên dưới. Ưu tiên cả A và B đều WSL/Linux cùng LAN nếu có thể.
+
+### Windows/WSL2 LAN bind (Study 06 Round A)
+
+Khi **máy A** chạy uvicorn trong WSL2, máy B trên LAN không reach được `127.0.0.1` trong WSL. Cần publish port ra Windows host IP.
+
+**SSOT chi tiết:** [`TOPOLOGY_WINDOWS_MAC.md`](TOPOLOGY_WINDOWS_MAC.md) § portproxy.
+
+**Tóm tắt (PowerShell Admin):**
+
+```powershell
+$wslIp = (wsl hostname -I).Trim().Split(" ")[0]
+netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0 2>$null
+netsh interface portproxy add v4tov4 listenport=8000 listenaddress=0.0.0.0 connectport=8000 connectaddress=$wslIp
+netsh interface portproxy show all
+```
+
+**Firewall:** inbound TCP 8000 rule (Study 06: `ACP-Study06-TCP8000`).
+
+**Verify từ máy B:**
+
+```bash
+curl -sf http://<WINDOWS_LAN_IP>:8000/health | python3 -m json.tool
+```
+
+**Cleanup sau drill:**
+
+```powershell
+netsh interface portproxy delete v4tov4 listenport=8000 listenaddress=0.0.0.0
+```
+
+**Evidence:** `terminal-direction-a-laptop-server.md`, `artifacts/topology-lan.json`.
 
 ### Máy A — smoke local trước khi sang B
 
