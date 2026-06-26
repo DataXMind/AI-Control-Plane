@@ -62,3 +62,5 @@ HTTP **200** · global deny · reason contains `kill_switch_active`.
 | `/health` remains reachable | `status: ok` | ✅ PASS |
 
 **Code coverage:** `tests/test_guardrails.py` (MB-S1-1) — this drill is **operator evidence** only.
+
+**Machine-readable:** [`kill-switch-active.json`](kill-switch-active.json) · [`health-during-kill-switch.json`](health-during-kill-switch.json)

@@ -243,6 +243,15 @@ curl -s -X POST "$ACP_API_URL/policy/evaluate" \
 
 **Kỳ vọng khi active:** `"allowed": false` + reason liên quan kill switch.
 
+**HTTP contract (P-13 — counter-intuitive):**
+
+| Endpoint | Kill switch active | Signal |
+|----------|-------------------|--------|
+| `POST /policy/evaluate` | HTTP **200** | `allowed: false`, `reason` starts with `kill_switch_active:` |
+| `GET /health` | HTTP **200** | Exempt — API process still up; **not** a kill-switch-off indicator |
+
+Monitoring/alerting must check **`allowed` + `reason`** (or `policies.yml` → `kill_switch.active`), **not** HTTP 5xx alone. Evidence: [`artifacts/kill-switch-active.json`](artifacts/kill-switch-active.json), [`artifacts/health-during-kill-switch.json`](artifacts/health-during-kill-switch.json). See [`LESSONS_LEARNED.md`](../../LESSONS_LEARNED.md) P-13.
+
 **Dọn:** `rm -rf /tmp/acp-killswitch-config`; **không commit** thay đổi `policies.yml` trong repo.
 
 ### Cách B — Skip hợp lệ

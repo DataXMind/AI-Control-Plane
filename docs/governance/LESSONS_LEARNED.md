@@ -176,6 +176,23 @@
 
 ---
 
+### P-13 — Kill switch HTTP contract (counter-intuitive behavior)
+
+| Field | Detail |
+|-------|--------|
+| **When** | Study 05 drill 5g (G-01 remediation, G2-1) — 2026-06-26 |
+| **Root cause** | Kill switch active → HTTP **200** + `allowed: false` (NOT 503). Operators expecting HTTP error codes miss the deny signal. `GET /health` is exempt — returns 200 even when kill switch active. |
+| **Impact (potential)** | Operator monitoring for HTTP 5xx would not detect kill switch state. TS `PolicyClient` correctly handles 200+`allowed=false`, but human ops dashboards may not surface this without explicit `kill_switch_active` reason check. |
+| **Evidence** | [`practice-evidence/study-05-advanced-surprises/artifacts/terminal-5g-g2-killswitch.md`](practice-evidence/study-05-advanced-surprises/artifacts/terminal-5g-g2-killswitch.md); [`kill-switch-active.json`](practice-evidence/study-05-advanced-surprises/artifacts/kill-switch-active.json); [`health-during-kill-switch.json`](practice-evidence/study-05-advanced-surprises/artifacts/health-during-kill-switch.json) |
+| **Rule added** | L2 risk policy — kill switch activation is an operator action requiring explicit monitoring of `allowed=false` + `reason` field, not HTTP status code. See [`CURSOR_RISK_POLICY.md`](CURSOR_RISK_POLICY.md) §10; Study 05 [`RUNBOOK.md`](practice-evidence/study-05-advanced-surprises/RUNBOOK.md) §5g |
+| **Layer** | L2 (Risk Policy) + L4 (Evaluation — monitoring contract) |
+| **Prevention** | When kill switch may be active: `curl -sf -X POST "$ACP_API_URL/policy/evaluate" … \| python3 -c "import sys,json; d=json.load(sys.stdin); assert not d['allowed'] and d['reason'].startswith('kill_switch_active')"` — do **not** alert on HTTP 5xx alone |
+| **Status** | [RULE ENCODED — G2-1 @ 2026-06-26] |
+
+> **Note:** Claude architect prompt (post–Study 05g-r) proposed **P-08** for this pattern. **P-08** was already assigned at G0 reconciliation (stale `.cursorrules` L1). Per F9 do-not-delete, this lesson is **P-13**.
+
+---
+
 ## Maintenance
 
 Add a pattern at each **sprint close** (before declaring sprint DONE).  
@@ -204,4 +221,4 @@ Each pattern must:
 
 ---
 
-**Last updated:** 2026-06-25 @ P-01..P-07 enriched from architect prompt; P-08..P-12 retained
+**Last updated:** 2026-06-26 @ P-13 kill switch HTTP contract (G2-1); P-08..P-12 unchanged

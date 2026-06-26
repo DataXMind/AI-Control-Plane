@@ -250,7 +250,7 @@ Waivers require **Claude architect** written approval in chat **and** human ackn
 
 - Branch: `{risk}/{issue-id}-{short-desc}` (e.g. `low/test-cli-gov-coverage`)
 - HIGH/CRITICAL: diff summary per invariant touched
-- Link patterns: [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md) P-01..P-12
+- Link patterns: [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md) P-01..P-13
 
 ---
 
@@ -268,5 +268,32 @@ Baseline: **165+** pytest, smoke **8/8** (HTML deploy artifact “156” is stal
 
 ---
 
+## 10. Operator monitoring contracts (runtime — L4)
+
+### Kill switch (P-13)
+
+When `kill_switch.active: true` in `config/policies.yml`:
+
+| Endpoint | HTTP | Body signal |
+|----------|------|-------------|
+| `POST /policy/evaluate` | **200** (not 503) | `allowed: false`, `reason: "kill_switch_active: …"` |
+| `GET /health` | **200** | Exempt — process up; does **not** prove kill switch off |
+
+**Rule:** Kill switch activation is an operator action. Alerts must watch `allowed=false` + `reason`, or `policies.yml` `kill_switch.active` — **not** HTTP 5xx alone.
+
+**Evidence:** Study 05 drill 5g G2-1 @ 2026-06-26 — [`practice-evidence/study-05-advanced-surprises/artifacts/terminal-5g-g2-killswitch.md`](practice-evidence/study-05-advanced-surprises/artifacts/terminal-5g-g2-killswitch.md).
+
+**Prevention check:**
+
+```bash
+# When kill switch is intentionally active:
+curl -sf -X POST "${ACP_API_URL}/policy/evaluate" \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","role":"backend"}' \
+  | python3 -c "import sys,json; d=json.load(sys.stdin); assert not d['allowed'] and d['reason'].startswith('kill_switch_active')"
+```
+
+---
+
 **Reconciliation:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md)  
-**Last updated:** 2026-06-25 @ L2 full policy alignment (post ML5 #91)
+**Last updated:** 2026-06-26 @ §10 kill switch monitoring (P-13, G2-1)

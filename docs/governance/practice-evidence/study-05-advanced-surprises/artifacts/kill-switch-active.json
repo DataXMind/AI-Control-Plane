@@ -1,0 +1,24 @@
+{
+  "http_status": 200,
+  "request": {
+    "method": "POST",
+    "path": "/policy/evaluate",
+    "body": {
+      "agent_id": "agent2",
+      "project_id": "rust-gateway",
+      "tool_name": "git_read",
+      "role": "backend"
+    }
+  },
+  "response": {
+    "allowed": false,
+    "reason": "kill_switch_active: study-05-drill-5g-g2",
+    "requires_approval": false,
+    "policy_id": "kill_switch",
+    "latency_ms": 0.4
+  },
+  "drill": "5g",
+  "gate": "G2-1",
+  "run_date": "2026-06-26",
+  "source": "terminal-5g-g2-killswitch.md"
+}
