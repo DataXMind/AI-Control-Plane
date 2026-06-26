@@ -29,6 +29,8 @@ docker compose -f examples/minimal/docker-compose.yml down
 
 ## Phase 2 — VPS: API with shipped config
 
+**Helper script:** `scripts/study08_vps_preflight.sh` (git pull, stop Docker/systemd, uvicorn Profile B).
+
 **Option A — uvicorn (recommended for Profile B)**
 
 ```bash
