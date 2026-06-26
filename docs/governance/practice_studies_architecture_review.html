@@ -1,0 +1,391 @@
+<!-- HISTORICAL: Claude practice studies architecture review (2026-06-25). Gap status superseded by PRACTICE_STUDIES_AUDIT_01-07.md, PR #98, governance_catalog v1.2 known_gaps. -->
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}.tp{border-left-color:#534AB7}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:16px}
+.sec:first-child{margin-top:0}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,164,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;max-height:520px;overflow-y:auto}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-size:10px;font-weight:600;color:var(--color-text-secondary);min-width:72px;padding-top:2px;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.card p,.card li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.card ul{padding-left:14px;margin-top:4px}
+.vbox{border-radius:8px;padding:14px 16px;margin-bottom:14px;border:0.5px solid}
+.vg{background:rgba(52,201,126,.04);border-color:rgba(52,201,126,.25)}
+.vw{background:rgba(133,79,11,.04);border-color:rgba(133,79,11,.2)}
+.vf-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.vg .vf-label{color:#0F6E56}.vw .vf-label{color:#854F0B}
+.vf-title{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.vf-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.vf-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.step-block{border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.step-head{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.step-num{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);flex-shrink:0}
+.step-title{font-size:12.5px;font-weight:500;color:var(--color-text-primary);flex:1}
+.step-body{padding:10px 14px;font-size:11.5px;color:var(--color-text-secondary);line-height:1.6}
+.step-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.step-body ul{padding-left:16px;margin-top:5px}
+.step-body li{margin-bottom:3px}
+.step-body strong{font-weight:500;color:var(--color-text-primary)}
+.who{font-size:9px;font-weight:600;padding:1px 6px;border-radius:3px;margin-left:6px}
+.who-h{background:rgba(133,79,11,.1);color:#854F0B}
+.who-cur{background:rgba(24,95,164,.1);color:#185FA5}
+.who-c{background:rgba(83,74,183,.1);color:#534AB7}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('verdict')">① Verdict tổng thể</button>
+  <button class="nb" onclick="show('arch')">② Đánh giá kiến trúc</button>
+  <button class="nb" onclick="show('gaps')">③ Gap analysis thực chất</button>
+  <button class="nb" onclick="show('gov')">④ Governance UX</button>
+  <button class="nb" onclick="show('pb')">⑤ Public Beta readiness</button>
+  <button class="nb" onclick="show('next')">⑥ Bước tiếp theo</button>
+</div>
+
+<!-- ① VERDICT -->
+<div id="pane-verdict" class="pane on">
+  <div class="vbox vg">
+    <div class="vf-label">Chief Architect & Senior AI Engineering — Verdict tổng thể</div>
+    <div class="vf-title">Milestone thực sự quan trọng — vượt kỳ vọng ở đúng những chỗ quan trọng</div>
+    <div class="vf-body">7 studies trong 1 ngày (2026-06-25), 3 hosts, 3 network topologies, 28 machine-readable artifacts, tự audit trung thực với 5 documented gaps. Đây không phải QA checklist bình thường — đây là <strong>operator confidence program</strong> hoàn chỉnh được thiết kế cho Public Beta readiness. Điều quan trọng nhất: tác giả <em>biết</em> những gì chưa được prove và ghi lại rõ ràng — đây là dấu hiệu của engineering maturity thực sự.</div>
+  </div>
+
+  <div class="sec">3 điểm mạnh nổi bật — từ góc độ production AI systems</div>
+  <div class="g3">
+    <div class="card">
+      <h4><span class="tag tok">Exceptional</span> Progression ladder có chủ đích</h4>
+      <p>Thứ tự 01→07 không phải random. Mỗi study unlock điều kiện tiên quyết của study tiếp theo. Phase A (single host confidence) → Phase B (failure modes) → Phase C (distributed). Đây là <strong>test pyramid tốt</strong> nhưng áp dụng cho ops validation — hiếm thấy trong AI projects.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">Production-grade</span> Fail-closed proven across 4 paths</h4>
+      <p>Study 01 A4, 04 4b, 05 5a/5c/5f cover 4 distinct fail scenarios: unknown agent deny, API down → CLI error, invalid body → 503, bad JWT → 503. Invariant fail-closed không phải "assumed" — nó có <strong>multi-path evidence</strong> từ 4 independent test cases.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">Rare quality</span> Self-honest gap documentation</h4>
+      <p>G-01..G-05 ghi đúng những gì chưa proven, không over-claim. CS-01/03/04 được đánh "Weak — catalog only". 5g kill switch ghi SKIPPED thay vì fabricate. Đây là <strong>audit integrity</strong> cần thiết cho Public Beta trust.</p>
+    </div>
+  </div>
+
+  <div class="sec">So sánh với industry benchmark cho AI governance systems</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Network coverage</div><div class="rb"><div class="rt">localhost → Docker → LAN → Tailscale overlay: vượt mức cần thiết cho MVP</div><div class="rd">Hầu hết AI governance systems chỉ test localhost + CI khi public beta. ACP đã prove <code>ubuntu-vps</code> Tailscale overlay = cloud staging equivalent. Study 07 mang lại confidence cho remote operator persona — critical cho fork & deploy use case.</div></div></div>
+    <div class="row"><div class="rn">Evidence quality</div><div class="rb"><div class="rt">28 machine-readable JSON artifacts = auditable, không chỉ "it worked"</div><div class="rd">Task IDs như <code>6206697f-eab5-49c8-83e0-0dcf887d4999</code> trong Study 07 là <strong>traceable evidence</strong>. Bất kỳ auditor nào cũng có thể verify cross-study consistency. Đây là mức evidence cần thiết cho GA artifact.</div></div></div>
+    <div class="row"><div class="rn">Invariant check</div><div class="rb"><div class="rt">Invariant #4 (CLI HTTP-only) được validate across 5 studies (02, 04, 06, 07)</div><div class="rd">Đây là invariant quan trọng nhất để prove — nó đảm bảo operator không thể accidentally bypass policy. Study 06 bidirectional + Study 07 remote = strongest possible evidence cho distributed deployment.</div></div></div>
+    <div class="row"><div class="rn">Config awareness</div><div class="rb"><div class="rt">Study 04c lesson (ACP_CONFIG_DIR = startup-only) là non-obvious và critical</div><div class="rd">"ACP_CONFIG_DIR trên client shell không đổi server đang chạy" — nhiều operators sẽ assume ngược lại. Việc document explicitly như practice invariant #4 ngăn một class of ops mistakes trước khi chúng xảy ra với fork users.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ② ARCHITECTURE -->
+<div id="pane-arch" class="pane">
+  <div class="tip tp"><strong>Nhận định từ góc kiến trúc hệ thống:</strong> Governance UX endpoint (<code>GET /governance/status</code>) là innovation thực sự — không phải gimmick. Đây là pattern ít thấy trong OSS AI projects.</div>
+
+  <div class="sec">Governance UX endpoint — architectural significance</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Innovation</div><div class="rb"><div class="rt">Runtime governance state = đột phá cho AI agent systems</div><div class="rd">Hầu hết AI governance là static markdown (README, docs). ACP deliver governance state via API — operator có thể <code>curl /governance/status</code> và biết ngay milestones, 6-layer map, verify commands, CS-01..06, PB gate trong 1 JSON call. Đây là <strong>self-describing governance</strong> — rất phù hợp với autonomous agent context.</div></div></div>
+    <div class="row"><div class="rn">Design đúng</div><div class="rb"><div class="rt">/health vs /governance/status phân tách đúng concern</div><div class="rd"><code>/health</code> = liveness/readiness signal (k8s, CI, quick check). <code>/governance/status</code> = human-readable governance checklist. Phân tách này tránh bloating <code>/health</code> với governance noise. Pattern này nên được documented trong CONTRIBUTING.md như design principle cho forks.</div></div></div>
+    <div class="row"><div class="rn">SSOT đúng chỗ</div><div class="rb"><div class="rt">governance_catalog.py là SSOT — không phải markdown</div><div class="rd">CS-01..06 được serve từ <code>core/governance_catalog.py</code> — không phải hardcode trong endpoint, không phải chỉ markdown. Điều này đảm bảo governance catalog có thể được unit-tested và versioned cùng với code changes. <strong>Đây là điểm đúng nhất về kiến trúc trong toàn bộ practice evidence.</strong></div></div></div>
+    <div class="row"><div class="rn">Gap nhỏ</div><div class="rb"><div class="rt">CS-01/03/04 là catalog entries không có drill evidence</div><div class="rd">Runtime check field liệt kê "PR LOC + risk before merge" nhưng không có JSON artifact nào demonstrate enforcement. Đây không phải bug — nhưng cần document rõ trong GOVERNANCE_UX_RUNTIME.md: "CS-01/03/04 = governance pattern documentation; validated by code review + LESSONS_LEARNED.md, not operator drill."</div></div></div>
+  </div></div>
+
+  <div class="sec">Network topology — architect assessment</div>
+  <div class="g2">
+    <div class="card">
+      <h4><span class="tag tok">Strong</span> Tailscale = cloud staging equivalent</h4>
+      <p>Study 07 VPS + Tailscale = valid cloud staging analog. Client TS IP <code>100.102.105.47</code> only in VPS logs = proves overlay isolation. Đây là <strong>network invariant</strong>: không có LAN route leakage. Đủ confidence cho pre-production deployment.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">Note</span> WSL portproxy complexity</h4>
+      <p>Study 06 Round A cần Admin portproxy + firewall rule = toàn bộ infra lesson riêng. Nên được documented trong RUNBOOK.md như "Windows/WSL LAN bind" section — fork users trên Windows sẽ cần exact steps này.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tbl">Insight</span> Profiles A/B/C = deployment tiers</h4>
+      <p>Profile A (fixture, rules=8) = dev/CI tier. Profile B (shipped, rules=10) = staging/production tier. Profile C (Docker fixture) = container tier. Sự phân biệt này cần được formalized trong ARCHITECTURE.md — hiện tại nó sống trong practice evidence thay vì SSOT.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">Verified</span> Bidirectional LAN (Study 06)</h4>
+      <p>Round A (Laptop API → Mac client) và Round B (Mac API → Laptop client) với server log IPs khác nhau proves không có hardcoded client assumption. Đây là <strong>symmetric deployment</strong> proof — bất kỳ node nào có thể là API server.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ③ GAPS -->
+<div id="pane-gaps" class="pane">
+  <div class="tip tw"><strong>Gap analysis thực chất — không over-claim, không under-claim.</strong> Phân tích từng G-01..G-05 và đề xuất prioritization theo Public Beta impact.</div>
+
+  <div class="sec">Gap registry — architect re-prioritization</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row">
+      <div class="rn">G-01 <span class="tag twn">MEDIUM</span></div>
+      <div class="rb">
+        <div class="rt">5g kill switch SKIPPED — cao hơn "Low" theo governance perspective</div>
+        <div class="rd">Original severity: Low. Architect re-assessment: <strong>MEDIUM for Public Beta</strong>. Kill switch là governance mechanism quan trọng nhất cho production incident response. Operator cần có hands-on drill trước khi PB-10 vì: (1) kill switch active → HTTP 200 + allowed=false cho ALL requests (không phải 503), (2) /health exempt behavior, (3) behavior này counter-intuitive với non-ACP operators. Recommend: Study 05g-r trước PB-10 review.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">G-02 <span class="tag tbl">INFO</span></div>
+      <div class="rb">
+        <div class="rt">5e stale image partial — thực sự là low risk như đánh giá</div>
+        <div class="rd">GOVERNANCE_VERSION không thay đổi trong image rebuild test = valid gap nhưng low production impact. Docker compose với `--build` flag + versioned tags là standard practice. Recommend: Study 05e-r tạo `GOVERNANCE_VERSION` bump + rebuild để complete evidence trail cho PB, nhưng không blocker.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">G-03 <span class="tag tbl">INFO</span></div>
+      <div class="rb">
+        <div class="rt">7-0n negative LAN ping không paste — documentation gap, không behavior gap</div>
+        <div class="rd">Evidence log không có explicit "ping 192.168.1.99 fails from hotspot" log. Tailscale routing CÒN là proven (VPS logs chỉ có TS IP, không có LAN IP). G-03 là documentation completeness gap, không phải behavior unproven. Recommend: Study 07b để get clean negative test với explicit fail logs — phục vụ auditor clarity, không phải technical necessity.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">G-04 <span class="tag twn">STRUCTURAL</span></div>
+      <div class="rb">
+        <div class="rt">CS-01/03/04 catalog visibility only — đây là structural limitation cần document</div>
+        <div class="rd">CS-01 (monolithic PR risk), CS-03 (GitHub ranges), CS-04 (ABAC assumptions) là <strong>process governance</strong>, không phải runtime behavior. Không thể drill bằng curl. Đây là fundamental asymmetry: L0/L5 governance không có runtime test — chỉ có LESSONS_LEARNED.md + audit trail. Recommend: thêm explicit note vào GOVERNANCE_UX_RUNTIME.md: "CS-01/03/04: process-layer governance — validated via code review history, not runtime drill."</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="rn">G-05 <span class="tag tok">EXPECTED</span></div>
+      <div class="rb">
+        <div class="rt">PB-9 14-day soak ongoing — đúng process, không phải gap</div>
+        <div class="rd">Studies không đóng PB-9 và không nên cố gắng. 14-day calendar soak là về observing system stability over time, không phải proving individual scenarios. Studies 03 + 07 provide operator familiarity với soak script. Đây là <strong>correct separation of concerns</strong> — không cần remediation.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec">Gaps chưa được document (architect phát hiện)</div>
+  <div class="g2">
+    <div class="card">
+      <h4><span class="tag twn">NEW-G-06</span> Profile B remote chưa được test</h4>
+      <p>Study 02 là Profile B nhưng chỉ trên localhost. Study 06–07 dùng Profile A (fixture). <strong>Shipped config (rules=10, agent4, datax-analytics) chưa được test trên remote endpoint.</strong> Study 08 (§14.4) address đúng gap này. Impact: fork users deploy với shipped config trên remote host chưa được operator-validated.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">NEW-G-07</span> apex/trigger remote chưa proven với non-fixture data</h4>
+      <p><code>POST /apex/trigger</code> được test trong soak (03, 07) nhưng với fixture config (rules=8). SAPAL MVP behavior với shipped config (rules=10, different agents/projects) chưa được validated. Low risk vì apex là heuristic MVP, nhưng cần document.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ④ GOVERNANCE UX -->
+<div id="pane-gov" class="pane">
+  <div class="tip tg"><strong>GET /governance/status là differentiator thực sự của ACP</strong> so với các AI governance frameworks khác. Phân tích đây là điểm đáng đầu tư nhất.</div>
+
+  <div class="sec">Điểm mạnh của Governance UX design</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Self-describing</div><div class="rb"><div class="rt">System có thể describe governance state của chính nó</div><div class="rd">Fork user <code>git clone</code> + <code>pip install</code> + <code>curl /governance/status</code> = biết ngay milestones, layers, verify commands, known risks. Đây là <strong>zero-documentation-required onboarding</strong> goal — rất valuable cho public beta contributors.</div></div></div>
+    <div class="row"><div class="rn">6-layer map</div><div class="rb"><div class="rt">/governance/status serve 6-layer Karpathy framework kết hợp ACP context</div><div class="rd">Theo GOVERNANCE_UX_RUNTIME.md, endpoint trả về layers L0–L5 one-line summary. Điều này connect 2 mảnh ghép trước: governance catalog ↔ Karpathy 6-layer. Nhưng hiện tại GOVERNANCE_UX_RUNTIME.md được viết TRƯỚC 2 artifacts mới (LESSONS_LEARNED + CURSOR_RISK_POLICY). Cần sync.</div></div></div>
+    <div class="row"><div class="rn">Live wire proof</div><div class="rb"><div class="rt">config_loaded + policy_rules_count trong gov status = runtime YAML wire verification</div><div class="rd">Study 01 A2 + 02 B2 validate rules 8 vs 10 qua gov status. Điều này prove config wire tại runtime — không phải chỉ at startup. Pattern này nên được recommend trong CONTRIBUTING.md như "first check after deployment."</div></div></div>
+    <div class="row"><div class="rn">CS trong runtime</div><div class="rb"><div class="rt">case_studies[] trong JSON = governance lesson accessible via API</div><div class="rd">CS-01..06 với runtime_check + action fields accessible programmatically. Một agentic tool (như TypeScript PolicyClient) có thể query governance status và surface relevant lessons cho operator trước khi executing high-risk operation. Đây là <strong>proactive governance</strong> chứ không chỉ reactive audit.</div></div></div>
+  </div></div>
+
+  <div class="sec">Cần bổ sung — kết hợp với 2 mảnh ghép Karpathy</div>
+  <div class="g2">
+    <div class="card">
+      <h4><span class="tag twn">Sync cần thiết</span> governance_catalog.py chưa include LESSONS_LEARNED</h4>
+      <p>GOVERNANCE_UX_RUNTIME.md được viết trước LESSONS_LEARNED.md + CURSOR_RISK_POLICY.md. <code>governance_catalog.py</code> chưa có CS-07+ từ 2 artifacts mới. Cần: (1) thêm P-01..P-07 từ LESSONS_LEARNED vào catalog, (2) thêm reference link đến CURSOR_RISK_POLICY trong doc_links, (3) serve risk_policy field trong JSON response.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">Enhancement</span> gov status nên include gap registry</h4>
+      <p>G-01..G-05 (và G-06/G-07 mới phát hiện) hiện chỉ trong PRACTICE_STUDIES_AUDIT. Nếu được serve trong <code>/governance/status</code> như <code>known_gaps[]</code> field, operator có ngay danh sách gaps khi onboard — không cần đọc audit doc. Đây là extension tự nhiên của self-describing governance pattern.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ PUBLIC BETA -->
+<div id="pane-pb" class="pane">
+  <div class="sec">Public Beta readiness — updated assessment sau practice evidence</div>
+
+  <div class="vbox vg">
+    <div class="vf-label">PB readiness verdict</div>
+    <div class="vf-title">Technical gates: ~78% (up từ 65% trước practice evidence)</div>
+    <div class="vf-body">Practice studies 01–07 advance PB readiness đáng kể. Fail-closed proven (CS-06 Strong), soak demonstrated (CS-05 slice), multi-host validated (Studies 06–07), config profiles documented. Delta từ 65%→78%: +operator confidence program, +machine-readable evidence, +honest gap registry. Còn lại: 14-day soak completion (~2026-07-06), kill switch drill (G-01), legal artifacts, runbook completion.</div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <h4><span class="tag tok">PROVEN ✓</span> Fail-closed behavior</h4>
+      <p>4 paths: unknown agent deny, API down, invalid body, bad JWT. Multi-study evidence. <strong>PB-critical gate: CLOSED by practice evidence.</strong></p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">PROVEN ✓</span> Remote deployment</h4>
+      <p>Study 06 LAN + Study 07 Tailscale. Bidirectional proven. CLI Invariant #4 remote validated. <strong>Sufficient for fork-and-deploy use case.</strong></p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">PROVEN ✓</span> Config profiles</h4>
+      <p>A (fixture=8), B (shipped=10), C (Docker=8). Difference documented + validated. Startup-only behavior proven (04c). <strong>Critical for fork documentation.</strong></p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">PARTIAL ⚠</span> Soak evidence</h4>
+      <p>Local soak ×2 (Study 03) + remote soak ×1 (Study 07). <strong>14-day calendar soak still running ~2026-07-06.</strong> PB-9 gate not closed.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">SKIPPED ⚠</span> Kill switch drill</h4>
+      <p>G-01. HTTP 200+deny behavior counter-intuitive. <strong>Needs Study 05g-r before PB-10 review.</strong> Recommend elevate to MEDIUM priority.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag terr">ABSENT ✗</span> Legal artifacts</h4>
+      <p>SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md. Not in scope of practice studies. <strong>Hard blockers for public repo flip.</strong></p>
+    </div>
+  </div>
+
+  <div class="sec">PB gates mapping với practice evidence</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">PB-1</div><div class="rb"><div class="rt">Config-driven runtime — CLOSED</div><div class="rd">Study 02 B1 + 04 4c: Profile B rules=10 from shipped config, startup-only behavior proven.</div></div></div>
+    <div class="row"><div class="rn">PB-2</div><div class="rb"><div class="rt">Policy truth — CLOSED</div><div class="rd">Study 01 A3/A4 + 05 5b: allow/deny behavior matches policies.yml. Multi-path evidence.</div></div></div>
+    <div class="row"><div class="rn">PB-3</div><div class="rb"><div class="rt">Fail-closed proven — CLOSED</div><div class="rd">CS-06 Strong. 4 distinct paths documented. Studies 01, 04, 05 × 6 individual test cases.</div></div></div>
+    <div class="row"><div class="rn">PB-9</div><div class="rb"><div class="rt">14-day soak — IN PROGRESS (~2026-07-06)</div><div class="rd">Practice provides slice evidence (03, 07) + operator familiarity. Calendar soak separate.</div></div></div>
+    <div class="row"><div class="rn">PB-10</div><div class="rb"><div class="rt">Multi-host staging — CLOSED by Studies 06–07</div><div class="rd">LAN bidirectional + Tailscale overlay. 3 hosts, 3 network topologies. Sufficient.</div></div></div>
+    <div class="row"><div class="rn">PB-11</div><div class="rb"><div class="rt">Legal + runbook — NOT STARTED</div><div class="rd">SECURITY.md, CONTRIBUTING.md, full runbook. Hard blockers. Not addressed by practice studies.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ⑥ NEXT STEPS -->
+<div id="pane-next" class="pane">
+  <div class="tip tg"><strong>Bước tiếp theo — ordered by impact và urgency.</strong> Gồm cả việc integrate 2 mảnh ghép Karpathy vào practice evidence context.</div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P0 — Ngay</span><span class="step-title">Sync governance_catalog.py với LESSONS_LEARNED + CURSOR_RISK_POLICY</span><span class="who who-cur">Cursor</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> governance_catalog.py là SSOT cho /governance/status. Hai artifacts Karpathy (LESSONS_LEARNED + CURSOR_RISK_POLICY) không được serve trong endpoint — tạo ra split brain giữa static docs và runtime governance state.<br><br>
+      <strong>Việc cần làm:</strong>
+      <ul>
+        <li>Thêm <code>doc_links</code> references tới CLAUDE.md, CURSOR_RISK_POLICY.md, LESSONS_LEARNED.md trong catalog</li>
+        <li>Thêm <code>known_gaps[]</code> field: G-01..G-07 với severity + remediation</li>
+        <li>Thêm CS reference trong layers L0 entry tới LESSONS_LEARNED P-04 (ABAC assumption)</li>
+        <li>Risk level: LOW (catalog data additions, no logic change)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P1 — Tuần này</span><span class="step-title">Study 05g-r — Kill switch drill (G-01 remediation)</span><span class="who who-h">Bạn</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> Kill switch là production incident response mechanism. Counter-intuitive behavior (HTTP 200 + allowed=false, không phải 503). Operator cần hands-on drill trước khi PB-10 review ngày 2026-07-06.<br><br>
+      <strong>Procedure:</strong>
+      <ul>
+        <li>Start API với Profile A (fixture)</li>
+        <li>Patch AppState.policy_engine với kill_switch=KillSwitch(active=True, reason="test-drill")</li>
+        <li>POST /policy/evaluate với valid agent → expect HTTP 200 + allowed=false + reason="kill_switch_active: test-drill"</li>
+        <li>GET /health → expect HTTP 200 (exempt from kill switch)</li>
+        <li>Save JSON artifacts: <code>kill-switch-active.json</code>, <code>health-during-kill-switch.json</code></li>
+        <li>Document trong study-05-advanced-surprises/artifacts/ hoặc new study-05g-r/</li>
+      </ul>
+      <strong>Update LESSONS_LEARNED.md:</strong> Add P-08 — Kill switch HTTP contract (counter-intuitive 200 vs 503).
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P1 — Tuần này</span><span class="step-title">RUNBOOK.md — Windows/WSL portproxy steps (từ Study 06)</span><span class="who who-cur">Cursor</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> Study 06 "Admin portproxy + firewall" là non-obvious cho Windows operators. Fork users trên Windows sẽ stuck tại đây. Hiện tại kiến thức này chỉ sống trong study evidence, chưa có trong RUNBOOK.<br><br>
+      <strong>Nội dung cần thêm vào RUNBOOK.md:</strong>
+      <ul>
+        <li>Section "Windows/WSL2 LAN bind": exact <code>netsh interface portproxy</code> command</li>
+        <li>Firewall inbound rule creation steps</li>
+        <li>Verify: <code>curl http://&lt;LAN-IP&gt;:8000/health</code> từ second machine</li>
+        <li>Reference Study 06 Round A evidence</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P2 — Trước PB-10</span><span class="step-title">Study 08 — Profile B remote (NEW-G-06 remediation)</span><span class="who who-h">Bạn</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> Shipped config (rules=10, agent4, datax-analytics project) chưa được tested trên remote endpoint. Fork users production deployment = shipped config on remote host — exact scenario chưa được validated.<br><br>
+      <strong>Setup:</strong> Study 07 topology (ubuntu-vps Tailscale) nhưng với <code>ACP_CONFIG_DIR</code> unset → shipped config. Verify: /health shows rules=10 + agent4 in agents_loaded.<br><br>
+      <strong>Evidence cần capture:</strong> <code>remote-profile-b-health.json</code> với rules=10 + 4 agents + 2 projects.
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P2 — Trước PB flip</span><span class="step-title">Legal artifacts: SECURITY.md + CONTRIBUTING.md + CODE_OF_CONDUCT.md</span><span class="who who-cur">Cursor</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> Hard blockers cho public repo. Practice evidence không address. Phải có trước <code>git remote set-url</code> + public flip.<br><br>
+      <strong>SECURITY.md minimum:</strong> Vulnerability reporting process, response SLA, contact (maintainer email hoặc GitHub Security Advisory).<br>
+      <strong>CONTRIBUTING.md minimum:</strong> PR rules, invariant list (8 invariants), 6-layer reference, branch naming convention.<br>
+      <strong>CODE_OF_CONDUCT.md:</strong> Contributor Covenant v2.1 (standard, 5 phút).<br><br>
+      <strong>Note:</strong> Không cần custom content — industry standard templates + ACP-specific sections đủ.
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-head"><span class="step-num">P3 — Post PB-9</span><span class="step-title">Integrate practice evidence vào /governance/status response</span><span class="who who-cur">Cursor</span></div>
+    <div class="step-body">
+      <strong>Lý do:</strong> 28 machine-readable artifacts chứng minh system behavior nhưng không accessible từ API. Thêm <code>practice_evidence</code> field trong /governance/status làm cho audit trail discoverable programmatically.<br><br>
+      <strong>Proposed schema addition:</strong><br>
+      <code>practice_evidence: { studies: 7, last_run: "2026-06-25", overall_verdict: "PASS", gaps: [...G-01..G-07], index_url: "docs/governance/practice-evidence/README.md" }</code><br><br>
+      <strong>Impact:</strong> Fork user <code>curl /governance/status</code> → biết ngay practice runs đã xong, gaps còn lại, và link tới evidence index. Đây là hoàn thiện self-describing governance pattern.
+    </div>
+  </div>
+
+  <div class="sec">Tích hợp với 2 mảnh ghép Karpathy (LESSONS_LEARNED + CURSOR_RISK_POLICY)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl">Integration map — 3 artifact streams hội tụ</span></div>
+    <div class="pbb" style="font-size:11px;line-height:2">
+<span class="g">Stream 1: Practice Evidence (hôm nay)</span>
+Studies 01–07 → 28 artifacts → G-01..G-07 gaps
+→ operator confidence cho Public Beta operator narrative
+
+<span class="g">Stream 2: 6-layer Karpathy governance (artifact trước)</span>
+CLAUDE.md + CURSOR_RISK_POLICY.md + LESSONS_LEARNED.md
+→ P-01..P-07 failure patterns + prevention rules
+→ developer process governance
+
+<span class="g">Stream 3: Runtime governance (GOVERNANCE_UX_RUNTIME.md)</span>
+/governance/status → CS-01..CS-06 catalog
+→ self-describing governance API
+
+<span class="key">Điểm hội tụ cần làm:</span>
+
+governance_catalog.py phải serve cả 3 streams:
+  - CS-01..06 (hiện có) ← Stream 3
+  - P-01..07 từ LESSONS_LEARNED ← Stream 2 (CHƯA CÓ)
+  - G-01..07 gaps từ practice evidence ← Stream 1 (CHƯA CÓ)
+  - doc_links tới CURSOR_RISK_POLICY.md ← Stream 2 (CHƯA CÓ)
+  - practice_evidence summary ← Stream 1 (CHƯA CÓ)
+
+Nếu governance_catalog.py được update đầy đủ:
+  → 1 curl /governance/status = toàn bộ governance state
+  → không cần đọc 5+ markdown files để onboard
+  → Public Beta onboarding time ≤ 15 phút (OPEN_SOURCE_READINESS goal)
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+</script>

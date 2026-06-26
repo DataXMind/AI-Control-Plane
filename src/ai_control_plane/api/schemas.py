@@ -164,6 +164,31 @@ class GovernanceCaseStudy(BaseModel):
     action: str
 
 
+class GovernanceKnownGap(BaseModel):
+    """Practice evidence gap registry entry (G-01..G-07)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    study: str
+    title: str
+    severity: str
+    status: str
+    remediation: str
+
+
+class PracticeEvidenceSummary(BaseModel):
+    """Operator practice studies 01–07 summary."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    studies_completed: int
+    last_run: str
+    overall_verdict: str
+    index_url: str
+    audit_url: str
+
+
 class GovernanceStatusResponse(BaseModel):
     """GET /governance/status — 6-layer governance UX for operators."""
 
@@ -180,6 +205,8 @@ class GovernanceStatusResponse(BaseModel):
     doc_links: dict[str, str]
     public_beta: dict[str, str]
     case_studies: list[GovernanceCaseStudy]
+    known_gaps: list[GovernanceKnownGap]
+    practice_evidence: PracticeEvidenceSummary
 
 
 __all__ = [
@@ -190,7 +217,9 @@ __all__ = [
     "ApprovalSubmitRequest",
     "ApprovalSubmitResponse",
     "GovernanceCaseStudy",
+    "GovernanceKnownGap",
     "GovernanceStatusResponse",
+    "PracticeEvidenceSummary",
     "HealthResponse",
     "IdentityVerifyRequest",
     "ModelProfileQuotaStatus",

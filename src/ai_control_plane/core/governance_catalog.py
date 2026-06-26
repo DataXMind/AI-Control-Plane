@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.1"
+GOVERNANCE_VERSION = "1.2"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -27,6 +27,8 @@ DOC_LINKS: dict[str, str] = {
     "pre_approval_audit": "docs/governance/GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md",
     "gold_patterns": "docs/governance/gold-patterns/README.md",
     "audit_pass": "docs/governance/GOV_6LAYER_AUDIT_PASS.md",
+    "claude_md": "CLAUDE.md",
+    "practice_audit": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "ux_runtime": "docs/governance/GOVERNANCE_UX_RUNTIME.md",
     "public_beta_plan": "docs/governance/PUBLIC_BETA_SPRINT_PLAN.md",
 }
@@ -107,13 +109,83 @@ CASE_STUDIES: list[dict[str, Any]] = [
     },
 ]
 
+# Practice evidence gap registry — synced with PRACTICE_STUDIES_AUDIT_01-07.md
+KNOWN_GAPS: list[dict[str, str]] = [
+    {
+        "id": "G-01",
+        "study": "05",
+        "title": "Kill switch drill (5g)",
+        "severity": "medium",
+        "status": "CLOSED",
+        "remediation": "study-05/artifacts/terminal-5g-g2-killswitch.md (G2-1)",
+    },
+    {
+        "id": "G-02",
+        "study": "05",
+        "title": "Stale Docker image (5e)",
+        "severity": "low",
+        "status": "OPEN",
+        "remediation": "Study 05e-r: bump GOVERNANCE_VERSION + rebuild compare",
+    },
+    {
+        "id": "G-03",
+        "study": "07",
+        "title": "Negative LAN path (7-0n)",
+        "severity": "low",
+        "status": "CLOSED",
+        "remediation": "study-07/artifacts/terminal-7-0n-negative-lan.md (G2-4)",
+    },
+    {
+        "id": "G-04",
+        "study": "01-07",
+        "title": "CS-01/03/04 process-layer only",
+        "severity": "info",
+        "status": "OPEN",
+        "remediation": "GOVERNANCE_UX_RUNTIME.md process-layer note; PR review + LESSONS",
+    },
+    {
+        "id": "G-05",
+        "study": "PB-9",
+        "title": "14-day calendar soak",
+        "severity": "info",
+        "status": "OPEN",
+        "remediation": "PB9_STAGING_SOAK_LOG.md daily until 2026-07-06",
+    },
+    {
+        "id": "G-06",
+        "study": "08",
+        "title": "Profile B remote (shipped config)",
+        "severity": "low",
+        "status": "OPEN",
+        "remediation": "Study 08: rules=10 on remote endpoint (ubuntu-vps)",
+    },
+    {
+        "id": "G-07",
+        "study": "08",
+        "title": "apex/trigger with shipped config remote",
+        "severity": "low",
+        "status": "OPEN",
+        "remediation": "Study 08 soak with unset ACP_CONFIG_DIR",
+    },
+]
+
+PRACTICE_EVIDENCE: dict[str, str | int] = {
+    "studies_completed": 7,
+    "last_run": "2026-06-25",
+    "overall_verdict": "PASS",
+    "index_url": "docs/governance/practice-evidence/README.md",
+    "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
+}
+
 __all__ = [
     "CASE_STUDIES",
     "DOC_LINKS",
     "GOVERNANCE_FRAMEWORK",
     "GOVERNANCE_VERSION",
+    "KNOWN_GAPS",
     "LAYER_SUMMARY",
     "MILESTONE_STATUS",
+    "PRACTICE_EVIDENCE",
     "PUBLIC_BETA",
     "VERIFY_GATE_COMMANDS",
 ]

@@ -73,6 +73,22 @@ agentctl gov status --json
 
 ---
 
+## Process-layer case studies (CS-01, CS-03, CS-04)
+
+CS-01, CS-03, and CS-04 describe **process governance** (PR review, GitHub hygiene, L0 assumptions). They are **not** validated by operator `curl` drills — there is no runtime HTTP proof path.
+
+| ID | Validation path |
+|----|-----------------|
+| **CS-01** | PR template LOC + risk levels; `CURSOR_RISK_POLICY.md` |
+| **CS-03** | Individual `Closes #N` in PR body; `LESSONS_LEARNED.md` P-07 |
+| **CS-04** | L0 pre-flight before loader edits; `LESSONS_LEARNED.md` P-04 |
+
+Runtime `case_studies[]` in `/governance/status` lists these for **onboarding visibility** only. Hands-on runtime evidence covers CS-02, CS-05, CS-06 via practice studies and smoke gate.
+
+**Gap G-04:** Addressed by this section — do not claim CS-01/03/04 as operator-drill PASS.
+
+---
+
 ## Response schema (summary)
 
 | Field | Purpose |
@@ -84,6 +100,8 @@ agentctl gov status --json
 | `doc_links` | Paths to governance markdown |
 | `public_beta` | PB-9 soak metadata |
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
+| `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
+| `practice_evidence` | Studies 01–07 summary + index URLs |
 | `config_loaded`, `policy_rules_count` | Live wire proof (like `/health`) |
 
 ---
@@ -99,4 +117,4 @@ agentctl gov status --json
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-25
+**Last updated:** 2026-06-26 — G-04 process-layer note; `known_gaps` + `practice_evidence` fields (catalog v1.2)
