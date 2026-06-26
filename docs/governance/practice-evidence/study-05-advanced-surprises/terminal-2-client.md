@@ -55,4 +55,4 @@ curl -X POST .../identity/verify -d '{"token":"not-a-valid-jwt","agent_id":"agen
 
 ## 5g — Kill switch
 
-Not executed (operator skip).
+G2-1 PASS @ 2026-06-26 — see `artifacts/terminal-5g-g2-killswitch.md`.

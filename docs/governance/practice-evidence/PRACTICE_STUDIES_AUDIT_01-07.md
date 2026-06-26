@@ -38,9 +38,9 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 
 | ID | Study | Gap | Severity | Remediation |
 |----|-------|-----|----------|-------------|
-| G-01 | 05 | **5g** kill switch SKIPPED | Low | RUNBOOK §5g; lặp khi hardening |
+| G-01 | 05 | ~~**5g** kill switch SKIPPED~~ **CLOSED G2-1** @ 2026-06-26 | — | `study-05/artifacts/terminal-5g-g2-killswitch.md` |
 | G-02 | 05 | **5e** stale image — no src edit | Low | Sửa `GOVERNANCE_VERSION` + rebuild compare |
-| G-03 | 07 | **7-0n** negative LAN ping không paste | Low | Study 07b: `ping` fail log từ hotspot |
+| G-03 | 07 | ~~**7-0n** negative LAN ping không paste~~ **CLOSED G2-4** @ 2026-06-26 | — | `study-07/artifacts/terminal-7-0n-negative-lan.md` |
 | G-04 | 01–07 | CS-01/03/04 **không có hands-on drill** | Info | Runtime listed in `gov status`; process checks manual |
 | G-05 | PB-9 | Calendar soak 14d ≠ practice one-shot | Info | `PB9_STAGING_SOAK_LOG.md` |
 
@@ -208,7 +208,7 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 | 5d Docker :8000 | ✅ | rules stable ×3 |
 | 5e rebuild version | ⚠️ partial | G-02 |
 | 5f bad JWT | ✅ | 503 + `allowed: false` |
-| 5g kill switch | ⏭️ SKIPPED | G-01 |
+| 5g kill switch | ✅ G2-1 | `terminal-5g-g2-killswitch.md` |
 
 **CS-06:** Extended via 5a, 5c, 5f (fail-closed paths).
 
@@ -388,14 +388,14 @@ study-07-cross-network/artifacts/ topology-tailscale, remote-health, remote-poli
 | Fail-closed proven? | Study 01 A4, 04 4b, 05 5a/5c/5f |
 | Tailscale vs LAN? | Study 06 = LAN; Study 07 = TS only in VPS logs |
 | Mac role? | Study 06 only; §10 |
-| What's still open? | §2 Gap registry G-01..G-05 |
+| What's still open? | §2 Gap registry G-02, G-04, G-05 |
 
 ### 14.2 Không được suy diễn
 
 - CS-01, CS-02, CS-03, CS-04 **hands-on PASS** — chỉ **catalog visibility**.  
 - PB-9 **closed** — chỉ slice soak PASS.  
-- Study 07 **proves hotspot disconnect** — chỉ proven nếu có log 7-0n explicit (G-03).  
-- Kill switch active — 5g SKIPPED.
+- Study 07 **overlay-only path** — G2-4 closed via `terminal-7-0n-negative-lan.md` (VPS B). Hotspot strict paste optional for on-prem API.  
+- Kill switch active — **5g PASS** (G2-1 @ 2026-06-26).
 
 ### 14.3 Citation format
 
@@ -410,8 +410,8 @@ Artifact: study-NN-*/artifacts/<file>.json
 
 | ID | Name | Purpose |
 |----|------|---------|
-| 07b | Mac witness | LAN fail vs TS ok side-by-side |
-| 05g-r | Kill switch | Complete G-01 |
+| 07b | Mac witness | LAN fail vs TS ok side-by-side (optional) |
+| ~~05g-r~~ | ~~Kill switch~~ | **Done** — G2-1 |
 | 05e-r | Stale image | Edit version + rebuild G-02 |
 | 08 | Shipped config remote | Profile B on VPS (rules 10 remote) |
 
@@ -425,9 +425,9 @@ Artifact: study-NN-*/artifacts/<file>.json
 | 02 | PASS | No | Yes |
 | 03 | PASS | No | Yes |
 | 04 | PASS | No | Yes |
-| 05 | PASS† | No | Yes (5g gap noted) |
+| 05 | PASS | No | Yes (5g G2-1) |
 | 06 | PASS | No | Yes |
-| 07 | PASS | No | Yes (7-0n soft) |
+| 07 | PASS | No | Yes (7-0n G2-4) |
 
 **Series verdict:** **PASS** — sufficient for Public Beta operator onboarding narrative and Claude governance analysis, with documented gaps in §2.
 

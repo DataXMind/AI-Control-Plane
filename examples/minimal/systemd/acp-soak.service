@@ -1,0 +1,16 @@
+[Unit]
+Description=ACP PB-9 hourly soak against local staging API
+After=acp-staging.service docker.service
+Requires=acp-staging.service
+
+[Service]
+Type=simple
+WorkingDirectory=/root/AI-Control-Plane
+Environment=ACP_API_URL=http://127.0.0.1:8000
+ExecStartPre=/bin/bash -c 'for i in $(seq 1 30); do curl -sf http://127.0.0.1:8000/health >/dev/null && exit 0; sleep 2; done; exit 1'
+ExecStart=/bin/bash scripts/soak_staging.sh --loop 3600 --log /var/log/acp-soak-staging.log
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
