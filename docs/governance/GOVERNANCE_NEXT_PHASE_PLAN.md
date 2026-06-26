@@ -73,11 +73,11 @@ Close governance DRIFT (HTML ↔ master)
 
 | Task | ID | Runbook | Priority |
 |------|-----|---------|----------|
-| Kill switch drill 5g | G2-1 | `study-05-advanced-surprises/RUNBOOK.md` §5g | Medium |
-| Docker stale image 5e | G2-2 | Edit `GOVERNANCE_VERSION` + rebuild | Low |
-| Study 07b Mac witness | G2-3 | `study-07-cross-network/TOPOLOGY` §07b | Low |
-| Study 07 negative LAN log | G2-4 | `ping` fail from hotspot paste | Low |
-| Shipped config remote (Study 08) | G2-5 | Profile B on VPS, rules 10 remote | Optional |
+| Kill switch drill 5g | G2-1 | `study-05-advanced-surprises/RUNBOOK.md` §5g | Medium | ✅ G2-1 @ 2026-06-26 |
+| Docker stale image 5e | G2-2 | Edit `GOVERNANCE_VERSION` + rebuild | Low | ✅ 05e-r @ 2026-06-26 |
+| Study 07b Mac witness | G2-3 | `study-07-cross-network/TOPOLOGY` §07b | Low | Optional |
+| Study 07 negative LAN log | G2-4 | `terminal-7-0n-negative-lan.md` | Low | ✅ G2-4 @ 2026-06-26 |
+| Shipped config remote (Study 08) | G2-5 | `study-08-shipped-remote/RUNBOOK.md` | Optional | ⏸ Scaffold — Gate B |
 
 Evidence → `practice-evidence/study-NN-*/RESULTS.md` + audit pack §14.4.
 

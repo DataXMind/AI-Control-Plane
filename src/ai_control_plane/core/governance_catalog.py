@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.2"
+GOVERNANCE_VERSION = "1.2.1"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -124,8 +124,8 @@ KNOWN_GAPS: list[dict[str, str]] = [
         "study": "05",
         "title": "Stale Docker image (5e)",
         "severity": "low",
-        "status": "OPEN",
-        "remediation": "Study 05e-r: bump GOVERNANCE_VERSION + rebuild compare",
+        "status": "CLOSED",
+        "remediation": "study-05/artifacts/terminal-5e-r-g2-docker.md (G2-2 / 05e-r)",
     },
     {
         "id": "G-03",
@@ -140,8 +140,8 @@ KNOWN_GAPS: list[dict[str, str]] = [
         "study": "01-07",
         "title": "CS-01/03/04 process-layer only",
         "severity": "info",
-        "status": "OPEN",
-        "remediation": "GOVERNANCE_UX_RUNTIME.md process-layer note; PR review + LESSONS",
+        "status": "CLOSED",
+        "remediation": "GOVERNANCE_UX_RUNTIME.md process-layer note (PR #99)",
     },
     {
         "id": "G-05",
