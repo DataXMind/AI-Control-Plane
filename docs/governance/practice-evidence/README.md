@@ -22,8 +22,9 @@
 | Study 05 | Advanced surprises | **PASS**† | 2026-06-25 | [`study-05-advanced-surprises/`](study-05-advanced-surprises/) |
 | Study 06 | Multi-host (2+ machines) | **PASS** | 2026-06-25 | [`study-06-multi-host/`](study-06-multi-host/) |
 | Study 07 | Cross-network (Tailscale) | **PASS** | 2026-06-25 | [`study-07-cross-network/`](study-07-cross-network/) |
+| Gov status v1.2 | Docker dual-host (PR #99) | **PASS** | 2026-06-26 | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
 
-† 5g kill switch SKIPPED; 5e partial (no src edit).
+† Study 05: 5g **CLOSED** G2-1 @ 2026-06-26; 5e partial (G-02 open).
 
 ---
 

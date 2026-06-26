@@ -81,4 +81,17 @@ pytest tests/test_shipped_config_parity.py -q -m shipped_config
 
 **G1-4:** This addendum closes GOV_6LAYER item linking practice-evidence L4 proof.
 
+## Post-PR #99 governance UX verify @ `8b30ad4` (2026-06-26)
+
+**Merged:** [#99](https://github.com/DataXMind/AI-Control-Plane/pull/99) — `known_gaps[]` + `practice_evidence` on `GET /governance/status` (catalog v1.2).
+
+| Host | Procedure | Result |
+|------|-----------|--------|
+| MSI WSL | `git pull` + `docker compose up -d --build` | `1.2 7 PASS` |
+| ubuntu-vps | `git pull` + `systemctl restart acp-staging` | `1.2 7 PASS` |
+
+**Evidence:** [`practice-evidence/governance-status-v12-verify/`](practice-evidence/governance-status-v12-verify/)
+
+**Lesson:** Stale Docker image without rebuild → missing JSON fields (`KeyError: known_gaps`); aligns with gap **G-02** / Study 05e narrative.
+
 **Last updated:** 2026-06-26
