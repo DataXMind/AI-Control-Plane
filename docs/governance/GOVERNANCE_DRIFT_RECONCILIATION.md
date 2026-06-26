@@ -48,6 +48,20 @@
 
 **Next audit:** [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md)
 
+### 1.2 Post-G1 wave @ `638250c` (PR #91–#96)
+
+| Area | Status | Notes |
+|------|--------|-------|
+| L0 `CLAUDE.md` | ✅ Full Karpathy prompt | #95 |
+| L2 `CURSOR_RISK_POLICY.md` | ✅ F1–F11, §1–§5 full | #94 |
+| L5 `LESSONS_LEARNED.md` | ✅ P-01..P-12 enriched | #96 |
+| ML5 pack | ✅ | #91 — `AGENTS.md`, `.cursor/rules/`, GP-01 |
+| `cli/gov.py` coverage | ✅ 100% | #93 `test_cli_gov.py` |
+| pytest baseline | **176** (SMK **8/8**) | Not 156 — HTML historical |
+| Meta-drift (Karpathy §3.3) | ✅ Refreshed | This reconcile + Karpathy plan |
+| PB-9 soak log | 🔄 | Operator — daily tick still required |
+| G1-4 addendum | ✅ | `GOV_6LAYER_AUDIT_PASS.md` post-studies section |
+
 ---
 
 ## 2. Timeline (context anti-drift)

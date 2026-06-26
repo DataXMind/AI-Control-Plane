@@ -52,3 +52,33 @@
 Track violations in [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).
 
 **Supersedes:** Informal audit FAIL @ flat `.cursorrules` on `c5d52e5`.
+
+---
+
+## Post-studies + G1 wave addendum @ `master` `638250c` (2026-06-26)
+
+**Merged PRs:** [#91](https://github.com/DataXMind/AI-Control-Plane/pull/91) ML5 · [#93](https://github.com/DataXMind/AI-Control-Plane/pull/93) CLI gov tests · [#94](https://github.com/DataXMind/AI-Control-Plane/pull/94) CURSOR_RISK full L2 · [#95](https://github.com/DataXMind/AI-Control-Plane/pull/95) CLAUDE.md · [#96](https://github.com/DataXMind/AI-Control-Plane/pull/96) LESSONS enrich
+
+| Layer | Evidence @ `638250c` | L4 verify |
+|-------|-------------------|-----------|
+| **L0** | `CLAUDE.md` + `.cursorrules` Karpathy 4 | Session anchor + AGENTS.md |
+| **L2** | `CURSOR_RISK_POLICY.md` F1–F11, per-level verify | PR template enforced |
+| **L4** | **176** pytest · **SMK 8/8** · `test_cli_gov.py` (gov.py 100%) | Operator gate run 2026-06-26 — see below |
+| **L5** | P-01..P-12 · GP-01 · ML5 CI `governance-memory` | Studies 01–07 [`practice-evidence/`](practice-evidence/) |
+
+**Operator verify gate** (`DEVELOPMENT_PROTOCOL.md` §5.5 — mandatory before declaring merge-ready):
+
+```bash
+bash scripts/verify_governance_memory.sh
+ruff check src/ tests/
+mypy src/ai_control_plane/ --strict
+pytest tests/ -q
+pytest tests/test_smoke.py -v -m smoke
+pytest tests/test_shipped_config_parity.py -q -m shipped_config
+```
+
+**Protocol note:** Docs-only PRs still pass **CI** smoke/full suite on GitHub; **local** SMK run was skipped on some agent sessions (drift). Remediation: run full gate above on `master` after every merge batch — not only `git diff` checks.
+
+**G1-4:** This addendum closes GOV_6LAYER item linking practice-evidence L4 proof.
+
+**Last updated:** 2026-06-26
