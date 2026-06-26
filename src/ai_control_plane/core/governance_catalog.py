@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.3.1"
+GOVERNANCE_VERSION = "1.3.2"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -172,7 +172,7 @@ KNOWN_GAPS: list[dict[str, str]] = [
     },
 ]
 
-# LESSONS_LEARNED pattern registry (P-01..P-12) — summary only; full prose in markdown SSOT
+# LESSONS_LEARNED pattern registry (P-01..P-13) — summary only; full prose in markdown SSOT
 LESSON_PATTERNS: list[dict[str, Any]] = [
     {
         "id": "P-01",
@@ -281,6 +281,15 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "rule_ref": "study-06-multi-host/TOPOLOGY_WINDOWS_MAC.md",
         "case_study_id": None,
         "prevention": "Study 06 topology before multi-host drills",
+    },
+    {
+        "id": "P-13",
+        "title": "Kill switch HTTP contract (counter-intuitive 200 vs 503)",
+        "layer": "L2",
+        "status": "ENCODED",
+        "rule_ref": "CURSOR_RISK_POLICY.md §10; study-05 RUNBOOK §5g",
+        "case_study_id": None,
+        "prevention": "Alert on allowed=false + kill_switch_active reason, not HTTP 5xx",
     },
 ]
 

@@ -93,6 +93,7 @@
 | P-05 Step 7 timing | **Missing** | ❌ Gap | **Add** |
 | P-06 SAPAL scope reduction | **Missing** | ❌ Gap | **Add** |
 | P-07 Doc drift | Partial (Pattern 5 overlap) | ⚠️ Split | P-07 = sprint doc sync; P-08 = stale `.cursorrules` |
+| — Kill switch HTTP 200+deny | Claude HTML → "P-08" | Info | **P-13** @ G2-1 (P-08 already taken — F9) |
 | — Stale `.cursorrules` | Pattern 5 | ✅ Keep as P-08 |
 | — Pilot no branch | Pattern 6 | ✅ Keep as P-09 |
 | — Gov UX runtime | Pattern 7 | ✅ **RULE ENCODED** → P-10 |

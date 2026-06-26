@@ -1,0 +1,18 @@
+{
+  "http_status": 200,
+  "request": {
+    "method": "GET",
+    "path": "/health"
+  },
+  "response": {
+    "status": "ok",
+    "config_loaded": true,
+    "policy_rules_count": 8
+  },
+  "kill_switch_active": true,
+  "note": "/health is exempt from kill switch deny — API process remains up",
+  "drill": "5g",
+  "gate": "G2-1",
+  "run_date": "2026-06-26",
+  "source": "terminal-5g-g2-killswitch.md"
+}

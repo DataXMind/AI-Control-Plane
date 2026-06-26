@@ -100,7 +100,7 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `doc_links` | Paths to governance markdown (incl. `behavioral_constitution`, `cursor_risk_policy`, `lessons_learned`, `practice_evidence_index`) |
 | `public_beta` | PB-9 soak metadata |
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
-| `lessons_patterns` | P-01..P-12 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
+| `lessons_patterns` | P-01..P-13 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
 | `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
 | `practice_evidence` | Studies 01–08 summary, hosts, topologies, `open_gaps_count`, index URLs |
 | `config_loaded`, `policy_rules_count` | Live wire proof (like `/health`) |
@@ -135,7 +135,7 @@ git pull origin master
 **Expected runtime output:**
 
 ```text
-OK: governance/status runtime verify 1.3.1 12 patterns
+OK: governance/status runtime verify 1.3.2 13 patterns
 ```
 
 After every merge touching `src/`: `git pull` + `sudo systemctl restart acp-staging.service` (VPS) or `docker compose up -d --build` (local).

@@ -178,7 +178,7 @@ class GovernanceKnownGap(BaseModel):
 
 
 class LessonPattern(BaseModel):
-    """LESSONS_LEARNED pattern summary (P-01..P-12)."""
+    """LESSONS_LEARNED pattern summary (P-01..P-13)."""
 
     model_config = ConfigDict(extra="forbid")
 
