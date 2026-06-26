@@ -107,6 +107,36 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 
 ---
 
+## Verify gate (PACE L4) — two layers
+
+| Layer | Where | Commands |
+|-------|-------|----------|
+| **Repo** (pre-merge) | WSL or VPS clone | `ruff check src/ tests/` then `mypy src/ai_control_plane/ --strict` — **not** `ruff + mypy` |
+| | | `pytest tests/ -v` · `pytest -m smoke` (8/8) |
+| | | `bash scripts/verify_governance_memory.sh` (ML5 doc links) |
+| **Runtime** (post-deploy) | API host | `export ACP_API_URL=http://127.0.0.1:8000` |
+| | | `bash scripts/verify_governance_status_runtime.sh` (catalog v1.3+) |
+
+**Run scripts from repo root** (`~/AI-Control-Plane`), not from `scripts/`:
+
+```bash
+cd ~/AI-Control-Plane
+bash scripts/verify_governance_status_runtime.sh   # correct
+# bash scripts/verify_governance_status_runtime.sh   # wrong if cwd = scripts/
+```
+
+**Do not hand-edit** `verify_governance_status_runtime.sh` — it is not the same as `verify_governance_memory.sh`. Expected runtime output:
+
+```text
+OK: governance/status runtime verify 1.3.0 12 patterns
+```
+
+After every merge touching `src/`: `git pull` + `sudo systemctl restart acp-staging.service` (VPS) or `docker compose up -d --build` (local).
+
+Evidence: [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-evidence/governance-status-v13-verify/RESULTS.md).
+
+---
+
 ## When to use vs `/health`
 
 | Endpoint | Use when |
@@ -120,7 +150,7 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 bash scripts/verify_governance_status_runtime.sh   # ACP_API_URL defaults to http://127.0.0.1:8000
 ```
 
-See also [`practice-evidence/governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md).
+See also [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-evidence/governance-status-v13-verify/RESULTS.md) (v1.3) and [`governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md) (v1.2).
 
 **Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 PASS.  
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  

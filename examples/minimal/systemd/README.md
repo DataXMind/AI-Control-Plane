@@ -23,6 +23,21 @@ docker compose -f "$ACP_REPO/examples/minimal/docker-compose.yml" ps
 tail -3 /var/log/acp-soak-staging.log
 ```
 
+### Governance runtime (catalog v1.3+)
+
+After `git pull` touching `src/`:
+
+```bash
+cd "$ACP_REPO"
+sudo systemctl restart acp-staging.service
+export ACP_API_URL=http://127.0.0.1:8000
+curl -sf "$ACP_API_URL/health" | python3 -m json.tool
+bash scripts/verify_governance_status_runtime.sh
+```
+
+Expected: `OK: governance/status runtime verify 1.3.0 12 patterns`.  
+Troubleshooting: [`../../../docs/governance/practice-evidence/governance-status-v13-verify/RESULTS.md`](../../../docs/governance/practice-evidence/governance-status-v13-verify/RESULTS.md).
+
 ## After reboot
 
 `acp-staging` starts Docker stack; `acp-soak` waits for `/health` then runs hourly soak into `/var/log/acp-soak-staging.log`.
