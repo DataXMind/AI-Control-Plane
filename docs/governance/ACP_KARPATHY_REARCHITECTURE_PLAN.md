@@ -2,8 +2,8 @@
 
 **Document ID:** ACP-GOV-KARPATHY-REARCH-001  
 **Artifact:** [`karpathy_acp_rearchitecture_analysis.html`](karpathy_acp_rearchitecture_analysis.html)  
-**Code truth:** `master` @ `c5d52e5`  
-**Status:** **R1–R3 COMPLETE** on consolidation branch — `.cursorrules` 6-layer, L2/L5 docs, DATA_CLASSIFICATION, CONTRACT_TESTS, PR template. See [`GOV_6LAYER_AUDIT_PASS.md`](GOV_6LAYER_AUDIT_PASS.md).
+**Code truth:** `master` @ `638250c`  
+**Status:** **R1–R3 + ML5 COMPLETE** on master — see [`GOV_6LAYER_AUDIT_PASS.md`](GOV_6LAYER_AUDIT_PASS.md) post-studies addendum.
 
 ---
 
@@ -17,7 +17,7 @@ Karpathy's 4 principles (Think Before, Simplicity, Surgical, Goal-Driven) map to
 | **L1** | Project context | **85%** | `ARCHITECTURE.md` strong; missing ownership table + data classification |
 | **L2** | Risk policy (Cursor) | **15% → 80%** | Was critical gap; **`CURSOR_RISK_POLICY.md` now seeded** |
 | **L3** | Execution guardrails | **55%** | Branch rules exist; Path B waived; no LOC/file allowlist enforcement |
-| **L4** | Evaluation | **95%** | 165 pytest, SMK 8/8; **Studies 01–07** operator evidence |
+| **L4** | Evaluation | **98%** | **176** pytest, SMK **8/8**; Studies 01–07; `test_cli_gov.py` |
 | **L5** | Governance memory | **95% (ML5)** | LESSONS P-01..P-12; `AGENTS.md`; `.cursor/rules/`; GP-01; CI `governance-memory` |
 
 **Root cause of historical drift** (validated): rules exist but are **not priority-ordered by layer**. Cursor silent-picks when flat `.cursorrules` conflicts with sprint urgency → monolithic PRs, doc PR scope creep, assumption drift.
@@ -90,16 +90,20 @@ Current `.cursorrules` lines 50–52 still require apex stubs for "Milestone A" 
 | [`karpathy_acp_rearchitecture_analysis.html`](karpathy_acp_rearchitecture_analysis.html) | L5 design | ✅ Snapshot |
 | This plan | L5 live | ✅ |
 
-### 3.3 Still to create (ordered)
+### 3.3 Artifact status @ `master` `638250c` (2026-06-26)
 
-| ID | Artifact | Layer | When | Effort |
-|----|----------|-------|------|--------|
-| **R1-A** | `.cursorrules` 6-section rewrite | L0/L3 | Phase R1 | ~2h docs |
-| **R1-B** | `CLAUDE.md` top-level | L0 | Phase R1 | ✅ @ 2026-06-25 drift reconciliation |
-| **R2-A** | `docs/DATA_CLASSIFICATION.md` | L1 | Pre-public flip | ~2h — PII fields for ABAC + test fixtures |
-| **R2-B** | Ownership table in `ARCHITECTURE.md` | L1 | Phase R2 | ~1h — extract from `CURSOR_RISK_POLICY.md` |
-| **R3-A** | `docs/CONTRACT_TESTS.md` + optional TS parity test | L4 | Pre-PB-12 | ~4h — PolicyEvalResponse schema lock |
-| **R3-B** | Prompt template v2 (`docs/prompts/_TEMPLATE.md`) | L0/L2 | Phase R1 | ~1h — risk header + assumptions + allowlist |
+| ID | Artifact | Layer | Status |
+|----|----------|-------|--------|
+| **R1-A** | `.cursorrules` 6-layer | L0/L3 | ✅ On master |
+| **R1-B** | `CLAUDE.md` | L0 | ✅ #90 + #95 |
+| **R2-A** | `docs/DATA_CLASSIFICATION.md` | L1 | ✅ |
+| **R2-B** | Ownership in `ARCHITECTURE.md` | L1 | ✅ |
+| **R3-A** | `docs/CONTRACT_TESTS.md` + snapshot tests | L4 | ✅ |
+| **R3-B** | `docs/prompts/_TEMPLATE.md` + `SESSION_ANCHOR_TEMPLATE.md` | L0/L2 | ✅ #91 |
+| **ML5** | `AGENTS.md`, `.cursor/rules/`, GP-01, CI gate | L5 | ✅ #91 |
+| **G1-L4** | `cli/gov` CLI tests | L4 | ✅ #93 |
+
+**No open R-track creates** — maintenance only (G1-3 quarterly, PB-9 ops).
 
 ---
 

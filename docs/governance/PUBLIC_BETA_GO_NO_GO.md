@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PB-GNG-001  
 **Date:** 2026-06-24  
-**Baseline:** `master` @ `de931b5`  
+**Baseline:** `master` @ `638250c` (post G1 wave #91–#96)  
 **Related:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md) · [`PUBLIC_BETA_SPRINT_PLAN.md`](PUBLIC_BETA_SPRINT_PLAN.md)
 
 ---

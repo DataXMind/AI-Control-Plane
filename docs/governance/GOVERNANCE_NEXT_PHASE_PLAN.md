@@ -56,14 +56,16 @@ Close governance DRIFT (HTML ↔ master)
 
 ---
 
-## 4. Phase G1 — Karpathy R-track completion
+## 4. Phase G1 — Karpathy R-track completion ✅ COMPLETE @ #91–#96
 
-| Task | ID | Source | Effort |
+| Task | ID | Source | Status |
 |------|-----|--------|--------|
 | Sprint-close LESSONS mandatory | G1-1 | P-05, P-07 | ✅ `DEVELOPMENT_PROTOCOL.md` §5.6 Evolve |
-| Prompt template v2 audit | G1-2 | R3-B `docs/prompts/_TEMPLATE.md` | ✅ Template exists; adoption via `SESSION_ANCHOR_TEMPLATE` |
-| Quarterly LESSONS review | G1-3 | HTML maintenance § | Calendar: first review 2026-09 |
-| `GOV_6LAYER_AUDIT_PASS.md` addendum | G1-4 | Post-studies L4 proof | Link practice-evidence |
+| Prompt template v2 audit | G1-2 | R3-B | ✅ `_TEMPLATE.md` + `SESSION_ANCHOR_TEMPLATE` (#91) |
+| Quarterly LESSONS review | G1-3 | HTML maintenance § | Calendar: **2026-09** (pending) |
+| `GOV_6LAYER_AUDIT_PASS.md` addendum | G1-4 | Post-studies L4 proof | ✅ @ `638250c` addendum |
+
+**Merged:** #91 ML5 · #93 CLI gov · #94 CURSOR_RISK · #95 CLAUDE.md · #96 LESSONS
 
 ---
 
@@ -168,4 +170,4 @@ flowchart TB
 **Harsh audit packet:** [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md)  
 **Rule:** Do not start G1–G4 execution until maintainer signs §11 approval gates.
 
-**Last updated:** 2026-06-25 @ post PR #90
+**Last updated:** 2026-06-26 @ G1 complete (#91–#96); G2/PB-9/G3 pending operator
