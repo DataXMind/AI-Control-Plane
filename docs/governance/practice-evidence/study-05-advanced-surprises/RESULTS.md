@@ -1,7 +1,7 @@
 # Study 05 — Advanced surprises — Results
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-05  
-**Status:** **PASS** (5a–5g); **5g** closed G2-1 @ 2026-06-26  
+**Status:** **PASS** (7/7 drills; 5e G2-2 @ 2026-06-26)  
 **Run date:** 2026-06-25  
 **Operator:** dmin@MSI (WSL)  
 **Prerequisite:** Study 04 PASS  
@@ -28,7 +28,7 @@
 | 5c | Invalid body (`agent_id` only) | reject, no default-allow | `allowed: false`, validation in reason; T1 **HTTP 503** | ✅† |
 | 5d | Docker holds :8000 | uvicorn errno 98 | `Address already in use` | ✅ |
 | 5d | Stable rules under Docker | rules constant | curl ×3 → **8, 8, 8** | ✅ |
-| 5e | Docker rebuild / version | detect stale vs fresh | `governance_version` **1.0** both runs; **no src edit** | ⚠️ partial |
+| 5e | Docker rebuild / version | detect stale vs fresh | `governance_version` **1.2** → **1.2.1** after src bump + rebuild (05e-r G2-2) | ✅ |
 | 5f | Bad JWT `identity/verify` | reject | `allowed: false`, `invalid request`; T1 **HTTP 503** | ✅ |
 | 5g | Kill switch | deny all if active | `allowed: false`, `kill_switch_active: study-05-drill-5g-g2` | ✅ |
 
@@ -100,3 +100,4 @@ Xem [`study-06-multi-host/RUNBOOK.md`](../study-06-multi-host/RUNBOOK.md) và **
 - [x] `artifacts/drill-5e-docker-version.json`
 - [x] `artifacts/drill-5f-identity-bad-token.json`
 - [x] `artifacts/terminal-5g-g2-killswitch.md` (G2-1)
+- [x] `artifacts/terminal-5e-r-g2-docker.md` (G2-2)

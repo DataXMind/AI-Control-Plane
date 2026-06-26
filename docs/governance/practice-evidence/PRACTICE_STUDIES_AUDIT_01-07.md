@@ -39,9 +39,9 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 | ID | Study | Gap | Severity | Remediation |
 |----|-------|-----|----------|-------------|
 | G-01 | 05 | ~~**5g** kill switch SKIPPED~~ **CLOSED G2-1** @ 2026-06-26 | — | `study-05/artifacts/terminal-5g-g2-killswitch.md` |
-| G-02 | 05 | **5e** stale image — no src edit | Low | Sửa `GOVERNANCE_VERSION` + rebuild compare |
+| G-02 | 05 | ~~**5e** stale image~~ **CLOSED G2-2** @ 2026-06-26 | — | `study-05/artifacts/terminal-5e-r-g2-docker.md` |
 | G-03 | 07 | ~~**7-0n** negative LAN ping không paste~~ **CLOSED G2-4** @ 2026-06-26 | — | `study-07/artifacts/terminal-7-0n-negative-lan.md` |
-| G-04 | 01–07 | CS-01/03/04 **không có hands-on drill** | Info | Runtime listed in `gov status`; process checks manual |
+| G-04 | 01–07 | ~~CS-01/03/04 process-layer~~ **CLOSED** @ 2026-06-26 | — | `GOVERNANCE_UX_RUNTIME.md` § process-layer |
 | G-05 | PB-9 | Calendar soak 14d ≠ practice one-shot | Info | `PB9_STAGING_SOAK_LOG.md` |
 | G-06 | 08 | **Profile B remote** — shipped config on remote host | Low | Study 08 on `ubuntu-vps` without `ACP_CONFIG_DIR` |
 | G-07 | 08 | **apex/trigger** with shipped config remote | Low | Study 08 soak with rules=10 |
@@ -208,7 +208,7 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 | 5b allow/deny | ✅ | reviewer `git_push` denied |
 | 5c invalid body | ✅ | **503** not 422 — document drift fixed in notes |
 | 5d Docker :8000 | ✅ | rules stable ×3 |
-| 5e rebuild version | ⚠️ partial | G-02 |
+| 5e rebuild version | ✅ G2-2 | `terminal-5e-r-g2-docker.md` |
 | 5f bad JWT | ✅ | 503 + `allowed: false` |
 | 5g kill switch | ✅ G2-1 | `terminal-5g-g2-killswitch.md` |
 
@@ -390,7 +390,7 @@ study-07-cross-network/artifacts/ topology-tailscale, remote-health, remote-poli
 | Fail-closed proven? | Study 01 A4, 04 4b, 05 5a/5c/5f |
 | Tailscale vs LAN? | Study 06 = LAN; Study 07 = TS only in VPS logs |
 | Mac role? | Study 06 only; §10 |
-| What's still open? | §2 Gap registry G-02, G-04, G-05 |
+| What's still open? | §2 Gap registry G-05, G-06, G-07 |
 
 ### 14.2 Không được suy diễn
 
@@ -427,8 +427,8 @@ Documents stale-image lesson (rebuild required after `src/` merge).
 |----|------|---------|
 | 07b | Mac witness | LAN fail vs TS ok side-by-side (optional) |
 | ~~05g-r~~ | ~~Kill switch~~ | **Done** — G2-1 |
-| 05e-r | Stale image | Edit version + rebuild G-02 |
-| 08 | Shipped config remote | Profile B on VPS (rules 10 remote) |
+| ~~05e-r~~ | ~~Stale image~~ | **Done** — G2-2 @ 2026-06-26 |
+| 08 | Shipped config remote | **Scaffold** — [`study-08-shipped-remote/`](study-08-shipped-remote/) — operator Gate B |
 
 ---
 
