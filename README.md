@@ -72,6 +72,8 @@ docker compose -f examples/minimal/docker-compose.yml up --build
 
 See [examples/minimal/README.md](examples/minimal/README.md).
 
+**PB-7 clean-machine verify (≤15 min):** operator runbook — [docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md](docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md).
+
 **Staging soak (PB-9):** after `docker compose up`, run `bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log`. Tracker: [docs/governance/PB9_STAGING_SOAK_LOG.md](docs/governance/PB9_STAGING_SOAK_LOG.md).
 
 ## Full verify gate

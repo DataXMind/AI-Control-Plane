@@ -24,7 +24,7 @@
 |------|--------|-------|
 | Milestone B closed | ✅ | PR #51 |
 | Production stable ≥30 days | ❌ | Soak not started — PB-10 |
-| README + ARCHITECTURE + `examples/` ≤15 min | 🔄 | PB-5 added; human PB-7 verify |
+| README + ARCHITECTURE + `examples/` ≤15 min | 🔄 | PB-7 runbook @ `practice-evidence/pb-7-clean-machine-fork/`; operator CLEAN verify pending |
 | LICENSE, SECURITY, CONTRIBUTING, CoC | ✅ | PB-1..4 |
 | OpenAPI published; CI green | 🔄 | PB-6 export script; publish on flip |
 | `config/` no production secrets | ✅ | Shipped config is template-only |

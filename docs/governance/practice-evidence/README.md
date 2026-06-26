@@ -25,6 +25,7 @@
 | Study 08 | B — shipped remote VPS | **PASS** | 2026-06-26 | [`study-08-shipped-remote/`](study-08-shipped-remote/) |
 | Gov status v1.2 | Docker dual-host (PR #99) | **PASS** | 2026-06-26 | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
 | Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PASS** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) |
+| PB-7 | Clean-machine fork ≤15 min (G3-1) | **PENDING** | — | [`pb-7-clean-machine-fork/`](pb-7-clean-machine-fork/) |
 
 † Study 05: 5g G2-1 + 5e G2-2 closed @ 2026-06-26.
 
