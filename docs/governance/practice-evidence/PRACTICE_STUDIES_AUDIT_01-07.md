@@ -27,7 +27,7 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 
 | Metric | Value |
 |--------|-------|
-| Studies executed | **7 / 7** |
+| Studies executed | **8 / 8** (01–07 audit pack + Study 08) |
 | Overall verdict | **PASS** với 3 gap có document |
 | Hosts used | MSI WSL · Mac Mini M2 · `ubuntu-vps` (Tailscale tailnet) |
 | Config profiles | A (fixture) · B (shipped) · C (Docker fixture) |

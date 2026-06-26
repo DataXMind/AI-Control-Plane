@@ -199,6 +199,11 @@ class PracticeEvidenceSummary(BaseModel):
     studies_completed: int
     last_run: str
     overall_verdict: str
+    open_gaps_count: int
+    artifacts_count: int
+    hosts: list[str]
+    network_topologies: list[str]
+    note: str
     index_url: str
     audit_url: str
     study_08_url: str

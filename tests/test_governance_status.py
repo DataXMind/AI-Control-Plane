@@ -38,8 +38,9 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert len(parsed.lessons_patterns) == len(LESSON_PATTERNS)
     assert parsed.lessons_patterns[0].id == "P-01"
     assert parsed.lessons_patterns[0].case_study_id == "CS-01"
-    assert parsed.governance_version == "1.3.0"
+    assert parsed.governance_version == "1.3.1"
     assert parsed.practice_evidence.studies_completed == 8
+    assert parsed.practice_evidence.open_gaps_count == 1
     assert parsed.practice_evidence.study_08_url.endswith("study-08-shipped-remote/RESULTS.md")
     assert parsed.practice_evidence.overall_verdict == "PASS"
 
