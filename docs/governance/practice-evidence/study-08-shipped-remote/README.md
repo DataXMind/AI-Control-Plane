@@ -1,8 +1,8 @@
 # Study 08 — Shipped config remote (Profile B on VPS)
 
-**Status:** **PENDING** — scaffold only; operator execution required  
-**Gaps:** G-06, G-07  
-**Prerequisite:** Study 07 PASS · `ubuntu-vps` staging 24/7 familiar
+**Status:** **PASS** — 2026-06-26  
+**Gaps:** G-06, G-07 **CLOSED**  
+**Prerequisite:** Study 07 PASS · `ubuntu-vps` Tailscale
 
 ---
 
@@ -12,8 +12,8 @@ Prove **Profile B** (shipped `config/`, rules=10, agent4, datax-analytics) on **
 
 ---
 
-## Quick start
+## Evidence
 
-See [`RUNBOOK.md`](RUNBOOK.md) and [`CHECKLIST.md`](CHECKLIST.md).
-
-**Approval:** Gate **B** — maintainer: *Approve Study 08 execution*
+- [`RESULTS.md`](RESULTS.md)
+- [`artifacts/remote-profile-b-health.json`](artifacts/remote-profile-b-health.json)
+- [`artifacts/remote-profile-b-soak.md`](artifacts/remote-profile-b-soak.md)

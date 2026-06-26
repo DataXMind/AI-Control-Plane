@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.2.1"
+GOVERNANCE_VERSION = "1.2.2"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -156,22 +156,22 @@ KNOWN_GAPS: list[dict[str, str]] = [
         "study": "08",
         "title": "Profile B remote (shipped config)",
         "severity": "low",
-        "status": "OPEN",
-        "remediation": "Study 08: rules=10 on remote endpoint (ubuntu-vps)",
+        "status": "CLOSED",
+        "remediation": "study-08/artifacts/remote-profile-b-health.json (G2-5)",
     },
     {
         "id": "G-07",
         "study": "08",
         "title": "apex/trigger with shipped config remote",
         "severity": "low",
-        "status": "OPEN",
-        "remediation": "Study 08 soak with unset ACP_CONFIG_DIR",
+        "status": "CLOSED",
+        "remediation": "study-08/artifacts/remote-profile-b-soak.md (G2-5)",
     },
 ]
 
 PRACTICE_EVIDENCE: dict[str, str | int] = {
     "studies_completed": 7,
-    "last_run": "2026-06-25",
+    "last_run": "2026-06-26",
     "overall_verdict": "PASS",
     "index_url": "docs/governance/practice-evidence/README.md",
     "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",

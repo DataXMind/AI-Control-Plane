@@ -18,7 +18,7 @@
 | **A** | `known_gaps` + `practice_evidence` API v1.2 | Code + docs | ✅ **DONE** | #99 · verify [`governance-status-v12-verify/`](practice-evidence/governance-status-v12-verify/) |
 | **—** | v1.2 dual-host verify evidence | Docs | ✅ **DONE** | #100 |
 | **C1** | Study 05e-r (G-02 stale image) | Code bump + operator drill | ✅ **DONE** | PR [#101](https://github.com/DataXMind/AI-Control-Plane/pull/101) · catalog `1.2.1` · `terminal-5e-r-g2-docker.md` |
-| **C2** | Study 08 Profile B remote (G-06/G-07) | Operator on VPS | 🔄 **PARTIAL** | Client soak PASS; VPS `study08_vps_preflight.sh` needs SSH |
+| **C2** | Study 08 Profile B remote (G-06/G-07) | Operator on VPS | ✅ **DONE** | G2-5 @ 2026-06-26 · rules=10 · agent4 |
 | **C3** | Study 07b Mac witness (G2-3) | Optional operator | ⏸ **WAIVED** | `study-07b-deferred.md` |
 | **E** | PB-11 legal completeness audit | Docs | ✅ **DONE** | `PB11_LEGAL_AUDIT.md` @ PR #101 |
 | **G3/G4** | PB-7 verify, PB-8 rc, PB-12 flip | Human gates | ⏸ **BLOCKED** | PB-9 + PB-12 approve |
@@ -34,8 +34,8 @@
 | G-03 | 7-0n soft | ✅ CLOSED G2-4 |
 | G-04 | CS process-layer | ✅ CLOSED docs (#99 + UX runtime) |
 | G-05 | PB-9 calendar | 🔄 OPEN (expected) |
-| G-06 | Profile B remote | ⏸ Study 08 scaffold |
-| G-07 | apex shipped remote | ⏸ Study 08 scaffold |
+| G-06 | Profile B remote | ✅ CLOSED Study 08 |
+| G-07 | apex shipped remote | ✅ CLOSED Study 08 |
 
 Runtime: `curl /governance/status` → `known_gaps[]` (catalog v1.2+).
 

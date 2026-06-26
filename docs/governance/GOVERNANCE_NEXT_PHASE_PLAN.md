@@ -77,7 +77,7 @@ Close governance DRIFT (HTML ↔ master)
 | Docker stale image 5e | G2-2 | Edit `GOVERNANCE_VERSION` + rebuild | Low | ✅ 05e-r @ 2026-06-26 |
 | Study 07b Mac witness | G2-3 | `study-07-cross-network/TOPOLOGY` §07b | Low | ⏸ **WAIVED** — G-03 closed via G2-4 |
 | Study 07 negative LAN log | G2-4 | `terminal-7-0n-negative-lan.md` | Low | ✅ G2-4 @ 2026-06-26 |
-| Shipped config remote (Study 08) | G2-5 | `study-08-shipped-remote/RUNBOOK.md` | Optional | 🔄 **PARTIAL** — client soak PASS; VPS Profile B pending SSH |
+| Shipped config remote (Study 08) | G2-5 | `study-08-shipped-remote/RUNBOOK.md` | Optional | ✅ G2-5 @ 2026-06-26 |
 
 Evidence → `practice-evidence/study-NN-*/RESULTS.md` + audit pack §14.4.
 

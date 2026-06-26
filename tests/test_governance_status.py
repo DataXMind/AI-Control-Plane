@@ -28,6 +28,7 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert parsed.known_gaps[0].id == "G-01"
     closed = {g.id for g in parsed.known_gaps if g.status == "CLOSED"}
     assert "G-01" in closed and "G-02" in closed and "G-03" in closed and "G-04" in closed
+    assert "G-06" in closed and "G-07" in closed
     assert parsed.practice_evidence.studies_completed == 7
     assert parsed.practice_evidence.overall_verdict == "PASS"
 
