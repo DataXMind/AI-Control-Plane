@@ -35,14 +35,12 @@
 | ID | Test | Expected | Actual | Result |
 |----|------|----------|--------|--------|
 | 7-0 | Tailnet membership | Ubuntu + Laptop online | Requests từ `100.102.105.47` trên VPS | ✅ |
-| 7-0n | Không đi LAN tới API | Client chỉ reach qua TS | Ubuntu log **không** có IP LAN laptop; chỉ `100.102.105.47` | ✅† |
+| 7-0n | Không đi LAN tới API | Client chỉ reach qua TS | Ubuntu log chỉ `100.102.105.47`; client LAN ping fail — `artifacts/terminal-7-0n-negative-lan.md` | ✅ |
 | 7-1 | curl `/health` via TS | 200, rules **8** | rules **8** @ 11:17:48 | ✅ |
 | 7-2 | `agentctl gov status` | rules **8** | rules **8** @ 11:17:57 | ✅ |
 | 7-3 | policy evaluate | `allowed: true` | implicit trong assign; explicit soak policy **True** | ✅ |
 | 7-4 | `agentctl assign` | `task_id` + TS IP in log | `6206697f-eab5-49c8-83e0-0dcf887d4999`; log `100.102.105.47` @ 11:18:10 | ✅ |
 | 7-5 | `soak_staging.sh` remote | `soak_iter health=ok` | `health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok` @ 11:18:21 | ✅ |
-
-† Negative LAN ping **không** paste riêng; VPS cloud + log chỉ Tailscale IP = đủ chứng minh overlay path. Nếu audit strict: lặp `ping <vps_lan>` từ laptop ngoài → fail.
 
 ---
 
@@ -97,7 +95,8 @@
 
 1. Dùng **ubuntu-vps** thay workstation Ubuntu tại nhà — hợp lệ per runbook option B.
 2. Toàn bộ VPS access log = Tailscale IP client — không lẫn LAN.
-3. Soak remote một iteration đủ practice evidence; PB-9 calendar 14 ngày vẫn riêng.
+3. G2-4 closed — negative LAN artifact `artifacts/terminal-7-0n-negative-lan.md` (VPS topology B).
+4. Soak remote một iteration đủ practice evidence; PB-9 calendar 14 ngày vẫn riêng.
 
 ---
 
@@ -109,3 +108,4 @@
 - [x] `artifacts/remote-soak.json`
 - [x] `terminal-ubuntu-server.md`
 - [x] `terminal-windows-client-external.md`
+- [x] `artifacts/terminal-7-0n-negative-lan.md` (G2-4)

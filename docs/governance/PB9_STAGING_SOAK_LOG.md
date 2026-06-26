@@ -31,10 +31,14 @@ nohup bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log &
 
 | Date | Health OK | Policy allow | Quota read | Apex trigger | SEV-1/2 | Notes |
 |------|-----------|--------------|------------|--------------|---------|-------|
-| 2026-06-22 | ☐ | ☐ | ☐ | ☐ | 0 | Soak clock started (approved) |
-| 2026-06-23 | ☐ | | | | | |
+| 2026-06-22 | ☐ | ☐ | ☐ | ☐ | 0 | Soak clock started (approved); deploy deferred |
+| 2026-06-23 | ☐ | ☐ | ☐ | ☐ | 0 | No local soak evidence |
+| 2026-06-24 | ☐ | ☐ | ☐ | ☐ | 0 | No local soak evidence |
+| 2026-06-25 | ☐ | ☐ | ☐ | ☐ | 0 | No local soak evidence |
+| 2026-06-26 | ☑ | ☑ | ☑ | ☑ | 0 | Local: Docker `minimal-acp-api-1` healthy; `/tmp/acp-soak-staging.log` PASS @ 03:33, 03:43 UTC; hourly loop restarted. Remote drill (non-PB-9): laptop→VPS TS @ 04:33Z; VPS Docker @ 04:32Z |
+| 2026-06-27 | ☐ | ☐ | ☐ | ☐ | 0 | |
 | … | | | | | | |
-| 2026-07-06 | ☐ | | | | | Day 14 review |
+| 2026-07-06 | ☐ | ☐ | ☐ | ☐ | 0 | Day 14 review |
 
 ---
 

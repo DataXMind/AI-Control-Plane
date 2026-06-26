@@ -1,7 +1,7 @@
 # Study 05 — Advanced surprises — Results
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-05  
-**Status:** **PASS** (5a–5f); **5g SKIPPED** (operator)  
+**Status:** **PASS** (5a–5g); **5g** closed G2-1 @ 2026-06-26  
 **Run date:** 2026-06-25  
 **Operator:** dmin@MSI (WSL)  
 **Prerequisite:** Study 04 PASS  
@@ -13,7 +13,7 @@
 
 | Overall | Ready for Study 06? | Blocks PB-9? |
 |---------|-------------------|--------------|
-| **PASS** (6/7 drills; 5g N/A) | **Yes** — cần **máy thứ 2** hoặc VM cùng LAN | **No** |
+| **PASS** (7/7 drills) | **Yes** — cần **máy thứ 2** hoặc VM cùng LAN | **No** |
 
 ---
 
@@ -30,7 +30,7 @@
 | 5d | Stable rules under Docker | rules constant | curl ×3 → **8, 8, 8** | ✅ |
 | 5e | Docker rebuild / version | detect stale vs fresh | `governance_version` **1.0** both runs; **no src edit** | ⚠️ partial |
 | 5f | Bad JWT `identity/verify` | reject | `allowed: false`, `invalid request`; T1 **HTTP 503** | ✅ |
-| 5g | Kill switch | deny all if active | **SKIPPED** — runbook chưa đủ chi tiết | ⏭️ |
+| 5g | Kill switch | deny all if active | `allowed: false`, `kill_switch_active: study-05-drill-5g-g2` | ✅ |
 
 † Runbook ghi HTTP 422; ACP thực tế **503 + fail-closed body** trên `/policy/evaluate` — đúng thiết kế server.
 
@@ -62,7 +62,7 @@
 
 1. **5c / 5f:** Fail-closed trả **503** + JSON (không phải 422 thuần FastAPI) — cập nhật kỳ vọng runbook sau merge.
 2. **5e:** Chưa sửa `governance_catalog.py` nên version không đổi — drill chưa chứng minh stale image; lặp lại khi cần PB-9 hardening.
-3. **5g:** Bỏ qua hợp lệ; hướng dẫn chi tiết bổ sung trong `RUNBOOK.md` §5g (post-study).
+3. **5g:** G2-1 PASS — artifact `artifacts/terminal-5g-g2-killswitch.md` (ephemeral config; không commit `policies.yml`).
 
 ---
 
@@ -99,3 +99,4 @@ Xem [`study-06-multi-host/RUNBOOK.md`](../study-06-multi-host/RUNBOOK.md) và **
 - [x] `artifacts/drill-5d-docker-conflict.json`
 - [x] `artifacts/drill-5e-docker-version.json`
 - [x] `artifacts/drill-5f-identity-bad-token.json`
+- [x] `artifacts/terminal-5g-g2-killswitch.md` (G2-1)
