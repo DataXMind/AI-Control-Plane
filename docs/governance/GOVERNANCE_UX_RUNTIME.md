@@ -125,7 +125,14 @@ bash scripts/verify_governance_status_runtime.sh   # correct
 # bash scripts/verify_governance_status_runtime.sh   # wrong if cwd = scripts/
 ```
 
-**Do not hand-edit** `verify_governance_status_runtime.sh` — it is not the same as `verify_governance_memory.sh`. Expected runtime output:
+**Do not hand-edit** `verify_governance_status_runtime.sh` — it is not the same as `verify_governance_memory.sh`. If you created the file with `nano`, remove it before `git pull`:
+
+```bash
+rm -f scripts/verify_governance_status_runtime.sh
+git pull origin master
+```
+
+**Expected runtime output:**
 
 ```text
 OK: governance/status runtime verify 1.3.0 12 patterns

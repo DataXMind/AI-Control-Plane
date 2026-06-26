@@ -20,13 +20,12 @@
 verify_governance_memory: all checks passed (ML5 pack)
 ```
 
-## Correct next run (from repo root @ master ≥ f50794b)
+## Correct next run (from repo root @ master ≥ cf1f90a)
 
 ```bash
 cd ~/AI-Control-Plane
+rm -f scripts/verify_governance_status_runtime.sh   # required if hand-created via nano (untracked blocks git pull)
 git pull origin master
-rm -f scripts/verify_governance_status_runtime.sh   # if hand-edited; git checkout -- scripts/... preferred
-git checkout -- scripts/verify_governance_status_runtime.sh
 sudo systemctl restart acp-staging.service
 export ACP_API_URL=http://127.0.0.1:8000
 bash scripts/verify_governance_status_runtime.sh

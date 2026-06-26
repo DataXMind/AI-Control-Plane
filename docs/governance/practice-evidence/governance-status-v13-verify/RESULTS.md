@@ -74,7 +74,27 @@ OK: governance/status runtime verify 1.3.0 12 patterns
 
 **Fix:** Delete hand copy; `git checkout -- scripts/verify_governance_status_runtime.sh` after pull.
 
-### Failure 4 — `ruff + mypy` (earlier session)
+### Failure 5 — `git pull` blocked by hand-created script
+
+```text
+error: The following untracked working tree files would be overwritten by merge:
+        scripts/verify_governance_status_runtime.sh
+Please move or remove them before you merge.
+Aborting
+```
+
+**Cause:** Earlier `nano scripts/verify_governance_status_runtime.sh` created an **untracked** file. `git pull` cannot replace it with the version from `master`.
+
+**Fix (from repo root):**
+
+```bash
+cd ~/AI-Control-Plane
+rm scripts/verify_governance_status_runtime.sh    # or: mv scripts/verify_governance_status_runtime.sh /tmp/vps-hand-copy.sh.bak
+git pull origin master
+```
+
+Then continue canonical procedure (restart staging + runtime verify).
+
 
 `ruff + mypy --strict` is invalid shell — `+` is not a command separator for ruff. Use:
 
