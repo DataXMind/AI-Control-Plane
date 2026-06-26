@@ -99,7 +99,7 @@ Evidence → `practice-evidence/study-NN-*/RESULTS.md` + audit pack §14.4.
 
 | ID | Item | Verify |
 |----|------|--------|
-| G3-1 | PB-7 README ≤15 min fork | Operator run on clean machine |
+| G3-1 | PB-7 README ≤15 min fork | Operator run on clean machine | 🔄 **RUNBOOK** | [`pb-7-clean-machine-fork/RUNBOOK.md`](practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
 | G3-2 | PB-8 `v0.1.0-rc.1` tag plan | `CHANGELOG.md` + human approve |
 | G3-3 | CONTRACT_TESTS parity | `docs/CONTRACT_TESTS.md` + CI |
 | G3-4 | PB-11 branch protection | Deferred — org plan at PB-12 |

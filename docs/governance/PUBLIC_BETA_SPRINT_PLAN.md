@@ -39,7 +39,7 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | repo root |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | `scripts/export_openapi.py`, `docs/openapi/` |
-| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 | Docker path documented; operator verify |
+| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **RUNBOOK** | [`practice-evidence/pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) — operator CLEAN run pending |
 | PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | `CHANGELOG.md` added; tag at PB-12 |
 | PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | Started 2026-06-22 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ❌ | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) |
