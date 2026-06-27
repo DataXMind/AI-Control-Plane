@@ -22,11 +22,27 @@
 
 | HTML claim | Current project | Action |
 |------------|-----------------|--------|
-| `examples/` root + `.env.example` | **`examples/minimal/`** — compose, Dockerfile, README (#115 PB-5) | ✅ **Done** (different path) |
-| Fork ≤15 min | PB-7 RUNBOOK Path A + MSI WARM partial evidence | ⏳ PB-7 **CLEAN** pending |
-| `governance/status` after up | Add to `examples/minimal/README.md` | ✅ Recon PR |
+| `examples/` root + `.env.example` | **`examples/minimal/`** SSOT + **`examples/README.md`** index | ✅ Recon PR (no duplicate compose) |
+| `COPY config/` in Dockerfile | **Invalid** — use `tests/fixtures/config` | ❌ Do not apply Claude Dockerfile |
+| `ACP_DEV_MODE` / `ACP_LOG_LEVEL` | **Not in codebase** | ❌ Ignore |
+| `cd examples/` + compose | Use `examples/minimal/` or `-f examples/minimal/docker-compose.yml` | ✅ Documented |
+| Fork ≤15 min | PB-7 RUNBOOK Path A + MSI WARM partial | ⏳ PB-7 **CLEAN** pending |
+| `governance/status` + verify script | `examples/minimal/README.md` | ✅ |
 
 **Do not** duplicate `examples/docker-compose.yml` at repo root — SSOT is `examples/minimal/`.
+
+### Claude `examples/` prompt — harsh audit (@ 2026-06-27)
+
+| Element | Verdict | Reason |
+|---------|---------|--------|
+| New `examples/Dockerfile` | **REJECT** | Breaks build: no `config/` dir; SSOT `examples/minimal/Dockerfile` copies `tests/fixtures/config` |
+| `version: "3.9"` compose | **REJECT** | Compose v2; minimal file has no obsolete `version` key |
+| `.env.example` with fake vars | **PARTIAL** | Added `examples/minimal/.env.example` with **real** `ACP_*` only |
+| `examples/README.md` hub | **ACCEPT** | Index → `minimal/`; satisfies OPEN_SOURCE_READINESS wording |
+| `pip install ai-control-plane` | **REJECT** | Pre–public beta; use `pip install -e ".[dev]"` |
+| CLI assign/status | **ACCEPT** (fixed) | `agentctl assign PROJECT AGENT TASK` · `status --project` |
+| Verify block | **ACCEPT** | Uses `verify_governance_status_runtime.sh` not stale JSON sample |
+
 
 ---
 
@@ -86,10 +102,11 @@
 | R1 | RUNBOOK: Linux deploy, rollback, config reload, incident | [`docs/RUNBOOK.md`](../RUNBOOK.md) |
 | R2 | `examples/minimal/README` — governance verify | [`examples/minimal/README.md`](../../examples/minimal/README.md) |
 | R3 | HTML + this recon in repo | Historical + SSOT pointer |
+| R4 | `examples/README.md` index + `minimal/.env.example` + expanded minimal README | No duplicate compose/Dockerfile |
 
 ### Không làm (stale / done)
 
-- Tạo `examples/` root tree từ HTML
+- Tạo `examples/` root tree từ HTML (Dockerfile `COPY config/`, fake env vars)
 - SECURITY / CONTRIBUTING / CoC packets
 - Study 05g-r, 08, catalog P0, 6-layer PR
 - Đếm gate "8/12" từ HTML

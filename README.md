@@ -74,7 +74,7 @@ bash scripts/smoke_acp.sh --live                # optional uvicorn + curl
 docker compose -f examples/minimal/docker-compose.yml up --build
 ```
 
-See [examples/minimal/README.md](examples/minimal/README.md).
+See [examples/README.md](examples/README.md) and [examples/minimal/README.md](examples/minimal/README.md).
 
 **PB-7 clean-machine verify (≤15 min):** operator runbook — [docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md](docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md).
 

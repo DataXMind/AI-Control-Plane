@@ -70,7 +70,7 @@ Document these as **stable extension points** from `1.0.0`:
 
 Keep **internal**: production `ACP_CONFIG_DIR`, real agent credentials, internal runbooks.
 
-Ship **`examples/`** (minimal config, docker-compose) instead of production YAML.
+Ship **`examples/minimal/`** (fixture config, docker-compose) instead of production YAML. Index: [`examples/README.md`](../examples/README.md).
 
 ## Release and versioning
 
@@ -125,7 +125,7 @@ Only when **all** items are checked:
 
 - [ ] Milestone B closed
 - [ ] Production stable ≥ 30 days (SLO met, no open SEV-1)
-- [ ] README + ARCHITECTURE + `examples/` — fork and run in ≤ 15 minutes
+- [x] README + ARCHITECTURE + `examples/minimal/` — fork path documented; PB-7 **CLEAN** evidence pending
 - [ ] LICENSE, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md present
 - [ ] OpenAPI spec published; integration tests green on CI
 - [ ] Default `config/` contains no production secrets
