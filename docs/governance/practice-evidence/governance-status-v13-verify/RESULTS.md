@@ -1,10 +1,10 @@
 # Governance status v1.3 — Runtime verify (3-stream convergence)
 
 **Document ID:** ACP-GOV-PRACTICE-GOV-STATUS-V13  
-**Status:** **PASS**  
+**Status:** **PASS** (latest: **v1.3.2** @ `68ae48e`)  
 **Run date:** 2026-06-26  
-**Prerequisite:** PR [#104](https://github.com/DataXMind/AI-Control-Plane/pull/104) + docs [#105](https://github.com/DataXMind/AI-Control-Plane/pull/105) → `master` @ `a43524a`  
-**Related:** `lessons_patterns[]` P-01..P-12 + `practice_evidence.studies_completed: 8`
+**Prerequisite:** PR [#104](https://github.com/DataXMind/AI-Control-Plane/pull/104) + [#109](https://github.com/DataXMind/AI-Control-Plane/pull/109) → `master` @ `68ae48e`  
+**Related:** `lessons_patterns[]` P-01..**P-13** + `practice_evidence.studies_completed: 8`
 
 ---
 
@@ -12,14 +12,15 @@
 
 | Layer | Check | ubuntu-vps @ 2026-06-26 | Notes |
 |-------|-------|---------------------------|-------|
-| **L4 repo** | `ruff` + `mypy --strict` | ✅ PASS | Operator paste |
-| **L4 repo** | `pytest` smoke 8/8 | ✅ (prior CI + operator) | |
+| **L4 repo** | `ruff` + `mypy --strict` | ✅ PASS | Prior operator + CI |
+| **L4 repo** | `pytest` smoke 8/8 | ✅ | CI on #109 |
 | **L5** | `verify_governance_memory.sh` | ✅ PASS | |
-| **Runtime** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.0` · `12 patterns` |
+| **Runtime v1.3.0** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.0` · `12 patterns` @ `a43524a` |
+| **Runtime v1.3.2** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.2` · `13 patterns` @ `68ae48e` |
 
 | Host | Stack | `governance_version` | `lessons_patterns` | Result |
 |------|-------|----------------------|--------------------|--------|
-| **ubuntu-vps** | Docker + `acp-staging.service` | **1.3.0** | **12** | ✅ |
+| **ubuntu-vps** | Docker + `acp-staging.service` | **1.3.2** | **13** | ✅ |
 
 ---
 
@@ -33,7 +34,9 @@ Earlier session issues (documented for ML5):
 4. `git pull` blocked by untracked hand file → fixed with `rm` then pull  
 5. `ruff + mypy` invalid syntax → use `ruff check ... && mypy ...`
 
-**Resolution:** `rm -f scripts/verify_governance_status_runtime.sh` → `git pull` @ `a43524a` → `systemctl restart` → runtime script **PASS**.
+**Resolution (v1.3.0):** `rm -f scripts/verify_governance_status_runtime.sh` → `git pull` @ `a43524a` → `systemctl restart` → runtime script **PASS**.
+
+**Resolution (v1.3.2):** Clean `git pull` `dbf3079..68ae48e` → `systemctl restart` → `OK: … 1.3.2 13 patterns` (no incident).
 
 ---
 
@@ -48,17 +51,19 @@ curl -sf "$ACP_API_URL/health" | python3 -m json.tool
 bash scripts/verify_governance_status_runtime.sh
 ```
 
-Expected:
+Expected (@ master ≥ `68ae48e`):
 
 ```text
-OK: governance/status runtime verify 1.3.0 12 patterns
+OK: governance/status runtime verify 1.3.2 13 patterns
 ```
 
 **Lesson (G-02):** `git pull` + `systemctl restart` rebuilds Docker image — required after merges touching `src/`.
 
 ---
 
-## Test matrix (v1.3)
+## Test matrix
+
+### v1.3.0 (@ `a43524a`)
 
 | ID | Assert | Expected | VPS |
 |----|--------|----------|-----|
@@ -69,13 +74,26 @@ OK: governance/status runtime verify 1.3.0 12 patterns
 | V13-5 | `practice_evidence.studies_completed` | `8` | ✅ |
 | V13-6 | `doc_links.risk_policy` | `CURSOR_RISK_POLICY.md` | ✅ |
 
+### v1.3.2 (@ `68ae48e`)
+
+| ID | Assert | Expected | VPS |
+|----|--------|----------|-----|
+| V132-1 | `governance_version` | `1.3.2` | ✅ |
+| V132-2 | `len(known_gaps)` | `7` | ✅ |
+| V132-3 | OPEN gaps | `G-05` only | ✅ |
+| V132-4 | `len(lessons_patterns)` | `≥ 13` | ✅ (13, P-13) |
+| V132-5 | `practice_evidence.studies_completed` | `8` | ✅ |
+| V132-6 | `doc_links.risk_policy` | `CURSOR_RISK_POLICY.md` | ✅ |
+
 ---
 
 ## Artifacts
 
-- [x] `artifacts/vps-operator-run-2026-06-26.md` — incident trail
-- [x] `artifacts/vps-runtime-v13-pass.md` — clean PASS @ `a43524a`
+- [x] `artifacts/vps-operator-run-2026-06-26.md` — incident trail (v1.3.0 attempt)
+- [x] `artifacts/vps-runtime-v13-pass.md` — PASS @ `a43524a` (`1.3.0` · 12 patterns)
+- [x] `artifacts/vps-runtime-v132-pass.md` — PASS @ `68ae48e` (`1.3.2` · 13 patterns)
+- [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-26.md` — open vs closed task audit
 
 ---
 
-**Last updated:** 2026-06-26 — runtime PASS ubuntu-vps
+**Last updated:** 2026-06-26 — runtime PASS ubuntu-vps @ v1.3.2

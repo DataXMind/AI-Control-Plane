@@ -99,7 +99,7 @@ Evidence → `practice-evidence/study-NN-*/RESULTS.md` + audit pack §14.4.
 
 | ID | Item | Verify |
 |----|------|--------|
-| G3-1 | PB-7 README ≤15 min fork | Operator run on clean machine | 🔄 **RUNBOOK** | [`pb-7-clean-machine-fork/RUNBOOK.md`](practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
+| G3-1 | PB-7 README ≤15 min fork | Operator run on clean machine | 🔄 **PAUSED** — other laptop | [`pb-7-clean-machine-fork/RUNBOOK.md`](practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
 | G3-2 | PB-8 `v0.1.0-rc.1` tag plan | `CHANGELOG.md` + human approve |
 | G3-3 | CONTRACT_TESTS parity | `docs/CONTRACT_TESTS.md` + CI |
 | G3-4 | PB-11 branch protection | Deferred — org plan at PB-12 |
@@ -170,4 +170,4 @@ flowchart TB
 **Harsh audit packet:** [`GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md`](GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md)  
 **Rule:** Do not start G1–G4 execution until maintainer signs §11 approval gates.
 
-**Last updated:** 2026-06-26 @ G1 complete (#91–#96); G2/PB-9/G3 pending operator
+**Last updated:** 2026-06-26 @ G1 complete (#91–#96); G2 complete; VPS v1.3.2 PASS; PB-9 + G3-1 PB-7 pending operator

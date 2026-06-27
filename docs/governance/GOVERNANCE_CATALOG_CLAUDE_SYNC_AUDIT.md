@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-CATALOG-CLAUDE-SYNC-AUDIT-001  
 **Audit date:** 2026-06-26  
-**Baseline:** `master` catalog v1.3.1  
+**Baseline:** `master` catalog v1.3.2  
 **Prompt:** Claude 3-stream sync task (pre-Studies closure artifact)
 
 ---
@@ -24,7 +24,7 @@
 | **1** doc_links | Add 5 keys | ✅ + aliases `behavioral_constitution`, `cursor_risk_policy`, `practice_evidence_index`; path fix `docs/governance/CURSOR_RISK_POLICY.md` | **DONE** |
 | **2** known_gaps | All OPEN / SKIPPED text | ✅ G-01..04,06,07 **CLOSED**; G-05 **OPEN**; field `title`+`status` not `gap` | **DONE** (better) |
 | **3** practice_evidence | 7 studies, `open_gaps: 7` | ✅ 8 studies, `open_gaps_count: 1`, hosts/topologies/note | **DONE** |
-| **4** layers nested lessons | Embed in L0/L3/L5 dict | ✅ `lessons_patterns[]` P-01..P-12 + layer one-liners point to it | **DONE** (better) |
+| **4** layers nested lessons | Embed in L0/L3/L5 dict | ✅ `lessons_patterns[]` P-01..**P-13** + layer one-liners point to it | **DONE** (better) |
 | **5** GOVERNANCE_UX_RUNTIME | Schema rows + stale note | ✅ Updated; G-01 CLOSED note | **DONE** |
 
 ---
@@ -47,11 +47,11 @@
 
 ```text
 Stream 1 Practice  → known_gaps[] + practice_evidence
-Stream 2 Karpathy  → doc_links + lessons_patterns[] (P-01..P-12)
+Stream 2 Karpathy  → doc_links + lessons_patterns[] (P-01..P-13)
 Stream 3 Runtime   → case_studies[] CS-01..06 + verify_gate
 ```
 
-**Verify:** `bash scripts/verify_governance_status_runtime.sh` → `1.3.1` · `12 patterns` · VPS PASS @ `a43524a`.
+**Verify:** `bash scripts/verify_governance_status_runtime.sh` → `1.3.2` · `13 patterns` · VPS PASS @ `68ae48e`.
 
 ---
 
