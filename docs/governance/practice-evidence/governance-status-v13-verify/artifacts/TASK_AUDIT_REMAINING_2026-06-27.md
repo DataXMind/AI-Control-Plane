@@ -81,7 +81,8 @@
 | **PB-9 daily** | Agent tick **only** on *"đã tick ngày YYYY-MM-DD"* |
 | **PB-7** | Không ghi PASS nếu không có CLEAN artifacts |
 | **Code/docs fork-user** | **Done** @ #117 — không mở lại Claude JSON sample |
+| **Claude responsibility matrix** | **Done** @ matrix recon doc — TODAY/THIS WEEK closed; chờ operator |
 
----
+**Matrix SSOT:** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../../../CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 
 **Do not claim:** PB-7 PASS without CLEAN evidence; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.

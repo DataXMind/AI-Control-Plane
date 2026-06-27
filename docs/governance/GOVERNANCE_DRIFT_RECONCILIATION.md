@@ -214,7 +214,8 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 | `acp_full_audit_report.html` | Historical | SECURITY/CONTRIBUTING absent |
 | `audit_reconcile_final.html` | Historical | Legal 0%; pytest 156 |
 | `karpathy_acp_artifacts_fixed.html` | Historical | Pre-ML5 counts |
-| Claude action packets (external) | Historical | Create legal files; P-08 kill switch; fork JSON sample @ pre-v1.3.3 |
+| Claude action packets (external) | Historical | Create legal files; fork JSON sample; **responsibility matrix @ 2026-06-26** |
+| `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` | **YES** | Maps matrix rows → current status |
 
 **Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
 
