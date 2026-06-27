@@ -13,9 +13,58 @@
 | Question | Answer |
 |----------|--------|
 | **Legal files present?** | ✅ **YES** |
-| **Content sufficient for PB-12 prep?** | ✅ **YES** — delta applied; **one human gate** remains (live contact) |
+| **Content sufficient for PB-12 prep?** | ✅ **YES** — legal delta + maintainer sign-off @ 2026-06-27 |
 | **Hard blocker for private beta ops?** | ❌ **NO** |
-| **Hard blocker for public flip?** | 🔄 **Human:** confirm `security@dataxmind.com` live + PB-9/PB-7/PB-10 |
+| **Hard blocker for public flip?** | 🔄 **Ops:** PB-9 / PB-7 / PB-10 calendar; mailbox live test before flip |
+
+---
+
+## Maintainer approval (2026-06-27)
+
+| # | Gate | Status | Notes |
+|---|------|--------|-------|
+| 1 | `security@dataxmind.com` as contact | ☑ **Approved** | Provision at DNS/email provider before PB-12 (see §Contact setup) |
+| 2 | GitHub Discussions | ☑ **Approved** | Enable in repo Settings (see §GitHub Discussions) |
+| 3 | PB-9 calendar soak | ☑ **Acknowledged** | Execution in progress — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) |
+| 4 | PB-7 clean-machine fork | ☑ **Acknowledged** | Operator: separate CLEAN laptop |
+| 5 | PB-10 production soak 30d | ☑ **Acknowledged** | Starts after PB-9 Day 14 pass |
+| 6 | PB-12 human go/no-go | ☑ **Acknowledged** | After checklist complete |
+
+---
+
+## Contact setup (`security@dataxmind.com`)
+
+**Cần tạo ngay không?** **Chưa bắt buộc** trong giai đoạn private + PB-9. **Bắt buộc trước PB-12** (public flip) — gửi email thử và đáp ứng SLA 48h.
+
+**Không đưa vào git:** password, app password, API key email provider, OAuth tokens.
+
+| Bước | Việc làm |
+|------|----------|
+| 1 | Chọn provider: Google Workspace, Microsoft 365, Zoho Mail, hoặc **Cloudflare Email Routing** (alias → `mobilexmind@gmail.com`) |
+| 2 | DNS: thêm **MX records** cho `dataxmind.com` theo hướng dẫn provider |
+| 3 | Tạo mailbox **`security@`** hoặc **alias** forward tới inbox maintainer đang monitor |
+| 4 | (Tuỳ chọn) SPF + DKIM + DMARC — giảm spam khi public |
+| 5 | **Trước PB-12:** gửi email thử từ account ngoài → xác nhận nhận được trong 48h |
+
+**Đường báo cáo không cần email:** [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new) — hoạt động khi repo private/public; maintainer nhận notification GitHub.
+
+---
+
+## GitHub Discussions
+
+**Bật (UI):**
+
+1. Repo → **Settings** → **General**
+2. Cuộn **Features** → bật **Discussions**
+3. (Tuỳ chọn) **Set up discussions** → chọn category mặc định *General / Ideas / Q&A*
+
+**Hoặc CLI (org admin):**
+
+```bash
+gh api repos/DataXMind/AI-Control-Plane -X PATCH -f has_discussions=true
+```
+
+CONTRIBUTING trỏ câu hỏi how-to → Discussions; bugs → Issues.
 
 ---
 
@@ -53,7 +102,7 @@
 
 ## Pre-PB-12 actions (human)
 
-1. **Confirm** `security@dataxmind.com` (or replacement) is live and monitored.
+1. ~~**Confirm** `security@dataxmind.com`~~ → ☑ **Approved** — provision + live test before PB-12
 2. **Complete** PB-9 calendar soak (≥14 days) — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
 3. **PB-7** clean-machine fork ≤15 min on **CLEAN** host.
 4. **PB-10** production soak ≥30 days after PB-9 pass.
@@ -74,4 +123,4 @@ grep -q "Contributor Covenant" CODE_OF_CONDUCT.md
 
 ---
 
-**Operator sign-off:** ☐ Maintainer confirms contact inbox live before PB-12 Gate E
+**Operator sign-off:** ☑ Maintainer **DataXMind** @ **2026-06-27** — contact `security@dataxmind.com` approved; gates 1–6 acknowledged; mailbox live test required before PB-12 Gate E.
