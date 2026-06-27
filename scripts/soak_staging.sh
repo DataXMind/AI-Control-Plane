@@ -6,12 +6,14 @@
 #   bash scripts/soak_staging.sh              # one iteration
 #   bash scripts/soak_staging.sh --loop 3600  # every hour (seconds between runs)
 #   bash scripts/soak_staging.sh --log /var/log/acp-soak.log
+#   bash scripts/soak_staging.sh --repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md
 #
 set -euo pipefail
 
 API_URL="${ACP_API_URL:-http://127.0.0.1:8000}"
 INTERVAL=0
 LOG_FILE=""
+REPO_LOG=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -21,6 +23,10 @@ while [ $# -gt 0 ]; do
       ;;
     --log)
       LOG_FILE="${2:-}"
+      shift 2
+      ;;
+    --repo-log)
+      REPO_LOG="${2:-}"
       shift 2
       ;;
     -h | --help)
@@ -40,6 +46,9 @@ log() {
   echo "$line"
   if [ -n "$LOG_FILE" ]; then
     echo "$line" >>"$LOG_FILE"
+  fi
+  if [ -n "$REPO_LOG" ]; then
+    echo "$line" >>"$REPO_LOG"
   fi
 }
 

@@ -5,7 +5,22 @@
 **Target end:** 2026-07-06 (≥14 calendar days)  
 **Stack:** `examples/minimal/docker-compose.yml` + `ACP_DATA_DIR=/data/acp`
 
-**Agent rule (ML5):** Soak evidence lives **only** in this file. Operator chat *"đã tick ngày YYYY-MM-DD"* → update that row; do not store soak state in chat or other docs.
+**Agent rule (ML5):** Soak evidence lives in this file **and** [`PB9_SOAK_ITERATION_LOG.md`](PB9_SOAK_ITERATION_LOG.md). Operator chat *"đã tick ngày YYYY-MM-DD"* → update daily row; do not store soak state in chat or other docs.
+
+---
+
+## Soak clock vs evidence window (resolved 2026-06-27)
+
+| Concept | Date | SSOT |
+|---------|------|------|
+| **Calendar clock** | Start **2026-06-22** (maintainer approve) | `governance_catalog.py` · `soak_started` |
+| **Day 14 review target** | **~2026-07-06** | From calendar clock |
+| **Evidence window** | First logged iteration **2026-06-26** | This file + iteration log |
+| **Gap 06-22 → 06-25** | **Documented** — deploy deferred Day 0; no local Docker/log | Not a soak *failure*; low evidence density |
+
+**Review rule:** Day 14 uses calendar date **2026-07-06** with explicit note that machine evidence begins 2026-06-26. If SEV/anomaly count is clean, gap does not extend review date. See [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md).
+
+**Persistence:** Hourly loop must use `--repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md` (via `bash scripts/restart_soak_loop.sh`). `/tmp/` alone is not sufficient for ML5.
 
 ---
 

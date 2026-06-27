@@ -1,8 +1,8 @@
 # Public Beta — Go / No-Go Assessment
 
 **Document ID:** ACP-GOV-PB-GNG-001  
-**Date:** 2026-06-24  
-**Baseline:** `master` @ `638250c` (post G1 wave #91–#96)  
+**Date:** 2026-06-24 (updated 2026-06-27 post Claude status audit)  
+**Baseline:** `master` @ catalog v1.3.3 · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)  
 **Related:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md) · [`PUBLIC_BETA_SPRINT_PLAN.md`](PUBLIC_BETA_SPRINT_PLAN.md)
 
 ---
@@ -23,10 +23,10 @@
 | Item | Status | Notes |
 |------|--------|-------|
 | Milestone B closed | ✅ | PR #51 |
-| Production stable ≥30 days | ❌ | Soak not started — PB-10 |
+| Production stable ≥30 days | ⏳ **Deferred for 0.x beta** | PB-10 — required for GA; see § PB-10 scope |
 | README + ARCHITECTURE + `examples/` ≤15 min | 🔄 | PB-7 runbook @ `practice-evidence/pb-7-clean-machine-fork/`; operator CLEAN verify pending |
 | LICENSE, SECURITY, CONTRIBUTING, CoC | ✅ | PB-1..4 |
-| OpenAPI published; CI green | 🔄 | PB-6 export script; publish on flip |
+| OpenAPI published; CI green | 🔄 | Runtime + CI ✅; static via `export_openapi.py`; **publish on flip** (PB-6) |
 | `config/` no production secrets | ✅ | Shipped config is template-only |
 | Maintainer + security contact in README | ✅ | Maintainer + SECURITY.md linked |
 | Public beta `0.x` disclaimer | 🔄 | Pre-release notice in README; full on PB-12 |
@@ -65,9 +65,12 @@ gh api repos/DataXMind/AI-Control-Plane/branches/master/protection
 
 **Start criteria:** ✅ Maintainer approved 2026-06-22. Tracker: [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
 
-**Clock:** Day 0 = 2026-06-22 · Target review = **2026-07-06**.
+**Clock:** Day 0 = 2026-06-22 · Target review = **2026-07-06**.  
+**Evidence window:** first logged iteration **2026-06-26** — see [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) § clock vs evidence.
 
 ### Production (PB-10) — target ≥30 days
+
+**PB-10 scope @ 0.x Public Beta (2026-06-27):** Production soak is a **GA (1.0.0) operational gate**, not a hard blocker for **0.x beta flip** if maintainer records explicit acceptance in PB-12 go/no-go. `gates_remaining` in catalog is unchanged until flip-time catalog update.
 
 After staging pass: same SLO targets on production-like config (`config/` not fixtures).
 
@@ -82,6 +85,26 @@ After staging pass: same SLO targets on production-like config (`config/` not fi
 ## Track PB-L — Legal (parallel, done in prep)
 
 Artifacts at repo root — see sprint plan PB-1..4.
+
+---
+
+## Pre-flip checklist (~07-07, post Day 14 PASS)
+
+```bash
+export ACP_CONFIG_DIR=tests/fixtures/config
+python scripts/export_openapi.py
+git add docs/openapi/openapi.json
+pytest tests/test_smoke.py -v -m smoke
+export ACP_API_URL=http://127.0.0.1:8000
+bash scripts/verify_governance_status_runtime.sh
+bash scripts/verify_openapi_runtime.sh
+# Human: git tag v0.1.0-rc.1 && git push origin v0.1.0-rc.1
+# Human: test email to security@dataxmind.com
+```
+
+**Reject:** `curl … > docs/openapi.json` — SSOT is `docs/openapi/openapi.json` via `scripts/export_openapi.py`.
+
+**Templates:** [`PB9_DAY14_REVIEW_TEMPLATE.md`](PB9_DAY14_REVIEW_TEMPLATE.md) · [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
 ---
 

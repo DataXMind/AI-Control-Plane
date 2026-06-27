@@ -1,0 +1,544 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}.tr{border-left-color:#A32D2D}.tp{border-left-color:#534AB7}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:14px}
+.sec:first-child{margin-top:0}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.tbl{background:rgba(24,95,164,.12);color:#185FA5}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;max-height:520px;overflow-y:auto}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row:last-child{border-bottom:none}
+.rn{flex-shrink:0;font-size:10px;font-weight:600;color:var(--color-text-secondary);min-width:72px;padding-top:2px;font-family:var(--font-mono,'JetBrains Mono',monospace)}
+.rb{flex:1}.rt{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.rd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.rd code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:11px 13px}
+.card h4{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.card p,.card li{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.card code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.card ul{padding-left:14px;margin-top:4px}
+.vbox{border-radius:8px;padding:12px 16px;margin-bottom:12px;border:0.5px solid}
+.vg{background:rgba(52,201,126,.04);border-color:rgba(52,201,126,.25)}
+.vw{background:rgba(133,79,11,.04);border-color:rgba(133,79,11,.2)}
+.vr{background:rgba(163,45,45,.04);border-color:rgba(163,45,45,.2)}
+.vf-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.vg .vf-label{color:#0F6E56}.vw .vf-label{color:#854F0B}.vr .vf-label{color:#A32D2D}
+.vf-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.vf-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.vf-body code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.gate-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.gate-row:last-child{border-bottom:none}
+.gate-id{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;font-weight:600;min-width:52px;color:var(--color-text-secondary);padding-top:2px}
+.gate-body{flex:1}
+.gate-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.gate-desc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.gate-desc code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.tl{display:flex;flex-direction:column}
+.tl-row{display:flex;gap:0}
+.tl-line{display:flex;flex-direction:column;align-items:center;width:30px;flex-shrink:0}
+.tl-dot{width:11px;height:11px;border-radius:50%;border:2px solid;margin-top:5px;flex-shrink:0}
+.tl-conn{width:2px;flex:1;margin:3px auto 0;min-height:10px}
+.tl-content{flex:1;padding:2px 0 12px 10px}
+.tl-date{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10px;color:var(--color-text-secondary);margin-bottom:2px}
+.tl-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.tl-items{font-size:11.5px;color:var(--color-text-secondary);line-height:1.6}
+.tl-items code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;color:var(--color-text-primary)}
+.d-ok .tl-dot{border-color:#0F6E56;background:#0F6E56}
+.d-ok .tl-conn{background:rgba(15,110,86,.2)}
+.d-act .tl-dot{border-color:#185FA5;background:#185FA5}
+.d-act .tl-conn{background:rgba(24,95,164,.2)}
+.d-pend .tl-dot{border-color:#854F0B;background:#854F0B}
+.d-pend .tl-conn{background:rgba(133,79,11,.2)}
+.d-flip .tl-dot{border-color:#534AB7;background:#534AB7}
+.d-flip .tl-conn{display:none}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('verdict')">① Verdict</button>
+  <button class="nb" onclick="show('gates')">② 7 Gates remaining</button>
+  <button class="nb" onclick="show('pb9')">③ PB-9 soak plan</button>
+  <button class="nb" onclick="show('pb7')">④ PB-7 clean fork</button>
+  <button class="nb" onclick="show('pb12')">⑤ PB-12 go/no-go</button>
+  <button class="nb" onclick="show('drift')">⑥ Drift guard</button>
+  <button class="nb" onclick="show('next')">⑦ Next steps</button>
+</div>
+
+<!-- ① VERDICT -->
+<div id="pane-verdict" class="pane on">
+  <div class="vbox vg">
+    <div class="vf-label">Architect verdict — anchored to PROJECT_STATUS_AUDIT 527eb5d</div>
+    <div class="vf-title">Project ở đúng vị trí — chuyển giao từ engineering sang operations</div>
+    <div class="vf-body">Cursor đã hoàn thành toàn bộ technical surface. 7 gates còn lại là calendar + human approval — không phải missing code. Governance catalog <code>v1.3.3</code> là SSOT. Runtime verified tại MSI + VPS. Vai trò Claude giai đoạn này: chuẩn bị review materials, không generate code mới.</div>
+  </div>
+
+  <div class="sec">Đánh giá chất lượng execution — Cursor đã làm gì đúng</div>
+  <div class="g3">
+    <div class="card">
+      <h4><span class="tag tok">Exceptional</span> Self-correcting governance</h4>
+      <p>Cursor phát hiện OpenAPI bug (<code>/openapi.json</code> in paths) và fix @ <code>1d883ec</code> trong cùng wave. Đây là engineering maturity — không cần human catch bug. Reconciliation docs được tạo cho mỗi HTML packet = audit trail đáng tin.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">Production-grade</span> CI chain đúng</h4>
+      <p><code>governance-memory → smoke → test + examples-minimal-smoke</code> parallel. Timeout 5m trên examples job. <code>examples/minimal/</code> path đúng, job name đúng. Không có stale HTML artifacts làm confuse CI.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag tok">Honest</span> Drift catalog tự document</h4>
+      <p>§7 Drift catalog list 10 stale claims chính xác. Đây không phải Cursor error — đây là Cursor tự audit HTML artifacts của Claude và correct. Đây là <strong>governance maturity</strong> hiếm thấy.</p>
+    </div>
+  </div>
+
+  <div class="sec">Đánh giá đúng về trạng thái hiện tại</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Technical</div><div class="rb"><div class="rt">COMPLETE — không missing code</div><div class="rd">165 pytest · 8 SMK · 13 OpenAPI paths · catalog v1.3.3 · examples-minimal-smoke CI · legal closed · RUNBOOK đủ sections. Cursor's work is done.</div></div></div>
+    <div class="row"><div class="rn">Governance</div><div class="rb"><div class="rt">3-stream convergence LIVE</div><div class="rd">Practice evidence + Karpathy 6-layer + Runtime catalog = 1 <code>curl /governance/status</code>. Catalog v1.3.3 serve tất cả: milestones, layers, known_gaps, lessons_patterns (13), practice_evidence, public_beta gates.</div></div></div>
+    <div class="row"><div class="rn">Operational</div><div class="rb"><div class="rt">7 gates — đều là operator/calendar/human</div><div class="rd">PB-9 calendar soak (không accelerate được), PB-7 clean fork (operator action), PB-8 tag (human approve), PB-10 production soak (post-PB-9), PB-6 static publish on flip, security@ test, PB-12 go/no-go.</div></div></div>
+    <div class="row"><div class="rn">PB-9 gap</div><div class="rb"><div class="rt">06-22 → 06-25 không có soak evidence — cần clarify</div><div class="rd">Audit ghi "ticks 06-26/27" và "gap 06-22→25 no evidence". Đây là documentation gap, không phải soak failure. Cần: operator confirm soak script chạy continuous hay có outage trong gap đó.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ② 7 GATES -->
+<div id="pane-gates" class="pane">
+  <div class="tip tg"><strong>Source: <code>governance_catalog.py v1.3.3</code> — không dùng HTML counts.</strong> 7 <code>gates_remaining</code>, 4 <code>gates_closed</code>. Phân tích từng gate theo dependency order.</div>
+
+  <div class="sec">4 gates CLOSED (không touch)</div>
+  <div class="pb"><div style="padding:10px 14px">
+    <div class="gate-row"><div class="gate-id">PB-11</div><div class="gate-body"><div class="gate-title"><span class="tag tok">CLOSED</span> Legal artifacts</div><div class="gate-desc">LICENSE, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md — PR #112–#113. <code>security@dataxmind.com</code> in README. Không cần revisit.</div></div></div>
+    <div class="gate-row"><div class="gate-id">RUNBOOK</div><div class="gate-body"><div class="gate-title"><span class="tag tok">CLOSED</span> Operator RUNBOOK</div><div class="gate-desc">Deploy (Linux + Windows/WSL), rollback, config reload, incident response sections — #118. Đủ cho operator onboarding.</div></div></div>
+    <div class="gate-row"><div class="gate-id">Catalog</div><div class="gate-body"><div class="gate-title"><span class="tag tok">CLOSED</span> 3-stream convergence</div><div class="gate-desc">v1.3.3 live. Practice evidence + Karpathy + runtime. <code>known_gaps</code>, <code>lessons_patterns</code> (13), <code>public_beta</code> fields.</div></div></div>
+    <div class="gate-row"><div class="gate-id">Discussions</div><div class="gate-body"><div class="gate-title"><span class="tag tok">CLOSED</span> GitHub Discussions enabled</div><div class="gate-desc">Community Q&amp;A channel ready. Fork users có nơi hỏi mà không mở Issues cho bugs.</div></div></div>
+  </div></div>
+
+  <div class="sec">7 gates REMAINING — phân tích dependency order</div>
+  <div class="pb"><div style="padding:10px 14px">
+    <div class="gate-row">
+      <div class="gate-id">G-05 / PB-9</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag tbl">IN PROGRESS</span> Staging soak ≥14 days</div>
+        <div class="gate-desc">Ticks: 06-26, 06-27. Gap 06-22→25 cần clarify. Review target ~2026-07-06. <strong>Blocking: PB-8, PB-10, PB-12.</strong> Không accelerate được — calendar constraint. Claude role: chuẩn bị Day 14 review materials.</div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">PB-7</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag twn">PENDING</span> Clean-machine fork ≤15 min</div>
+        <div class="gate-desc">MSI WARM verify ≠ PB-7 PASS. Cần CLEAN machine (factory reset hoặc new VM). <strong>Không block PB-12 nếu có waiver documented.</strong> RUNBOOK tại <code>practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md</code>. Claude role: Q&amp;A support khi operator thực hiện.</div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">PB-8</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag twn">PENDING</span> CHANGELOG + v0.1.0-rc.1 tag</div>
+        <div class="gate-desc">Human approve after PB-9. CHANGELOG draft có thể chuẩn bị trước. Tag command: <code>git tag v0.1.0-rc.1 &amp;&amp; git push origin v0.1.0-rc.1</code>. <strong>Depends on: PB-9 review pass.</strong></div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">PB-10</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag terr">NOT STARTED</span> Production soak ≥30 days</div>
+        <div class="gate-desc">After PB-9. Long calendar gate — starts after staging soak. <strong>May not be required for 0.x beta flip</strong> per OPEN_SOURCE_READINESS "production soak for GA, not beta". Claude role: clarify với bạn liệu PB-10 block PB-12 hay chỉ block GA (1.0.0).</div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">PB-6</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag twn">PARTIAL</span> OpenAPI publish on flip</div>
+        <div class="gate-desc">Runtime ✅ (<code>/docs</code>, <code>/redoc</code>, <code>/openapi.json</code>). Static export ✅. <strong>Publish = make repo public + announce.</strong> Action: <code>curl http://localhost:8000/openapi.json &gt; docs/openapi.json</code> committed to master trước flip. 1 lệnh, 5 phút.</div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">security@</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag twn">PENDING</span> security@ mailbox live test</div>
+        <div class="gate-desc">Send test email tới <code>security@dataxmind.com</code> và confirm receipt. Human action. <strong>1 phút — no code needed.</strong></div>
+      </div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-id">PB-12</div>
+      <div class="gate-body">
+        <div class="gate-title"><span class="tag terr">HUMAN GATE</span> Public flip go/no-go</div>
+        <div class="gate-desc">Human decision. Depends on: PB-9 review pass + PB-7 (or waiver) + PB-8 tag + PB-6 publish + security@ test. <strong>Claude role: draft go/no-go narrative, không decide.</strong></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ③ PB-9 SOAK -->
+<div id="pane-pb9" class="pane">
+  <div class="tip tw"><strong>PB-9 là gate duy nhất không thể accelerate.</strong> Day 14 review ~2026-07-06. Gap 06-22→25 cần clarify trước review. Claude chuẩn bị materials ngay từ bây giờ.</div>
+
+  <div class="sec">PB-9 gap clarification — câu hỏi cần operator trả lời</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">Gap</div><div class="rb"><div class="rt">06-22 → 06-25: không có soak evidence</div><div class="rd">Audit ghi "ticks 06-26/27; gap 06-22→25 no evidence". Câu hỏi: (A) soak script chạy continuous nhưng không có log file lưu? (B) soak script không chạy trong 3 ngày đó? Câu trả lời quyết định liệu Day 14 tính từ 06-22 hay từ 06-26.</div></div></div>
+    <div class="row"><div class="rn">Tính Day 14</div><div class="rb"><div class="rt">Nếu continuous từ 06-22: review ~07-06 đúng</div><div class="rd">Nếu có outage 06-22→25: Day 14 từ 06-26 = review ~07-10. Sẽ trùng với flip target → cần adjust timeline hoặc accept waiver với documented reason.</div></div></div>
+    <div class="row"><div class="rn">Evidence</div><div class="rb"><div class="rt">Soak log ở /tmp/acp-soak-staging.log — không persist across restart</div><div class="rd">Risk: nếu MSI restart, log mất. Khuyến nghị: <code>tee -a docs/governance/PB9_STAGING_SOAK_LOG.md</code> trong restart script để persist vào repo. Operator nên commit daily tick vào repo, không chỉ lưu /tmp.</div></div></div>
+  </div></div>
+
+  <div class="sec">Day 14 review materials — Claude chuẩn bị ngay</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Draft</span> Day 14 PB-9 review template (~2026-07-06)</span><button class="cbtn" onclick="cp(this,'pb9r')">Copy</button></div>
+    <div class="pbb" id="pb9r"># PB-9 Day 14 Soak Review — 2026-07-06
+<span class="cm"># Template — operator điền actual values</span>
+
+## Soak summary
+Start date: 2026-06-22 (or 2026-06-26 nếu gap confirmed)
+Review date: 2026-07-06
+Duration claimed: [N] calendar days · [M] iterations logged
+
+## Evidence inventory
+- [ ] PB9_STAGING_SOAK_LOG.md: [N] entries
+- [ ] Scripts/soak_staging.sh iterations: PASS/FAIL counts
+- [ ] Last verified: [timestamp from log]
+- [ ] Hosts covered: MSI Docker · ubuntu-vps · [others?]
+- [ ] Gap 06-22→25: [explained / not explained]
+
+## Anomalies (SEV criteria)
+SEV-1 (blocks PB-12): service crash with data loss, policy bypass, fail-open observed
+SEV-2 (require analysis): repeated 5xx, memory leak >20%, unexpected restart
+SEV-3 (document only): expected restarts, config reload, planned maintenance
+
+| Date | Anomaly | SEV | Resolution |
+|------|---------|-----|-----------|
+| [none observed / or list] |
+
+## Smoke gate (run on review day)
+pytest tests/test_smoke.py -v -m smoke       <span class="cm"># expect 8/8</span>
+bash scripts/verify_governance_status_runtime.sh  <span class="cm"># expect v1.3.3, 13 patterns</span>
+curl /governance/status | jq .public_beta    <span class="cm"># check gates_remaining count</span>
+
+## Verdict
+[ ] PASS — proceed to PB-8 tag + PB-12 go/no-go
+[ ] CONDITIONAL — [specific issue, specific waiver]
+[ ] FAIL — [reason, extend soak by N days]
+
+## Sign-off
+Operator: [name/alias]
+Date: 2026-07-06
+Next gate: PB-8 rc tag (human) + PB-12 go/no-go</div>
+  </div>
+
+  <div class="sec">Soak persistence fix — commit log vào repo (optional nhưng khuyến nghị)</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag twn">Operator action</span> Persist soak log vào repo</span><button class="cbtn" onclick="cp(this,'soak-fix')">Copy</button></div>
+    <div class="pbb" id="soak-fix"><span class="cm"># Thay vì chỉ log vào /tmp/ (mất khi restart)
+# Append tick vào repo file mỗi lần soak pass</span>
+
+<span class="cm"># Option A: manual tick (30 giây/ngày)</span>
+echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) PASS soak iteration [host]" \
+  >> docs/governance/PB9_STAGING_SOAK_LOG.md
+git add docs/governance/PB9_STAGING_SOAK_LOG.md
+git commit -m "chore: PB-9 soak tick $(date +%Y-%m-%d)"
+git push
+
+<span class="cm"># Option B: modify scripts/soak_staging.sh để append vào file
+# Thêm vào cuối loop iteration trong script:
+# echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) PASS" >> "${REPO_ROOT}/docs/governance/PB9_STAGING_SOAK_LOG.md"</span>
+
+<span class="cm"># Mục tiêu: mỗi ngày có ít nhất 1 entry trong PB9_STAGING_SOAK_LOG.md
+# Gap 06-22→25 có thể được explained bằng "script chạy nhưng log ở /tmp"
+# Từ hôm nay (06-27) trở đi: persist vào repo</span></div>
+  </div>
+</div>
+
+<!-- ④ PB-7 -->
+<div id="pane-pb7" class="pane">
+  <div class="tip><strong>PB-7 CLEAN machine = fork user experience test.</strong> MSI WARM ≠ PASS vì có cached deps, existing config, muscle memory. Claude role: Q&A support, không execute.</strong></div>
+
+  <div class="sec">Phân tích PB-7 — tại sao CLEAN quan trọng</div>
+  <div class="g2">
+    <div class="card">
+      <h4><span class="tag terr">MSI WARM — không đủ</span></h4>
+      <p>MSI đã có: Python 3.11 venv, git history, ACP_CONFIG_DIR set, muscle memory về netsh portproxy, existing Docker images cached. Fork user không có gì trong số này. WARM test = convenience test, không phải user test.</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag twn">CLEAN options</span></h4>
+      <ul>
+        <li>New VM (Hyper-V, VirtualBox, UTM trên Mac) — recommended, không tốn hardware</li>
+        <li>Docker-in-Docker với fresh base image — acceptable nếu documented</li>
+        <li>GitHub Codespaces — zero local deps, fork từ public repo = perfect test</li>
+        <li>Friend/colleague với laptop sạch — most realistic</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">PB-7 checklist — operator thực hiện</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl">PB-7 procedure (summary)</span></div>
+    <div class="pbb" style="font-size:11px;line-height:2"><span class="cm"># Từ CLEAN machine (zero ACP history):</span>
+<span class="g"># Target: setup → agentctl assign → PASS trong ≤15 phút</span>
+
+<span class="cm">## Step 1 — Clone (2 min)</span>
+git clone https://github.com/DataXMind/AI-Control-Plane
+cd AI-Control-Plane
+time python -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
+
+<span class="cm">## Step 2 — Start API (1 min)</span>
+cd examples/minimal/ && cp .env.example .env
+docker compose up -d          <span class="cm"># hoặc: uvicorn ... nếu không có Docker</span>
+sleep 5
+
+<span class="cm">## Step 3 — Verify (2 min)</span>
+curl http://localhost:8000/health
+curl http://localhost:8000/governance/status | python3 -m json.tool | head -15
+agentctl assign rust-gateway agent2 git_read
+
+<span class="cm">## Step 4 — Time + record</span>
+<span class="cm"># Total wall-clock from git clone → agentctl assign PASS</span>
+<span class="cm"># Must be ≤15 min per OPEN_SOURCE_READINESS target</span>
+<span class="cm"># Save terminal output → docs/governance/practice-evidence/pb-7-clean-machine-fork/</span>
+
+<span class="cm">## PB-7 PASS criteria:</span>
+<span class="cm"># - No prior ACP setup on machine</span>
+<span class="cm"># - Wall clock ≤15 min</span>
+<span class="cm"># - health: ok, policy evaluate: allowed/denied correctly</span>
+<span class="cm"># - governance/status: v1.3.3, 7 gates_remaining shows correctly</span>
+
+<span class="cm">## If using GitHub Codespaces (cleanest option):</span>
+<span class="cm"># Repo must be public first — chicken/egg with PB-12</span>
+<span class="cm"># Alternative: private Codespace via org access</span></div>
+  </div>
+
+  <div class="tip tw"><strong>Chicken-and-egg note:</strong> Nếu dùng GitHub Codespaces = cần repo public trước. Recommendation: dùng local VM hoặc colleague's machine. PB-7 có thể được waived nếu documented: "Tested on WARM MSI + ubuntu-vps remote (Study 08) — CLEAN VM not available before PB-12 date. Accept risk for 0.x beta."</div>
+</div>
+
+<!-- ⑤ PB-12 GO/NO-GO -->
+<div id="pane-pb12" class="pane">
+  <div class="tip tp"><strong>Claude drafts, human decides.</strong> PB-12 go/no-go narrative dựa trên <code>PUBLIC_BETA_GO_NO_GO.md</code>. Không auto-close gates. Không recommend flip date trước khi PB-9 review pass.</div>
+
+  <div class="sec">Draft go/no-go narrative — ~2026-07-06 review</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Draft</span> PB-12 narrative (bổ sung sau PB-9 review)</span><button class="cbtn" onclick="cp(this,'gng')">Copy</button></div>
+    <div class="pbb" id="gng"># AI Control Plane — Public Beta Go/No-Go
+# Reference: PUBLIC_BETA_GO_NO_GO.md
+# Review date: ~2026-07-06 (PB-9 Day 14)
+# Human decision: [OPERATOR NAME]
+
+---
+
+## Gate summary @ review date
+
+| Gate | Status | Evidence |
+|------|--------|----------|
+| PB-1..4 Legal | CLOSED | PR #112–#113 |
+| PB-5 examples/minimal | CLOSED | CI examples-minimal-smoke |
+| PB-6 OpenAPI runtime | CLOSED | verify_openapi_runtime.sh |
+| PB-6 OpenAPI static publish | ⏳ | Commit openapi.json pre-flip |
+| PB-7 Clean fork ≤15 min | [PASS/WAIVER] | [artifact or waiver doc] |
+| PB-8 CHANGELOG + rc.1 tag | ⏳ | Human approve after this review |
+| PB-9 Staging soak ≥14d | [PASS/CONDITIONAL] | PB9_STAGING_SOAK_LOG.md |
+| PB-10 Production soak 30d | DEFERRED to GA | 0.x beta only — not required |
+| PB-11 Branch protection | DEFERRED | Free tier; team discipline |
+| security@ mailbox test | ⏳ | Send test email + confirm |
+| PB-12 Human go/no-go | THIS DECISION | |
+
+---
+
+## PB-10 scope clarification (for human decision)
+
+Per OPEN_SOURCE_READINESS.md: "Production soak ≥ 30 days" is listed under
+"Operational gates (production)". The Public Beta target is 0.x, not GA (1.0.0).
+
+**Recommendation:** Defer PB-10 to GA milestone. Accept risk explicitly in this doc:
+"AI Control Plane 0.1.0-beta ships without 30-day production soak.
+Operator-facing disclaimer: 0.x API may change; not recommended for production."
+
+This aligns with standard OSS 0.x beta practice.
+
+---
+
+## Pre-flip checklist (operator, 30 min)
+
+```bash
+# 1. Export static OpenAPI
+uvicorn ai_control_plane.api.server:app --port 8000 &
+curl http://localhost:8000/openapi.json > docs/openapi.json
+kill %1
+git add docs/openapi.json && git commit -m "docs: export OpenAPI spec v0.1.0-rc.1"
+
+# 2. Tag rc
+git tag v0.1.0-rc.1 && git push origin v0.1.0-rc.1
+
+# 3. CHANGELOG entry
+# Add v0.1.0-rc.1 section to CHANGELOG.md
+
+# 4. Test security@ mailbox
+# Send email to security@dataxmind.com → confirm receipt
+
+# 5. Final smoke
+pytest tests/test_smoke.py -v -m smoke
+bash scripts/verify_governance_status_runtime.sh
+```
+
+---
+
+## Flip action
+
+```bash
+# GitHub Settings → Change visibility → Public
+# Enable GitHub Security Advisories
+# Enable Dependabot alerts
+
+# Announce:
+# - GitHub Release: v0.1.0-beta.1 (create from v0.1.0-rc.1 tag)
+# - Include 0.x disclaimer in release notes
+```
+
+---
+
+## Decision record
+
+Date: [YYYY-MM-DD]
+Operator: [NAME]
+Decision: [GO / CONDITIONAL GO / NO-GO]
+Reason: [brief]
+Next review: [date if conditional/no-go]</div>
+  </div>
+</div>
+
+<!-- ⑥ DRIFT GUARD -->
+<div id="pane-drift" class="pane">
+  <div class="tip tr"><strong>Claude drift guard — các claim trong chuỗi HTML artifacts đã obsolete.</strong> Luôn verify với runtime, không với HTML copy-paste.</div>
+
+  <div class="sec">10 stale claims — confirm rejection</div>
+  <div class="pb"><div style="padding:12px 14px">
+    <div class="row"><div class="rn">PATH</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> <code>examples/docker-compose.yml</code></div><div class="rd">→ Correct: <code>examples/minimal/docker-compose.yml</code>. Root-level compose does not exist.</div></div></div>
+    <div class="row"><div class="rn">JOB</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> Job name <code>examples-smoke</code></div><div class="rd">→ Correct: <code>examples-minimal-smoke</code>. Do not create duplicate job.</div></div></div>
+    <div class="row"><div class="rn">OPENAPI</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> <code>/openapi.json</code> in OpenAPI <code>paths{}</code></div><div class="rd">→ Bug fixed @ <code>1d883ec</code>. URL is not an operation. Script <code>verify_openapi_runtime.sh</code> is correct.</div></div></div>
+    <div class="row"><div class="rn">GATES</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> "PB-9 only remaining gate"</div><div class="rd">→ 7 <code>gates_remaining</code> in catalog v1.3.3. Source: runtime, not HTML.</div></div></div>
+    <div class="row"><div class="rn">GATES</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> "8/12 PB gates done"</div><div class="rd">→ 4 closed / 7 remaining (different taxonomy). Use catalog framing.</div></div></div>
+    <div class="row"><div class="rn">PB-7</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> MSI WARM = PB-7 PASS</div><div class="rd">→ PB-7 requires CLEAN machine evidence. WARM ≠ fork user experience.</div></div></div>
+    <div class="row"><div class="rn">PB-9</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> PB-9 PASS before Day 14</div><div class="rd">→ Review target ~2026-07-06. Soak ticks ≠ review pass.</div></div></div>
+    <div class="row"><div class="rn">DONE</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> "HOÀN TẤT / KHÔNG CÒN GÌ ĐỂ DELIVER"</div><div class="rd">→ True only for Cursor-coded packets. 7 operator gates remain. Public Beta not complete.</div></div></div>
+    <div class="row"><div class="rn">TESTS</div><div class="rb"><div class="rt"><span class="tag terr">REJECT</span> "156 tests" in prompts</div><div class="rd">→ 165 pytest @ master. Always use current count from CI, not old HTML.</div></div></div>
+    <div class="row"><div class="rn">PB-10</div><div class="rb"><div class="rt"><span class="tag twn">CLARIFY</span> PB-10 blocks PB-12</div><div class="rd">→ Per OPEN_SOURCE_READINESS, PB-10 is "operational gate" for production, not beta. Recommend defer to GA. Needs human confirm.</div></div></div>
+  </div></div>
+</div>
+
+<!-- ⑦ NEXT STEPS -->
+<div id="pane-next" class="pane">
+  <div class="sec">Hướng đi tiếp theo — anchored, no drift</div>
+  <div class="tl">
+    <div class="tl-row d-act">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">Hôm nay 2026-06-27</div>
+        <div class="tl-title">Operator: clarify PB-9 gap 06-22→25</div>
+        <div class="tl-items">
+          Trả lời 1 câu: soak script có chạy liên tục từ 06-22 không hay có outage?<br>
+          Nếu có outage → Day 14 từ 06-26 = review ~07-10 (adjust timeline).<br>
+          Bắt đầu persist soak log vào repo từ hôm nay (không chỉ /tmp/).
+        </div>
+      </div>
+    </div>
+    <div class="tl-row d-act">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">Hôm nay → 2026-07-05</div>
+        <div class="tl-title">Claude: chuẩn bị Day 14 materials (đã draft trên)</div>
+        <div class="tl-items">
+          Day 14 review template ✅ (tab ③).<br>
+          PB-12 go/no-go narrative ✅ (tab ⑤).<br>
+          PB-7 clean fork procedure ✅ (tab ④).<br>
+          Không cần thêm Cursor code.
+        </div>
+      </div>
+    </div>
+    <div class="tl-row d-pend">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">Tuần 2026-06-30 → 07-05</div>
+        <div class="tl-title">Operator: PB-7 CLEAN fork attempt</div>
+        <div class="tl-items">
+          Dùng VM mới hoặc colleague machine.<br>
+          Target: git clone → agentctl assign ≤15 min.<br>
+          Claude: Q&amp;A support nếu stuck.<br>
+          Nếu không làm được trước 07-06: document waiver + accept risk.
+        </div>
+      </div>
+    </div>
+    <div class="tl-row d-pend">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">~2026-07-06</div>
+        <div class="tl-title">Operator: PB-9 Day 14 review</div>
+        <div class="tl-items">
+          Chạy review checklist từ template (tab ③).<br>
+          Điền actual values vào Day 14 template.<br>
+          Quyết định: PASS → proceed PB-8 + PB-12. CONDITIONAL → document. FAIL → extend.<br>
+          Claude: phân tích soak log nếu operator share.
+        </div>
+      </div>
+    </div>
+    <div class="tl-row d-pend">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">~2026-07-07 → 07-09</div>
+        <div class="tl-title">Operator + Human: PB-8 rc.1 tag + pre-flip checklist</div>
+        <div class="tl-items">
+          Export <code>docs/openapi.json</code> static.<br>
+          Commit CHANGELOG v0.1.0-rc.1 section.<br>
+          Tag <code>v0.1.0-rc.1</code>.<br>
+          Test <code>security@dataxmind.com</code> mailbox.
+        </div>
+      </div>
+    </div>
+    <div class="tl-row d-flip">
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-conn"></div></div>
+      <div class="tl-content">
+        <div class="tl-date">~2026-07-10 (human decision)</div>
+        <div class="tl-title">Human: PB-12 go/no-go → public flip</div>
+        <div class="tl-items">
+          GitHub Settings → Change visibility → Public.<br>
+          Create Release <code>v0.1.0-beta.1</code> from tag.<br>
+          Enable Security Advisories + Dependabot.<br>
+          Announce. Monitor.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip tg" style="margin-top:12px"><strong>Claude role từ đây đến PB-12:</strong> Review preparation, Q&amp;A support, narrative drafting. Không generate Cursor code mới. Không close catalog gates. Không accelerate soak. SSOT là <code>governance_catalog.py v1.3.3</code> + runtime scripts — không phải bất kỳ HTML artifact nào.</div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>

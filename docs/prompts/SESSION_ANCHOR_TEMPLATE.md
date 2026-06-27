@@ -7,7 +7,7 @@
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../governance/CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md) · `master` @ v1.3.3 · code/docs fork-user **done** (#117)
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · `master` @ v1.3.3
 
 **Chờ bạn / calendar**
 

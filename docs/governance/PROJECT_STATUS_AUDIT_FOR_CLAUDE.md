@@ -5,7 +5,7 @@
 **Prepared by:** Cursor operator session · reconciled against runtime evidence  
 **Audit date:** 2026-06-27 (UTC)  
 **Repository:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane)  
-**Baseline:** `master` @ `527eb5d` · governance catalog **v1.3.3**
+**Baseline:** `master` · governance catalog **v1.3.3** · operator phase per [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
 
 ---
 
@@ -42,6 +42,8 @@ These files are the **single source of truth**. Prefer runtime + verify scripts 
 | `docs/prompts/SESSION_ANCHOR_TEMPLATE.md` | L5 session pin — PB-12 operator checklist |
 | `docs/governance/CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` | Matrix rows DONE vs operator-only |
 | Reconciliation docs (`*_RECONCILIATION.md`) | Harsh audit of each Claude HTML packet |
+| [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) | OP-01..11 through PB-12 |
+| [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) | Claude status audit → wired tasks |
 
 **PACE verify (operator):**
 

@@ -220,10 +220,19 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 | `PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md` | **YES** | PB HTML tabs → current status |
 | `pb_openapi_and_examples_ci.html` | Historical | [`PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md`](PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md) |
 | `PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md` | **YES** | OpenAPI + examples CI packet |
+| `acp_status_audit_analysis.html` | Historical | [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) |
+| `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | **YES** | Claude status audit → operator action plan |
+| `PUBLIC_BETA_OPERATOR_ACTION_PLAN.md` | **YES** | OP-01..11 task register through PB-12 |
 
 **Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
 
 ---
 
-**Next:** [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md)  
+## 11. Operator phase (@ 2026-06-27)
+
+Engineering packets merged (#116–#118). Active phase = **operator pipeline** per [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md). Claude/Cursor: reconciliation + templates only unless operator requests code.
+
+---
+
+**Next:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)  
 **Last updated:** 2026-06-27 @ v1.3.3 artifact registry

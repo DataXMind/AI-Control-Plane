@@ -13,6 +13,8 @@
 | G0–G2 | Practice gaps | Studies + G2-1..G2-5 | ✅ CLOSED |
 | Gov UX | Catalog v1.3.x | PR #104–#109; v1.3.3 gates_remaining | ✅ |
 | OpenAPI + examples CI | PB-T packet | PR #118 merged @ `375ef14` | ✅ |
+| Claude status audit | Operator phase plan | `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | ✅ |
+| Soak repo persistence | `--repo-log` + iteration log | `soak_staging.sh` @ 2026-06-27 | ✅ |
 | Lessons | P-13 kill switch | G2-1 + CURSOR_RISK §10 | ✅ |
 | Legal | PB-11 | PR #112–#113, sign-off | ✅ |
 | RUNBOOK | Operator SSOT | PR #108 | ✅ |
@@ -33,6 +35,8 @@
 ---
 
 ## OPEN — blocks PB-12 (`public_beta.gates_remaining`)
+
+> **Execution detail:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) (OP-01..11)
 
 | Priority | ID | Owner | Target |
 |----------|-----|-------|--------|
@@ -88,5 +92,7 @@
 **Matrix SSOT:** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../../../CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 
 **Claude handoff (full audit):** [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../../../PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
+
+**Operator action plan:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · Claude audit recon: [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../../../ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
 **Do not claim:** PB-7 PASS without CLEAN evidence; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.
