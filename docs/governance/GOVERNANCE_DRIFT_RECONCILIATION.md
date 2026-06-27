@@ -214,7 +214,7 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 | `acp_full_audit_report.html` | Historical | SECURITY/CONTRIBUTING absent |
 | `audit_reconcile_final.html` | Historical | Legal 0%; pytest 156 |
 | `karpathy_acp_artifacts_fixed.html` | Historical | Pre-ML5 counts |
-| Claude action packets (external) | Historical | Create legal files; P-08 kill switch |
+| Claude action packets (external) | Historical | Create legal files; P-08 kill switch; fork JSON sample @ pre-v1.3.3 |
 
 **Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
 

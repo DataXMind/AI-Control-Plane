@@ -7,6 +7,7 @@
 - [ ] `GET /health` → `status: ok`, `config_loaded: true`
 - [ ] `POST /policy/evaluate` allow → `allowed: true`
 - [ ] (Recommended) deny unknown agent → `allowed: false`
+- [ ] (Recommended) `verify_governance_status_runtime.sh` → `1.3.3` · `13 patterns`
 - [ ] Total elapsed ≤ 15 minutes
 - [ ] Artifacts saved under `artifacts/`
 - [ ] `RESULTS.md` updated PASS/FAIL
