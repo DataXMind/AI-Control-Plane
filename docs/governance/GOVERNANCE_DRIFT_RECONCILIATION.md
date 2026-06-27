@@ -216,6 +216,8 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 | `karpathy_acp_artifacts_fixed.html` | Historical | Pre-ML5 counts |
 | Claude action packets (external) | Historical | Create legal files; fork JSON sample; **responsibility matrix @ 2026-06-26** |
 | `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` | **YES** | Maps matrix rows → current status |
+| `pb_final_blockers_packet.html` | Historical | [`PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md`](PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md) |
+| `PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md` | **YES** | PB HTML tabs → current status |
 
 **Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
 

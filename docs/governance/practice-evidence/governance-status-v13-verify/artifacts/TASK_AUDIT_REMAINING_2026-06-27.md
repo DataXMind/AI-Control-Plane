@@ -82,6 +82,7 @@
 | **PB-7** | Không ghi PASS nếu không có CLEAN artifacts |
 | **Code/docs fork-user** | **Done** @ #117 — không mở lại Claude JSON sample |
 | **Claude responsibility matrix** | **Done** @ matrix recon doc — TODAY/THIS WEEK closed; chờ operator |
+| **PB final blockers HTML** | **Reconciled** — see [`PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md`](../../../PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md) |
 
 **Matrix SSOT:** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../../../CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 

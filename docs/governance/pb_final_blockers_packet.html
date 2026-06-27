@@ -1,0 +1,533 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.terr{background:rgba(163,45,45,.12);color:#A32D2D}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;max-height:520px;overflow-y:auto}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.ci{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer;user-select:none;font-size:12px;line-height:1.5}
+.ci:last-child{border-bottom:none}
+.ci:hover{background:var(--color-background-primary)}
+.ck{flex-shrink:0;width:14px;height:14px;border-radius:3px;border:0.5px solid var(--color-border-secondary);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px}
+.ci.done .ck{background:rgba(52,201,126,.08);border-color:rgba(52,201,126,.4);color:#0F6E56}
+.ct{flex:1;color:var(--color-text-primary)}
+.ci.done .ct{text-decoration:line-through;color:var(--color-text-secondary)}
+.ct code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:14px}
+.sec:first-child{margin-top:0}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.prog-bar{flex:1;height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:#0F6E56;border-radius:2px;transition:width .3s}
+.prog-num{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:13px;font-weight:500;color:var(--color-text-primary);min-width:46px;text-align:right}
+.vbox{border-radius:8px;padding:12px 16px;margin-bottom:12px;border:0.5px solid}
+.vg{background:rgba(52,201,126,.04);border-color:rgba(52,201,126,.25)}
+.vg-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#0F6E56;margin-bottom:4px}
+.vg-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.vg-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('examples')">examples/ docker-compose</button>
+  <button class="nb" onclick="show('readme')">README + maintainer</button>
+  <button class="nb" onclick="show('pb-gate')">PB gate final check</button>
+  <button class="nb" onclick="show('final')">Final checklist</button>
+</div>
+
+<!-- EXAMPLES -->
+<div id="pane-examples" class="pane on">
+  <div class="tip tw"><strong>examples/ là hard blocker.</strong> OPEN_SOURCE_READINESS yêu cầu "fork and run in ≤ 15 minutes". Không có examples/ → fork user phải read docs trước → onboarding fail. Minimal: 1 docker-compose + 1 .env.example + 1 README.</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor</span> examples/ docker-compose minimal</span><button class="cbtn" onclick="cp(this,'ex')">Copy</button></div>
+    <div class="pbb" id="ex"><span class="hi">@ARCHITECTURE.md @docs/RUNBOOK.md @pyproject.toml</span>
+
+<span class="key">Task: Create examples/ directory — fork-and-run in ≤15 min</span>
+<span class="cm"># Risk: LOW (new files, no src/ touch)
+# Target: someone who has never seen ACP can run it in 15 minutes</span>
+
+<span class="key">── File 1: examples/README.md ──</span>
+
+# ACP Examples — Quick Start
+
+## Prerequisites
+- Docker + Docker Compose (or Python 3.11+)
+- 5 minutes
+
+## Option A — Docker Compose (recommended)
+```bash
+cd examples/
+cp .env.example .env           # edit if needed
+docker compose up --build
+```
+Then open a second terminal:
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/governance/status | python3 -m json.tool
+```
+
+## Option B — Local Python
+```bash
+pip install ai-control-plane   # or: pip install -e .. (from repo root)
+uvicorn ai_control_plane.api.server:app --port 8000
+```
+
+## First governance check
+```bash
+curl -s http://localhost:8000/governance/status | python3 -m json.tool
+# → milestones, layers, known_gaps, verify_gate
+```
+
+## Assign your first task
+```bash
+agentctl assign rust-gateway agent2 git_read
+# → task_id + PENDING state
+
+agentctl status --project rust-gateway
+# → task list with state
+```
+
+## What's shipped vs configurable
+| Item | Default (this example) | Production override |
+|------|----------------------|---------------------|
+| Config | tests/fixtures/config (8 rules) | ACP_CONFIG_DIR=/your/config |
+| Storage | in-memory | ACP_DATA_DIR=/data |
+| Auth | HS256 dev stub | ACP_JWKS_URL=https://... |
+| Redis | disabled | ACP_REDIS_URL=redis://... |
+
+See ARCHITECTURE.md for full configuration reference.
+
+<span class="key">── File 2: examples/docker-compose.yml ──</span>
+
+version: "3.9"
+
+services:
+  acp-api:
+    build:
+      context: ..                       # repo root
+      dockerfile: examples/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ACP_LOG_LEVEL=${ACP_LOG_LEVEL:-info}
+      - ACP_DEV_MODE=${ACP_DEV_MODE:-true}
+      # Override to use your own config:
+      # - ACP_CONFIG_DIR=/config
+      # - ACP_DATA_DIR=/data
+      # - ACP_REDIS_URL=redis://redis:6379
+      # - ACP_JWKS_URL=https://your-idp/.well-known/jwks.json
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      # Optional: mount your own config
+      # - ./my-config:/config:ro
+      # Optional: persist tasks
+      # - ./data:/data
+      []
+
+  # Optional Redis (uncomment + set ACP_REDIS_URL above):
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+
+<span class="key">── File 3: examples/Dockerfile ──</span>
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY pyproject.toml README.md ./
+COPY src/ ./src/
+COPY config/ ./config/
+
+RUN pip install --no-cache-dir -e ".[dev]" \
+    && pip install --no-cache-dir uvicorn[standard]
+
+EXPOSE 8000
+
+CMD ["uvicorn", "ai_control_plane.api.server:app",
+     "--host", "0.0.0.0", "--port", "8000"]
+
+<span class="key">── File 4: examples/.env.example ──</span>
+
+# AI Control Plane — example environment
+# Copy to .env and edit as needed
+
+# Logging
+ACP_LOG_LEVEL=info
+ACP_DEV_MODE=true
+
+# Config: leave empty to use shipped defaults (tests/fixtures — 8 rules)
+# Set to use your own config directory
+# ACP_CONFIG_DIR=/config
+
+# Storage: leave empty for in-memory
+# Set for persistent tasks across restarts
+# ACP_DATA_DIR=/data
+
+# Redis: leave empty for in-memory quota store
+# ACP_REDIS_URL=redis://localhost:6379
+
+# JWT: leave empty for HS256 dev stub (not production)
+# ACP_JWKS_URL=https://your-idp/.well-known/jwks.json
+
+# MCP: set if running cyanheads git-mcp-server
+# ACP_MCP_GIT_URL=http://localhost:3000
+
+<span class="key">── File 5: examples/.gitignore ──</span>
+.env
+data/
+*.log
+
+<span class="key">Verify:</span>
+cd examples/
+docker compose up --build -d
+sleep 5
+curl -sf http://localhost:8000/health | python3 -m json.tool
+curl -sf http://localhost:8000/governance/status | python3 -m json.tool | head -20
+docker compose down
+<span class="cm"># Expected: health=ok, governance/status returns milestones + layers</span>
+
+<span class="cm"># Also verify from repo root — no src regression:</span>
+pytest tests/ -v && pytest -m smoke -v</div>
+  </div>
+</div>
+
+<!-- README -->
+<div id="pane-readme" class="pane">
+  <div class="tip"><strong>README update + maintainer contact.</strong> Hiện tại README ghi "Milestone B tracking" — stale. Maintainer contact "partial" là blocker. 2 items nhỏ nhưng visible cho fork users.</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor</span> README.md update + maintainer contact</span><button class="cbtn" onclick="cp(this,'rm')">Copy</button></div>
+    <div class="pbb" id="rm"><span class="hi">@README.md @ARCHITECTURE.md @docs/OPEN_SOURCE_READINESS.md</span>
+
+<span class="key">Task: Update README.md — milestone status + maintainer + quick governance check</span>
+<span class="cm"># Risk: LOW (docs-only). Fill [MAINTAINER_EMAIL] before public flip.</span>
+
+<span class="key">Changes to make in README.md:</span>
+
+<span class="cm"># 1. Update milestone badges / status section:</span>
+Replace any "Milestone B tracking" or "150+ tests" references with:
+
+**Status:** Milestone C CODE CLOSED · 156 tests · SMK 8/8 · SAPAL MVP
+**Public Beta:** IN PROGRESS — soak running, target ~2026-07-10
+
+<span class="cm"># 2. Add quick governance section after "Installation":</span>
+
+## Governance check (first thing after install)
+```bash
+uvicorn ai_control_plane.api.server:app --port 8000 &
+curl -s http://localhost:8000/governance/status | python3 -m json.tool
+```
+This returns: milestones, 6-layer map, known gaps, verify gate, case studies.
+See [GOVERNANCE_UX_RUNTIME.md](docs/GOVERNANCE_UX_RUNTIME.md).
+
+<span class="cm"># 3. Add Quick Start link to examples/:</span>
+
+## Quick Start (Docker)
+```bash
+cd examples/
+cp .env.example .env
+docker compose up --build
+curl http://localhost:8000/health
+```
+See [examples/README.md](examples/README.md) for full options.
+
+<span class="cm"># 4. Add maintainer + security contact (required for PB):</span>
+
+## Maintainer
+**DataXMind** — [GitHub](https://github.com/DataXMind)
+Security issues: use [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories)
+(Do not open public issues for vulnerabilities)
+
+General questions: [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions)
+
+<span class="cm"># 5. Update test count references:</span>
+Replace "150+" with "156" everywhere in README.
+
+<span class="key">Verify:</span>
+grep -n "Milestone B\|150+" README.md
+<span class="cm"># Expected: 0 matches (all updated)</span>
+grep -n "maintainer\|Security\|governance/status" README.md
+<span class="cm"># Expected: present</span>
+grep -n "examples/" README.md
+<span class="cm"># Expected: link to examples/README.md present</span>
+pytest tests/ -v && pytest -m smoke -v
+<span class="cm"># count unchanged</span></div>
+  </div>
+</div>
+
+<!-- PB GATE -->
+<div id="pane-pb-gate" class="pane">
+  <div class="vbox vg">
+    <div class="vg-label">Public Beta gate — final state after all packets merged</div>
+    <div class="vg-title">8/12 gates DONE · 4 remaining (soak + legal + examples + runbook)</div>
+    <div class="vg-body">Sau khi P0 + P1a + P1b + legal + examples/ + README done: chỉ còn PB-9 soak (calendar) và RUNBOOK.md complete (deploy/rollback/incident sections). Flip target ~2026-07-10 nếu soak pass ngày 07-06.</div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pb-label" style="font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px">PB gate checklist — final</span></div>
+    <div class="pbb" style="font-size:11px;line-height:2">
+<span class="g">DONE after today's packets:</span>
+✅ Milestone B CLOSED (code + governance)
+✅ Config-driven runtime — Profile A/B/C proven by practice studies
+✅ Fail-closed proven — 4 paths, multi-study evidence (CS-06 Strong)
+✅ Persistence — ACP_DATA_DIR FileTaskStore + Redis (#36)
+✅ Observability — /health + structlog + /governance/status
+✅ CI mandatory — smoke + full suite (GitHub Actions)
+✅ Core tests — 156 pytest, fail_under=70, SMK 8/8
+✅ No production secrets in shipped config/
+✅ Maintainer contact — README (after README packet)
+✅ Fork-and-run ≤15 min — examples/ docker-compose (after examples packet)
+✅ 6-layer governance — CLAUDE.md + CURSOR_RISK_POLICY + LESSONS_LEARNED
+
+<span class="key">REMAINING (4 gates):</span>
+⏳ PB-9: 14-day soak ≥ 2026-07-06 (calendar — cannot accelerate)
+❌ PB-11: SECURITY.md ← Cursor packet ready (legal tab, prev artifact)
+❌ PB-11: CONTRIBUTING.md ← Cursor packet ready
+❌ PB-11: CODE_OF_CONDUCT.md ← Cursor packet ready
+❌ PB-12: RUNBOOK.md complete — deploy/rollback/incident sections
+   (Windows section done via P1a; need: Linux deploy, rollback, config reload, incident)
+
+<span class="key">PARALLEL (not blocking flip):</span>
+☐ OpenAPI spec link (/docs already served by FastAPI — just document in README)
+☐ G-01 kill switch drill (Study 05g-r)
+☐ G-06 Profile B remote (Study 08)
+☐ MC-8 cyanheads E2E CI (Milestone C+)
+    </div>
+  </div>
+
+  <div class="pb">
+    <div class="pbh"><span class="pb-label" style="font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary)">RUNBOOK.md — missing sections (Cursor prompt)</span><button class="cbtn" onclick="cp(this,'rb')">Copy</button></div>
+    <div class="pbb" id="rb"><span class="hi">@docs/RUNBOOK.md @ARCHITECTURE.md @examples/docker-compose.yml</span>
+
+<span class="key">Task: Complete RUNBOOK.md — add deploy, rollback, config reload, incident sections</span>
+<span class="cm"># Risk: LOW (docs-only). Windows/WSL section already added in P1a.</span>
+
+<span class="key">Add sections to RUNBOOK.md:</span>
+
+---
+## Deploy — Linux / Ubuntu
+
+```bash
+git clone https://github.com/DataXMind/AI-Control-Plane
+cd AI-Control-Plane
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+
+# Set config (or use shipped defaults)
+export ACP_CONFIG_DIR=/etc/acp/config   # or leave unset for fixture
+
+# Start
+uvicorn ai_control_plane.api.server:app \
+  --host 0.0.0.0 --port 8000 \
+  --workers 2 \
+  --log-level info
+```
+
+Verify:
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/governance/status | python3 -m json.tool
+```
+
+---
+## Rollback
+
+```bash
+# 1. Find last known-good commit
+git log --oneline -10
+
+# 2. Check out tag or commit
+git checkout v0.1.0-beta.1   # or specific SHA
+
+# 3. Reinstall
+pip install -e ".[dev]"
+
+# 4. Restart API
+# (same uvicorn command as deploy)
+
+# 5. Verify health
+curl http://localhost:8000/health
+```
+
+Note: Task data (ACP_DATA_DIR) persists across rollback.
+Redis quota data persists — reset if needed:
+```bash
+redis-cli -u $ACP_REDIS_URL FLUSHDB
+```
+
+---
+## Config reload
+
+ACP_CONFIG_DIR is read at **startup only** (Practice Study 04c).
+To reload config:
+
+```bash
+# 1. Update your config files
+vi /etc/acp/config/policies.yml
+
+# 2. Restart API (no hot reload)
+# Find process: ps aux | grep uvicorn
+kill -SIGTERM <pid>
+uvicorn ai_control_plane.api.server:app --host 0.0.0.0 --port 8000 ...
+
+# 3. Verify new rule count
+curl http://localhost:8000/health | python3 -m json.tool | grep policy_rules_count
+```
+
+---
+## Incident response
+
+### Policy not enforcing as expected
+```bash
+# Check rule count matches expected
+curl http://localhost:8000/health | jq .policy_rules_count
+# Profile A (fixture): 8, Profile B (shipped): 10
+
+# Check which agent/project
+curl -X POST http://localhost:8000/policy/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"...","project_id":"...","tool_name":"...","args":{}}'
+# → allowed + reason field
+```
+
+### Kill switch activation
+```bash
+# See: docs/governance/LESSONS_LEARNED.md P-08
+# Kill switch → HTTP 200 + allowed=false (NOT 503)
+# /health remains 200 (exempt)
+
+curl http://localhost:8000/governance/status | jq .known_gaps
+# → G-01 entry explains kill switch behavior
+```
+
+### API unreachable
+```bash
+# Check process
+ps aux | grep uvicorn
+
+# Check logs
+journalctl -u acp-api -n 50   # if systemd
+
+# Fail-closed: TypeScript PolicyClient DENY when API unreachable
+# No operator action needed for clients — they fail safe
+```
+
+### Quota exceeded
+```bash
+curl http://localhost:8000/quota/rust-gateway
+curl http://localhost:8000/quota/agent/agent2
+# → tokens_remaining field
+
+# Redis reset (if needed):
+redis-cli -u $ACP_REDIS_URL DEL "quota:agent:agent2:$(date +%Y-%m-%d)"
+```
+
+### OpenAPI / interactive docs
+FastAPI auto-generates OpenAPI at runtime:
+```bash
+open http://localhost:8000/docs      # Swagger UI
+open http://localhost:8000/redoc     # ReDoc
+open http://localhost:8000/openapi.json  # raw spec
+```
+
+<span class="key">Verify after adding sections:</span>
+grep -c "^##" docs/RUNBOOK.md
+<span class="cm"># Expected: ≥8 sections (Deploy, Rollback, Config, Incident, Windows + existing)</span>
+pytest tests/ -v && pytest -m smoke -v
+<span class="cm"># count unchanged — docs-only</span></div>
+  </div>
+</div>
+
+<!-- FINAL CHECKLIST -->
+<div id="pane-final" class="pane">
+  <div class="tip tg"><strong>Final checklist — tất cả remaining items đến Public Beta flip.</strong> Sau khi tick hết: repo sẵn sàng public.</div>
+  <div class="prog">
+    <div class="prog-bar"><div class="prog-fill" id="pf2" style="width:0%"></div></div>
+    <span class="prog-num" id="pn2">0/14</span>
+  </div>
+
+  <div class="sec">Hôm nay — Cursor</div>
+  <div class="pb" style="margin-bottom:8px"><div id="g0">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">examples/README.md + docker-compose.yml + Dockerfile + .env.example + .gitignore tạo xong</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">README.md — milestone status, test count (156), governance check section, examples/ link, maintainer contact</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">RUNBOOK.md — Linux deploy, rollback, config reload, incident response sections added</span></div>
+  </div></div>
+
+  <div class="sec">Hôm nay — Bạn</div>
+  <div class="pb" style="margin-bottom:8px"><div id="g1">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Điền [MAINTAINER_EMAIL] vào SECURITY.md trước khi commit</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct"><code>docker compose up --build</code> trong examples/ → <code>curl /health</code> → PASS</span></div>
+  </div></div>
+
+  <div class="sec">Tuần này — Cursor + Bạn</div>
+  <div class="pb" style="margin-bottom:8px"><div id="g2">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">SECURITY.md + CONTRIBUTING.md + CODE_OF_CONDUCT.md (từ legal packet, artifact trước)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Study 05g-r kill switch drill → artifacts saved → RESULTS.md updated (G-01 CLOSED)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Study 08 Profile B remote — shipped config trên ubuntu-vps (G-06 CLOSED)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">P0: governance_catalog.py ← 3 streams (known_gaps, practice_evidence, lessons refs)</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">6-layer governance PR merged: CLAUDE.md + CURSOR_RISK_POLICY + LESSONS_LEARNED + .cursorrules</span></div>
+  </div></div>
+
+  <div class="sec">~2026-07-06 — PB-10 review</div>
+  <div class="pb" style="margin-bottom:8px"><div id="g3">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">PB9_STAGING_SOAK_LOG.md — 14 ngày complete, 0 SEV-1/2 incidents</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">OPEN_SOURCE_READINESS.md go/no-go checklist — all gates ✅</span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Bạn approve: "proceed to public flip" decision</span></div>
+  </div></div>
+
+  <div class="sec">~2026-07-10 — Public Beta flip</div>
+  <div class="pb"><div id="g4">
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">Tag: <code>git tag v0.1.0-beta.1 && git push origin v0.1.0-beta.1</code></span></div>
+    <div class="ci" onclick="tog(this)"><span class="ck"></span><span class="ct">GitHub Settings → Change visibility → Public · Enable Security Advisories · Enable Dependabot</span></div>
+  </div></div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+const total=14;
+function tog(el){
+  el.classList.toggle('done');
+  el.querySelector('.ck').textContent=el.classList.contains('done')?'✓':'';
+  const done=document.querySelectorAll('.ci.done').length;
+  document.getElementById('pn2').textContent=done+'/'+total;
+  document.getElementById('pf2').style.width=Math.round(done/total*100)+'%';
+}
+</script>

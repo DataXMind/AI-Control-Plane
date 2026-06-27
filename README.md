@@ -23,6 +23,10 @@ uvicorn ai_control_plane.api.server:app --reload --port 8000
 # Verify config wiring
 curl -s http://localhost:8000/health | python3 -m json.tool
 
+# Governance UX (milestones, gates, lessons_patterns)
+curl -s http://localhost:8000/governance/status | python3 -m json.tool | head -30
+# Or: bash scripts/verify_governance_status_runtime.sh
+
 # Policy allow path
 curl -s -X POST http://localhost:8000/policy/evaluate \
   -H "Content-Type: application/json" \
