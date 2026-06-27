@@ -167,7 +167,7 @@ Full merged registry: [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md).
 | L3 Ops | portproxy, URL mismatch, Docker conflict | P-12 new |
 | Invariant #4 | CLI HTTP-only across LAN + Tailscale | Studies 06–07 |
 
-**Not proven by Studies (do not claim):** CS-01, CS-03, CS-04 hands-on; 5g kill switch; 14-day PB-9 calendar.
+**Not proven by Studies (do not claim):** CS-01, CS-03, CS-04 hands-on; ~~5g kill switch~~ **proven G2-1**; 14-day PB-9 calendar.
 
 Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).
 
