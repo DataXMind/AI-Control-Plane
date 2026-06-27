@@ -5,6 +5,27 @@
 
 ---
 
+## PB-12 operator gates — pinned checklist
+
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · `master` @ v1.3.3 · code/docs fork-user **done** (#117)
+
+**Chờ bạn / calendar**
+
+- [ ] PB-9 daily tick → *"đã tick ngày YYYY-MM-DD"* only · review ~**2026-07-06**
+- [ ] PB-7 CLEAN fork (laptop riêng, không MSI WARM)
+- [ ] security@ mailbox + test email
+
+**Sau PB-9 / flip:** PB-10 soak 30d → PB-8 rc tag → PB-6 OpenAPI → **PB-12 go/no-go**
+
+**Không claim:** PB-7 trên WARM; PB-9 trước Day 14; CS-01/03/04 runtime drill
+
+```bash
+export ACP_API_URL=http://localhost:8000
+curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, gates_closed}'
+```
+
+---
+
 ## Anchor block (fill all fields)
 
 ```yaml
@@ -22,6 +43,7 @@ memory_tier:
   read_first:                        # @-mention in Cursor
     - AGENTS.md
     - docs/governance/GOVERNANCE_NEXT_PHASE_PRE_APPROVAL_AUDIT.md   # governance / G1+ / PB-12
+    - docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md  # PB-12 operator checklist
     - ARCHITECTURE.md                # if non-trivial code
   durable_context:                   # repo paths, not chat
     - docs/governance/GOVERNANCE_NEXT_PHASE_PLAN.md
@@ -115,4 +137,4 @@ agentctl gov status --json | python3 -m json.tool
 - [ ] `practice-evidence/` if operator ran hands-on steps
 - [ ] Do **not** store sole copy of evidence in chat
 
-**Last updated:** 2026-06-25
+**Last updated:** 2026-06-27 — PB-12 operator checklist pinned
