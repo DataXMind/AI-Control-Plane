@@ -47,3 +47,5 @@ verify_governance_memory: all checks passed (ML5 pack)
 **Note:** Stale image without `--build` served `1.3.2` until rebuild (Study 05e-r lesson).
 
 **Verdict:** **PASS** — catalog v1.3.3 runtime-visible on local Docker staging.
+
+**Re-verify:** [`post-merge-runtime-verify-msi-2026-06-27.md`](post-merge-runtime-verify-msi-2026-06-27.md) (script-only, 2026-06-27).
