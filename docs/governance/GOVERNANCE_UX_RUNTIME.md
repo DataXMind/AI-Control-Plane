@@ -16,6 +16,24 @@ curl -s http://localhost:8000/governance/status | python3 -m json.tool
 export ACP_API_URL=http://localhost:8000
 agentctl gov status
 agentctl gov status --json
+bash scripts/verify_governance_status_runtime.sh
+```
+
+### jq shortcuts (fork / operator)
+
+Use **runtime field names** (`milestone_a`, `studies_completed`, `lessons_patterns[]`) — not stale Claude nested `milestones.A` or `practice_evidence.studies: 7`.
+
+```bash
+export ACP_API_URL=http://localhost:8000
+
+curl -s "$ACP_API_URL/governance/status" | jq '.known_gaps[] | {id, status, severity, remediation}'
+curl -s "$ACP_API_URL/governance/status" | jq '.public_beta.gates_remaining'
+curl -s "$ACP_API_URL/governance/status" | jq '.public_beta.gates_closed'
+curl -s "$ACP_API_URL/governance/status" | jq '.layers | keys'
+curl -s "$ACP_API_URL/governance/status" | jq '.case_studies[] | select(.id == "CS-04")'
+curl -s "$ACP_API_URL/governance/status" | jq '{version: .governance_version, patterns: (.lessons_patterns | length), open_gaps: .practice_evidence.open_gaps_count}'
+
+agentctl gov status --json | jq .practice_evidence
 ```
 
 ---

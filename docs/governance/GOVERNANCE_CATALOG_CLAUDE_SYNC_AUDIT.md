@@ -62,6 +62,45 @@ CONVERGENCE: governance_catalog.py @ v1.3.3
 | `public_beta.gates_remaining` | PB-9, PB-11, PB-12 runbook | **Runtime list** — PB-11/RUNBOOK in `gates_closed` |
 | `doc_links.cursor_risk_policy` | `docs/CURSOR_RISK_POLICY.md` | **`docs/governance/...`** |
 | `verify_gate` | 4 commands | **5** (+ shipped_config) |
+| `governance_version` | (absent) | **`1.3.3`** — always check first |
+| `lessons_patterns[]` | (absent; lessons inside `layers`) | **P-01..P-13** top-level array |
+| `doc_links.runbook` | `docs/RUNBOOK.md` | **Added @ fork-prompt sync** |
+
+---
+
+## Fork-user prompt (post clone + uvicorn)
+
+**Intent (KEEP):** First governance check after deploy — `curl /governance/status` + jq queries + `agentctl gov status --json`.
+
+**Do NOT implement from prompt:**
+
+| Stale in prompt | SSOT instead |
+|-----------------|--------------|
+| Full JSON sample as contract | Live `GovernanceStatusResponse` + `verify_governance_status_runtime.sh` |
+| `milestones.A` / `B` / `C` keys | `milestone_a`, `milestone_b`, … (`CLOSED` / `IN_PROGRESS` only — no dates in API) |
+| Nested `layers.L0.name/doc/lessons` | `layers["L0"]` string + `lessons_patterns[]` |
+| `practice_evidence.studies: 7` | `studies_completed: 8` |
+| `open_gaps: 7` | `open_gaps_count: 1` (G-05 only) |
+| G-01 kill switch SKIPPED | **G-01 CLOSED** (Study 05g-r) |
+| `gates_remaining` includes PB-11, runbook | In **`gates_closed`** @ v1.3.3 |
+
+**Wired into project:**
+
+| Artifact | Change |
+|----------|--------|
+| [`pb-7-clean-machine-fork/RUNBOOK.md`](practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) | T+10 verify + jq (v1.3.3) |
+| [`GOVERNANCE_UX_RUNTIME.md`](GOVERNANCE_UX_RUNTIME.md) | jq shortcuts § |
+| `governance_catalog.py` | `doc_links.runbook` |
+| [`CONTRIBUTING.md`](../CONTRIBUTING.md) | First check after deployment (existing) |
+
+**PACE mapping:**
+
+| Layer | Fork prompt maps to |
+|-------|---------------------|
+| L0 | CS-04 / P-04 — pre-flight before policy edits |
+| L2 | `doc_links.cursor_risk_policy` |
+| L4 | `verify_gate[]` + `bash scripts/verify_governance_status_runtime.sh` |
+| L5 | `lessons_patterns[]`, `practice_evidence`, `known_gaps[]` |
 
 ---
 

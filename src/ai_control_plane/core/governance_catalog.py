@@ -35,6 +35,7 @@ DOC_LINKS: dict[str, str] = {
     "ux_runtime": "docs/governance/GOVERNANCE_UX_RUNTIME.md",
     "public_beta_plan": "docs/governance/PUBLIC_BETA_SPRINT_PLAN.md",
     "open_source_readiness": "docs/OPEN_SOURCE_READINESS.md",
+    "runbook": "docs/RUNBOOK.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {

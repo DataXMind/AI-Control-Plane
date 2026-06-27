@@ -1,0 +1,18 @@
+{
+  "endpoint": "POST /policy/evaluate",
+  "host": "MSI WSL WARM",
+  "date": "2026-06-27",
+  "request": {
+    "agent_id": "unknown-agent",
+    "project_id": "rust-gateway",
+    "tool_name": "git_read"
+  },
+  "response": {
+    "allowed": false,
+    "reason": "unknown agent or role",
+    "requires_approval": false,
+    "policy_id": null,
+    "latency_ms": 0.031135999961406924
+  },
+  "case_study": "CS-06 fail-closed deny path"
+}

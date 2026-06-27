@@ -1,12 +1,13 @@
 # PB-7 — Warm dry-run (MSI WSL) — partial
 
-**Date:** 2026-06-26  
+**Date:** 2026-06-26 (initial) · updated 2026-06-27  
 **Label:** **WARM** — not a PB-7 PASS (dev machine, pre-existing stack)  
 **Purpose:** Validate runbook curl commands only
 
 ## Result
 
-Dry-run curls failed — local Docker API not reachable at authoring time (`curl` exit 22). Operator must run full Path A on **CLEAN** machine per [`RUNBOOK.md`](../RUNBOOK.md).
+- **2026-06-26:** Dry-run curls failed — API not reachable (`curl` exit 22).
+- **2026-06-27:** Fork-user flow **PASS** on WARM — see [`warm-fork-user-msi-2026-06-27.md`](warm-fork-user-msi-2026-06-27.md).
 
 ## Does not substitute PB-7
 

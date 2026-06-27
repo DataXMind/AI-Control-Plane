@@ -78,14 +78,33 @@ curl -sf -X POST http://localhost:8000/policy/evaluate \
 
 **Expected:** `"allowed": false` with non-empty `reason`
 
-### T+10 — Governance UX (optional)
+### T+10 — Governance UX (fork onboarding — recommended)
 
 ```bash
-curl -sf http://localhost:8000/governance/status | python3 -c \
-  "import sys,json; d=json.load(sys.stdin); print(d['governance_version'], d['practice_evidence']['studies_completed'])"
+export ACP_API_URL=http://localhost:8000
+curl -sf "$ACP_API_URL/governance/status" | python3 -m json.tool | head -30
+bash scripts/verify_governance_status_runtime.sh
 ```
 
-**Expected @ master:** `1.3.1 8` (version may bump — record actual)
+**Expected @ master ≥ v1.3.3:**
+
+```text
+OK: governance/status runtime verify 1.3.3 13 patterns
+```
+
+**Quick queries** (requires `jq`; field names match runtime — not nested `layers{}` from stale Claude samples):
+
+```bash
+curl -s "$ACP_API_URL/governance/status" | jq '.known_gaps[] | select(.status=="OPEN")'
+curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, gates_closed}'
+curl -s "$ACP_API_URL/governance/status" | jq '.layers | keys'
+curl -s "$ACP_API_URL/governance/status" | jq '.case_studies[] | select(.id=="CS-04")'
+curl -s "$ACP_API_URL/governance/status" | jq '.lessons_patterns | length'
+```
+
+With CLI: `agentctl gov status --json | jq .practice_evidence`
+
+SSOT schema: [`GOVERNANCE_UX_RUNTIME.md`](../../../GOVERNANCE_UX_RUNTIME.md) · drift audit: [`GOVERNANCE_CATALOG_CLAUDE_SYNC_AUDIT.md`](../../../GOVERNANCE_CATALOG_CLAUDE_SYNC_AUDIT.md)
 
 ### T+15 — PASS criteria
 
