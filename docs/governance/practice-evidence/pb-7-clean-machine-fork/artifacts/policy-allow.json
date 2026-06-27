@@ -1,0 +1,7 @@
+{
+  "allowed": true,
+  "reason": "action permitted",
+  "requires_approval": false,
+  "policy_id": null,
+  "latency_ms": 0.69
+}

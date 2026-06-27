@@ -21,7 +21,7 @@ AI Control Plane (ACP) has completed its **technical and documentation surface**
 | Legal / trust (PB-11) | ✅ Closed | High — PR #112–#113 |
 | Fork surface (examples, OpenAPI) | ✅ Closed @ #118 | High — CI `examples-minimal-smoke` |
 | Staging soak (PB-9 / G-05) | 🔄 In progress | Medium — ticks 06-26/27; Day 14 ~07-06 |
-| Clean-machine fork (PB-7) | ⏳ Pending | None on MSI WARM |
+| Clean-machine fork (PB-7) | ⏳ Pending | None on MSI WARM | ✅ **PASS** Ubuntu @ MSI 2026-06-27 |
 | Public flip (PB-12) | ⏳ Pending | Human gate ~07-10 target |
 
 **Critical instruction for Claude:** Do not treat HTML artifact verdicts that state *"KHÔNG CÒN GÌ ĐỂ DELIVER"* as globally true. They are accurate **only for Cursor-coded packets** already merged. **Seven** `public_beta.gates_remaining` entries are still open in `governance_catalog.py` and at runtime.

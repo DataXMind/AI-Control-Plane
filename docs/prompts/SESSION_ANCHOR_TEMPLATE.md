@@ -12,7 +12,7 @@
 **Chờ bạn / calendar**
 
 - [ ] PB-9 daily tick → *"đã tick ngày YYYY-MM-DD"* only · review ~**2026-07-06**
-- [ ] PB-7 CLEAN fork (laptop riêng, không MSI WARM)
+- [x] PB-7 CLEAN fork — **PASS** 2026-06-27 (`ubuntu@MSI`)
 - [ ] security@ mailbox + test email
 
 **Sau PB-9 / flip:** PB-10 soak 30d → PB-8 rc tag → PB-6 OpenAPI → **PB-12 go/no-go**

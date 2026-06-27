@@ -39,7 +39,7 @@
 | **OP-01** | Daily PB-9 tick | Operator | Daily | 🔄 | *"đã tick ngày …"* → `PB9_STAGING_SOAK_LOG.md` |
 | **OP-02** | Soak loop + repo log | Operator | Continuous | 🔄 | `bash scripts/restart_soak_loop.sh` · `PB9_SOAK_ITERATION_LOG.md` |
 | **OP-03** | Gap 06-22→25 documented | Cursor | 2026-06-27 | ✅ | `PB9_STAGING_SOAK_LOG.md` § clock |
-| **OP-04** | PB-7 CLEAN fork ≤15 min | Operator | 2026-06-30–07-05 | ⏳ | `practice-evidence/pb-7-clean-machine-fork/` |
+| **OP-04** | PB-7 CLEAN fork ≤15 min | Operator | 2026-06-27 | ✅ | [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) PASS |
 | **OP-05** | PB-7 waiver (if no CLEAN) | Human | Before PB-12 | ⏳ | `PB7_WAIVER_TEMPLATE.md` |
 | **OP-06** | security@ live test | Operator | Before PB-12 | ⏳ | `PB11_LEGAL_AUDIT.md` §Contact |
 | **OP-07** | Day 14 PB-9 review | Operator | ~2026-07-06 | ⏳ | `PB9_DAY14_REVIEW_TEMPLATE.md` |

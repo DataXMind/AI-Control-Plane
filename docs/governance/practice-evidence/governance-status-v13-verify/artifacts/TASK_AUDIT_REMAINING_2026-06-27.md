@@ -15,6 +15,7 @@
 | OpenAPI + examples CI | PB-T packet | PR #118 merged @ `375ef14` | ✅ |
 | Claude status audit | Operator phase plan | `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | ✅ |
 | Soak repo persistence | `--repo-log` + iteration log | `soak_staging.sh` @ 2026-06-27 | ✅ |
+| PB-7 CLEAN fork | Ubuntu @ MSI Path A Docker | [`pb-7-clean-machine-fork/RESULTS.md`](../../practice-evidence/pb-7-clean-machine-fork/RESULTS.md) | ✅ |
 | Lessons | P-13 kill switch | G2-1 + CURSOR_RISK §10 | ✅ |
 | Legal | PB-11 | PR #112–#113, sign-off | ✅ |
 | RUNBOOK | Operator SSOT | PR #108 | ✅ |
@@ -41,7 +42,7 @@
 | Priority | ID | Owner | Target |
 |----------|-----|-------|--------|
 | **P0** | PB-9 / G-05 | Operator daily tick | ~2026-07-06 |
-| **P1** | PB-7 clean fork | **CLEAN machine** — not MSI WARM | Before PB-12 |
+| **P1** | PB-7 clean fork | **CLEAN** — Ubuntu @ MSI 2026-06-27 | ✅ PASS — [`RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md) |
 | **P1** | PB-10 prod soak 30d | Operator | After PB-9 |
 | **P2** | PB-6 OpenAPI publish | Maintainer on flip | PB-12 |
 | **P2** | PB-8 rc tag | Human approve | Post PB-9 |
@@ -59,7 +60,7 @@
 ### Chờ calendar / operator
 
 - [ ] **PB-9** — daily tick (*"đã tick ngày YYYY-MM-DD"* → [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md)); review **~2026-07-06** (Day 14)
-- [ ] **PB-7** — CLEAN laptop/VM (≤15 min); **không** MSI WARM — [`pb-7-clean-machine-fork/RUNBOOK.md`](../../pb-7-clean-machine-fork/RUNBOOK.md)
+- [x] **PB-7** — CLEAN fork ≤15 min — **PASS** Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md)
 - [ ] **security@** — mailbox + email thử — [`PB11_LEGAL_AUDIT.md`](../../../PB11_LEGAL_AUDIT.md) §Contact setup
 
 ### Sau PB-9 / lúc flip
@@ -95,4 +96,4 @@
 
 **Operator action plan:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · Claude audit recon: [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../../../ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
-**Do not claim:** PB-7 PASS without CLEAN evidence; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.
+**Do not claim:** ~~PB-7 PASS without CLEAN evidence~~ PB-7 practice PASS @ Ubuntu MSI; catalog may still list until bump; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.

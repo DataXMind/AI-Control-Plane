@@ -125,7 +125,7 @@ Only when **all** items are checked:
 
 - [ ] Milestone B closed
 - [ ] Production stable ≥ 30 days (SLO met, no open SEV-1) — **GA gate**; may defer for **0.x beta** with explicit PB-12 record ([`PUBLIC_BETA_GO_NO_GO.md`](governance/PUBLIC_BETA_GO_NO_GO.md))
-- [x] README + ARCHITECTURE + `examples/minimal/` — fork path documented; PB-7 **CLEAN** evidence pending
+- [x] README + ARCHITECTURE + `examples/minimal/` — fork path documented; PB-7 **CLEAN PASS** 2026-06-27
 - [ ] LICENSE, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md present
 - [x] OpenAPI **runtime** — `/docs`, `/redoc`, `/openapi.json` (FastAPI auto-gen); `bash scripts/verify_openapi_runtime.sh`
 - [x] OpenAPI **static export** — `docs/openapi/openapi.json` via `scripts/export_openapi.py` + contract tests in CI

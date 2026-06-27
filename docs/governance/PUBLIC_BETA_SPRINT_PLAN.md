@@ -40,7 +40,7 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | Full CC 2.1 |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | Runtime + static + CI smoke; **publish on flip** @ PB-12 |
-| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **PENDING CLEAN** | RUNBOOK + MSI WARM partial only — [`pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) |
+| PB-7 | README fork path ≤15 min verified | Go/No-Go | ✅ **PASS CLEAN** | Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
 | PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | Tag at PB-12; matrix `beta.1` → use **rc.1** per human approve |
 | PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | G-05 OPEN · ticks 2026-06-26/27 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ⏳ **Deferred @ 0.x beta** | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) — GA track; see [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) § PB-10 |
