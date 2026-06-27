@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-SECURITY-001  
 **Layer:** Legal & trust (fork surface) · complements [L2 `CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md) for contributors  
-**Pre-flip:** Replace placeholder contact before PB-12 public repository flip.
+**Pre-flip:** Security contact **`security@dataxmind.com`** approved @ 2026-06-27 — provision mailbox at DNS provider before PB-12; see [`PB11_LEGAL_AUDIT.md`](docs/governance/PB11_LEGAL_AUDIT.md) §Contact setup.
 
 ---
 
@@ -22,7 +22,7 @@
 **Preferred:** [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new)  
 (Repository → **Security** → **Advisories** → **New draft advisory**)
 
-**Alternate:** Email **security@dataxmind.com** (replace with a live maintainer inbox before public flip).
+**Alternate:** Email **security@dataxmind.com** (maintainer-approved security contact).
 
 Include:
 
