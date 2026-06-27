@@ -209,6 +209,19 @@ class PracticeEvidenceSummary(BaseModel):
     study_08_url: str
 
 
+class PublicBetaSummary(BaseModel):
+    """Public Beta track metadata (PB-9..PB-12)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    phase: str
+    open_issues: str
+    soak_started: str
+    soak_review_target: str
+    gates_remaining: list[str]
+    gates_closed: list[str]
+
+
 class GovernanceStatusResponse(BaseModel):
     """GET /governance/status — 6-layer governance UX for operators."""
 
@@ -223,7 +236,7 @@ class GovernanceStatusResponse(BaseModel):
     layers: dict[str, str]
     verify_gate: list[str]
     doc_links: dict[str, str]
-    public_beta: dict[str, str]
+    public_beta: PublicBetaSummary
     case_studies: list[GovernanceCaseStudy]
     known_gaps: list[GovernanceKnownGap]
     lessons_patterns: list[LessonPattern]
@@ -241,6 +254,7 @@ __all__ = [
     "GovernanceKnownGap",
     "GovernanceStatusResponse",
     "LessonPattern",
+    "PublicBetaSummary",
     "PracticeEvidenceSummary",
     "HealthResponse",
     "IdentityVerifyRequest",

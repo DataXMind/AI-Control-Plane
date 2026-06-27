@@ -98,7 +98,7 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `layers` | L0–L5 one-line summary |
 | `verify_gate` | Commands from `.cursorrules` L4 |
 | `doc_links` | Paths to governance markdown (incl. `behavioral_constitution`, `cursor_risk_policy`, `lessons_learned`, `practice_evidence_index`) |
-| `public_beta` | PB-9 soak metadata |
+| `public_beta` | PB-9 soak metadata; **`gates_remaining`**, **`gates_closed`** |
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
 | `lessons_patterns` | P-01..P-13 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
 | `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
@@ -135,7 +135,7 @@ git pull origin master
 **Expected runtime output:**
 
 ```text
-OK: governance/status runtime verify 1.3.2 13 patterns
+OK: governance/status runtime verify 1.3.3 13 patterns
 ```
 
 After every merge touching `src/`: `git pull` + `sudo systemctl restart acp-staging.service` (VPS) or `docker compose up -d --build` (local).
@@ -163,6 +163,6 @@ See also [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-26 — catalog v1.3.2: P-13 kill switch + VPS runtime PASS @ `68ae48e`
+**Last updated:** 2026-06-27 — catalog v1.3.3: `public_beta.gates_remaining` + artifact SSOT §10
 
 **Note on CS-01/03/04:** Process-layer governance — validated via `LESSONS_LEARNED.md` P-01..P-04 and `lessons_patterns[]`, not operator runtime drill. **G-01..G-04, G-06, G-07: CLOSED** @ 2026-06-26. **G-05 OPEN** — PB-9 calendar soak until ~2026-07-06. Supersedes stale Claude sync prompt (pre-PR #99).

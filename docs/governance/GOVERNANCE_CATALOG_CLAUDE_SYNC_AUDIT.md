@@ -1,9 +1,9 @@
-# Governance catalog — Claude sync prompt audit
+# Governance catalog — Claude 3-stream convergence audit
 
 **Document ID:** ACP-GOV-CATALOG-CLAUDE-SYNC-AUDIT-001  
-**Audit date:** 2026-06-26  
-**Baseline:** `master` catalog v1.3.2  
-**Prompt:** Claude 3-stream sync task (pre-Studies closure artifact)
+**Audit date:** 2026-06-27  
+**Baseline:** `master` catalog **v1.3.3**  
+**Prompt:** Claude 3-stream integration diagram (pre–Study 08 / pre–legal delta artifact)
 
 ---
 
@@ -11,48 +11,73 @@
 
 | Question | Answer |
 |----------|--------|
-| Prompt still valid as-is? | **No** — stale gap statuses and field names |
-| Core intent achieved? | **Yes** — superseded by PR #99–#104 + v1.3 verify |
-| Action taken | v1.3.1 additive aliases + `practice_evidence` metadata |
+| Prompt still valid as-is? | **No** — JSON sample and gap counts stale |
+| Core intent (3-stream → catalog)? | **Yes — DONE** |
+| `GET /governance/status` = full state? | **Yes** (+ live wire fields) |
+| Action @ v1.3.3 | `public_beta.gates_remaining` / `gates_closed` + artifact audit sync |
 
 ---
 
-## Step-by-step matrix
-
-| Claude step | Prompt (stale) | Current @ v1.3.1 | Status |
-|-------------|----------------|------------------|--------|
-| **1** doc_links | Add 5 keys | ✅ + aliases `behavioral_constitution`, `cursor_risk_policy`, `practice_evidence_index`; path fix `docs/governance/CURSOR_RISK_POLICY.md` | **DONE** |
-| **2** known_gaps | All OPEN / SKIPPED text | ✅ G-01..04,06,07 **CLOSED**; G-05 **OPEN**; field `title`+`status` not `gap` | **DONE** (better) |
-| **3** practice_evidence | 7 studies, `open_gaps: 7` | ✅ 8 studies, `open_gaps_count: 1`, hosts/topologies/note | **DONE** |
-| **4** layers nested lessons | Embed in L0/L3/L5 dict | ✅ `lessons_patterns[]` P-01..**P-13** + layer one-liners point to it | **DONE** (better) |
-| **5** GOVERNANCE_UX_RUNTIME | Schema rows + stale note | ✅ Updated; G-01 CLOSED note | **DONE** |
-
----
-
-## Drift warnings (do NOT apply prompt literally)
-
-| Prompt claim | Reality @ 2026-06-26 |
-|--------------|----------------------|
-| G-01 kill switch SKIPPED | **CLOSED** G2-1 |
-| G-02 5e not done | **CLOSED** G2-2 / 05e-r |
-| G-03 7-0n soft | **CLOSED** G2-4 |
-| G-06/G-07 Profile B open | **CLOSED** Study 08 |
-| `open_gaps: 7` | **1** (G-05 PB-9 only) |
-| `studies_executed: 7` | **8** (incl. Study 08) |
-| `docs/CURSOR_RISK_POLICY.md` | Wrong — use `docs/governance/CURSOR_RISK_POLICY.md` |
-
----
-
-## 3-stream convergence (runtime)
+## 3-stream architecture (current)
 
 ```text
-Stream 1 Practice  → known_gaps[] + practice_evidence
-Stream 2 Karpathy  → doc_links + lessons_patterns[] (P-01..P-13)
-Stream 3 Runtime   → case_studies[] CS-01..06 + verify_gate
-```
+STREAM 1 — Practice Evidence
+  Studies 01–08 → practice-evidence/*/artifacts (45 files)
+  PRACTICE_STUDIES_AUDIT_01-07.md
+       ↓
+  G-01..G-07 known_gaps[] (6 CLOSED, G-05 OPEN)
+  practice_evidence{} (studies_completed: 8, open_gaps_count: 1)
+       ↓
+  governance_catalog.py → doc_links.practice_audit
 
-**Verify:** `bash scripts/verify_governance_status_runtime.sh` → `1.3.2` · `13 patterns` · VPS PASS @ `68ae48e`.
+STREAM 2 — 6-layer Karpathy Governance
+  CLAUDE.md (L0) + CURSOR_RISK_POLICY.md (L2) + LESSONS_LEARNED.md (L5)
+       ↓
+  P-01..P-13 lessons_patterns[] (not nested layers{} — better schema)
+       ↓
+  doc_links.{behavioral_constitution,cursor_risk_policy,lessons_learned,...}
+
+STREAM 3 — Runtime Governance UX
+  GET /governance/status (api/server.py)
+       ↓
+  case_studies CS-01..06, verify_gate, milestones, public_beta
+       ↓
+  config_loaded + policy_rules_count (live wire)
+
+CONVERGENCE: governance_catalog.py @ v1.3.3
+```
 
 ---
 
-**SSOT:** `src/ai_control_plane/core/governance_catalog.py`
+## Claude JSON sample vs runtime (do NOT apply literally)
+
+| Field | Claude prompt | Current @ v1.3.3 |
+|-------|---------------|------------------|
+| `milestones.C+` | PLANNED | **CLOSED** |
+| `layers` | nested `{name, doc, lessons}` | `dict[str, str]` + `lessons_patterns[]` |
+| `practice_evidence.studies` | 7 | **8** (Study 08) |
+| `practice_evidence.gaps` | 7 | **`open_gaps_count: 1`** |
+| `known_gaps` | all open | **G-05 only OPEN** |
+| `lessons` | P-01..P-08 | **P-01..P-13** |
+| `public_beta.gates_remaining` | PB-9, PB-11, PB-12 runbook | **Runtime list** — PB-11/RUNBOOK in `gates_closed` |
+| `doc_links.cursor_risk_policy` | `docs/CURSOR_RISK_POLICY.md` | **`docs/governance/...`** |
+| `verify_gate` | 4 commands | **5** (+ shipped_config) |
+
+---
+
+## Verify
+
+```bash
+bash scripts/verify_governance_status_runtime.sh
+# OK: governance/status runtime verify 1.3.3 13 patterns
+
+curl -s "$ACP_API_URL/governance/status" | python3 -c "
+import sys,json; d=json.load(sys.stdin)
+assert d['governance_version']=='1.3.3'
+assert len(d['public_beta']['gates_remaining'])>=5
+print('gates_remaining:', d['public_beta']['gates_remaining'])
+"
+```
+
+**SSOT:** `src/ai_control_plane/core/governance_catalog.py`  
+**Drift:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) §10

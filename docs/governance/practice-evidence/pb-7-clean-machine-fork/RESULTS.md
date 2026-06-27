@@ -1,5 +1,7 @@
 # PB-7 — Clean-machine fork — Results
 
+> **REMINDER — CLEAN machine required:** MSI WSL = **WARM** (does not count). Use a **separate laptop/VM** with no prior `AI-Control-Plane` clone, no Docker `minimal-acp-api-1`, no `.venv`. Target ≤15 min — [`RUNBOOK.md`](RUNBOOK.md).
+
 **Document ID:** ACP-GOV-PRACTICE-PB7-RESULTS  
 **Status:** **PAUSED** — operator will run on separate laptop  
 **Run date:** —  
