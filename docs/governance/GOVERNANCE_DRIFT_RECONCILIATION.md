@@ -218,6 +218,8 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 | `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` | **YES** | Maps matrix rows → current status |
 | `pb_final_blockers_packet.html` | Historical | [`PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md`](PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md) |
 | `PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md` | **YES** | PB HTML tabs → current status |
+| `pb_openapi_and_examples_ci.html` | Historical | [`PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md`](PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md) |
+| `PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md` | **YES** | OpenAPI + examples CI packet |
 
 **Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
 

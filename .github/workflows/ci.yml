@@ -54,3 +54,36 @@ jobs:
           fail_ci_if_error: false
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  examples-minimal-smoke:
+    name: Examples minimal docker-compose smoke
+    runs-on: ubuntu-latest
+    needs: smoke
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start minimal stack
+        run: |
+          docker compose -f examples/minimal/docker-compose.yml up --build -d
+          sleep 15
+      - name: Health check
+        run: |
+          curl -sf http://localhost:8000/health | python3 -m json.tool
+          curl -sf http://localhost:8000/health | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert d['status']=='ok'"
+      - name: Governance runtime
+        run: |
+          export ACP_API_URL=http://127.0.0.1:8000
+          bash scripts/verify_governance_status_runtime.sh
+      - name: OpenAPI runtime
+        run: |
+          export ACP_API_URL=http://127.0.0.1:8000
+          bash scripts/verify_openapi_runtime.sh
+      - name: Policy evaluate smoke
+        run: |
+          curl -sf -X POST http://localhost:8000/policy/evaluate \
+            -H "Content-Type: application/json" \
+            -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","role":"backend"}' | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert d['allowed'] is True"
+      - name: Teardown
+        if: always()
+        run: docker compose -f examples/minimal/docker-compose.yml down

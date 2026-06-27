@@ -1,0 +1,265 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,'Inter',sans-serif);font-size:13px;line-height:1.65;color:var(--color-text-primary);background:transparent}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.nb{padding:7px 13px;border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:500;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.nb.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary)}
+.pane{display:none}.pane.on{display:block}
+.tip{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.tip strong{color:var(--color-text-primary);font-weight:500}
+.tip code{font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:10.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.tg{border-left-color:#0F6E56}.tw{border-left-color:#854F0B}
+.pb{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.pbh{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block}
+.tpur{background:rgba(83,74,183,.12);color:#534AB7}
+.tok{background:rgba(52,201,126,.12);color:#0F6E56}
+.twn{background:rgba(133,79,11,.12);color:#854F0B}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);transition:all .15s}
+.cbtn:hover{background:var(--color-background-primary)}.cbtn.ok{border-color:#0F6E56;color:#0F6E56}
+.pbb{padding:14px;font-family:var(--font-mono,'JetBrains Mono',monospace);font-size:11px;line-height:1.85;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;max-height:500px;overflow-y:auto}
+.pbb .cm{color:var(--color-text-secondary)}.pbb .hi{color:#185FA5;font-weight:500}
+.pbb .key{color:#854F0B}.pbb .g{color:#0F6E56}.pbb .r{color:#A32D2D}
+.sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;margin-top:14px}
+.sec:first-child{margin-top:0}
+.vbox{border-radius:8px;padding:12px 16px;margin-bottom:12px;border:0.5px solid;background:rgba(52,201,126,.04);border-color:rgba(52,201,126,.25)}
+.vbox p{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.vbox strong{color:var(--color-text-primary)}
+</style>
+
+<div class="nav">
+  <button class="nb on" onclick="show('openapi')">OpenAPI — zero effort</button>
+  <button class="nb" onclick="show('ci-ex')">examples/ CI job</button>
+  <button class="nb" onclick="show('done')">Verdict cuối</button>
+</div>
+
+<!-- OPENAPI -->
+<div id="pane-openapi" class="pane on">
+  <div class="tip tg"><strong>FastAPI tự generate OpenAPI — không cần viết spec thủ công.</strong> OPEN_SOURCE_READINESS yêu cầu "OpenAPI spec published". Đây là 0-effort gate: chỉ cần verify <code>/openapi.json</code> accessible và document trong README.</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tok">LOW</span> OpenAPI — verify + document (Cursor)</span><button class="cbtn" onclick="cp(this,'oa')">Copy</button></div>
+    <div class="pbb" id="oa"><span class="hi">@src/ai_control_plane/api/server.py @README.md @docs/RUNBOOK.md</span>
+
+<span class="key">Task: Verify FastAPI OpenAPI endpoints + document for PB gate</span>
+<span class="cm"># Risk: LOW — docs-only + 1 verify command
+# FastAPI auto-generates /openapi.json, /docs, /redoc — no manual spec needed</span>
+
+<span class="key">Step 1 — Verify endpoints exist in server.py:</span>
+Check that api/server.py creates FastAPI app WITHOUT disabling docs:
+  app = FastAPI(title="AI Control Plane", ...)
+  <span class="cm"># NOT: FastAPI(docs_url=None, redoc_url=None) — that would disable</span>
+
+If docs are disabled: remove those kwargs to re-enable.
+
+<span class="key">Step 2 — Verify at runtime:</span>
+uvicorn ai_control_plane.api.server:app --port 8000 &
+curl -sf http://localhost:8000/openapi.json | python3 -m json.tool | head -20
+<span class="cm"># Expected: {"openapi":"3.1.0","info":{"title":"AI Control Plane",...},"paths":{...}}</span>
+
+curl -sf http://localhost:8000/openapi.json | python3 -m json.tool | \
+  python3 -c "import sys,json; d=json.load(sys.stdin); print(list(d['paths'].keys()))"
+<span class="cm"># Expected: all endpoints listed including /governance/status, /apex/*</span>
+
+<span class="key">Step 3 — Add to README.md (after governance check section):</span>
+
+## API docs (auto-generated)
+```bash
+open http://localhost:8000/docs       # Swagger UI — interactive
+open http://localhost:8000/redoc      # ReDoc — readable
+curl http://localhost:8000/openapi.json   # raw OpenAPI 3.1 spec
+```
+The spec is auto-generated from FastAPI type annotations.
+All Pydantic schemas in `api/schemas.py` appear automatically.
+
+<span class="key">Step 4 — Add to OPEN_SOURCE_READINESS.md gate:</span>
+Find "OpenAPI spec published" gate row, update status:
+BEFORE: ❌ OpenAPI spec published
+AFTER:  ✅ OpenAPI spec: auto-generated at /docs + /redoc + /openapi.json (FastAPI)
+
+<span class="key">Verify gate (PB-spec-check):</span>
+uvicorn ai_control_plane.api.server:app --port 8000 &
+sleep 2
+PATHS=$(curl -sf http://localhost:8000/openapi.json | \
+  python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d['paths']))")
+echo "OpenAPI paths: $PATHS"
+test "$PATHS" -ge 10 && echo "PASS" || echo "FAIL: expected ≥10 paths"
+kill %1
+<span class="cm"># Expected: 10+ paths (policy, tasks, status, quota, health, governance, apex, identity, telemetry...)</span></div>
+  </div>
+</div>
+
+<!-- CI EXAMPLES -->
+<div id="pane-ci-ex" class="pane">
+  <div class="tip tw"><strong>examples/ cần CI job.</strong> Nếu không có CI verify docker-compose, nó sẽ silently break khi pyproject.toml hoặc server.py thay đổi. Một job nhỏ trong GitHub Actions đủ để close gap này.</div>
+  <div class="pb">
+    <div class="pbh"><span class="pbl"><span class="tag tpur">Cursor</span> .github/workflows/ci.yml — thêm examples job</span><button class="cbtn" onclick="cp(this,'ci')">Copy</button></div>
+    <div class="pbb" id="ci"><span class="hi">@.github/workflows/ci.yml @examples/docker-compose.yml</span>
+
+<span class="key">Task: Add examples smoke job to existing CI workflow</span>
+<span class="cm"># Risk: MEDIUM (CI change — adds new job, does not modify existing jobs)
+# Constraint: job must complete in < 5 minutes total</span>
+
+<span class="key">Add new job to .github/workflows/ci.yml after existing 'test' job:</span>
+
+  examples-smoke:
+    name: Examples docker-compose smoke
+    runs-on: ubuntu-latest
+    needs: smoke          <span class="cm"># only run if smoke gate passes</span>
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and start examples
+        working-directory: examples
+        run: |
+          cp .env.example .env
+          docker compose up --build -d
+          sleep 8          <span class="cm"># wait for uvicorn ready</span>
+
+      - name: Health check
+        run: |
+          curl -sf http://localhost:8000/health | python3 -m json.tool
+          curl -sf http://localhost:8000/health | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert d['status']=='ok', 'health fail'"
+          echo "Health: PASS"
+
+      - name: Governance status reachable
+        run: |
+          curl -sf http://localhost:8000/governance/status | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert 'milestones' in d"
+          echo "Governance: PASS"
+
+      - name: Policy evaluate smoke
+        run: |
+          curl -sf -X POST http://localhost:8000/policy/evaluate \
+            -H "Content-Type: application/json" \
+            -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","args":{}}' | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert 'allowed' in d"
+          echo "Policy evaluate: PASS"
+
+      - name: OpenAPI spec reachable
+        run: |
+          curl -sf http://localhost:8000/openapi.json | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert len(d.get('paths',{})) >= 5"
+          echo "OpenAPI: PASS"
+
+      - name: Teardown
+        if: always()
+        working-directory: examples
+        run: docker compose down
+
+<span class="cm"># Note: this job uses fixture config (rules=8) inside Docker.
+# Profile B remote is validated by Practice Study 08 (operator), not CI.</span>
+
+<span class="key">Also update job dependency chain in ci.yml:</span>
+Current:  smoke → test
+After:    smoke → test
+                → examples-smoke   <span class="cm">(parallel with test, both depend on smoke)</span>
+
+<span class="key">Verify the CI change locally:</span>
+<span class="cm"># Simulate what CI will do:</span>
+cd examples/
+cp .env.example .env
+docker compose up --build -d
+sleep 8
+curl -sf http://localhost:8000/health | python3 -c \
+  "import sys,json; d=json.load(sys.stdin); assert d['status']=='ok'; print('PASS')"
+docker compose down
+<span class="cm"># Expected: PASS</span>
+
+<span class="cm"># Then verify existing CI jobs unaffected:</span>
+pytest tests/ -v && pytest -m smoke -v</div>
+  </div>
+</div>
+
+<!-- DONE -->
+<div id="pane-done" class="pane">
+  <div class="vbox">
+    <p><strong>Tất cả packets đã được deliver.</strong> Dưới đây là bản đồ đầy đủ — mỗi artifact và prompt đã ở đúng tab nào:</p>
+  </div>
+
+  <div class="sec">Toàn bộ deliverables trong chuỗi này</div>
+  <div class="pb">
+    <div class="pbb" style="font-size:11px;line-height:2.1">
+<span class="hi">Artifact trước (karpathy_acp_artifacts_fixed)</span>
+  Tab 1 CURSOR_RISK_POLICY.md  ← L2 risk policy, forbidden ops, PR size
+  Tab 2 CLAUDE.md (ACP)        ← L0 behavioral constitution
+  Tab 3 Deploy packet           ← Cursor prompt: tạo 3 files + restructure .cursorrules
+  Tab 4 Implementation checklist← 14 items tickable
+
+<span class="hi">Artifact trước (lessons_learned_md)</span>
+  Single tab LESSONS_LEARNED.md ← L5 → L0 feedback loop, P-01..P-07
+
+<span class="hi">Artifact trước (practice_studies_architecture_review)</span>
+  Tab ① Verdict tổng thể        ← Chief Architect verdict, benchmark
+  Tab ② Đánh giá kiến trúc      ← Governance UX, network topology
+  Tab ③ Gap analysis             ← G-01..G-07 re-prioritized
+  Tab ④ Governance UX            ← /governance/status significance
+  Tab ⑤ Public Beta readiness   ← 78% after studies, gates remaining
+  Tab ⑥ Bước tiếp theo          ← P0→P3 roadmap + integration map
+
+<span class="hi">Artifact trước (practice_evidence_action_packets)</span>
+  Tab P0 catalog sync            ← Cursor prompt: governance_catalog.py ← 3 streams
+  Tab P1a RUNBOOK Windows        ← Cursor prompt: netsh portproxy section
+  Tab P1b LESSONS P-08           ← P-08 template + Study 05g-r procedure
+  Tab P2 Legal artifacts         ← SECURITY + CONTRIBUTING + CODE_OF_CONDUCT
+
+<span class="hi">Artifact trước (pb_integration_timeline)</span>
+  Tab ① Integration map          ← 3 streams → governance_catalog.py diagram
+  Tab ② Timeline PB flip         ← Gantt-style từ 2026-06-26 → 07-15
+  Tab ③ One-curl demo            ← Target JSON structure post-P0
+  Tab ④ Owner matrix             ← Cursor/Bạn/Claude per task per week
+
+<span class="hi">Artifact trước (pb_final_blockers_packet)</span>
+  Tab examples/                  ← docker-compose + Dockerfile + .env.example + README
+  Tab README + maintainer        ← status update + governance section + contact
+  Tab PB gate final check        ← 8/12 done, 4 remaining, RUNBOOK sections
+  Tab Final checklist            ← 14 items tickable
+
+<span class="hi">Artifact này (pb_openapi_and_examples_ci) — HOÀN TẤT</span>
+  Tab OpenAPI                    ← Verify + document /docs /redoc /openapi.json
+  Tab examples/ CI               ← examples-smoke job trong ci.yml
+  Tab Verdict (tab này)          ← Bản đồ toàn bộ
+
+<span class="g">─────────────────────────────────────────────────────────</span>
+<span class="g">SAU KHI TẤT CẢ PACKETS MERGE:</span>
+<span class="g">─────────────────────────────────────────────────────────</span>
+curl /governance/status → milestones + layers + known_gaps + practice_evidence
+                          + case_studies + doc_links (CLAUDE + LESSONS + RISK_POLICY)
+
+docker compose up (examples/) → running trong 3 phút
+
+CI: smoke → test + examples-smoke (parallel)
+
+PB gates remaining: PB-9 soak (~07-06) + maintain soak log
+Public Beta flip: ~2026-07-10
+
+<span class="g">KHÔNG CÒN GÌ ĐỂ DELIVER.</span>
+<span class="g">Mọi hard blocker đã có Cursor prompt ready-to-copy.</span>
+<span class="g">Mọi operator action đã có procedure card.</span>
+<span class="g">Calendar constraint (PB-9 soak) là item duy nhất không thể accelerate.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function cp(btn,id){
+  const el=document.getElementById(id);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=el.innerText;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);btn.textContent='Copied!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok')},2000);
+  });
+}
+</script>

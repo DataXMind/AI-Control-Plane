@@ -62,6 +62,20 @@ agentctl gov status
 
 Returns milestones, 6-layer map, `known_gaps`, `lessons_patterns`, `public_beta` gates, and case studies. See [GOVERNANCE_UX_RUNTIME.md](docs/governance/GOVERNANCE_UX_RUNTIME.md).
 
+## API docs (auto-generated)
+
+FastAPI serves OpenAPI 3.x from Pydantic schemas in `api/schemas.py` (docs are **enabled** — no `docs_url=None`).
+
+```bash
+export ACP_API_URL=http://localhost:8000
+# Swagger UI: http://localhost:8000/docs
+# ReDoc:      http://localhost:8000/redoc
+curl -sf "$ACP_API_URL/openapi.json" | python3 -m json.tool | head -20
+bash scripts/verify_openapi_runtime.sh
+```
+
+Static export (PB-6): `python scripts/export_openapi.py` → [`docs/openapi/openapi.json`](docs/openapi/openapi.json). See [docs/openapi/README.md](docs/openapi/README.md).
+
 ## Smoke gate (8 tests — SMK-01..06 + 06b + 06c)
 
 Run before merge when touching `core/`, `api/server.py`, or `config/loader.py`:

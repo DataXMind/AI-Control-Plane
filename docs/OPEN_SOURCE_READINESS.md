@@ -127,7 +127,10 @@ Only when **all** items are checked:
 - [ ] Production stable ≥ 30 days (SLO met, no open SEV-1)
 - [x] README + ARCHITECTURE + `examples/minimal/` — fork path documented; PB-7 **CLEAN** evidence pending
 - [ ] LICENSE, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md present
-- [ ] OpenAPI spec published; integration tests green on CI
+- [x] OpenAPI **runtime** — `/docs`, `/redoc`, `/openapi.json` (FastAPI auto-gen); `bash scripts/verify_openapi_runtime.sh`
+- [x] OpenAPI **static export** — `docs/openapi/openapi.json` via `scripts/export_openapi.py` + contract tests in CI
+- [ ] OpenAPI **published** prominently on repo flip (catalog PB-6 @ PB-12)
+- [ ] Integration tests green on CI
 - [ ] Default `config/` contains no production secrets
 - [ ] Maintainer and security contact listed in README
 - [ ] Public beta disclaimer: `0.x` API may change until `1.0.0`

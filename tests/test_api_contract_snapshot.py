@@ -35,3 +35,15 @@ def test_policy_evaluate_deny_schema_keys() -> None:
     assert body["allowed"] is False
     assert body["reason"]
     assert frozenset(body.keys()) == _POLICY_EVAL_FIELDS
+
+
+def test_openapi_json_minimum_paths() -> None:
+    client = TestClient(create_app())
+    response = client.get("/openapi.json")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["openapi"].startswith("3.")
+    paths = body["paths"]
+    assert len(paths) >= 10
+    assert "/governance/status" in paths
+    assert "/health" in paths

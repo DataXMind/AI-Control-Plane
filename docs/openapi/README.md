@@ -20,6 +20,13 @@ When the API is running:
 
 Public Beta (PB-12) publishes a static copy of this spec.
 
+**Runtime verify:**
+
+```bash
+export ACP_API_URL=http://localhost:8000
+bash scripts/verify_openapi_runtime.sh
+```
+
 ## Pre-flip gate (PB-6)
 
 | Step | Command | Owner |
