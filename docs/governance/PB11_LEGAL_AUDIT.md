@@ -1,10 +1,10 @@
 # PB-11 — Legal & trust artifacts audit
 
 **Document ID:** ACP-GOV-PB11-AUDIT-001  
-**Audit date:** 2026-06-26  
-**Auditor:** Cursor (Phương án E)  
-**Baseline:** `master` @ `dd16769`  
-**Related:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`GOVERNANCE_POST_CLAUDE_EXECUTION_AUDIT.md`](GOVERNANCE_POST_CLAUDE_EXECUTION_AUDIT.md)
+**Audit date:** 2026-06-27 (delta refresh)  
+**Auditor:** Cursor — PR `low/docs-legal-pb12-delta`  
+**Baseline:** `master` post PR #110 + legal delta  
+**Related:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SECURITY.md`](../../SECURITY.md)
 
 ---
 
@@ -12,42 +12,66 @@
 
 | Question | Answer |
 |----------|--------|
-| **Legal files present?** | ✅ **YES** — not absent as Claude HTML claimed (stale) |
-| **Content sufficient for PB-12 prep?** | ✅ **YES** with noted placeholders |
+| **Legal files present?** | ✅ **YES** |
+| **Content sufficient for PB-12 prep?** | ✅ **YES** — delta applied; **one human gate** remains (live contact) |
 | **Hard blocker for private beta ops?** | ❌ **NO** |
-| **Hard blocker for public flip?** | 🔄 **Review placeholders** before PB-12 |
+| **Hard blocker for public flip?** | 🔄 **Human:** confirm `security@dataxmind.com` live + PB-9/PB-7/PB-10 |
 
 ---
 
-## Checklist
+## Checklist (post-delta)
 
 | Artifact | Path | Status | Notes |
 |----------|------|--------|-------|
 | LICENSE | `LICENSE` | ✅ | MIT per `pyproject.toml` |
-| SECURITY.md | `SECURITY.md` | ✅ | 72h ack / 14d fix SLA; **replace `security@dataxmind.com` before public flip** |
-| CONTRIBUTING.md | `CONTRIBUTING.md` | ✅ | 8 invariants, PACE, smoke §5.5, L2 risk, session anchor |
-| CODE_OF_CONDUCT.md | `CODE_OF_CONDUCT.md` | ✅ | Contributor Covenant 2.1 |
-| No secrets in shipped config | `config/*.yml` | ✅ | Template-only; `DATA_CLASSIFICATION.md` |
+| SECURITY.md | `SECURITY.md` | ✅ | 48h ack SLA; tiered CRITICAL/HIGH/MED/LOW; GH Security Advisories; AI CRITICAL table |
+| CONTRIBUTING.md | `CONTRIBUTING.md` | ✅ | 8 invariants, PACE, branch naming, PR checklist, `/health` vs `/governance/status`, `shipped_config` HIGH+ |
+| CODE_OF_CONDUCT.md | `CODE_OF_CONDUCT.md` | ✅ | Full Contributor Covenant **2.1** + enforcement contact |
+| No secrets in shipped config | `config/*.yml` | ✅ | Template-only |
 | README maintainer contact | `README.md` | ✅ | Linked |
-| Branch protection API | `BRANCH_PROTECTION.md` | ⚠️ **Waiver** | 403 private repo — process-only until PB-12 (approved 2026-06-22) |
-| OpenAPI export | `scripts/` | 🔄 | PB-6 — publish on flip |
-| Full deploy runbook | `examples/minimal/` + systemd | 🔄 | PB-9 soak; VPS 24/7 documented |
+| CONTRACT_TESTS pre-flip | `docs/CONTRACT_TESTS.md` | ✅ | PB-6 gate documented |
+| OpenAPI export | `docs/openapi/` | 🔄 | Regenerate + publish on PB-12 flip |
+| Branch protection API | `BRANCH_PROTECTION.md` | ⚠️ **Waiver** | 403 private repo until public / Team |
+| Full deploy runbook | `docs/RUNBOOK.md` + systemd | ✅ | Operator SSOT |
 
 ---
 
-## Claude HTML correction
+## Delta applied (2026-06-27)
 
-`practice_studies_architecture_review.html` pane PB listed legal as **ABSENT** — **incorrect** at audit date. Files existed pre-PR #99. Use this audit + `OPEN_SOURCE_READINESS.md` as SSOT.
+| Item | Before | After |
+|------|--------|-------|
+| Ack SLA | 72h | **48h** all severities |
+| Remediation SLA | 14d flat | Tiered CRITICAL 30d / HIGH 60d / MED 90d |
+| GH Security Advisories | Missing | ✅ Preferred path |
+| AI CRITICAL scope | Implicit | Explicit table + kill switch note |
+| CONTRIBUTING branch naming | Missing | ✅ |
+| CONTRIBUTING PR checklist | Partial | ✅ Full checklist |
+| CoC | Abbreviated | Full CC 2.1 |
+| Claude HTML “legal ABSENT” | Stale | Banner updated |
 
 ---
 
-## Pre-PB-12 actions
+## Pre-PB-12 actions (human)
 
-1. Confirm `SECURITY.md` contact email is live.
-2. Complete PB-9 calendar (≥14 days).
-3. Human PB-7: clean-machine fork ≤15 min.
-4. Re-probe branch protection API after public flip or Team upgrade.
+1. **Confirm** `security@dataxmind.com` (or replacement) is live and monitored.
+2. **Complete** PB-9 calendar soak (≥14 days) — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
+3. **PB-7** clean-machine fork ≤15 min on **CLEAN** host.
+4. **PB-10** production soak ≥30 days after PB-9 pass.
+5. **PB-6** regenerate OpenAPI + publish static spec on flip.
+6. Re-probe branch protection API after public flip or Team upgrade.
 
 ---
 
-**Operator sign-off:** ☐ Maintainer acknowledges before PB-12 Gate E
+## Verify (docs-only PR)
+
+```bash
+test -f SECURITY.md CONTRIBUTING.md CODE_OF_CONDUCT.md
+grep -q CRITICAL SECURITY.md
+grep -q Invariant CONTRIBUTING.md
+grep -q "48 hours" SECURITY.md
+grep -q "Contributor Covenant" CODE_OF_CONDUCT.md
+```
+
+---
+
+**Operator sign-off:** ☐ Maintainer confirms contact inbox live before PB-12 Gate E

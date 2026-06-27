@@ -2,24 +2,61 @@
 
 Thank you for contributing. This project is a **governance control plane** — changes that weaken fail-closed behavior or bypass invariants will be rejected.
 
+**Process SSOT:** [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) (PACE) · [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) (L2 risk)
+
+---
+
 ## Before you start
 
 1. Read [ARCHITECTURE.md](ARCHITECTURE.md) — **8 hard invariants** are non-negotiable.
 2. Read [AGENTS.md](AGENTS.md) — agent entry, session anchor, memory tiers (ML5).
 3. Read [CLAUDE.md](CLAUDE.md) — L0 behavioral constitution (Karpathy 4).
 4. Read [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE workflow, 9-step executor path, **smoke gate §5.5**.
-5. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) before coding.
+5. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) **before** coding.
 6. Open sessions with [docs/prompts/SESSION_ANCHOR_TEMPLATE.md](docs/prompts/SESSION_ANCHOR_TEMPLATE.md).
-7. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`).
+7. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`) — **questions** → [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions).
+
+---
 
 ## Development setup
 
 ```bash
+git clone https://github.com/DataXMind/AI-Control-Plane
+cd AI-Control-Plane
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
+pre-commit install
 export ACP_CONFIG_DIR=tests/fixtures/config
 ```
+
+---
+
+## New task workflow (PACE + L2)
+
+| Step | Action |
+|------|--------|
+| **P**lan | Classify risk LOW / MEDIUM / HIGH / CRITICAL ([CURSOR_RISK_POLICY](docs/governance/CURSOR_RISK_POLICY.md)); list files, assumptions, verify command |
+| **A**ct | Branch per naming below; respect file allowlists per risk level |
+| **C**heck | Gates below (+ `shipped_config` for HIGH+) |
+| **E**volve | PR body; individual `Closes #N`; update docs if contracts change |
+
+**Docs-only (LOW):** `*.md`, `docs/**` only — no `src/` without reclassifying to MEDIUM.
+
+---
+
+## Branch naming
+
+```
+low/docs-fix-typo
+low/governance-p13-killswitch-v132
+medium/add-cli-status-filter
+high/core-policies-abac-role-weight
+```
+
+Pattern: `{risk}/{short-desc}` — never commit directly to `master`.
+
+---
 
 ## Required gates (every PR)
 
@@ -31,26 +68,113 @@ pytest -m smoke -q
 bash scripts/verify_governance_memory.sh
 ```
 
+**HIGH / CRITICAL** (when touching API contracts or shipped config):
+
+```bash
+pytest -m shipped_config -q
+```
+
 CI must pass **Smoke gate** and **Full suite**.
 
-## Invariants (summary)
+Optional local hook: `pre-commit run --all-files`
 
-1. Custom `PolicyEngine` in `core/policies.py` — no OSS replacement.
-2. `core/models.py` owns all data contracts.
-3. `mcp/git_server.py` is the only Git facade — no Git logic in Python.
-4. `cli/` calls HTTP/API only — no direct policy imports.
-5. `apex/` owns the SAPAL loop.
-6. `api/` is the TypeScript bridge.
-7. `QuotaStore` is swappable via ABC.
-8. Shipped `config/` + runtime `ACP_CONFIG_DIR`.
+---
+
+## PR checklist
+
+Copy into PR body:
+
+- [ ] Risk level identified (LOW / MEDIUM / HIGH / CRITICAL)
+- [ ] Files touched listed; assumptions stated explicitly
+- [ ] Verify gate passed: `ruff` + `mypy --strict` + `pytest` + smoke (+ `shipped_config` if HIGH+)
+- [ ] Each issue listed individually (`Closes #N` — **not** ranges)
+- [ ] No new types outside `core/models.py` (Invariant #2)
+- [ ] No OSS policy engines imported into `core/` (Invariant #1)
+- [ ] `ARCHITECTURE.md` updated if HTTP or config loading changed
+- [ ] `bash scripts/verify_governance_memory.sh` passed (governance / L5 docs)
+
+Template: [`.github/pull_request_template.md`](.github/pull_request_template.md)
+
+---
+
+## 8 invariants (never violate)
+
+1. **`core/policies.py`** — custom `PolicyEngine` only; no OSS replacement.
+2. **`core/models.py`** — all data contracts here only.
+3. **`mcp/git_server.py`** — facade only (no Git logic in Python).
+4. **`cli/`** — HTTP calls only (no direct `core/` policy imports).
+5. **`apex/`** — SAPAL loop; OSS tools called **from** `apex/`.
+6. **`api/`** — sole cross-language bridge to TypeScript.
+7. **`core/quota.py`** — `QuotaStore` ABC, swappable backend.
+8. **`config/`** — shipped defaults; runtime override via `ACP_CONFIG_DIR`.
+
+---
+
+## Design principles (fork-friendly)
+
+### `/health` vs `/governance/status`
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /health` | Liveness/readiness — k8s, CI, load balancers (`status`, `policy_rules_count`) |
+| `GET /governance/status` | Human/agent governance checklist — milestones, case studies, lessons (L5) |
+
+Do not bloat `/health` with governance metadata. Forks should keep this separation.
+
+### First check after deployment
+
+```bash
+export ACP_API_URL=http://localhost:8000
+curl -sf "$ACP_API_URL/health" | python3 -m json.tool
+curl -sf "$ACP_API_URL/governance/status" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['governance_version'], len(d['lessons_patterns']), 'patterns')"
+bash scripts/verify_governance_status_runtime.sh
+```
+
+Operator runbook: [docs/RUNBOOK.md](docs/RUNBOOK.md)
+
+---
+
+## Running tests
+
+```bash
+pytest tests/ -v                      # full suite
+pytest -m smoke -v                    # smoke gate (8 tests)
+pytest -m shipped_config -v             # shipped config parity (HIGH+)
+pytest tests/test_api_contract_snapshot.py -v   # API contract snapshots
+```
+
+---
+
+## 6-layer governance (Karpathy)
+
+| Layer | Doc |
+|-------|-----|
+| L0 | [CLAUDE.md](CLAUDE.md) |
+| L1 | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| L2 | [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) |
+| L3 | [.cursorrules](.cursorrules) · this file |
+| L4 | CI gates · [docs/CONTRACT_TESTS.md](docs/CONTRACT_TESTS.md) |
+| L5 | [docs/governance/LESSONS_LEARNED.md](docs/governance/LESSONS_LEARNED.md) · [AGENTS.md](AGENTS.md) |
+
+---
 
 ## PR rules
 
 - Target `master` via pull request only (no direct pushes).
-- State **risk level** (LOW/MEDIUM/HIGH/CRITICAL) per [CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md).
+- State **risk level** per [CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md).
 - Conventional Commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
 - Link issues with individual `Closes #N` (not ranges).
 - Update `ARCHITECTURE.md` when HTTP contracts or config loading change.
+
+---
+
+## Questions?
+
+- **How-to / design questions:** [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions)
+- **Bugs and spec gaps:** [GitHub Issues](https://github.com/DataXMind/AI-Control-Plane/issues)
+- **Security:** [SECURITY.md](SECURITY.md) — private report path only
+
+---
 
 ## Code of conduct
 

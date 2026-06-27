@@ -35,6 +35,11 @@
 pytest tests/test_api_contract_snapshot.py -v
 ```
 
-Before Public Beta flip (#80): all contract snapshots green + OpenAPI export matches `docs/openapi/openapi.json`.
+Before Public Beta flip (PB-12 / #80):
 
-**Last updated:** 2026-06-22
+- [ ] `pytest tests/test_api_contract_snapshot.py -v` — all green
+- [ ] `python scripts/export_openapi.py` — refresh [`docs/openapi/openapi.json`](../openapi/openapi.json)
+- [ ] Diff OpenAPI vs contract snapshots — no breaking keys on frozen endpoints
+- [ ] Publish static OpenAPI copy (PB-6) on repository flip
+
+**Last updated:** 2026-06-27 — PB-6 pre-flip checklist (legal delta PR)

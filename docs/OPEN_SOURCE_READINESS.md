@@ -50,9 +50,9 @@ Do **not** make the repository public before Phase 2 gates pass.
 ## Legal and trust artifacts (required at public beta)
 
 - [x] `LICENSE` (MIT — declared in `pyproject.toml`)
-- [x] `SECURITY.md` — vulnerability reporting process
-- [x] `CONTRIBUTING.md` — PR rules, invariant list
-- [x] `CODE_OF_CONDUCT.md`
+- [x] `SECURITY.md` — vulnerability reporting (48h ack; tiered remediation; GH Security Advisories)
+- [x] `CONTRIBUTING.md` — PR rules, invariant list, PACE, branch naming, contract verify
+- [x] `CODE_OF_CONDUCT.md` — Contributor Covenant 2.1 (full text)
 - [x] No production secrets or internal cluster IDs in shipped `config/` (verify before PB-12)
 
 ## Fork-friendly public surface

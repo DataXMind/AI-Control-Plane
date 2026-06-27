@@ -34,9 +34,9 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | ID | Item | Source gate | Status | Evidence / target |
 |----|------|-------------|--------|-------------------|
 | PB-1 | `LICENSE` (MIT per `pyproject.toml`) | Legal | ✅ | repo root `LICENSE` |
-| PB-2 | `SECURITY.md` vulnerability reporting | Legal | ✅ | repo root |
-| PB-3 | `CONTRIBUTING.md` (invariants + PR rules) | Legal | ✅ | repo root |
-| PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | repo root |
+| PB-2 | `SECURITY.md` vulnerability reporting | Legal | ✅ | 48h SLA + AI CRITICAL; [`PB11_LEGAL_AUDIT.md`](PB11_LEGAL_AUDIT.md) |
+| PB-3 | `CONTRIBUTING.md` (invariants + PR rules) | Legal | ✅ | PACE + branch naming + contract gates |
+| PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | Full CC 2.1 |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | `scripts/export_openapi.py`, `docs/openapi/` |
 | PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **RUNBOOK** | [`practice-evidence/pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) — operator CLEAN run pending |
