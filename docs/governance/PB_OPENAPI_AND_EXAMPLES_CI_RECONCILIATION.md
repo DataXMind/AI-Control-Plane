@@ -22,7 +22,7 @@
 | Step | Claude | Reality | Action |
 |------|--------|---------|--------|
 | 1 | `FastAPI` without `docs_url=None` | ✅ `create_app()` enables docs | No `src/` change |
-| 2 | Runtime `openapi.json` ≥10 paths | ✅ **13** paths in export | `verify_openapi_runtime.sh` |
+| 2 | Runtime `openapi.json` ≥10 paths | ✅ **13** paths | `verify_openapi_runtime.sh` (no `/openapi.json` in `paths{}`) |
 | 3 | README API docs section | Missing | ✅ Added |
 | 4 | OPEN_SOURCE_READINESS ✅ published | **Partial** | Runtime + static export ✅; **catalog PB-6 publish on flip** ⏳ |
 | Title `AI Control Plane` | Expectation | Actual `ai-control-plane` | **No rename** — contract stability |

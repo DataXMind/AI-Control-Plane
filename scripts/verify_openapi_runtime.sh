@@ -10,11 +10,12 @@ ver = d.get('openapi', '')
 assert ver.startswith('3.'), ver
 paths = d.get('paths', {})
 assert len(paths) >= 10, len(paths)
+# Note: /openapi.json is the spec URL, not an entry inside paths{}
 for required in (
     '/health',
     '/governance/status',
     '/policy/evaluate',
-    '/openapi.json',
+    '/apex/status',
 ):
     assert required in paths, required
 print('OK: openapi runtime verify', ver, len(paths), 'paths')
