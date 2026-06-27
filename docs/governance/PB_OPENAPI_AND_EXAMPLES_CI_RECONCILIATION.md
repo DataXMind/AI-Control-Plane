@@ -39,6 +39,8 @@
 
 ## examples CI prompt — harsh audit
 
+**Re-prompt audit (2026-06-22):** Claude packet references `@examples/docker-compose.yml` and `working-directory: examples` — **reject**. SSOT is `examples/minimal/`; job **`examples-minimal-smoke`** already on PR #118. **No second job.**
+
 | Element | Claude | Action |
 |---------|--------|--------|
 | `working-directory: examples` | **WRONG** | `examples/minimal/docker-compose.yml` from repo root |
