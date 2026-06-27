@@ -176,8 +176,10 @@ pytest tests/ -v && pytest -m smoke -v</div>
 <!-- DONE -->
 <div id="pane-done" class="pane">
   <div class="vbox">
-    <p><strong>Tất cả packets đã được deliver.</strong> Dưới đây là bản đồ đầy đủ — mỗi artifact và prompt đã ở đúng tab nào:</p>
+    <p><strong>Technical packet delivered (PR #118 → master).</strong> Reconciliation stamp below — operator gates remain. SSOT: <code>PB_OPENAPI_AND_EXAMPLES_CI_RECONCILIATION.md</code></p>
   </div>
+
+  <div class="tip tw" style="margin-bottom:12px"><strong>Reconciliation stamp (2026-06-27, post-merge MSI WARM verify).</strong> Cursor deliverables for this packet are <strong>merged</strong>. Reject stale prompts: <code>examples/docker-compose.yml</code>, job name <code>examples-smoke</code>, assert <code>/openapi.json</code> inside <code>paths{}</code>. SSOT path: <code>examples/minimal/docker-compose.yml</code>; CI job: <code>examples-minimal-smoke</code>. Catalog <code>gates_remaining</code>: <strong>7</strong> (not PB-9 only). MSI evidence: smoke 8/8 · governance 1.3.3 · OpenAPI 3.1.0 13 paths.</div>
 
   <div class="sec">Toàn bộ deliverables trong chuỗi này</div>
   <div class="pb">
@@ -217,28 +219,29 @@ pytest tests/ -v && pytest -m smoke -v</div>
   Tab PB gate final check        ← 8/12 done, 4 remaining, RUNBOOK sections
   Tab Final checklist            ← 14 items tickable
 
-<span class="hi">Artifact này (pb_openapi_and_examples_ci) — HOÀN TẤT</span>
-  Tab OpenAPI                    ← Verify + document /docs /redoc /openapi.json
-  Tab examples/ CI               ← examples-smoke job trong ci.yml
-  Tab Verdict (tab này)          ← Bản đồ toàn bộ
+<span class="hi">Artifact này (pb_openapi_and_examples_ci) — MERGED #118</span>
+  Tab OpenAPI                    ← verify_openapi_runtime.sh + README + OPEN_SOURCE_READINESS
+  Tab examples/ CI               ← examples-minimal-smoke (NOT examples/docker-compose.yml)
+  Tab Verdict (tab này)          ← Bản đồ + reconciliation stamp
 
 <span class="g">─────────────────────────────────────────────────────────</span>
-<span class="g">SAU KHI TẤT CẢ PACKETS MERGE:</span>
+<span class="g">POST-MERGE TARGET STATE (verified MSI WARM 2026-06-27):</span>
 <span class="g">─────────────────────────────────────────────────────────</span>
 curl /governance/status → milestones + layers + known_gaps + practice_evidence
                           + case_studies + doc_links (CLAUDE + LESSONS + RISK_POLICY)
+                          <span class="g">→ OK: 1.3.3 · 13 patterns</span>
 
-docker compose up (examples/) → running trong 3 phút
+docker compose -f examples/minimal/docker-compose.yml up --build -d
+                          <span class="g">→ build ~25s; verify scripts PASS</span>
 
-CI: smoke → test + examples-smoke (parallel)
+CI: smoke → test + examples-minimal-smoke (parallel, timeout 5m)
 
-PB gates remaining: PB-9 soak (~07-06) + maintain soak log
-Public Beta flip: ~2026-07-10
+<span class="r">gates_remaining (catalog): 7</span> — PB-9 soak (~07-06), PB-7, PB-10, PB-6 publish on flip,
+                          PB-8 rc, security@, PB-12 go/no-go · flip target ~2026-07-10
 
-<span class="g">KHÔNG CÒN GÌ ĐỂ DELIVER.</span>
-<span class="g">Mọi hard blocker đã có Cursor prompt ready-to-copy.</span>
-<span class="g">Mọi operator action đã có procedure card.</span>
-<span class="g">Calendar constraint (PB-9 soak) là item duy nhất không thể accelerate.</span>
+<span class="g">Cursor packet: no further deliverables.</span>
+<span class="g">Operator: procedure cards + calendar gates (PB-9 not accelerable).</span>
+<span class="cm">Drift: reject "KHÔNG CÒN GÌ ĐỂ DELIVER" for Public Beta — only for this Cursor packet.</span>
     </div>
   </div>
 </div>
