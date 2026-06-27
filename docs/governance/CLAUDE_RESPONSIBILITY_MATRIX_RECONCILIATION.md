@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-CLAUDE-MATRIX-RECON-001  
 **Audit date:** 2026-06-27  
-**Baseline:** `master` @ `8114f0d` (catalog v1.3.3)  
+**Baseline:** `master` @ `375ef14` (catalog v1.3.3 · post #118)  
 **Source prompt:** Claude “Responsibility matrix → Public Beta” @ 2026-06-26  
 **SSOT runtime:** `curl /governance/status` → `public_beta.gates_remaining` / `gates_closed`
 

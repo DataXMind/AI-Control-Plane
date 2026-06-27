@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PB-FINAL-BLOCKERS-RECON-001  
 **Audit date:** 2026-06-27  
-**Baseline:** `master` @ `8114f0d` (catalog v1.3.3)  
+**Baseline:** `master` @ `375ef14` (catalog v1.3.3 · post #118)  
 **Source artifact:** [`pb_final_blockers_packet.html`](pb_final_blockers_packet.html) (Claude HTML tabs)  
 **Operator gates not done:** PB-9 daily · PB-7 CLEAN · security@ live · PB-10/8/6/12
 

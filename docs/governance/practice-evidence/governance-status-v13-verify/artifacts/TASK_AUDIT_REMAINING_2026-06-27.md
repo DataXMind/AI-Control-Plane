@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` catalog **v1.3.3** @ `8114f0d` · runtime PASS local + VPS (#116–#117)  
+**Baseline:** `master` catalog **v1.3.3** @ `375ef14` (post #118 merge + verdict stamp) · runtime PASS local + VPS (#116–#117)  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
@@ -12,6 +12,7 @@
 |-------|-----|----------|--------|
 | G0–G2 | Practice gaps | Studies + G2-1..G2-5 | ✅ CLOSED |
 | Gov UX | Catalog v1.3.x | PR #104–#109; v1.3.3 gates_remaining | ✅ |
+| OpenAPI + examples CI | PB-T packet | PR #118 merged @ `375ef14` | ✅ |
 | Lessons | P-13 kill switch | G2-1 + CURSOR_RISK §10 | ✅ |
 | Legal | PB-11 | PR #112–#113, sign-off | ✅ |
 | RUNBOOK | Operator SSOT | PR #108 | ✅ |
@@ -43,7 +44,7 @@
 | **Pre-flip** | security@ live test | DNS/mailbox | Before PB-12 |
 | **CRITICAL** | PB-12 flip | Human go/no-go | End |
 
-**PB-9 ticks:** `2026-06-26`, `2026-06-27` — see [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md).
+**PB-9 ticks:** `2026-06-26`, `2026-06-27` (PM post-merge tick @ `375ef14`) — see [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md).
 
 ---
 
@@ -70,7 +71,7 @@
 - PB-9 PASS trước Day 14 (~2026-07-06)
 - CS-01/03/04 — process-layer; không operator runtime drill
 
-**PB-9 ticks done:** 2026-06-26, 2026-06-27
+**PB-9 ticks done:** 2026-06-26, 2026-06-27 (incl. post-merge PM tick)
 
 ---
 

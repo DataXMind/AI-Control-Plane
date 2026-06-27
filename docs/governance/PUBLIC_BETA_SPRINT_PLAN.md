@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PUBLIC-BETA-001  
 **Status:** **IN PROGRESS** — prep started 2026-06-24  
-**Baseline:** `master` @ `8114f0d` (post C+ audit)  
+**Baseline:** `master` @ `375ef14` (post #118 merge · catalog v1.3.3)  
 **Parent:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)  
 **Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)  
 **Claude matrix (stale):** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
@@ -39,7 +39,7 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-3 | `CONTRIBUTING.md` (invariants + PR rules) | Legal | ✅ | PACE + branch naming + contract gates |
 | PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | Full CC 2.1 |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
-| PB-6 | OpenAPI spec export + doc | Technical | ✅ | `scripts/export_openapi.py`, `docs/openapi/` |
+| PB-6 | OpenAPI spec export + doc | Technical | ✅ | Runtime + static + CI smoke; **publish on flip** @ PB-12 |
 | PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **PENDING CLEAN** | RUNBOOK + MSI WARM partial only — [`pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) |
 | PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | Tag at PB-12; matrix `beta.1` → use **rc.1** per human approve |
 | PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | G-05 OPEN · ticks 2026-06-26/27 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |

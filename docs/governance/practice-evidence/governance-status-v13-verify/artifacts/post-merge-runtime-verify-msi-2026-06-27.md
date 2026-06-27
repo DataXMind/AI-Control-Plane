@@ -2,38 +2,44 @@
 
 **Captured:** 2026-06-27 (UTC)  
 **Host:** MSI WSL (`/mnt/d/Projects/ai-control-plane`)  
-**Label:** **WARM** — operator re-verify after examples quick-start / PR #118 docs  
-**Branch @ run:** `docs/pb12-operator-checklist-pin` @ `9b83989` (PR [#118](https://github.com/DataXMind/AI-Control-Plane/pull/118) open)  
-**Stack:** Docker `minimal-acp-api-1` (assumed running; verify-only curl)
+**Label:** **WARM** — operator re-verify after PR #118 merge + PB-9 PM tick  
+**Branch @ run:** `master` @ `375ef14` (#118 merged + verdict stamp)  
+**Stack:** Docker `minimal-acp-api-1`
 
-## Procedure
+## Procedure (PACE)
 
 ```bash
-export ACP_API_URL=http://localhost:8000
+export ACP_CONFIG_DIR=tests/fixtures/config
+pytest tests/test_api_contract_snapshot.py tests/test_smoke.py -m smoke -v
+docker compose -f examples/minimal/docker-compose.yml up --build -d
+export ACP_API_URL=http://127.0.0.1:8000
 bash scripts/verify_governance_status_runtime.sh
+bash scripts/verify_openapi_runtime.sh
+bash scripts/soak_staging.sh --log /tmp/acp-soak-staging.log
+docker compose -f examples/minimal/docker-compose.yml down   # optional teardown
 ```
 
 ## Operator output
 
 ```text
+pytest -m smoke: 8 passed, 3 deselected
 OK: governance/status runtime verify 1.3.3 13 patterns
+OK: openapi runtime verify 3.1.0 13 paths
+2026-06-27T11:53:35Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
 ```
 
 ## Analysis
 
 | Check | Result | Notes |
 |-------|--------|-------|
-| `governance_version` | **1.3.3** | Catalog SSOT unchanged |
+| Smoke gate | **8/8 PASS** | SMK-01..06c |
+| `governance_version` | **1.3.3** | Catalog SSOT |
 | `lessons_patterns` | **13** | Incl. P-13 kill switch |
-| Runtime script | **PASS** | L4/L5 governance UX wire OK |
-| Examples path docs | N/A | Docs-only PR — no `src/` change; runtime confirms API still v1.3.3 |
+| OpenAPI runtime | **3.1.0 · 13 paths** | `verify_openapi_runtime.sh` |
+| PB-9 soak iter | **PASS** | PM tick @ 11:53Z |
 
-**Context:** Operator ran verify after following post-merge examples quick-start checklist. Confirms Docker API on port 8000 still serves catalog v1.3.3 — no regression from docs wave (#116–#118).
-
-**Prior local PASS:** [`local-runtime-v133-pass.md`](local-runtime-v133-pass.md) @ `863b611` (full rebuild). This entry is a **lighter re-verify** (script only).
-
-**Does not close:** PB-7 CLEAN fork · PB-9 calendar · security@ · PB-12 gates.
+**Does not close:** PB-7 CLEAN fork · PB-9 Day 14 (~07-06) · security@ · PB-12 gates.
 
 ## Verdict
 
-**PASS** — governance runtime verify 1.3.3 · 13 patterns @ MSI WSL post-merge check.
+**PASS** — post-merge PACE + PB-9 PM tick @ MSI WARM · `master` @ `375ef14`.
