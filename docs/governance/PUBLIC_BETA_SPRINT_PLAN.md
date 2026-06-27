@@ -2,9 +2,10 @@
 
 **Document ID:** ACP-GOV-PUBLIC-BETA-001  
 **Status:** **IN PROGRESS** — prep started 2026-06-24  
-**Baseline:** `master` @ `de931b5` (post audit prompts 1–3 + C+)  
+**Baseline:** `master` @ `8114f0d` (post C+ audit)  
 **Parent:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)  
-**Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
+**Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)  
+**Claude matrix (stale):** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 
 ---
 
@@ -39,9 +40,9 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-4 | `CODE_OF_CONDUCT.md` | Legal | ✅ | Full CC 2.1 |
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | `scripts/export_openapi.py`, `docs/openapi/` |
-| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **RUNBOOK** | [`practice-evidence/pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) — operator CLEAN run pending |
-| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | `CHANGELOG.md` added; tag at PB-12 |
-| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | Started 2026-06-22 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
+| PB-7 | README fork path ≤15 min verified | Go/No-Go | 🔄 **PENDING CLEAN** | RUNBOOK + MSI WARM partial only — [`pb-7-clean-machine-fork/`](practice-evidence/pb-7-clean-machine-fork/) |
+| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | Tag at PB-12; matrix `beta.1` → use **rc.1** per human approve |
+| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | G-05 OPEN · ticks 2026-06-26/27 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ❌ | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) |
 | PB-11 | Branch protection API enforced | Platform | ❌ | [#79](https://github.com/DataXMind/AI-Control-Plane/issues/79) — 403 free tier |
 | PB-12 | Flip repo public + disclaimer | Go/No-Go | ❌ | [#80](https://github.com/DataXMind/AI-Control-Plane/issues/80) |
@@ -86,4 +87,4 @@ pytest -m smoke -q
 
 ---
 
-**Last updated:** 2026-06-22 (PB-9 soak started)
+**Last updated:** 2026-06-27 — matrix recon; PB-7 WARM partial; legal PB-2..4 done (#112)

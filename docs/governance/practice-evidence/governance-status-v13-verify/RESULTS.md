@@ -18,6 +18,7 @@
 | **Runtime v1.3.0** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.0` · `12 patterns` @ `a43524a` |
 | **Runtime v1.3.2** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.2` · `13 patterns` @ `68ae48e` |
 | **Runtime v1.3.3** | `verify_governance_status_runtime.sh` | ✅ **PASS** | `1.3.3` · `13 patterns` @ `863b611` |
+| **Re-verify** | MSI WSL post-merge (script only) | ✅ **PASS** | 2026-06-27 — see artifact below |
 
 | Host | Stack | `governance_version` | `lessons_patterns` | Result |
 |------|-------|----------------------|--------------------|--------|
@@ -111,9 +112,10 @@ OK: governance/status runtime verify 1.3.3 13 patterns
 - [x] `artifacts/vps-runtime-v132-pass.md` — PASS @ `68ae48e` (`1.3.2` · 13 patterns)
 - [x] `artifacts/local-runtime-v133-pass.md` — PASS @ `863b611` (local Docker)
 - [x] `artifacts/vps-runtime-v133-pass.md` — PASS @ `863b611` (`1.3.3` · 13 patterns)
+- [x] `artifacts/post-merge-runtime-verify-msi-2026-06-27.md` — MSI WSL re-verify after examples/ docs (#118)
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-26.md` — open vs closed task audit
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-27.md` — gates_remaining sync
 
 ---
 
-**Last updated:** 2026-06-27 — runtime PASS local + ubuntu-vps @ v1.3.3
+**Last updated:** 2026-06-27 — runtime PASS local + VPS; MSI post-merge re-verify

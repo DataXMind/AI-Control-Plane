@@ -15,6 +15,9 @@
 | Windows/WSL LAN bind | [Windows / WSL2 — LAN network bind](#windows--wsl2--lan-network-bind) |
 | Remote via Tailscale | [Remote via Tailscale](#remote-via-tailscale) |
 | Docker compose (PB-9) | [Docker compose](#docker-compose) |
+| Linux deploy / VPS systemd | [Deploy — Linux / Ubuntu](#deploy--linux--ubuntu) |
+| Rollback / config reload | [Rollback](#rollback) · [Config reload](#config-reload) |
+| Incidents | [Incident response](#incident-response) |
 | Multi-host Study 06 | [`study-06-multi-host/RUNBOOK.md`](governance/practice-evidence/study-06-multi-host/RUNBOOK.md) |
 | Clean-machine fork (PB-7) | [`pb-7-clean-machine-fork/RUNBOOK.md`](governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
 
@@ -168,6 +171,110 @@ See [`examples/minimal/README.md`](../examples/minimal/README.md). On Windows, D
 
 ---
 
+## Deploy — Linux / Ubuntu
+
+### Native uvicorn (dev / single host)
+
+```bash
+git clone https://github.com/DataXMind/AI-Control-Plane.git
+cd AI-Control-Plane
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+export ACP_CONFIG_DIR=tests/fixtures/config   # or /etc/acp/config in production
+
+uvicorn ai_control_plane.api.server:app \
+  --host 0.0.0.0 --port 8000 --log-level info
+```
+
+### Docker + systemd (PB-9 staging / VPS 24/7)
+
+Preferred for soak parity — see [`examples/minimal/systemd/README.md`](../examples/minimal/systemd/README.md).
+
+```bash
+export ACP_REPO=/root/AI-Control-Plane
+docker compose -f "$ACP_REPO/examples/minimal/docker-compose.yml" up -d --build
+```
+
+**Verify:**
+
+```bash
+curl -sf http://127.0.0.1:8000/health | python3 -m json.tool
+bash scripts/verify_governance_status_runtime.sh
+```
+
+---
+
+## Rollback
+
+```bash
+cd AI-Control-Plane
+git log --oneline -10
+git checkout <tag-or-sha>          # e.g. v0.1.0-rc.1 when tagged
+pip install -e ".[dev]"
+
+# Docker path
+docker compose -f examples/minimal/docker-compose.yml down
+docker compose -f examples/minimal/docker-compose.yml up -d --build
+
+# systemd VPS
+sudo systemctl restart acp-staging.service
+```
+
+`ACP_DATA_DIR` task files persist across rollback. Redis quota (if used): `redis-cli -u "$ACP_REDIS_URL" FLUSHDB` only when intentional.
+
+---
+
+## Config reload
+
+`ACP_CONFIG_DIR` is read at **API startup only** (Study 04c). No hot reload.
+
+```bash
+# 1. Edit policies/agents/projects YAML
+# 2. Restart API (uvicorn, docker compose, or systemctl restart acp-staging)
+# 3. Confirm rule count
+curl -sf http://127.0.0.1:8000/health | python3 -c \
+  "import sys,json; print(json.load(sys.stdin)['policy_rules_count'])"
+```
+
+Fixture profile: **8** rules · shipped profile B: **10** (Study 08).
+
+---
+
+## Incident response
+
+### Policy not enforcing
+
+```bash
+curl -sf http://127.0.0.1:8000/health | jq .policy_rules_count
+curl -sf -X POST http://127.0.0.1:8000/policy/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent2","project_id":"rust-gateway","tool_name":"git_read","role":"backend"}'
+```
+
+### Kill switch (P-13)
+
+HTTP **200** with `allowed: false` + `kill_switch_active` reason — **not** 503. `/health` stays 200. See `CURSOR_RISK_POLICY.md` §10 · Study 05g-r.
+
+### API unreachable
+
+Clients (TS PolicyClient) must **DENY** — fail-closed. Check `ps aux | grep uvicorn`, Docker `compose ps`, or `journalctl -u acp-staging -n 50`.
+
+### Quota
+
+```bash
+curl -sf http://127.0.0.1:8000/quota/rust-gateway | python3 -m json.tool
+curl -sf http://127.0.0.1:8000/quota/agent/agent2 | python3 -m json.tool
+```
+
+### OpenAPI (PB-6 at flip)
+
+```bash
+curl -sf http://127.0.0.1:8000/openapi.json | head
+# Interactive: http://localhost:8000/docs
+```
+
+---
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -179,4 +286,4 @@ See [`examples/minimal/README.md`](../examples/minimal/README.md). On Windows, D
 
 ---
 
-**Last updated:** 2026-06-26 — Windows/WSL LAN bind (Study 06 Round A; P-12)
+**Last updated:** 2026-06-27 — Linux deploy, rollback, config reload, incident (PB final blockers recon)
