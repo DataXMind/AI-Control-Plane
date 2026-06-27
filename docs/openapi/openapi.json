@@ -136,6 +136,25 @@
         }
       }
     },
+    "/governance/status": {
+      "get": {
+        "summary": "Governance Status",
+        "description": "Governance UX runtime \u2014 6-layer status, case studies, verify gate.",
+        "operationId": "governance_status_governance_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GovernanceStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/tasks": {
       "post": {
         "summary": "Register Task",
@@ -506,6 +525,185 @@
         "title": "ApprovalResolveRequest",
         "description": "POST /policy/approve request body."
       },
+      "GovernanceCaseStudy": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "layer": {
+            "type": "string",
+            "title": "Layer"
+          },
+          "occurrence": {
+            "type": "string",
+            "title": "Occurrence"
+          },
+          "runtime_check": {
+            "type": "string",
+            "title": "Runtime Check"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "layer",
+          "occurrence",
+          "runtime_check",
+          "action"
+        ],
+        "title": "GovernanceCaseStudy",
+        "description": "Case study reference for governance UX runtime."
+      },
+      "GovernanceKnownGap": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "study": {
+            "type": "string",
+            "title": "Study"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "remediation": {
+            "type": "string",
+            "title": "Remediation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "study",
+          "title",
+          "severity",
+          "status",
+          "remediation"
+        ],
+        "title": "GovernanceKnownGap",
+        "description": "Practice evidence gap registry entry (G-01..G-07)."
+      },
+      "GovernanceStatusResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "framework": {
+            "type": "string",
+            "title": "Framework"
+          },
+          "governance_version": {
+            "type": "string",
+            "title": "Governance Version"
+          },
+          "config_loaded": {
+            "type": "boolean",
+            "title": "Config Loaded"
+          },
+          "policy_rules_count": {
+            "type": "integer",
+            "title": "Policy Rules Count"
+          },
+          "milestones": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Milestones"
+          },
+          "layers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Layers"
+          },
+          "verify_gate": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Verify Gate"
+          },
+          "doc_links": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Doc Links"
+          },
+          "public_beta": {
+            "$ref": "#/components/schemas/PublicBetaSummary"
+          },
+          "case_studies": {
+            "items": {
+              "$ref": "#/components/schemas/GovernanceCaseStudy"
+            },
+            "type": "array",
+            "title": "Case Studies"
+          },
+          "known_gaps": {
+            "items": {
+              "$ref": "#/components/schemas/GovernanceKnownGap"
+            },
+            "type": "array",
+            "title": "Known Gaps"
+          },
+          "lessons_patterns": {
+            "items": {
+              "$ref": "#/components/schemas/LessonPattern"
+            },
+            "type": "array",
+            "title": "Lessons Patterns"
+          },
+          "practice_evidence": {
+            "$ref": "#/components/schemas/PracticeEvidenceSummary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "framework",
+          "governance_version",
+          "config_loaded",
+          "policy_rules_count",
+          "milestones",
+          "layers",
+          "verify_gate",
+          "doc_links",
+          "public_beta",
+          "case_studies",
+          "known_gaps",
+          "lessons_patterns",
+          "practice_evidence"
+        ],
+        "title": "GovernanceStatusResponse",
+        "description": "GET /governance/status \u2014 6-layer governance UX for operators."
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -582,6 +780,57 @@
         ],
         "title": "IdentityVerifyRequest",
         "description": "POST /identity/verify request body \u2014 HS256 JWT stub (MB-S1-5)."
+      },
+      "LessonPattern": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "layer": {
+            "type": "string",
+            "title": "Layer"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "rule_ref": {
+            "type": "string",
+            "title": "Rule Ref"
+          },
+          "case_study_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Study Id"
+          },
+          "prevention": {
+            "type": "string",
+            "title": "Prevention"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "layer",
+          "status",
+          "rule_ref",
+          "prevention"
+        ],
+        "title": "LessonPattern",
+        "description": "LESSONS_LEARNED pattern summary (P-01..P-13)."
       },
       "ModelProfileQuotaStatus": {
         "properties": {
@@ -689,6 +938,123 @@
         ],
         "title": "PolicyEvalResponse",
         "description": "POST /policy/evaluate response \u2014 fail-closed contract for PolicyClient."
+      },
+      "PracticeEvidenceSummary": {
+        "properties": {
+          "studies_completed": {
+            "type": "integer",
+            "title": "Studies Completed"
+          },
+          "last_run": {
+            "type": "string",
+            "title": "Last Run"
+          },
+          "overall_verdict": {
+            "type": "string",
+            "title": "Overall Verdict"
+          },
+          "open_gaps_count": {
+            "type": "integer",
+            "title": "Open Gaps Count"
+          },
+          "artifacts_count": {
+            "type": "integer",
+            "title": "Artifacts Count"
+          },
+          "hosts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Hosts"
+          },
+          "network_topologies": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Network Topologies"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          },
+          "index_url": {
+            "type": "string",
+            "title": "Index Url"
+          },
+          "audit_url": {
+            "type": "string",
+            "title": "Audit Url"
+          },
+          "study_08_url": {
+            "type": "string",
+            "title": "Study 08 Url"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "studies_completed",
+          "last_run",
+          "overall_verdict",
+          "open_gaps_count",
+          "artifacts_count",
+          "hosts",
+          "network_topologies",
+          "note",
+          "index_url",
+          "audit_url",
+          "study_08_url"
+        ],
+        "title": "PracticeEvidenceSummary",
+        "description": "Operator practice studies summary."
+      },
+      "PublicBetaSummary": {
+        "properties": {
+          "phase": {
+            "type": "string",
+            "title": "Phase"
+          },
+          "open_issues": {
+            "type": "string",
+            "title": "Open Issues"
+          },
+          "soak_started": {
+            "type": "string",
+            "title": "Soak Started"
+          },
+          "soak_review_target": {
+            "type": "string",
+            "title": "Soak Review Target"
+          },
+          "gates_remaining": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Gates Remaining"
+          },
+          "gates_closed": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Gates Closed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "phase",
+          "open_issues",
+          "soak_started",
+          "soak_review_target",
+          "gates_remaining",
+          "gates_closed"
+        ],
+        "title": "PublicBetaSummary",
+        "description": "Public Beta track metadata (PB-9..PB-12)."
       },
       "QuotaStatus": {
         "properties": {

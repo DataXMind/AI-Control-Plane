@@ -35,7 +35,7 @@ curl -sf "$ACP_API_URL/health" | python3 -m json.tool
 bash scripts/verify_governance_status_runtime.sh
 ```
 
-Expected: `OK: governance/status runtime verify 1.3.2 13 patterns`.  
+Expected: `OK: governance/status runtime verify 1.3.3 13 patterns`.  
 Troubleshooting: [`../../../docs/governance/practice-evidence/governance-status-v13-verify/RESULTS.md`](../../../docs/governance/practice-evidence/governance-status-v13-verify/RESULTS.md).
 
 ## After reboot

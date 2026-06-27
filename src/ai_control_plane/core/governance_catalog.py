@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
-GOVERNANCE_VERSION = "1.3.2"
+GOVERNANCE_VERSION = "1.3.3"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -34,6 +34,7 @@ DOC_LINKS: dict[str, str] = {
     "practice_audit": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "ux_runtime": "docs/governance/GOVERNANCE_UX_RUNTIME.md",
     "public_beta_plan": "docs/governance/PUBLIC_BETA_SPRINT_PLAN.md",
+    "open_source_readiness": "docs/OPEN_SOURCE_READINESS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
@@ -53,11 +54,26 @@ MILESTONE_STATUS: dict[str, str] = {
     "public_beta": "IN_PROGRESS",
 }
 
-PUBLIC_BETA: dict[str, str] = {
+PUBLIC_BETA: dict[str, str | list[str]] = {
     "phase": "PB-9 staging soak",
     "open_issues": "#77-#80",
     "soak_started": "2026-06-22",
     "soak_review_target": "2026-07-06",
+    "gates_remaining": [
+        "PB-9 calendar soak (G-05)",
+        "PB-7 clean-machine fork ≤15 min",
+        "PB-10 production soak ≥30d",
+        "PB-6 OpenAPI publish on flip",
+        "PB-8 v0.1.0-rc.1 tag",
+        "security@ mailbox live test (pre-PB-12)",
+        "PB-12 human go/no-go",
+    ],
+    "gates_closed": [
+        "PB-11 legal artifacts (SECURITY, CONTRIBUTING, CoC)",
+        "docs/RUNBOOK.md operator SSOT",
+        "Governance catalog 3-stream convergence",
+        "GitHub Discussions enabled",
+    ],
 }
 
 # Case studies — mapped to LESSONS_LEARNED patterns + operational gates
@@ -298,7 +314,7 @@ PRACTICE_EVIDENCE: dict[str, str | int | list[str]] = {
     "last_run": "2026-06-26",
     "overall_verdict": "PASS",
     "open_gaps_count": 1,
-    "artifacts_count": 32,
+    "artifacts_count": 45,
     "hosts": ["MSI WSL", "Mac Mini M2", "ubuntu-vps"],
     "network_topologies": ["localhost", "Docker", "LAN", "Tailscale"],
     "note": "Studies 01–08 PASS; PB-9 calendar soak (G-05) separate from one-shot drills.",

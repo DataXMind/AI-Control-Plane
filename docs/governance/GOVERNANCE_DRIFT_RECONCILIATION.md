@@ -199,5 +199,26 @@ Cross-reference: [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-
 
 ---
 
+## 10. HTML / Claude artifact SSOT registry (@ 2026-06-27)
+
+**Rule:** Do not execute stale prompts from HTML tabs. Use **code + practice-evidence + this doc**.
+
+| Artifact | SSOT? | Stale claims (ignore) |
+|----------|-------|------------------------|
+| `governance_catalog.py` + `/governance/status` | **YES** | — |
+| `GOVERNANCE_UX_RUNTIME.md` | **YES** | — |
+| `GOVERNANCE_CATALOG_CLAUDE_SYNC_AUDIT.md` | **YES** | Maps Claude 3-stream prompt |
+| `PB11_LEGAL_AUDIT.md` | **YES** | Legal sign-off |
+| `practice-evidence/TASK_AUDIT_REMAINING_*.md` | **YES** | PB-12 open gates |
+| `practice_studies_architecture_review.html` | Historical | Legal ABSENT; G-01 SKIPPED |
+| `acp_full_audit_report.html` | Historical | SECURITY/CONTRIBUTING absent |
+| `audit_reconcile_final.html` | Historical | Legal 0%; pytest 156 |
+| `karpathy_acp_artifacts_fixed.html` | Historical | Pre-ML5 counts |
+| Claude action packets (external) | Historical | Create legal files; P-08 kill switch |
+
+**Onboarding:** `curl /governance/status` + [`CONTRIBUTING.md`](../../CONTRIBUTING.md) post-deploy checks.
+
+---
+
 **Next:** [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md)  
-**Last updated:** 2026-06-25
+**Last updated:** 2026-06-27 @ v1.3.3 artifact registry
