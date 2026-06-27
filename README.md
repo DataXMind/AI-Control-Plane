@@ -6,6 +6,9 @@ Control plane for multi-agent AI systems:
 - MCP Git server facade for controlled repo access
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
+**Status:** Milestones A/B/C/C+ **CLOSED** · **165** pytest · smoke **8/8** · SAPAL MVP in `apex/`  
+**Public Beta:** **IN PROGRESS** — PB-9 staging soak since 2026-06-22 · review target **~2026-07-06** · [`gates_remaining`](docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) via `GET /governance/status`
+
 ## Quick start (local dev)
 
 ```bash
@@ -44,6 +47,20 @@ agentctl assign rust-gateway agent2 git_read --json
 agentctl status rust-gateway --json
 agentctl quota rust-gateway --json
 ```
+
+## Governance check (after API is up)
+
+Requires `ACP_CONFIG_DIR` (see quick start above) and a running API:
+
+```bash
+export ACP_API_URL=http://localhost:8000
+curl -sf "$ACP_API_URL/governance/status" | python3 -m json.tool | head -30
+bash scripts/verify_governance_status_runtime.sh
+# Expected: OK: governance/status runtime verify 1.3.3 13 patterns
+agentctl gov status
+```
+
+Returns milestones, 6-layer map, `known_gaps`, `lessons_patterns`, `public_beta` gates, and case studies. See [GOVERNANCE_UX_RUNTIME.md](docs/governance/GOVERNANCE_UX_RUNTIME.md).
 
 ## Smoke gate (8 tests — SMK-01..06 + 06b + 06c)
 
@@ -135,7 +152,8 @@ Current gate: **165 pytest**, smoke 8/8 + CI on `master`.
 ## Maintainer & security
 
 - **Maintainer:** DataXMind ([GitHub org](https://github.com/DataXMind))
-- **Security:** [SECURITY.md](SECURITY.md) — `security@dataxmind.com` + [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new); 48h acknowledgment SLA
+- **Security:** [SECURITY.md](SECURITY.md) — `security@dataxmind.com` + [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new); 48h acknowledgment SLA (do not file public issues for vulnerabilities)
+- **Questions:** [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions)
 
 ## Pre-release notice
 

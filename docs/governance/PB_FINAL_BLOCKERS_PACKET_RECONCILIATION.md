@@ -39,6 +39,23 @@
 | `version: "3.9"` compose | **REJECT** | Compose v2; minimal file has no obsolete `version` key |
 | `.env.example` with fake vars | **PARTIAL** | Added `examples/minimal/.env.example` with **real** `ACP_*` only |
 | `examples/README.md` hub | **ACCEPT** | Index → `minimal/`; satisfies OPEN_SOURCE_READINESS wording |
+| README status banner | **PARTIAL** | Added accurate banner — **165** pytest, PB-9 ~2026-07-06 (not stale 156 / 07-10) |
+| README governance section | **PARTIAL** | Already in quick start; dedicated § with `verify_governance_status_runtime.sh` |
+| README maintainer | **DONE** | `security@dataxmind.com` + Discussions — no `[MAINTAINER_EMAIL]` |
+| `cd examples/` + `.env` compose | **REJECT** | Use `examples/minimal/` — see [`examples/README.md`](../../examples/README.md) |
+| `150+` → `156` tests | **REJECT** | CI truth: **165** pytest @ `master` |
+
+### Claude README prompt — harsh audit (@ 2026-06-27)
+
+| # | Claude row | Verdict |
+|---|------------|---------|
+| 1 | Status: C CLOSED · **156** tests | **REJECT count** — use **165**; C+ also CLOSED in catalog |
+| 2 | PB target **~2026-07-10** | **REJECT** — catalog `soak_review_target` **2026-07-06** |
+| 3 | Governance after install w/o `ACP_CONFIG_DIR` | **REJECT** — fails wiring; SSOT quick start + verify script |
+| 4 | `cd examples/` docker compose | **REJECT** — `examples/minimal/` + `-f` or `cd examples/minimal` |
+| 5 | Maintainer + SECURITY | **DONE** @ #112–#113 |
+| 6 | Fill `[MAINTAINER_EMAIL]` | **STALE** — already `security@dataxmind.com` |
+
 | `pip install ai-control-plane` | **REJECT** | Pre–public beta; use `pip install -e ".[dev]"` |
 | CLI assign/status | **ACCEPT** (fixed) | `agentctl assign PROJECT AGENT TASK` · `status --project` |
 | Verify block | **ACCEPT** | Uses `verify_governance_status_runtime.sh` not stale JSON sample |
@@ -103,6 +120,7 @@
 | R2 | `examples/minimal/README` — governance verify | [`examples/minimal/README.md`](../../examples/minimal/README.md) |
 | R3 | HTML + this recon in repo | Historical + SSOT pointer |
 | R4 | `examples/README.md` index + `minimal/.env.example` + expanded minimal README | No duplicate compose/Dockerfile |
+| R5 | README status banner + governance § (audit-safe) | No stale 156/07-10; links Discussions |
 
 ### Không làm (stale / done)
 
