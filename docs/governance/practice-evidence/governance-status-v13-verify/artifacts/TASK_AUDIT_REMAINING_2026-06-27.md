@@ -87,4 +87,6 @@
 
 **Matrix SSOT:** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../../../CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 
+**Claude handoff (full audit):** [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../../../PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
+
 **Do not claim:** PB-7 PASS without CLEAN evidence; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.
