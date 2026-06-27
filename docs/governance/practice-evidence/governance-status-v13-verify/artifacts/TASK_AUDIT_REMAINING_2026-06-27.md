@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` catalog **v1.3.3** · VPS runtime PASS `1.3.2` @ `68ae48e` (re-verify after v1.3.3 deploy)  
+**Baseline:** `master` catalog **v1.3.3** @ `863b611` · runtime PASS local + VPS  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
@@ -19,6 +19,15 @@
 | 3-stream | Claude convergence | `gates_closed` in catalog | ✅ |
 
 **`known_gaps` runtime:** 7 total · **1 OPEN** (`G-05` PB-9 only).
+
+---
+
+## Runtime v1.3.3 evidence (closed @ 2026-06-27)
+
+| Host | Artifact |
+|------|----------|
+| WSL local | [`local-runtime-v133-pass.md`](local-runtime-v133-pass.md) |
+| ubuntu-vps | [`vps-runtime-v133-pass.md`](vps-runtime-v133-pass.md) |
 
 ---
 
