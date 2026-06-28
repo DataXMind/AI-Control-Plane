@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PUBLIC-BETA-001  
 **Status:** **IN PROGRESS** — prep started 2026-06-24  
-**Baseline:** `master` @ **`a01937d`** · catalog v1.3.3  
+**Baseline:** `master` @ **`20e4fc3`** · catalog v1.3.3  
 **Parent:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)  
 **Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)  
 **Claude matrix (stale):** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)

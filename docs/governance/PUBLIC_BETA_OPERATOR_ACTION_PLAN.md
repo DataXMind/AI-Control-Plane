@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PB-OPERATOR-PLAN-001  
 **Phase:** PB-9 staging soak → PB-12 flip  
-**Baseline:** `master` @ **`a01937d`** · catalog v1.3.3  
+**Baseline:** `master` @ **`20e4fc3`** · catalog v1.3.3  
 **SSOT gates:** `governance_catalog.py` v1.3.3 · `GET /governance/status`  
 **Source audit:** [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 

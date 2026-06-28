@@ -3,7 +3,7 @@
 **Document ID:** ACP-GOV-PROJECT-STATUS-AUDIT-CLAUDE-001  
 **Audience:** Claude (Anthropic) — architecture, governance, and Public Beta planning sessions  
 **Prepared by:** Cursor operator session · reconciled against runtime evidence  
-**Audit date:** 2026-06-27 (UTC) · **Superseded for latest state by:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) @ `a01937d`  
+**Audit date:** 2026-06-27 (UTC) · **Superseded for latest state by:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) @ `20e4fc3`  
 **Repository:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane)  
 **Baseline:** `master` · governance catalog **v1.3.3** · operator phase per [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
 
@@ -301,7 +301,7 @@ Prior wave: #116–#117 runtime evidence, #112–#113 legal, #104–#109 governa
 
 ## 11. Canonical one-liner for Claude sessions
 
-> **AI Control Plane @ `master` `a01937d`:** Milestones A–C+ closed; Public Beta **IN_PROGRESS** (PB-9 soak). Governance catalog **v1.3.3** live. Practice: PB-7 PASS · security@ PASS · tag `v0.1.0-rc.1` @ `c58b4cc`. **Seven** `gates_remaining` until maintainer bump @ flip. Critical path: PB-9 daily tick → Day 14 ~**2026-07-06** → PB-12 ~**2026-07-10**. PB-10 deferred GA (#78). **Full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md).
+> **AI Control Plane @ `master` `20e4fc3`:** Milestones A–C+ closed; Public Beta **IN_PROGRESS** (PB-9 soak). Governance catalog **v1.3.3** live. Practice: PB-7 PASS · security@ PASS · tag `v0.1.0-rc.1` @ `c58b4cc`. **Seven** `gates_remaining` until maintainer bump @ flip. Critical path: PB-9 daily tick → Day 14 ~**2026-07-06** → PB-12 ~**2026-07-10**. PB-10 deferred GA (#78). **Full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md).
 
 ---
 

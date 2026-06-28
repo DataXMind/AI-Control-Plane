@@ -4,7 +4,7 @@
 **Audience:** Claude (Anthropic) · maintainer · operator  
 **Audit date:** 2026-06-28 (UTC)  
 **Repository:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane)  
-**Baseline:** `master` @ **`a01937d`**  
+**Baseline:** `master` @ **`20e4fc3`**  
 **Governance catalog:** **v1.3.3** (`governance_catalog.py` · `GET /governance/status`)  
 **Supersedes for handoff:** extends [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](PROJECT_STATUS_AUDIT_FOR_CLAUDE.md) @ 2026-06-27 with post-wave evidence through 2026-06-28.
 
@@ -46,7 +46,7 @@ ACP has completed **engineering + governance documentation surface** for **0.x P
 | PB-10 production 30d | ❌ **Deferred GA** (#78 post-flip) | **No** @ 0.x beta |
 | PB-11 branch protection API | Process-only (403) | No @ 0.x |
 
-**pytest @ `a01937d`:** **177** collected · smoke **8/8**
+**pytest @ `20e4fc3`:** **177** collected · smoke **8/8** (SMK-01..06c) — re-verified 2026-06-28 MSI WSL @ `10:25Z`
 
 ---
 
@@ -61,7 +61,7 @@ ACP has completed **engineering + governance documentation surface** for **0.x P
 | security@ PASS | `security-email-live-test/RESULTS.md` |
 | CUR-04 VPS `--repo-log` + hourly verify | `vps-hourly-loop-verify-2026-06-28.md` |
 | go-no-go + CHANGELOG | PR #119, #120 |
-| Session anchor sync | `SESSION_ANCHOR_TEMPLATE.md` @ `a01937d` |
+| Session anchor sync | `SESSION_ANCHOR_TEMPLATE.md` @ `20e4fc3` |
 | This report | This file |
 
 ### 2.2 🔄 Operator only — NOW (continuous)
@@ -311,7 +311,7 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 ### 12.1 Read first (in order)
 
 1. This report (`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`)
-2. [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) — canonical one-liner @ `a01937d`
+2. [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) — canonical one-liner @ `20e4fc3`
 3. [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
 4. [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
 5. `governance_catalog.py` + `GET /governance/status`
@@ -330,7 +330,7 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 
 - `examples/docker-compose.yml` → `examples/minimal/docker-compose.yml`
 - `examples-smoke` → `examples-minimal-smoke`
-- `"165 tests"` → **177** @ `a01937d`
+- `"165 tests"` → **177** @ `20e4fc3`
 - `"PB-9 only gate"` → **7** `gates_remaining`
 - MSI WARM = PB-7 PASS
 - PB-10 blocks PB-12 @ 0.x beta
@@ -350,8 +350,7 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 | `e76d203` | CUR-04 VPS soak parity |
 | #119 | go-no-go practice sync |
 | #120 | CHANGELOG expand |
-| `a01937d` | Baseline SHA sync post report wave |
-| `20e4fc3` | Full technical audit report + drift fixes |
+| `20e4fc3` | Full technical audit report + second-pass drift fixes |
 | `ac5f017` | VPS hourly verify + session anchor |
 
 ---
@@ -365,7 +364,7 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 | `README.md` still **165** pytest (user-facing) | **HIGH** | → **177** + link to full report |
 | `PROJECT_STATUS_AUDIT_FOR_CLAUDE.md` §5/8/10/11 stale (PB-7 ⏳, SHA `527eb5d`) | **HIGH** | Synced to practice @ 28/06 |
 | `PB9_DAY14_REVIEW_TEMPLATE` "proceed PB-8" after tag done | **MED** | → PB-12 prep only |
-| Sprint plan / TASK_AUDIT baseline SHA vague | **LOW** | → `a01937d` |
+| Sprint plan / TASK_AUDIT baseline SHA vague | **LOW** | → `20e4fc3` |
 | Session anchor / operator plan | **LOW** | Patched in this wave |
 
 ### 14.2 By design — not bugs (document for Claude)
@@ -415,4 +414,4 @@ pytest -m smoke        → 8 passed, 1 warning (~1.6s)
 
 **Related:** [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
-**Last updated:** 2026-06-28 @ `a01937d`
+**Last updated:** 2026-06-28 @ `20e4fc3`
