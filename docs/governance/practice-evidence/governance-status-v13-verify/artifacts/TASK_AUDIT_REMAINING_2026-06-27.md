@@ -60,6 +60,7 @@
 
 ### Chờ calendar / operator
 
+- [x] **OP-02 / CUR-04** — VPS soak `--repo-log` → `pb-9-day14-review/artifacts/vps-soak-iteration.log` (separate from MSI repo log) — 2026-06-28
 - [ ] **PB-9** — daily tick (*"đã tick ngày YYYY-MM-DD"* → [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md)); review **~2026-07-06** (Day 14)
 - [x] **PB-7** — CLEAN fork ≤15 min — **PASS** Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md)
 - [x] **security@** — live test **PASS** 2026-06-28 — [`security-email-live-test/RESULTS.md`](../../practice-evidence/security-email-live-test/RESULTS.md)

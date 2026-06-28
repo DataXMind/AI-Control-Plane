@@ -13,7 +13,7 @@
 ```text
 [DONE] Engineering surface (#116–#118, catalog v1.3.3, CI)
 [DONE] PB-7 CLEAN PASS (fa71bd5)
-[NOW]  PB-9 soak — ticks through 2026-06-28 · loop + repo log active
+[NOW]  PB-9 soak — ticks through 2026-06-28 · MSI repo log + VPS artifact path (CUR-04)
 [PAR]  security@ — OP-06a/06b ✅ PASS 2026-06-28
 [WAIT] ~07-06 Day 14 (OP-07)
 [WAIT] ~07-07–09 pre-flip: PB-8 · PB-6 export (OP-08/09)
@@ -28,7 +28,7 @@
 | ID | Task | Owner | Target | Status | Verify / artifact |
 |----|------|-------|--------|--------|-------------------|
 | **OP-01** | Daily PB-9 tick | Operator | Daily | 🔄 | Tick **2026-06-28** ✅ — `PB9_STAGING_SOAK_LOG.md` |
-| **OP-02** | Soak loop + repo log | Operator | Continuous | ✅ | PID 2408 @ 2026-06-28 · `PB9_SOAK_ITERATION_LOG.md` |
+| **OP-02** | Soak loop + machine log | Operator | Continuous | ✅ | MSI: `PB9_SOAK_ITERATION_LOG.md` · VPS: `vps-soak-iteration.log` (host-local) |
 | **OP-03** | Gap 06-22→25 documented | Cursor | 2026-06-27 | ✅ | `PB9_STAGING_SOAK_LOG.md` § clock |
 | **OP-04** | PB-7 CLEAN fork ≤15 min | Operator | 2026-06-27 | ✅ | [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
 | **OP-05** | PB-7 waiver | Human | — | ❌ **CANCELLED** | OP-04 PASS — no waiver |
@@ -42,6 +42,7 @@
 | **CUR-01** | Soak `--repo-log` | Cursor | 2026-06-27 | ✅ | `soak_staging.sh` |
 | **CUR-02** | Day 14 + action plan | Cursor | 2026-06-27 | ✅ | This file |
 | **CUR-03** | `.gitattributes` scripts LF | Cursor | 2026-06-28 | ✅ | CRLF lesson PB-7 |
+| **CUR-04** | VPS soak `--repo-log` parity | Cursor | 2026-06-28 | ✅ | Separate path — `acp-soak.service` + `pb-9-day14-review/artifacts/` |
 
 ---
 
@@ -57,12 +58,26 @@
 
 ## Phase 1 — Now (daily)
 
+**MSI (WSL):**
+
 ```bash
 docker compose -f examples/minimal/docker-compose.yml up -d
 bash scripts/restart_soak_loop.sh
-bash scripts/soak_staging.sh --log /tmp/acp-soak-staging.log \
-  --repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md
+# → /tmp/acp-soak-staging.log + docs/governance/PB9_SOAK_ITERATION_LOG.md
 ```
+
+**VPS (after `git pull` + unit install):**
+
+```bash
+export ACP_REPO=/root/AI-Control-Plane
+sudo cp "$ACP_REPO/examples/minimal/systemd/acp-soak.service" /etc/systemd/system/
+sudo sed -i "s|/root/AI-Control-Plane|$ACP_REPO|g" /etc/systemd/system/acp-soak.service
+sudo systemctl daemon-reload
+sudo systemctl restart acp-staging.service acp-soak.service
+tail -3 "$ACP_REPO/docs/governance/practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log"
+```
+
+Operator daily tick: *"đã tick ngày YYYY-MM-DD"* → [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) only.
 
 ---
 
@@ -87,4 +102,4 @@ python scripts/export_openapi.py
 
 ---
 
-**Last updated:** 2026-06-28
+**Last updated:** 2026-06-28 (CUR-04 VPS soak parity)

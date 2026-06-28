@@ -114,8 +114,9 @@ OK: governance/status runtime verify 1.3.3 13 patterns
 - [x] `artifacts/vps-runtime-v133-pass.md` — PASS @ `863b611` (`1.3.3` · 13 patterns)
 - [x] `artifacts/pace-verify-msi-2026-06-28.md` — PACE + soak restart @ `fa71bd5`
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-26.md` — open vs closed task audit
+- [x] `artifacts/vps-soak-parity-cur04-2026-06-28.md` — CUR-04 VPS `--repo-log` separate path + doc drift
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-27.md` — gates_remaining sync
 
 ---
 
-**Last updated:** 2026-06-27 — post-merge #118 @ `375ef14`; PB-9 tick PM; MSI PACE PASS
+**Last updated:** 2026-06-28 — CUR-04 VPS soak parity path + PACE artifact

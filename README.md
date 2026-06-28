@@ -109,7 +109,7 @@ See [examples/README.md](examples/README.md) and [examples/minimal/README.md](ex
 
 **PB-7 clean-machine verify (≤15 min):** operator runbook — [docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md](docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md).
 
-**Staging soak (PB-9):** after `docker compose up`, run `bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log`. Tracker: [docs/governance/PB9_STAGING_SOAK_LOG.md](docs/governance/PB9_STAGING_SOAK_LOG.md).
+**Staging soak (PB-9):** after `docker compose up`, run `bash scripts/restart_soak_loop.sh` (hourly loop + `--repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md`). Tracker: [docs/governance/PB9_STAGING_SOAK_LOG.md](docs/governance/PB9_STAGING_SOAK_LOG.md). VPS systemd: [examples/minimal/systemd/README.md](examples/minimal/systemd/README.md).
 
 ## Full verify gate
 

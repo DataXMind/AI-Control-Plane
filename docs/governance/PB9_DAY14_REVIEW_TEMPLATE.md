@@ -17,12 +17,14 @@ Copy this file to `docs/governance/practice-evidence/pb-9-day14-review/RESULTS.m
 | First evidence | 2026-06-26 |
 | Review date | YYYY-MM-DD |
 | Calendar days claimed | ___ |
-| Iterations in `PB9_SOAK_ITERATION_LOG.md` | ___ PASS / ___ ERROR |
+| Iterations in `PB9_SOAK_ITERATION_LOG.md` (MSI) | ___ PASS / ___ ERROR |
+| Iterations in VPS `vps-soak-iteration.log` | ___ PASS / ___ ERROR (excerpt only) |
 
 ## Evidence inventory
 
 - [ ] [`PB9_STAGING_SOAK_LOG.md`](../PB9_STAGING_SOAK_LOG.md) — daily rows complete since 2026-06-26
-- [ ] [`PB9_SOAK_ITERATION_LOG.md`](../PB9_SOAK_ITERATION_LOG.md) — hourly iterations persisted
+- [ ] [`PB9_SOAK_ITERATION_LOG.md`](../PB9_SOAK_ITERATION_LOG.md) — MSI hourly iterations persisted
+- [ ] VPS [`practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log`](../practice-evidence/pb-9-day14-review/artifacts/README.md) — host-local; paste excerpt into `RESULTS.md`
 - [ ] Gap 06-22→25 explained in soak log § clock vs evidence
 - [ ] Hosts: MSI Docker · ubuntu-vps · (other: ___)
 

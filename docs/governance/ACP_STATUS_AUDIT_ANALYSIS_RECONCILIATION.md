@@ -54,7 +54,7 @@
 |----------------------|---------|----------------|
 | Clarify gap | ✅ | Soak log § clock vs evidence |
 | Day 14 template | ✅ | `PB9_DAY14_REVIEW_TEMPLATE.md` |
-| Persist log to repo | ✅ | `soak_staging.sh --repo-log` + `PB9_SOAK_ITERATION_LOG.md` |
+| Persist log to repo | ✅ | `soak_staging.sh --repo-log` + MSI `PB9_SOAK_ITERATION_LOG.md` + VPS `vps-soak-iteration.log` (separate path, CUR-04) |
 | `tee` into soak log markdown | ❌ Reject | Corrupts human daily table — use separate iteration log |
 
 ### ④ PB-7 clean fork
@@ -135,9 +135,10 @@ ML5 requires layers 2+3; layer 1 alone is insufficient for audit.
 
 | File | Purpose |
 |------|---------|
-| [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) | Task register OP-01..11, CUR-01..02 |
+| [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) | Task register OP-01..11, CUR-01..04 |
 | [`PB9_DAY14_REVIEW_TEMPLATE.md`](PB9_DAY14_REVIEW_TEMPLATE.md) | ~07-06 review |
-| [`PB9_SOAK_ITERATION_LOG.md`](PB9_SOAK_ITERATION_LOG.md) | Hourly machine log |
+| [`PB9_SOAK_ITERATION_LOG.md`](PB9_SOAK_ITERATION_LOG.md) | MSI hourly machine log |
+| [`practice-evidence/pb-9-day14-review/`](practice-evidence/pb-9-day14-review/README.md) | Day 14 scaffold + VPS artifact path |
 | [`PB7_WAIVER_TEMPLATE.md`](practice-evidence/pb-7-clean-machine-fork/PB7_WAIVER_TEMPLATE.md) | Optional PB-7 bypass |
 | `scripts/soak_staging.sh` | `--repo-log` flag |
 | `scripts/restart_soak_loop.sh` | Enables repo log by default |

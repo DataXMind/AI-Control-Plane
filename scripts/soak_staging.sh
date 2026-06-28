@@ -7,6 +7,7 @@
 #   bash scripts/soak_staging.sh --loop 3600  # every hour (seconds between runs)
 #   bash scripts/soak_staging.sh --log /var/log/acp-soak.log
 #   bash scripts/soak_staging.sh --repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md
+#   bash scripts/soak_staging.sh --repo-log docs/governance/practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log  # VPS
 #
 set -euo pipefail
 
@@ -48,6 +49,7 @@ log() {
     echo "$line" >>"$LOG_FILE"
   fi
   if [ -n "$REPO_LOG" ]; then
+    mkdir -p "$(dirname "$REPO_LOG")"
     echo "$line" >>"$REPO_LOG"
   fi
 }

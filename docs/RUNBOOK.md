@@ -202,6 +202,10 @@ curl -sf http://127.0.0.1:8000/health | python3 -m json.tool
 bash scripts/verify_governance_status_runtime.sh
 ```
 
+**PB-9 soak (local MSI):** `bash scripts/restart_soak_loop.sh` — persists to `docs/governance/PB9_SOAK_ITERATION_LOG.md`.
+
+**PB-9 soak (VPS 24/7):** `acp-soak.service` — `/var/log/acp-soak-staging.log` + host-local `practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log`. See [`examples/minimal/systemd/README.md`](../examples/minimal/systemd/README.md).
+
 ---
 
 ## Rollback

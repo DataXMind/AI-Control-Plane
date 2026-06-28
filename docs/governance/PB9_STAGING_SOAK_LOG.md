@@ -20,7 +20,14 @@
 
 **Review rule:** Day 14 uses calendar date **2026-07-06** with explicit note that machine evidence begins 2026-06-26. If SEV/anomaly count is clean, gap does not extend review date. See [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md).
 
-**Persistence:** Hourly loop must use `--repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md` (via `bash scripts/restart_soak_loop.sh`). `/tmp/` alone is not sufficient for ML5.
+**Persistence:** Hourly loop must use `--repo-log` (see below). `/tmp/` or `/var/log/` alone is not sufficient for ML5.
+
+| Host | Command | Machine log path |
+|------|---------|------------------|
+| **MSI WSL** | `bash scripts/restart_soak_loop.sh` | `docs/governance/PB9_SOAK_ITERATION_LOG.md` (repo) |
+| **VPS** | `acp-soak.service` | `practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log` (host-local, gitignored) + `/var/log/acp-soak-staging.log` |
+
+Do **not** append raw lines into this daily table — machine lines belong in the iteration logs above.
 
 ---
 
