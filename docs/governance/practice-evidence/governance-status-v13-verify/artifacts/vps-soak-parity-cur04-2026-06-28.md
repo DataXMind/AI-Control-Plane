@@ -39,6 +39,6 @@ tail -3 "$ACP_REPO/docs/governance/practice-evidence/pb-9-day14-review/artifacts
 
 ## Verdict
 
-**PASS** (repo changes) — VPS runtime verify pending operator deploy after pull.
+**PASS** (repo + VPS runtime) — deploy @ `e76d203` + hourly loop @ `09:29:20Z` confirmed — see [`pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md`](../../pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md).
 
-**Not claimed:** PB-9 Day 14 PASS · `gates_remaining` unchanged · OP-08 tag calendar.
+**Not claimed:** PB-9 Day 14 PASS · `gates_remaining` unchanged.

@@ -25,6 +25,7 @@
 |------|------|
 | `RESULTS.md` | After Day 14 review (~2026-07-06) — copy from template |
 | `artifacts/vps-soak-iteration.log` | Runtime on VPS only (not committed) |
+| [`artifacts/vps-hourly-loop-verify-2026-06-28.md`](artifacts/vps-hourly-loop-verify-2026-06-28.md) | CUR-04 hourly loop PASS @ 08:29 / 09:29 UTC |
 | `artifacts/*-excerpt-*.md` | Optional operator paste for Day 14 |
 
 **Verdict:** Not recorded until operator sign-off on review date.
