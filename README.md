@@ -6,8 +6,8 @@ Control plane for multi-agent AI systems:
 - MCP Git server facade for controlled repo access
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
-**Status:** Milestones A/B/C/C+ **CLOSED** · **165** pytest · smoke **8/8** · SAPAL MVP in `apex/`  
-**Public Beta:** **IN PROGRESS** — PB-9 staging soak since 2026-06-22 · review target **~2026-07-06** · [`gates_remaining`](docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) via `GET /governance/status`
+**Status:** Milestones A/B/C/C+ **CLOSED** · **177** pytest · smoke **8/8** · SAPAL MVP in `apex/`  
+**Public Beta:** **IN PROGRESS** — PB-9 staging soak since 2026-06-22 · review target **~2026-07-06** · [`gates_remaining`](docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) via `GET /governance/status` · **Claude handoff:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md)
 
 ## Quick start (local dev)
 
@@ -161,7 +161,7 @@ pytest tests/ -v
 ruff check src/ tests/
 ```
 
-Current gate: **165 pytest**, smoke 8/8 + CI on `master`.
+Current gate: **177 pytest**, smoke 8/8 + CI on `master`.
 
 ## Maintainer & security
 

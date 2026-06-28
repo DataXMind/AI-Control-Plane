@@ -3,7 +3,7 @@
 **Document ID:** ACP-GOV-PROJECT-STATUS-AUDIT-CLAUDE-001  
 **Audience:** Claude (Anthropic) — architecture, governance, and Public Beta planning sessions  
 **Prepared by:** Cursor operator session · reconciled against runtime evidence  
-**Audit date:** 2026-06-27 (UTC)  
+**Audit date:** 2026-06-27 (UTC) · **Superseded for latest state by:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) @ `ac5f017`  
 **Repository:** [DataXMind/AI-Control-Plane](https://github.com/DataXMind/AI-Control-Plane)  
 **Baseline:** `master` · governance catalog **v1.3.3** · operator phase per [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
 
@@ -105,7 +105,7 @@ bash scripts/soak_staging.sh --log /tmp/acp-soak-staging.log
 | Tab | Intent | Status |
 |-----|--------|--------|
 | examples/ | docker-compose + README | ✅ `examples/minimal/` + `examples/README.md` — **reject** root `examples/docker-compose.yml` |
-| README + maintainer | Status, governance, contact | ✅ #118 — 165 pytest, `security@dataxmind.com` |
+| README + maintainer | Status, governance, contact | ✅ #118 — **177** pytest, `security@dataxmind.com` |
 | PB gate check | 8/12 done | ⚠️ **Stale framing** — use catalog: **4 closed / 7 remaining** |
 | Final checklist 14 items | Tickable | 🔄 Operator items open — see §5 |
 | RUNBOOK ops | deploy/rollback/reload/incident | ✅ #118 |
@@ -206,12 +206,13 @@ Artifacts: [`post-merge-runtime-verify-msi-2026-06-27.md`](practice-evidence/gov
 | PB-1..4 | Legal docs | ✅ | LICENSE, SECURITY, CONTRIBUTING, CoC |
 | PB-5 | examples/minimal | ✅ | SSOT path; CI smoke |
 | PB-6 | OpenAPI | ✅ export/runtime · ⏳ **publish on flip** |
-| PB-7 | Fork ≤15 min CLEAN | ⏳ | MSI WARM partial only |
-| PB-8 | CHANGELOG + rc tag | ⏳ | Human approve @ PB-12 |
-| PB-9 | Staging soak ≥14d | 🔄 | Ticks: 06-26, 06-27; gap 06-22→25 no evidence |
-| PB-10 | Production soak 30d | ❌ | After PB-9 |
-| PB-11 | Branch protection API | ❌ deferred | Free tier 403 → PB-12 |
-| PB-12 | Public flip + disclaimer | ❌ | Human go/no-go |
+| PB-7 | Fork ≤15 min CLEAN | ✅ | Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
+| PB-8 | CHANGELOG + rc tag | ✅ | Tag @ `c58b4cc` 2026-06-28 (early) · CHANGELOG #120 |
+| PB-9 | Staging soak ≥14d | 🔄 | Ticks: 06-26, 06-27, **06-28**; gap 06-22→25 documented |
+| PB-10 | Production soak 30d | ❌ **Deferred GA** | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) post-flip — does **not** block 0.x beta |
+| PB-11 | Branch protection API | ❌ deferred | Free tier 403 → process @ PB-12 |
+| PB-12 | Public flip + disclaimer | ⏳ | Human go/no-go ~2026-07-10 |
+| security@ | Live mailbox test | ✅ | 2026-06-28 — [`security-email-live-test/RESULTS.md`](practice-evidence/security-email-live-test/RESULTS.md) |
 
 ---
 
@@ -245,7 +246,7 @@ Do **not** add a duplicate `examples-smoke` job at `examples/docker-compose.yml`
 | MSI WARM verify = PB-7 PASS | PB-7 requires **CLEAN** machine evidence |
 | PB-9 PASS before Day 14 | Review target **~2026-07-06** |
 | Literal JSON in old Claude samples | Use `verify_*` scripts + live curl |
-| 156 tests / old dates in README prompts | **165** pytest @ master |
+| 156 tests / old dates in README prompts | **177** pytest @ master |
 
 ---
 
@@ -257,10 +258,10 @@ Do **not** add a duplicate `examples-smoke` job at `examples/docker-compose.yml`
 | PB-9 soak loop | Operator / on request | `bash scripts/restart_soak_loop.sh` or `nohup … --loop 3600` |
 | PB-7 | CLEAN machine only | [`pb-7-clean-machine-fork/RUNBOOK.md`](practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
 | security@ | Human | [`PB11_LEGAL_AUDIT.md`](PB11_LEGAL_AUDIT.md) §Contact |
-| PB-8 tag | Human approve | Post PB-9 |
+| PB-8 tag | ✅ early @ `c58b4cc` | CHANGELOG #120 — do not re-tag |
 | PB-12 flip | Human go/no-go | [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) |
 
-**PB-9 soak @ 2026-06-27 PM:** Hourly loop restarted (PID logged in operator session); log `/tmp/acp-soak-staging.log`.
+**PB-9 soak @ 2026-06-28:** MSI hourly loop + VPS `--repo-log` parity — see [`vps-hourly-loop-verify-2026-06-28.md`](practice-evidence/pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md) · MSI iterations through `10:20Z` in [`PB9_SOAK_ITERATION_LOG.md`](PB9_SOAK_ITERATION_LOG.md).
 
 ---
 
@@ -288,10 +289,11 @@ Do **not** add a duplicate `examples-smoke` job at `examples/docker-compose.yml`
 
 | Commit | Summary |
 |--------|---------|
+| `ac5f017` | VPS hourly soak verify + session anchor sync |
+| `98f193c` | CHANGELOG expand #120 |
+| `8683e7f` | go-no-go practice sync #119 |
+| `c58b4cc` | security@ PASS · tag `v0.1.0-rc.1` |
 | `81357d3` | PR #118 — PB-12 checklist, reconciliations, RUNBOOK ops, OpenAPI CI |
-| `1d883ec` | Fix OpenAPI runtime verify (`/openapi.json` paths bug) |
-| `375ef14` | Verdict stamp on `pb_openapi_and_examples_ci.html` |
-| `527eb5d` | PB-9 PM tick + post-merge doc baseline sync |
 
 Prior wave: #116–#117 runtime evidence, #112–#113 legal, #104–#109 governance UX.
 
@@ -299,15 +301,16 @@ Prior wave: #116–#117 runtime evidence, #112–#113 legal, #104–#109 governa
 
 ## 11. Canonical one-liner for Claude sessions
 
-> **AI Control Plane @ `master` `527eb5d`:** Milestones A–C+ closed; Public Beta **IN_PROGRESS** (PB-9 soak). Governance catalog **v1.3.3** live. Technical Cursor packets **merged**. **Seven** operator gates remain until ~**2026-07-06** review and ~**2026-07-10** flip target. Trust runtime `verify_*` scripts and reconciliation docs — not stale HTML prompts.
+> **AI Control Plane @ `master` `ac5f017`:** Milestones A–C+ closed; Public Beta **IN_PROGRESS** (PB-9 soak). Governance catalog **v1.3.3** live. Practice: PB-7 PASS · security@ PASS · tag `v0.1.0-rc.1` @ `c58b4cc`. **Seven** `gates_remaining` until maintainer bump @ flip. Critical path: PB-9 daily tick → Day 14 ~**2026-07-06** → PB-12 ~**2026-07-10**. PB-10 deferred GA (#78). **Full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md).
 
 ---
 
 **Related documents**
 
+- [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) — **primary Claude handoff**
 - [`PUBLIC_BETA_SPRINT_PLAN.md`](PUBLIC_BETA_SPRINT_PLAN.md)
 - [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) §10
 - [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-evidence/governance-status-v13-verify/RESULTS.md)
 - In-repo HTML snapshots: `docs/governance/pb_*.html`
 
-**Last updated:** 2026-06-27 — post PB-9 PM tick · soak loop restart · PR #118 merged
+**Last updated:** 2026-06-28 — second-pass audit wave · superseded detail in full technical report

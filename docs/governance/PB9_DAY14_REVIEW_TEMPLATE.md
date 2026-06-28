@@ -56,10 +56,10 @@ Expected: smoke **8/8** · governance **1.3.3** · **7** `gates_remaining`.
 
 ## Verdict
 
-- [ ] **PASS** — proceed PB-8 rc tag + PB-12 prep
+- [ ] **PASS** — proceed PB-12 prep (PB-8 tag + security@ already done @ 2026-06-28)
 - [ ] **CONDITIONAL** — waiver: ___
 - [ ] **FAIL** — extend soak ___ days
 
 **Operator:** ___  
 **Date:** ___  
-**Next:** PB-8 · security@ · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) phase 3
+**Next:** Pre-flip refresh (OP-09) · PB-12 human GO — [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) phase 3

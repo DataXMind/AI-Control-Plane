@@ -1,7 +1,7 @@
 # PB-7 — Clean-machine fork verify (G3-1)
 
 **Document ID:** ACP-GOV-PRACTICE-PB7-001  
-**Status:** **PENDING** — runbook ready; operator clean-machine run required  
+**Status:** **PASS** @ 2026-06-27 — [`RESULTS.md`](RESULTS.md)  
 **Gate:** PB-7 · G3-1  
 **Source:** [`OPEN_SOURCE_READINESS.md`](../../../OPEN_SOURCE_READINESS.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../../PUBLIC_BETA_GO_NO_GO.md)
 

@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-GOV-PUBLIC-BETA-001  
 **Status:** **IN PROGRESS** — prep started 2026-06-24  
-**Baseline:** `master` @ post Claude status audit reconciliation · catalog v1.3.3  
+**Baseline:** `master` @ **`ac5f017`** · catalog v1.3.3  
 **Parent:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)  
 **Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)  
 **Claude matrix (stale):** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
@@ -41,8 +41,8 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-5 | `examples/minimal` docker-compose + README | Technical | ✅ | `examples/minimal/` |
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | Runtime + static + CI smoke; **publish on flip** @ PB-12 |
 | PB-7 | README fork path ≤15 min verified | Go/No-Go | ✅ **PASS CLEAN** | Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
-| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag plan | Release | 🔄 | Tag at PB-12; matrix `beta.1` → use **rc.1** per human approve |
-| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | G-05 OPEN · ticks 2026-06-26/27 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
+| PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag | Release | ✅ tag @ `c58b4cc` · CHANGELOG #120 | Early pre–Day-14 |
+| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | Ticks through **2026-06-28** · [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ⏳ **Deferred @ 0.x beta** | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) — GA track; see [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) § PB-10 |
 | PB-11 | Branch protection API enforced | Platform | ❌ | [#79](https://github.com/DataXMind/AI-Control-Plane/issues/79) — 403 free tier |
 | PB-12 | Flip repo public + disclaimer | Go/No-Go | ❌ | [#80](https://github.com/DataXMind/AI-Control-Plane/issues/80) |
@@ -60,7 +60,7 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | Observability (`/health`, structlog) | ✅ |
 | CI Smoke + Full suite | ✅ |
 | Security hygiene (Dependabot, pip-audit in CI) | ✅ |
-| Core module tests | ✅ 165 pytest |
+| Core module tests | ✅ **177** pytest |
 
 ---
 

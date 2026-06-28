@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` @ `65dc089` · catalog **v1.3.3**  
+**Baseline:** `master` @ **`ac5f017`** · catalog **v1.3.3**  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
@@ -46,7 +46,7 @@
 | **P1** | PB-7 clean fork | **CLEAN** — Ubuntu @ MSI 2026-06-27 | ✅ PASS — [`RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md) |
 | **P1** | PB-10 prod soak 30d | Operator | After PB-9 |
 | **P2** | PB-6 OpenAPI publish | Maintainer on flip | PB-12 |
-| **P2** | PB-8 rc tag | Human approve | Post PB-9 |
+| **P2** | PB-8 rc tag | ✅ @ `c58b4cc` 2026-06-28 (early) | CHANGELOG #120 |
 | **Pre-flip** | security@ live test | Operator | 2026-06-28 | ✅ PASS |
 | **CRITICAL** | PB-12 flip | Human go/no-go | End |
 
@@ -68,7 +68,7 @@
 ### Sau PB-9 / lúc flip
 
 - [ ] **PB-10** — production soak ≥30d
-- [ ] **PB-8** — tag `v0.1.0-rc.1` (human approve)
+- [x] **PB-8** — tag `v0.1.0-rc.1` @ `c58b4cc` (2026-06-28, pre–Day-14) · CHANGELOG #120
 - [ ] **PB-6** — OpenAPI publish on flip
 - [ ] **PB-12** — human go/no-go
 
@@ -94,7 +94,7 @@
 
 **Matrix SSOT:** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](../../../CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
 
-**Claude handoff (full audit):** [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../../../PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
+**Claude handoff (full audit):** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../../../PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../../../PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
 
 **Operator action plan:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · Claude audit recon: [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../../../ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
