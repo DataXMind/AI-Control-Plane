@@ -312,9 +312,10 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 
 1. This report (`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`)
 2. [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) — canonical one-liner @ `20e4fc3`
-3. [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
-4. [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
-5. `governance_catalog.py` + `GET /governance/status`
+3. [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) — Claude Projects on claude.ai
+4. [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)
+5. [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
+6. `governance_catalog.py` + `GET /governance/status`
 
 ### 12.2 Claude role NOW → PB-12
 

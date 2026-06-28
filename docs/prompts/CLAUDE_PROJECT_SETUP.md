@@ -1,0 +1,219 @@
+# Claude Project — setup guide (ACP Public Beta)
+
+**Document ID:** ACP-PROMPT-CLAUDE-PROJECT-SETUP-001  
+**Audience:** Maintainer · operator · Claude Projects (claude.ai)  
+**Phase:** PB-9 staging soak → PB-12 flip  
+**Baseline:** `master` @ **`20e4fc3`** · catalog **v1.3.3**  
+**Companion:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) (Cursor) · [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) (SSOT)
+
+> **Use:** One-time Project setup on claude.ai + paste **opener** at every new conversation.  
+> **Refresh:** Re-upload knowledge files after significant `git pull` on `master`.
+
+---
+
+## 1. How Claude Projects work (read first)
+
+| Component | Purpose | ACP implication |
+|-----------|---------|-----------------|
+| **Project Instructions** | Persistent behavior (role, rules, tone) | Keep **short** — behavior only, not long facts |
+| **Project Knowledge** | Uploaded files Claude retrieves (RAG) | **Static snapshot** — not live GitHub; re-upload when repo changes |
+| **Conversations** | Share Instructions + Knowledge | New chat **does not** inherit prior chat facts — use opener + knowledge |
+| **vs Cursor** | Claude Project = advise · draft · audit | Does **not** run `git`, `pytest`, `curl`, commit, or flip gates |
+
+**Design rule:** One Project = one job → **“ACP Public Beta — Governance & Operator Advisor”**.
+
+---
+
+## 2. Create the Project (once)
+
+1. claude.ai → **Projects** → **New project**
+2. Name: `ACP Public Beta — Governance Advisor`
+3. Paste **§3 Project Instructions** into **Set project instructions**
+4. Upload files from **§5 Knowledge file list** (rename with prefixes as in §5.1)
+5. **Test retrieval:** ask *“List three HIGH findings from §14 second-pass audit in PROJECT_STATUS_FULL_TECHNICAL_REPORT.”*
+
+---
+
+## 3. Project Instructions (copy entire block)
+
+Paste into **Project → Set project instructions**:
+
+```xml
+<role>
+You are the governance and Public Beta operator advisor for AI Control Plane (DataXMind/AI-Control-Plane).
+Phase: PB-9 staging soak → Day 14 review (~2026-07-06) → PB-12 human go/no-go (~2026-07-10).
+You advise, draft docs, audit prompts, and prepare review materials. You do NOT execute git, pytest, curl, deploy, flip visibility, close catalog gates, or tick PB-9 dates without explicit operator confirmation.
+</role>
+
+<ssot_priority>
+1. PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md
+2. SESSION_ANCHOR_TEMPLATE.md (baseline master @ 20e4fc3)
+3. PUBLIC_BETA_OPERATOR_ACTION_PLAN.md + PUBLIC_BETA_GO_NO_GO.md
+4. TASK_AUDIT_REMAINING_2026-06-27.md
+Runtime truth: governance_catalog.py v1.3.3 → GET /governance/status (operator verifies on host; you cite catalog from knowledge).
+Reject stale HTML snapshots and old baselines (527eb5d, ac5f017 as current SHA, "165 tests", "156 tests").
+</ssot_priority>
+
+<current_state one_liner>
+Milestones A–C+ CLOSED. Public Beta IN_PROGRESS. Engineering surface DONE.
+Practice PASS: PB-7 CLEAN, security@, PB-8 tag v0.1.0-rc.1 @ c58b4cc, CHANGELOG/go-no-go merged (#119/#120).
+Catalog still shows 7 gates_remaining until maintainer bump @ PB-12 flip.
+Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~2026-07-10.
+PB-10 production soak DEFERRED to GA (#78 post-flip) — does NOT block 0.x beta.
+177 pytest, smoke 8/8 (SMK-01..06c).
+</current_state>
+
+<hard_rules>
+- Practice PASS ≠ remove item from gates_remaining until catalog bump @ PB-12 flip.
+- Do NOT claim PB-9 PASS before Day 14 calendar (~2026-07-06).
+- Do NOT tick future PB-9 dates; operator says "đã tick ngày YYYY-MM-DD" only.
+- MSI WARM dev machine ≠ PB-7 CLEAN PASS.
+- PB-9 Day 14 = ~2026-07-06 from soak start 2026-06-22; reject Scenario B (07-10) unless new SEV-1/2.
+- Do not propose new src/ features; Karpathy track = docs-only through PB-9 review.
+- Paths: examples/minimal/docker-compose.yml; CI job examples-minimal-smoke; OpenAPI via scripts/export_openapi.py → docs/openapi/openapi.json.
+- When uncertain, state what the operator must verify and which repo artifact path to update.
+</hard_rules>
+
+<output_style>
+Structured markdown. Cite project knowledge filenames. Separate: Fact / Practice / Catalog / Calendar / Recommendation.
+Flag drift explicitly. Vietnamese or English per user message.
+</output_style>
+```
+
+---
+
+## 4. First message — new conversation opener
+
+Paste as the **first message** in every new Project conversation (even with Instructions set):
+
+```text
+[ACP Public Beta — session start]
+
+Baseline: master @ 20e4fc3 · catalog v1.3.3 · pytest 177 · smoke 8/8.
+
+Đọc PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md và SESSION_ANCHOR_TEMPLATE.md trong project knowledge trước khi trả lời.
+
+Xác nhận ngắn (bullet):
+1) Critical path hiện tại và gate nào THỰC SỰ block PB-12 @ 0.x beta
+2) Practice PASS nhưng catalog vẫn liệt kê — giải thích 1 câu
+3) Việc operator làm HÔM NAY vs việc CHỜ calendar
+4) 3 drift claim phổ biến cần reject từ HTML/prompt cũ
+
+Sau đó hỏi tôi: hôm nay focus PB-9 tick, chuẩn bị Day 14, draft PB-12 narrative, hay audit prompt mới?
+
+Quy tắc: không đề xuất đóng gates_remaining, không tick ngày tương lai, không code src/ mới.
+```
+
+**After opener:** state intent in one line, e.g. *“Focus: draft Day 14 RESULTS from soak logs”* or *“Audit this prompt for drift.”*
+
+---
+
+## 5. Knowledge file list
+
+Upload from repo paths below. Prefer **≤12 files** focused; remove stale uploads when refreshing.
+
+### 5.1 Recommended upload set (12 files)
+
+| Upload name (prefix) | Repo path |
+|----------------------|-----------|
+| `01_SSOT_PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md` | [`docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) |
+| `02_SSOT_SESSION_ANCHOR_TEMPLATE.md` | [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) |
+| `03_OPERATOR_PUBLIC_BETA_OPERATOR_ACTION_PLAN.md` | [`docs/governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) |
+| `04_OPERATOR_PUBLIC_BETA_GO_NO_GO.md` | [`docs/governance/PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) |
+| `05_OPERATOR_TASK_AUDIT_REMAINING_2026-06-27.md` | [`docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) |
+| `06_PB9_PB9_STAGING_SOAK_LOG.md` | [`docs/governance/PB9_STAGING_SOAK_LOG.md`](../governance/PB9_STAGING_SOAK_LOG.md) |
+| `07_PB9_PB9_DAY14_REVIEW_TEMPLATE.md` | [`docs/governance/PB9_DAY14_REVIEW_TEMPLATE.md`](../governance/PB9_DAY14_REVIEW_TEMPLATE.md) |
+| `08_RECON_ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | [`docs/governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) |
+| `09_REF_PUBLIC_BETA_SPRINT_PLAN.md` | [`docs/governance/PUBLIC_BETA_SPRINT_PLAN.md`](../governance/PUBLIC_BETA_SPRINT_PLAN.md) |
+| `10_EVIDENCE_pb-7-clean-machine-fork_RESULTS.md` | [`docs/governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md`](../governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
+| `11_EVIDENCE_security-email-live-test_RESULTS.md` | [`docs/governance/practice-evidence/security-email-live-test/RESULTS.md`](../governance/practice-evidence/security-email-live-test/RESULTS.md) |
+| `12_CATALOG_governance_catalog.py` *(optional)* | [`src/ai_control_plane/core/governance_catalog.py`](../../src/ai_control_plane/core/governance_catalog.py) |
+
+### 5.2 Tier optional (add when needed)
+
+| Repo path | When |
+|-----------|------|
+| [`docs/governance/PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../governance/PROJECT_STATUS_AUDIT_FOR_CLAUDE.md) | Shorter companion to full report |
+| [`docs/governance/PB9_SOAK_ITERATION_LOG.md`](../governance/PB9_SOAK_ITERATION_LOG.md) | MSI machine log snapshot — refresh often |
+| [`docs/governance/OPEN_SOURCE_READINESS.md`](../governance/OPEN_SOURCE_READINESS.md) | Phase 0→3 visibility |
+
+### 5.3 Do not upload as SSOT
+
+| Avoid | Why |
+|-------|-----|
+| `docs/governance/*.html` | Stale counts/SHAs — use `*_RECONCILIATION.md` instead |
+| Entire `src/`, `tests/`, `.github/` | Too large; retrieval noise |
+| `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` alone | Partially stale — prefer FULL report + TASK_AUDIT |
+
+---
+
+## 6. Step-by-step per conversation
+
+1. Paste **§4 opener**
+2. State **one task** (tick rules · Day 14 prep · PB-12 draft · drift audit)
+3. Paste **new evidence** if any (log excerpt, *"đã tick ngày …"*)
+4. Ask for output with **repo file paths** to update (Claude drafts; Cursor/operator commits)
+5. Close with: *“3-bullet summary + human-only actions”*
+
+### Milestone map
+
+| When | Claude Project | Operator / Cursor |
+|------|----------------|-------------------|
+| Daily | Tick rules Q&A; soak evidence layers | OP-01 tick · OP-02 soak |
+| ~2026-07-06 | Draft `pb-9-day14-review/RESULTS.md` | Verdict · close #77 if PASS |
+| ~2026-07-07 | Pre-flip checklist narrative | `export_openapi.py` · smoke 8/8 · `verify_*` |
+| ~2026-07-10 | PB-12 GO memo (PB-10 defer text) | **Human signature** · public flip |
+
+---
+
+## 7. Refresh policy
+
+After `git pull` on `master` when any of these change:
+
+- `PROJECT_STATUS_FULL_TECHNICAL_REPORT_*`
+- `SESSION_ANCHOR_TEMPLATE.md`
+- `PUBLIC_BETA_OPERATOR_ACTION_PLAN.md` · `PUBLIC_BETA_GO_NO_GO.md`
+- `TASK_AUDIT_REMAINING_*` · `PB9_STAGING_SOAK_LOG.md`
+
+**Actions:**
+
+1. Re-upload replaced files to Project knowledge (delete old versions)
+2. Update **§3** `<current_state>` and **§4** baseline SHA if commit moved
+3. First message in next chat: *“Knowledge refreshed @ SHA …”*
+
+---
+
+## 8. Drift guard (reject in Claude Project)
+
+| Stale claim | Correct SSOT |
+|-------------|--------------|
+| `ac5f017` / `527eb5d` as current baseline | **`20e4fc3`** (update when repo advances) |
+| `"165 tests"` / `"156 tests"` | **177** pytest @ master |
+| `"PB-9 only gate remaining"` | **7** `gates_remaining` |
+| MSI WARM = PB-7 PASS | PB-7 needs **CLEAN** machine `RESULTS.md` |
+| PB-10 blocks PB-12 @ 0.x beta | **Deferred GA** — #78 post-flip |
+| `examples/docker-compose.yml` | `examples/minimal/docker-compose.yml` |
+| `curl > docs/openapi.json` | `python scripts/export_openapi.py` |
+| Day 14 default = 2026-07-10 | **~2026-07-06** (soak start 2026-06-22) |
+| HTML `acp_status_audit_analysis.html` as live state | Use reconciliation + FULL report |
+
+---
+
+## 9. Three soak evidence layers (do not conflate)
+
+| Layer | Path | Owner |
+|-------|------|-------|
+| Human daily | `docs/governance/PB9_STAGING_SOAK_LOG.md` | Operator tick |
+| MSI machine | `docs/governance/PB9_SOAK_ITERATION_LOG.md` | `restart_soak_loop.sh --repo-log` |
+| VPS machine | `practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log` | `acp-soak.service` |
+
+---
+
+## 10. Related documents
+
+- [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md)
+- [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../governance/PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
+- [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md)
+- [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md) — session memory pattern
+
+**Last updated:** 2026-06-28 @ `20e4fc3`
