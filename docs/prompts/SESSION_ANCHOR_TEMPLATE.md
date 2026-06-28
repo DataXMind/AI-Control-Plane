@@ -8,7 +8,7 @@
 ## Canonical one-liner (paste at session start)
 
 ```text
-AI Control Plane @ master 19bee45: Milestones A–C+ closed.
+AI Control Plane @ master a01937d: Milestones A–C+ closed.
 Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.3.3 live.
 Practice: PB-7 PASS · security@ PASS · tag v0.1.0-rc.1 @ c58b4cc · CHANGELOG/go-no-go merged (#119/#120).
 Runtime catalog: 7 gates_remaining until maintainer bump @ PB-12 flip.
@@ -20,7 +20,7 @@ PB-10 production soak deferred to GA (#78 post-flip). Trust verify_* scripts —
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · **Claude full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `master` @ **`19bee45`**
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · **Claude full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `master` @ **`a01937d`**
 
 **Chờ calendar / operator**
 
@@ -112,7 +112,7 @@ bash scripts/verify_openapi_runtime.sh                   # 3.1.0, 13 paths
 session_anchor:
   version: "1.0"
   date: "YYYY-MM-DD"
-  baseline: "master @ <git-sha>"      # e.g. 19bee45
+  baseline: "master @ <git-sha>"      # e.g. a01937d
   risk: "LOW | MEDIUM | HIGH | CRITICAL"
   track: "feature | governance | ops | docs-only"
   gates_approved: []
@@ -160,7 +160,7 @@ acceptance:
 session_anchor:
   version: "1.0"
   date: "2026-06-28"
-  baseline: "master @ 19bee45"
+  baseline: "master @ a01937d"
   risk: "LOW"
   track: "governance"
   gates_approved: ["docs-only — Karpathy track"]
