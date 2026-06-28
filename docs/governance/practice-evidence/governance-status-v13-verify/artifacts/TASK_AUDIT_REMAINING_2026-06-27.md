@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` @ **`ac5f017`** · catalog **v1.3.3**  
+**Baseline:** `master` @ **`20e4fc3`** · catalog **v1.3.3**  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
