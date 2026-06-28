@@ -166,7 +166,7 @@ Current gate: **177 pytest**, smoke 8/8 + CI on `master`.
 ## Maintainer & security
 
 - **Maintainer:** DataXMind ([GitHub org](https://github.com/DataXMind))
-- **Security:** [SECURITY.md](SECURITY.md) — `security@dataxmind.com` + [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new); 48h acknowledgment SLA (do not file public issues for vulnerabilities)
+- **Security:** [SECURITY.md](SECURITY.md) — [Threat model](docs/governance/THREAT_MODEL.md) · `security@dataxmind.com` + [GitHub Security Advisories](https://github.com/DataXMind/AI-Control-Plane/security/advisories/new); 48h acknowledgment SLA (do not file public issues for vulnerabilities)
 - **Questions:** [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions)
 
 ## Pre-release notice
