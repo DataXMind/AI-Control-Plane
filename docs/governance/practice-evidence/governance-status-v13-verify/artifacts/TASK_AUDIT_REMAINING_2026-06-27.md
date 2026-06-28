@@ -96,6 +96,6 @@
 
 **Claude handoff (full audit):** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../../../PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../../../PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
 
-**Operator action plan:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · Claude audit recon: [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../../../ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
+**Operator action plan:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../../../PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · **Manual playbook:** [`MANUAL_OPERATOR_PLAYBOOK.md`](../../../MANUAL_OPERATOR_PLAYBOOK.md) · Claude audit recon: [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../../../ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md)
 
 **Do not claim:** ~~PB-7 PASS without CLEAN evidence~~ PB-7 practice PASS @ Ubuntu MSI; catalog may still list until bump; PB-9 PASS before Day 14; CS-01/03/04 runtime drill.

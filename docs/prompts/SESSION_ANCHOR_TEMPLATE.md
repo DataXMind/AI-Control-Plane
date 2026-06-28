@@ -100,6 +100,7 @@ bash scripts/verify_openapi_runtime.sh                   # 3.1.0, 13 paths
 
 - ✅ Day 14 template · go-no-go sync · CHANGELOG expand · CUR-04 VPS soak
 - **Claude Projects:** [`CLAUDE_PROJECT_SETUP.md`](CLAUDE_PROJECT_SETUP.md) — Instructions · opener · knowledge list
+- **Manual ops (no Agent):** [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) — daily · calendar · 3 schemes
 - **Now:** PB-9 daily tick support · doc drift only (LOW)
 - **~07-06:** Day 14 `RESULTS.md` when operator shares verdict
 - **~07-10:** PB-12 narrative support — **human signature only**
