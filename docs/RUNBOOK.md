@@ -17,6 +17,7 @@
 | Docker compose (PB-9) | [Docker compose](#docker-compose) |
 | Linux deploy / VPS systemd | [Deploy — Linux / Ubuntu](#deploy--linux--ubuntu) |
 | Rollback / config reload | [Rollback](#rollback) · [Config reload](#config-reload) |
+| Redis failures | [Redis](#redis) |
 | Incidents | [Incident response](#incident-response) |
 | Multi-host Study 06 | [`study-06-multi-host/RUNBOOK.md`](governance/practice-evidence/study-06-multi-host/RUNBOOK.md) |
 | Clean-machine fork (PB-7) | [`pb-7-clean-machine-fork/RUNBOOK.md`](governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
@@ -225,6 +226,12 @@ sudo systemctl restart acp-staging.service
 ```
 
 `ACP_DATA_DIR` task files persist across rollback. Redis quota (if used): `redis-cli -u "$ACP_REDIS_URL" FLUSHDB` only when intentional.
+
+---
+
+## Redis
+
+See [Redis Failure Modes](governance/REDIS_FAILURE_MODES.md).
 
 ---
 
