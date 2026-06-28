@@ -7,13 +7,13 @@
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · `master` @ v1.3.3
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · `master` @ `fa71bd5`
 
 **Chờ bạn / calendar**
 
-- [ ] PB-9 daily tick → *"đã tick ngày YYYY-MM-DD"* only · review ~**2026-07-06**
-- [x] PB-7 CLEAN fork — **PASS** 2026-06-27 (`ubuntu@MSI`)
-- [ ] security@ mailbox + test email
+- [ ] PB-9 daily tick — last **2026-06-28** · review ~**2026-07-06**
+- [x] PB-7 CLEAN fork — **PASS** 2026-06-27
+- [ ] security@ — mailbox ✅ · **live test** pending ([`security-email-live-test/RUNBOOK.md`](../governance/practice-evidence/security-email-live-test/RUNBOOK.md))
 
 **Sau PB-9 / flip:** PB-10 soak 30d → PB-8 rc tag → PB-6 OpenAPI → **PB-12 go/no-go**
 

@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` catalog **v1.3.3** @ `375ef14` (post #118 merge + verdict stamp) · runtime PASS local + VPS (#116–#117)  
+**Baseline:** `master` catalog **v1.3.3** @ `fa71bd5` (PB-7 PASS + operator phase) · runtime PASS local + VPS (#116–#117)  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
@@ -16,6 +16,7 @@
 | Claude status audit | Operator phase plan | `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | ✅ |
 | Soak repo persistence | `--repo-log` + iteration log | `soak_staging.sh` @ 2026-06-27 | ✅ |
 | PB-7 CLEAN fork | Ubuntu @ MSI Path A Docker | [`pb-7-clean-machine-fork/RESULTS.md`](../../practice-evidence/pb-7-clean-machine-fork/RESULTS.md) | ✅ |
+| security@ mailbox | Provisioned @ 2026-06-28 | [`security-email-live-test/`](../../practice-evidence/security-email-live-test/) — live test pending |
 | Lessons | P-13 kill switch | G2-1 + CURSOR_RISK §10 | ✅ |
 | Legal | PB-11 | PR #112–#113, sign-off | ✅ |
 | RUNBOOK | Operator SSOT | PR #108 | ✅ |
@@ -49,7 +50,7 @@
 | **Pre-flip** | security@ live test | DNS/mailbox | Before PB-12 |
 | **CRITICAL** | PB-12 flip | Human go/no-go | End |
 
-**PB-9 ticks:** `2026-06-26`, `2026-06-27` (PM post-merge tick @ `375ef14`) — see [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md).
+**PB-9 ticks:** `2026-06-26`, `2026-06-27`, `2026-06-28` — see [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md).
 
 ---
 
@@ -61,7 +62,7 @@
 
 - [ ] **PB-9** — daily tick (*"đã tick ngày YYYY-MM-DD"* → [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md)); review **~2026-07-06** (Day 14)
 - [x] **PB-7** — CLEAN fork ≤15 min — **PASS** Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md)
-- [ ] **security@** — mailbox + email thử — [`PB11_LEGAL_AUDIT.md`](../../../PB11_LEGAL_AUDIT.md) §Contact setup
+- [ ] **security@** — mailbox ✅ provisioned 2026-06-28 · **live test** — [`security-email-live-test/RUNBOOK.md`](../../practice-evidence/security-email-live-test/RUNBOOK.md)
 
 ### Sau PB-9 / lúc flip
 
@@ -76,7 +77,7 @@
 - PB-9 PASS trước Day 14 (~2026-07-06)
 - CS-01/03/04 — process-layer; không operator runtime drill
 
-**PB-9 ticks done:** 2026-06-26, 2026-06-27 (incl. post-merge PM tick)
+**PB-9 ticks done:** 2026-06-26, 2026-06-27, 2026-06-28
 
 ---
 

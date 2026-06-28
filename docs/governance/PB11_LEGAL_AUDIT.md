@@ -23,7 +23,7 @@
 
 | # | Gate | Status | Notes |
 |---|------|--------|-------|
-| 1 | `security@dataxmind.com` as contact | ☑ **Approved** | Provision at DNS/email provider before PB-12 (see §Contact setup) |
+| 1 | `security@dataxmind.com` as contact | ☑ **Approved** | Mailbox **provisioned** 2026-06-28 — [live test RUNBOOK](practice-evidence/security-email-live-test/RUNBOOK.md) pending |
 | 2 | GitHub Discussions | ☑ **Approved** | Enable in repo Settings (see §GitHub Discussions) |
 | 3 | PB-9 calendar soak | ☑ **Acknowledged** | Execution in progress — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) |
 | 4 | PB-7 clean-machine fork | ☑ **Acknowledged** | Operator: separate CLEAN laptop |

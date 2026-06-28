@@ -1,0 +1,2 @@
+# LF for shell scripts (PB-7 CRLF lesson on /mnt/d)
+scripts/* text eol=lf

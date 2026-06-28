@@ -112,7 +112,7 @@ OK: governance/status runtime verify 1.3.3 13 patterns
 - [x] `artifacts/vps-runtime-v132-pass.md` — PASS @ `68ae48e` (`1.3.2` · 13 patterns)
 - [x] `artifacts/local-runtime-v133-pass.md` — PASS @ `863b611` (local Docker)
 - [x] `artifacts/vps-runtime-v133-pass.md` — PASS @ `863b611` (`1.3.3` · 13 patterns)
-- [x] `artifacts/post-merge-runtime-verify-msi-2026-06-27.md` — MSI WSL PACE + PB-9 PM tick @ `375ef14`
+- [x] `artifacts/pace-verify-msi-2026-06-28.md` — PACE + soak restart @ `fa71bd5`
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-26.md` — open vs closed task audit
 - [x] `artifacts/TASK_AUDIT_REMAINING_2026-06-27.md` — gates_remaining sync
 
