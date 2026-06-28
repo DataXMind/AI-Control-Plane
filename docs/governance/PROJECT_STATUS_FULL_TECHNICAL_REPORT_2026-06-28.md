@@ -383,6 +383,8 @@ Plus: `examples-minimal-smoke` · `shipped_config` parity · governance-memory C
 | Artifact | Stale content | Reconcile via |
 |----------|---------------|---------------|
 | `acp_status_audit_analysis.html` | 165 tests; PB-8 blocks PB-9 | `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` |
+| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (Claude UI) | `527eb5d`, 165 tests, PB-7/8/security@ open | [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
+| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (Claude UI) | `527eb5d`, 165 tests, PB-7/8/security@ open | [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
 | `karpathy_acp_rearchitecture_analysis.html` | 156 tests | `*_SNAPSHOT_README.md` |
 | `pb_final_blockers_packet.html` | Pre-PB-7 era | `PB_FINAL_BLOCKERS_PACKET_RECONCILIATION.md` |
 

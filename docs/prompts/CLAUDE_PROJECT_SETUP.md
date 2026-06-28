@@ -121,13 +121,11 @@ Upload from repo paths below. Prefer **≤12 files** focused; remove stale uploa
 | `03_OPERATOR_PUBLIC_BETA_OPERATOR_ACTION_PLAN.md` | [`docs/governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) |
 | `04_OPERATOR_PUBLIC_BETA_GO_NO_GO.md` | [`docs/governance/PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) |
 | `05_OPERATOR_TASK_AUDIT_REMAINING_2026-06-27.md` | [`docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) |
-| `06_PB9_PB9_STAGING_SOAK_LOG.md` | [`docs/governance/PB9_STAGING_SOAK_LOG.md`](../governance/PB9_STAGING_SOAK_LOG.md) |
-| `07_PB9_PB9_DAY14_REVIEW_TEMPLATE.md` | [`docs/governance/PB9_DAY14_REVIEW_TEMPLATE.md`](../governance/PB9_DAY14_REVIEW_TEMPLATE.md) |
-| `08_RECON_ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | [`docs/governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) |
-| `09_REF_PUBLIC_BETA_SPRINT_PLAN.md` | [`docs/governance/PUBLIC_BETA_SPRINT_PLAN.md`](../governance/PUBLIC_BETA_SPRINT_PLAN.md) |
-| `10_EVIDENCE_pb-7-clean-machine-fork_RESULTS.md` | [`docs/governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md`](../governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
-| `11_EVIDENCE_security-email-live-test_RESULTS.md` | [`docs/governance/practice-evidence/security-email-live-test/RESULTS.md`](../governance/practice-evidence/security-email-live-test/RESULTS.md) |
-| `12_CATALOG_governance_catalog.py` *(optional)* | [`src/ai_control_plane/core/governance_catalog.py`](../../src/ai_control_plane/core/governance_catalog.py) |
+| `08_RECON_HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md` | [`docs/governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
+| `09_RECON_ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | [`docs/governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](../governance/ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) |
+| `10_REF_MANUAL_OPERATOR_PLAYBOOK.md` | [`docs/governance/MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) |
+| `11_PB9_PB9_STAGING_SOAK_LOG.md` | [`docs/governance/PB9_STAGING_SOAK_LOG.md`](../governance/PB9_STAGING_SOAK_LOG.md) |
+| `12_PB9_PB9_DAY14_REVIEW_TEMPLATE.md` | [`docs/governance/PB9_DAY14_REVIEW_TEMPLATE.md`](../governance/PB9_DAY14_REVIEW_TEMPLATE.md) |
 
 ### 5.2 Tier optional (add when needed)
 
@@ -141,6 +139,7 @@ Upload from repo paths below. Prefer **≤12 files** focused; remove stale uploa
 
 | Avoid | Why |
 |-------|-----|
+| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (Claude UI export) | Stale @ `527eb5d` — use [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
 | `docs/governance/*.html` | Stale counts/SHAs — use `*_RECONCILIATION.md` instead |
 | Entire `src/`, `tests/`, `.github/` | Too large; retrieval noise |
 | `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` alone | Partially stale — prefer FULL report + TASK_AUDIT |
@@ -196,6 +195,7 @@ After `git pull` on `master` when any of these change:
 | `curl > docs/openapi.json` | `python scripts/export_openapi.py` |
 | Day 14 default = 2026-07-10 | **~2026-07-06** (soak start 2026-06-22) |
 | HTML `acp_status_audit_analysis.html` as live state | Use reconciliation + FULL report |
+| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (UI @ `527eb5d`) | [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
 
 ---
 
@@ -212,7 +212,8 @@ After `git pull` on `master` when any of these change:
 ## 10. Related documents
 
 - [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md)
-- [`PROJECT_STATUS_AUDIT_FOR_CLAUDE.md`](../governance/PROJECT_STATUS_AUDIT_FOR_CLAUDE.md)
+- [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md)
+- [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md)
 - [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md)
 - [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md) — session memory pattern
 
