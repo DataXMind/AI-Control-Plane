@@ -33,6 +33,60 @@ Include:
 
 ---
 
+## Known Attack Surfaces (0.x Beta)
+
+### 1. Policy Engine DoS
+
+`POST /policy/evaluate` is the critical path for all agent decisions.
+A flood of requests can cause fail-closed behavior for **all** agents.
+**Mitigation status:** Rate limiting **not** yet implemented in 0.x.
+**Workaround:** Deploy behind a reverse proxy (nginx/caddy) with rate limiting.
+**Planned:** v0.2.x
+
+### 2. Redis Cache Poisoning
+
+Policy cache in Redis is not cryptographically verified in 0.x.
+If Redis is compromised, stale or false policies may be served briefly before TTL expiry.
+**Mitigation:** Deploy Redis with AUTH + TLS. Do not expose the Redis port externally.
+`ACP_REDIS_URL` must use `rediss://` (TLS) in production.
+
+### 3. Agent Identity Spoofing
+
+0.x uses token-based identity. No hardware attestation or mutual TLS between agents and ACP.
+An agent with a stolen token can impersonate another agent.
+**Mitigation:** Rotate tokens on any suspected compromise. See [`docs/RUNBOOK.md`](docs/RUNBOOK.md) §identity.
+
+### 4. Dependency Supply Chain
+
+ACP is Python. Dependencies are pinned in project metadata but not SLSA-attested in 0.x.
+Run `pip-audit` locally before deploying from source; confirm CI dependency checks on `master` before release.
+
+---
+
+## Out of Scope — 0.x Beta
+
+- Prompt injection filtering (ACP evaluates actions, not LLM output content)
+- Multi-tenant data isolation (single-tenant 0.x; multi-tenancy planned v1.x)
+- Hardware security modules for key storage
+- FedRAMP / IL2 compliance
+
+---
+
+## Verifying Security Reports
+
+**security@dataxmind.com** — no PGP key published in 0.x beta.
+For sensitive disclosures, request a Signal contact via initial email.
+GitHub Security Advisories will be enabled upon public flip (PB-12).
+
+---
+
+## Backup Security Contact
+
+If **security@dataxmind.com** bounces, open a GitHub Security Advisory directly
+after the repo goes public (PB-12). **Do not** post vulnerabilities in public Issues.
+
+---
+
 ## Response SLA (official)
 
 **Baseline acknowledgment:** within **48 hours** for all in-scope reports (enterprise ML5-aligned).
