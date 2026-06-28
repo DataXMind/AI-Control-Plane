@@ -23,7 +23,7 @@
 
 | # | Gate | Status | Notes |
 |---|------|--------|-------|
-| 1 | `security@dataxmind.com` as contact | ☑ **Approved** | Mailbox **provisioned** 2026-06-28 — [live test RUNBOOK](practice-evidence/security-email-live-test/RUNBOOK.md) pending |
+| 1 | `security@dataxmind.com` as contact | ☑ **Approved** | Mailbox + **live test PASS** 2026-06-28 — [`security-email-live-test/RESULTS.md`](practice-evidence/security-email-live-test/RESULTS.md) |
 | 2 | GitHub Discussions | ☑ **Approved** | Enable in repo Settings (see §GitHub Discussions) |
 | 3 | PB-9 calendar soak | ☑ **Acknowledged** | Execution in progress — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) |
 | 4 | PB-7 clean-machine fork | ☑ **Acknowledged** | Operator: separate CLEAN laptop |
@@ -102,7 +102,7 @@ CONTRIBUTING trỏ câu hỏi how-to → Discussions; bugs → Issues.
 
 ## Pre-PB-12 actions (human)
 
-1. ~~**Confirm** `security@dataxmind.com`~~ → ☑ **Approved** — provision + live test before PB-12
+1. ~~**Confirm** `security@dataxmind.com`~~ → ☑ **PASS** — live test 2026-06-28 (two-way send/ack)
 2. **Complete** PB-9 calendar soak (≥14 days) — [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md).
 3. **PB-7** clean-machine fork ≤15 min on **CLEAN** host.
 4. **PB-10** production soak ≥30 days after PB-9 pass.

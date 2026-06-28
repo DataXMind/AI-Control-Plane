@@ -14,7 +14,7 @@
 [DONE] Engineering surface (#116–#118, catalog v1.3.3, CI)
 [DONE] PB-7 CLEAN PASS (fa71bd5)
 [NOW]  PB-9 soak — ticks through 2026-06-28 · loop + repo log active
-[PAR]  security@ — provisioned · live test pending (OP-06b)
+[PAR]  security@ — OP-06a/06b ✅ PASS 2026-06-28
 [WAIT] ~07-06 Day 14 (OP-07)
 [WAIT] ~07-07–09 pre-flip: PB-8 · PB-6 export (OP-08/09)
 [WAIT] ~07-10 PB-12 (OP-10)
@@ -33,7 +33,7 @@
 | **OP-04** | PB-7 CLEAN fork ≤15 min | Operator | 2026-06-27 | ✅ | [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
 | **OP-05** | PB-7 waiver | Human | — | ❌ **CANCELLED** | OP-04 PASS — no waiver |
 | **OP-06a** | security@ mailbox setup | Operator | 2026-06-28 | ✅ | DNS/mailbox provisioned |
-| **OP-06b** | security@ live test | Operator | Before PB-12 | ⏳ | [`security-email-live-test/RUNBOOK.md`](practice-evidence/security-email-live-test/RUNBOOK.md) |
+| **OP-06b** | security@ live test | Operator | 2026-06-28 | ✅ | [`security-email-live-test/RESULTS.md`](practice-evidence/security-email-live-test/RESULTS.md) PASS |
 | **OP-07** | Day 14 PB-9 review | Operator | **~2026-07-06** | ⏳ calendar | `PB9_DAY14_REVIEW_TEMPLATE.md` |
 | **OP-08** | PB-8 `v0.1.0-rc.1` tag | Human | Post OP-07 | ⏳ calendar | **Approve required** |
 | **OP-09** | PB-6 static OpenAPI | Maintainer | Pre-flip ~07-07 | ⏳ calendar | `export_openapi.py` |

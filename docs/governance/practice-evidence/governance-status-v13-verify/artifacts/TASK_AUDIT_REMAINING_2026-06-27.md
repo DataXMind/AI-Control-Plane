@@ -1,7 +1,7 @@
 # Governance task audit — remaining work @ 2026-06-27
 
 **Document ID:** ACP-GOV-TASK-AUDIT-REMAINING-001  
-**Baseline:** `master` catalog **v1.3.3** @ `fa71bd5` (PB-7 PASS + operator phase) · runtime PASS local + VPS (#116–#117)  
+**Baseline:** `master` @ `65dc089` · catalog **v1.3.3**  
 **Purpose:** Rà soát task đã đóng vs còn mở — sync với 3-stream convergence.
 
 ---
@@ -16,7 +16,7 @@
 | Claude status audit | Operator phase plan | `ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md` | ✅ |
 | Soak repo persistence | `--repo-log` + iteration log | `soak_staging.sh` @ 2026-06-27 | ✅ |
 | PB-7 CLEAN fork | Ubuntu @ MSI Path A Docker | [`pb-7-clean-machine-fork/RESULTS.md`](../../practice-evidence/pb-7-clean-machine-fork/RESULTS.md) | ✅ |
-| security@ mailbox | Provisioned @ 2026-06-28 | [`security-email-live-test/`](../../practice-evidence/security-email-live-test/) — live test pending |
+| security@ mailbox | Provisioned + live test | [`security-email-live-test/RESULTS.md`](../../practice-evidence/security-email-live-test/RESULTS.md) PASS @ 2026-06-28 |
 | Lessons | P-13 kill switch | G2-1 + CURSOR_RISK §10 | ✅ |
 | Legal | PB-11 | PR #112–#113, sign-off | ✅ |
 | RUNBOOK | Operator SSOT | PR #108 | ✅ |
@@ -47,7 +47,7 @@
 | **P1** | PB-10 prod soak 30d | Operator | After PB-9 |
 | **P2** | PB-6 OpenAPI publish | Maintainer on flip | PB-12 |
 | **P2** | PB-8 rc tag | Human approve | Post PB-9 |
-| **Pre-flip** | security@ live test | DNS/mailbox | Before PB-12 |
+| **Pre-flip** | security@ live test | Operator | 2026-06-28 | ✅ PASS |
 | **CRITICAL** | PB-12 flip | Human go/no-go | End |
 
 **PB-9 ticks:** `2026-06-26`, `2026-06-27`, `2026-06-28` — see [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md).
@@ -62,7 +62,7 @@
 
 - [ ] **PB-9** — daily tick (*"đã tick ngày YYYY-MM-DD"* → [`PB9_STAGING_SOAK_LOG.md`](../../../PB9_STAGING_SOAK_LOG.md)); review **~2026-07-06** (Day 14)
 - [x] **PB-7** — CLEAN fork ≤15 min — **PASS** Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](../../pb-7-clean-machine-fork/RESULTS.md)
-- [ ] **security@** — mailbox ✅ provisioned 2026-06-28 · **live test** — [`security-email-live-test/RUNBOOK.md`](../../practice-evidence/security-email-live-test/RUNBOOK.md)
+- [x] **security@** — live test **PASS** 2026-06-28 — [`security-email-live-test/RESULTS.md`](../../practice-evidence/security-email-live-test/RESULTS.md)
 
 ### Sau PB-9 / lúc flip
 

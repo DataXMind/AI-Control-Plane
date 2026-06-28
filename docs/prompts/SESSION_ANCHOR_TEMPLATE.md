@@ -13,7 +13,7 @@
 
 - [ ] PB-9 daily tick — last **2026-06-28** · review ~**2026-07-06**
 - [x] PB-7 CLEAN fork — **PASS** 2026-06-27
-- [ ] security@ — mailbox ✅ · **live test** pending ([`security-email-live-test/RUNBOOK.md`](../governance/practice-evidence/security-email-live-test/RUNBOOK.md))
+- [x] security@ — mailbox + live test **PASS** 2026-06-28
 
 **Sau PB-9 / flip:** PB-10 soak 30d → PB-8 rc tag → PB-6 OpenAPI → **PB-12 go/no-go**
 

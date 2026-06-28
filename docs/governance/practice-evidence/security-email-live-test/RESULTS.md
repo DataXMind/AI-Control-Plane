@@ -1,21 +1,23 @@
 # security@ — Live test results
 
-**Status:** **PENDING** — mailbox provisioned 2026-06-28; live send not yet recorded  
-**Operator:** —
+**Status:** **PASS** @ 2026-06-28  
+**Operator:** DataXMind
 
 | Check | Expected | Actual | Result |
 |-------|----------|--------|--------|
-| External send to security@ | Delivered | — | ☐ |
-| Receipt within 48h | Yes | — | ☐ |
-| Evidence committed | This file | — | ☐ |
+| External send to security@ | Delivered | `ecoaisy.ai@gmail.com` → security@ | ✅ |
+| Receipt / ack | Within 48h SLA | Reply from `security@dataxmind.com` | ✅ |
+| Evidence committed | Repo artifact | [`artifacts/live-test-2026-06-28.md`](artifacts/live-test-2026-06-28.md) | ✅ |
 
-## Test record (fill on send)
+## Test record
 
 | Field | Value |
 |-------|-------|
-| Send date (UTC) | |
-| From address | |
-| Received at | |
-| Spam? | Yes / No |
+| Send date (UTC) | 2026-06-28 |
+| From address | `ecoaisy.ai@gmail.com` (DataXMind) |
+| To | `security@dataxmind.com` |
+| Reply from | `Security <security@dataxmind.com>` |
+| Ack text | `Received — ACP security@ live test OK @ <timestamp UTC>.` |
+| Spam? | No |
 
-**Verdict:** ☐ PASS · ☐ FAIL
+**Verdict:** ☑ **PASS** · ☐ FAIL
