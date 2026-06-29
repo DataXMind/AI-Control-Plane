@@ -42,3 +42,12 @@ pip-audit --requirement requirements.txt
 ## Supply Chain Note
 
 ACP is a security enforcement control plane. A compromised ACP dependency could affect the entire governed agent fleet. pip-audit should be considered a CRITICAL gate, not optional. See THREAT_MODEL.md §T-2 (governance_catalog.py supply chain).
+
+## Audit Log
+
+**2026-06-29:** pip-audit @ `cff686e`
+
+- pip 24.0: 5 CVEs (PYSEC-2026-196, CVE-2025-8869, CVE-2026-1703, CVE-2026-3219, CVE-2026-6357)
+- Fix: upgraded pip to 26.1.2
+- ACP runtime deps: 0 CVEs
+- ai-control-plane: skipped (not on PyPI — expected 0.x)
