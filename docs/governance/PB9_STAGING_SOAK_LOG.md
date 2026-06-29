@@ -7,6 +7,8 @@
 
 **Agent rule (ML5):** Soak evidence lives in this file **and** [`PB9_SOAK_ITERATION_LOG.md`](PB9_SOAK_ITERATION_LOG.md). Operator chat *"đã tick ngày YYYY-MM-DD"* → update daily row; do not store soak state in chat or other docs.
 
+> **⚠️ Scope note:** PB-9 is a STABILITY SOAK at low load (~1 req/hour automated), NOT a load test or performance benchmark. p99 SLO targets are design targets only, not verified at production load. See [LOAD_CHARACTERISTICS.md](LOAD_CHARACTERISTICS.md) for full scope boundaries.
+
 ---
 
 ## Soak clock vs evidence window (resolved 2026-06-27)

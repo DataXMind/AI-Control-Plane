@@ -43,6 +43,7 @@ DOC_LINKS: dict[str, str] = {
     "adr_index": "docs/governance/ADR/README.md",
     "adr_001": "docs/governance/ADR/ADR-001-control-data-plane-separation.md",
     "mcp_contract": "docs/governance/MCP_INTEGRATION_CONTRACT.md",
+    "load_characteristics": "docs/governance/LOAD_CHARACTERISTICS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
