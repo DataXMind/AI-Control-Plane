@@ -6,13 +6,17 @@ Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 
 | Example | Use when |
 |---------|----------|
-| [**minimal/**](minimal/README.md) | Default: Docker or native uvicorn, fixture config (8 rules), PB-9 soak parity |
-| [**integrate/**](integrate/README.md) | CONNECT door: copy-paste Python before tool call, health gate, quota |
+| [`scripts/acp-up.sh`](../scripts/acp-up.sh) | One-command RUN door: `bash scripts/acp-up.sh` |
+| [**minimal/**](minimal/README.md) | Docker/native, fixture config (8 rules), PB-9 soak parity |
+| [**integrate/**](integrate/README.md) | CONNECT door: Python before tool call, health gate, quota |
 
 ## Quick start (Docker — recommended)
 
 ```bash
-# From repo root
+# One command (from repo root)
+bash scripts/acp-up.sh
+
+# Or compose directly
 docker compose -f examples/minimal/docker-compose.yml up --build
 
 # Or from this example directory
