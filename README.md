@@ -28,7 +28,7 @@ your AI agents and the resources they act on.
 
 ## Quick start (local dev)
 
-**New here?** [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — RUN (Docker) or CONNECT (`ACP_API_URL`) in 5 minutes.
+**New here?** [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — RUN (`bash scripts/acp-up.sh`) or CONNECT (`ACP_API_URL`) in 5 minutes.
 
 ```bash
 # From repo root (WSL/Linux recommended)

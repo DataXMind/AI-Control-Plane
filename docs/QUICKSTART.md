@@ -24,13 +24,28 @@ You do **not** need to pick config profiles, fork the repo, or read governance d
 ### Prerequisites
 
 - Docker + Docker Compose v2
-- Git (to clone) — or use a published image after PB-12 GHCR
 
-### Steps
+### One command (recommended — from repo clone)
 
 ```bash
 git clone https://github.com/DataXMind/AI-Control-Plane.git
 cd AI-Control-Plane
+bash scripts/acp-up.sh
+```
+
+`acp-up.sh` builds via docker compose, waits for `/health`, prints `ACP_API_URL`.
+
+**No clone (GHCR):** after the demo image is published:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/DataXMind/AI-Control-Plane/master/scripts/acp-up.sh)" -- --ghcr
+# or from repo:
+ACP_UP_MODE=ghcr bash scripts/acp-up.sh
+```
+
+### Manual compose (equivalent)
+
+```bash
 docker compose -f examples/minimal/docker-compose.yml up -d --build
 ```
 
@@ -76,7 +91,8 @@ For production-like shipped config (10 rules), see [`RUNBOOK.md`](RUNBOOK.md) �
 ### Stop
 
 ```bash
-docker compose -f examples/minimal/docker-compose.yml down
+bash scripts/acp-up.sh --down
+# or: docker compose -f examples/minimal/docker-compose.yml down
 ```
 
 ---
@@ -89,14 +105,27 @@ Someone else (your platform team) runs ACP. You only need the base URL.
 
 ### Step 1 — One environment variable
 
-Copy [`.env.client.example`](../.env.client.example):
+Copy [`.env.client.example`](../.env.client.example) — **replace the placeholder host, do not type angle brackets**:
 
 ```bash
-export ACP_API_URL=http://<acp-host>:8000
-# Examples:
-#   http://localhost:8000          — ACP on same machine (RUN door finished)
-#   http://192.168.1.10:8000       — LAN (see RUNBOOK WSL portproxy if needed)
-#   http://acp.internal:8000       — corporate DNS
+# Same machine as ACP (after RUN door):
+export ACP_API_URL=http://127.0.0.1:8000
+
+# Another machine on your LAN (replace with real IP or hostname):
+export ACP_API_URL=http://192.168.1.10:8000
+
+# Corporate DNS example:
+export ACP_API_URL=http://acp.internal:8000
+```
+
+**Wrong (bash error):** `export ACP_API_URL=http://<host-acp>:8000` — `<host-acp>` is doc placeholder only.
+
+**Find your host IP (WSL API, client on same LAN):**
+
+```bash
+# On Windows (PowerShell): ipconfig → IPv4 of Wi-Fi/Ethernet
+# On WSL host machine:
+hostname -I | awk '{print $1}'
 ```
 
 ### Step 2 — Verify connectivity

@@ -1,0 +1,21 @@
+# Pull-only demo stack — no local build. Requires GHCR image published.
+# Usage: docker compose -f examples/minimal/docker-compose.ghcr.yml up -d
+services:
+  acp-api:
+    image: ghcr.io/dataxmind/ai-control-plane:demo
+    ports:
+      - "8000:8000"
+    environment:
+      ACP_CONFIG_DIR: /app/tests/fixtures/config
+      ACP_DATA_DIR: /data/acp
+    volumes:
+      - acp-data:/data/acp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  acp-data:
