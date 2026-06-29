@@ -53,6 +53,7 @@ DOC_LINKS: dict[str, str] = {
     "sapal_legal": "docs/governance/SAPAL_LEGAL_ASSESSMENT.md",
     "pb12_succession": "docs/governance/PB12_SUCCESSION_PLAN.md",
     "value_audit_matrix": "docs/governance/VALUE_AUDIT_MATRIX.md",
+    "developer_scenarios": "docs/DEVELOPER_SCENARIOS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
@@ -330,9 +331,15 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "title": "Governance Catalog Static Drift",
         "layer": "L5",
         "status": "ACTIVE",
-        "rule_ref": "ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md §deeper-perspectives; GOVERNANCE_CHANGELOG.md",
+        "rule_ref": (
+            "ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md §deeper-perspectives; "
+            "GOVERNANCE_CHANGELOG.md"
+        ),
         "case_study_id": None,
-        "prevention": "Bump → GOVERNANCE_CHANGELOG; gate PASS cites RESULTS.md; future ADR-001 evidence predicates",
+        "prevention": (
+            "Bump → GOVERNANCE_CHANGELOG; gate PASS cites RESULTS.md; "
+            "future ADR-001 evidence predicates"
+        ),
     },
     {
         "id": "P-15",
@@ -341,7 +348,10 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "status": "ACTIVE",
         "rule_ref": "LOAD_CHARACTERISTICS.md; PUBLIC_BETA_GO_NO_GO.md §SLO",
         "case_study_id": None,
-        "prevention": "State p99 with RPS context; load-test at fleet concurrency; label soak vs load vs chaos",
+        "prevention": (
+            "State p99 with RPS context; load-test at fleet concurrency; "
+            "label soak vs load vs chaos"
+        ),
     },
     {
         "id": "P-16",
@@ -350,7 +360,10 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "status": "ACTIVE",
         "rule_ref": "THREAT_MODEL.md; SECURITY.md; GOVERNANCE_CHANGELOG.md §MINOR definition",
         "case_study_id": None,
-        "prevention": "STRIDE-lite before public surface; fail-closed ≠ DoS-safe; update THREAT_MODEL at MINOR bump",
+        "prevention": (
+            "STRIDE-lite before public surface; fail-closed ≠ DoS-safe; "
+            "update THREAT_MODEL at MINOR bump"
+        ),
     },
 ]
 
