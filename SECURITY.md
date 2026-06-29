@@ -35,6 +35,8 @@ Include:
 
 ## Known Attack Surfaces (0.x Beta)
 
+See [`docs/governance/THREAT_MODEL.md`](docs/governance/THREAT_MODEL.md) for full threat model.
+
 ### 1. Policy Engine DoS
 
 `POST /policy/evaluate` is the critical path for all agent decisions.
