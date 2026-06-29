@@ -154,6 +154,7 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 
 ## Documentation
 
+- [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — fork/clone, 10 setup scenarios, end-user client usage
 - [AGENTS.md](AGENTS.md) — **start here** for coding agents (ML5 memory, session anchor)
 - [ARCHITECTURE.md](ARCHITECTURE.md) — invariants, API contract, config wiring
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5

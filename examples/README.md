@@ -2,6 +2,8 @@
 
 Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 
+**Which path?** Scenario map (evaluator, contributor, remote client): [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
+
 | Example | Use when |
 |---------|----------|
 | [**minimal/**](minimal/README.md) | Default: Docker or native uvicorn, fixture config (8 rules), PB-9 soak parity |

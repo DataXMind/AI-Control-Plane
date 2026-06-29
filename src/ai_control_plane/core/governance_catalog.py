@@ -53,6 +53,7 @@ DOC_LINKS: dict[str, str] = {
     "sapal_legal": "docs/governance/SAPAL_LEGAL_ASSESSMENT.md",
     "pb12_succession": "docs/governance/PB12_SUCCESSION_PLAN.md",
     "value_audit_matrix": "docs/governance/VALUE_AUDIT_MATRIX.md",
+    "developer_scenarios": "docs/DEVELOPER_SCENARIOS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
