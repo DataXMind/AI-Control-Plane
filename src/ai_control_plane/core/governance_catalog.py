@@ -50,6 +50,7 @@ DOC_LINKS: dict[str, str] = {
     "product_positioning": "docs/governance/PRODUCT_POSITIONING.md",
     "governance_changelog": "docs/governance/GOVERNANCE_CHANGELOG.md",
     "dependency_audit": "docs/governance/DEPENDENCY_AUDIT.md",
+    "sapal_legal": "docs/governance/SAPAL_LEGAL_ASSESSMENT.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
