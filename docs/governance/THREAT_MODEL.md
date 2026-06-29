@@ -97,4 +97,4 @@
 
 ---
 
-**Last updated:** 2026-06-28 · Catalog v1.3.3 · `master` @ `e6d6ea9`
+**Last updated:** 2026-06-28 · Catalog v1.3.3 · `master` @ `9bf5655`

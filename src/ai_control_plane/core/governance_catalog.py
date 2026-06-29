@@ -37,6 +37,7 @@ DOC_LINKS: dict[str, str] = {
     "open_source_readiness": "docs/OPEN_SOURCE_READINESS.md",
     "runbook": "docs/RUNBOOK.md",
     "threat_model": "docs/governance/THREAT_MODEL.md",
+    "redis_failure_modes": "docs/governance/REDIS_FAILURE_MODES.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
