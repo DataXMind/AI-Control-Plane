@@ -40,6 +40,8 @@ DOC_LINKS: dict[str, str] = {
     "redis_failure_modes": "docs/governance/REDIS_FAILURE_MODES.md",
     "rollback_protocol": "docs/governance/ROLLBACK_PROTOCOL.md",
     "data_flow": "docs/governance/DATA_FLOW.md",
+    "adr_index": "docs/governance/ADR/README.md",
+    "adr_001": "docs/governance/ADR/ADR-001-control-data-plane-separation.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
