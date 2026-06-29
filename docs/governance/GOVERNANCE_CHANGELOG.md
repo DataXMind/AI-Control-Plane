@@ -9,7 +9,27 @@
 - **PATCH:** Doc fix, drift correction, reconciliation update,
   clarity improvement, new DOC_LINKS entry
 
-## v1.3.3 (current — 2026-06-28)
+## v1.4.0 (current — 2026-06-30)
+**Type:** MINOR
+- Added: THREAT_MODEL.md (P-16 resolved)
+- Added: REDIS_FAILURE_MODES.md (C2 resolved)
+- Added: ROLLBACK_PROTOCOL.md (A3 resolved)
+- Added: DATA_FLOW.md (A2 resolved)
+- Added: ADR-001 Control/Data Plane Separation (C1 documented)
+- Added: MCP_INTEGRATION_CONTRACT.md (C4 resolved)
+- Added: LOAD_CHARACTERISTICS.md (C3/P-15 resolved)
+- Added: BUSINESS_MODEL.md (F1/F3 decision)
+- Added: PRODUCT_POSITIONING.md (F1 resolved)
+- Added: SAPAL_LEGAL_ASSESSMENT.md (F3 resolved)
+- Added: GOVERNANCE_CHANGELOG.md (E2 resolved)
+- Added: DEPENDENCY_AUDIT.md (A5 documented)
+- Added: PB12_SUCCESSION_PLAN.md (E4 resolved)
+- Updated: LESSONS_LEARNED.md P-14/P-15/P-16
+- Updated: SECURITY.md threat surfaces
+- Updated: CONTRIBUTING.md quick-start onramp
+- Updated: README.md positioning + 177 tests
+
+## v1.3.3 (2026-06-28)
 **Type:** PATCH
 - Fixed: SESSION_ANCHOR_TEMPLATE.md synced to master @ 20e4fc3
 - Fixed: TASK_AUDIT baseline SHA corrected (527eb5d → 20e4fc3)
@@ -40,12 +60,3 @@
 ## v1.2.x → v1.0.x (historical)
 Milestones A → C+ governance maturity progression.
 See docs/governance/LESSONS_LEARNED.md for full pattern history.
-
-## Planned: v1.4.0 (Task 5.3 — end of 48h plan)
-**Type:** MINOR (planned)
-- Will add: All new DOC_LINKS from 48h governance plan
-  (THREAT_MODEL, DATA_FLOW, ADR-001, MCP_CONTRACT,
-   LOAD_CHARACTERISTICS, BUSINESS_MODEL, PRODUCT_POSITIONING,
-   SAPAL_LEGAL, DEPENDENCY_AUDIT, PB12_SUCCESSION, P-14/15/16)
-- Will bump: GOVERNANCE_VERSION "1.3.3" → "1.4.0"
-- Gate: Task 5.3 only — not before

@@ -73,7 +73,7 @@ Requires `ACP_CONFIG_DIR` (see quick start above) and a running API:
 export ACP_API_URL=http://localhost:8000
 curl -sf "$ACP_API_URL/governance/status" | python3 -m json.tool | head -30
 bash scripts/verify_governance_status_runtime.sh
-# Expected: OK: governance/status runtime verify 1.3.3 13 patterns
+# Expected: OK: governance/status runtime verify 1.4.0 16 patterns
 agentctl gov status
 ```
 
