@@ -193,6 +193,48 @@
 
 ---
 
+### P-14 — Governance Catalog Static Drift
+
+| Field | Detail |
+|-------|--------|
+| **When** | governance_catalog.py `gates_remaining` audited — static hardcoded list, not computed from practice evidence |
+| **Root cause** | Manual maintainer sync required at each flip; no evidence predicates |
+| **Impact** | Practice PASS and catalog state diverge silently; operator assumes gates closed when catalog still lists them |
+| **Rule added** | [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) §deeper-perspectives; [`GOVERNANCE_CHANGELOG.md`](GOVERNANCE_CHANGELOG.md) |
+| **Layer** | L5 (Governance & Memory) |
+| **Prevention** | 1. Always update GOVERNANCE_CHANGELOG.md when bumping governance version. 2. Every gate PASS must reference a specific RESULTS.md path, not just verbal claim. 3. Future: compute `gates_remaining` from evidence predicates (ADR-001 target v0.3.x). |
+| **Status** | [ACTIVE] |
+
+---
+
+### P-15 — Soak Load Realism Gap
+
+| Field | Detail |
+|-------|--------|
+| **When** | PB-9 soak — ~1 req/hour (heartbeat interval), not realistic concurrent agent load |
+| **Root cause** | p99 SLO targets stated as design targets, not verified at production load levels |
+| **Impact** | System appears healthy under soak but degrades under real agent fleet concurrency (10+ simultaneous agents) |
+| **Rule added** | [`LOAD_CHARACTERISTICS.md`](LOAD_CHARACTERISTICS.md); [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) §SLO |
+| **Layer** | L4 (Evaluation) |
+| **Prevention** | 1. Always specify RPS context when stating p99 SLO (e.g., "p99 < 500ms at 10 RPS", not absolute). 2. Before any production recommendation, run load test with expected concurrency (locust or k6). 3. Document soak scope explicitly: "stability soak" vs "load test" vs "chaos test". |
+| **Status** | [ACTIVE] |
+
+---
+
+### P-16 — Threat Model Absence in Security-Critical Infrastructure
+
+| Field | Detail |
+|-------|--------|
+| **When** | ACP reached Public Beta with no formal threat model; STRIDE analysis absent despite ACP being a security enforcement control plane with fail-closed behavior |
+| **Root cause** | Attack surfaces (DoS on policy engine, Redis cache poisoning, token spoofing, network partition) not enumerated before public surface exposure |
+| **Impact** | Attack surfaces unknown to operators deploying in production |
+| **Rule added** | [`THREAT_MODEL.md`](THREAT_MODEL.md); [`SECURITY.md`](../../SECURITY.md); [`GOVERNANCE_CHANGELOG.md`](GOVERNANCE_CHANGELOG.md) §MINOR definition |
+| **Layer** | L2 (Risk Policy) |
+| **Prevention** | 1. Threat model (STRIDE-lite minimum) is required artifact before any public surface exposure. 2. "Fail-closed" is not a complete security posture — availability attacks (DoS) still apply. 3. Update THREAT_MODEL.md at every governance MINOR bump. |
+| **Status** | [ACTIVE] |
+
+---
+
 ## Maintenance
 
 Add a pattern at each **sprint close** (before declaring sprint DONE).  
