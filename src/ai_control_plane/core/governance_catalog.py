@@ -39,6 +39,7 @@ DOC_LINKS: dict[str, str] = {
     "threat_model": "docs/governance/THREAT_MODEL.md",
     "redis_failure_modes": "docs/governance/REDIS_FAILURE_MODES.md",
     "rollback_protocol": "docs/governance/ROLLBACK_PROTOCOL.md",
+    "data_flow": "docs/governance/DATA_FLOW.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
