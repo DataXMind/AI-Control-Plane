@@ -2,11 +2,12 @@
 
 Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 
-**Which path?** Scenario map (evaluator, contributor, remote client): [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
+**Which path?** End-user: [`docs/QUICKSTART.md`](../docs/QUICKSTART.md) · Advanced map: [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
 
 | Example | Use when |
 |---------|----------|
 | [**minimal/**](minimal/README.md) | Default: Docker or native uvicorn, fixture config (8 rules), PB-9 soak parity |
+| [**integrate/**](integrate/README.md) | CONNECT door: copy-paste Python before tool call, health gate, quota |
 
 ## Quick start (Docker — recommended)
 

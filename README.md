@@ -28,6 +28,8 @@ your AI agents and the resources they act on.
 
 ## Quick start (local dev)
 
+**New here?** [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — RUN (Docker) or CONNECT (`ACP_API_URL`) in 5 minutes.
+
 ```bash
 # From repo root (WSL/Linux recommended)
 python -m venv .venv
@@ -154,7 +156,9 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 
 ## Documentation
 
-- [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — fork/clone, 10 setup scenarios, end-user client usage
+- [docs/QUICKSTART.md](docs/QUICKSTART.md) — **start here** for end-users (RUN / CONNECT, 5 min)
+- [examples/integrate/](examples/integrate/README.md) — copy-paste integration patterns (Python)
+- [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — advanced fork/clone / operator scenarios
 - [AGENTS.md](AGENTS.md) — **start here** for coding agents (ML5 memory, session anchor)
 - [ARCHITECTURE.md](ARCHITECTURE.md) — invariants, API contract, config wiring
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
