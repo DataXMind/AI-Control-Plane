@@ -9,6 +9,23 @@ Control plane for multi-agent AI systems:
 **Status:** Milestones A/B/C/C+ **CLOSED** · **177** pytest · smoke **8/8** · SAPAL MVP in `apex/`  
 **Public Beta:** **IN PROGRESS** — PB-9 staging soak since 2026-06-22 · review target **~2026-07-06** · [`gates_remaining`](docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) via `GET /governance/status` · **Claude handoff:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md)
 
+## What ACP Is
+
+AI Control Plane is an **AI Agent Policy Engine** — the enforcement layer between
+your AI agents and the resources they act on.
+
+- **Fail-closed by default**: unknown agents are denied, API-down is denied
+- **Config-driven**: policy rules in version-controlled YAML, not hardcoded
+- **Audit log**: every policy decision is logged with agent_id, action, and outcome
+- **0.x beta**: API may change; not recommended for unmonitored production use
+
+## What ACP Is NOT
+
+- ❌ Not a content moderation layer (does not inspect LLM outputs)
+- ❌ Not a prompt injection filter
+- ❌ Not an agent orchestrator (use alongside LangGraph/CrewAI)
+- ❌ Not an observability platform (use alongside LangSmith/W&B)
+
 ## Quick start (local dev)
 
 ```bash
@@ -151,6 +168,9 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [docs/governance/MILESTONE_B_BACKLOG.md](docs/governance/MILESTONE_B_BACKLOG.md) — Milestone B status (CLOSED)
 - [docs/governance/MILESTONE_C_SPRINT_PLAN.md](docs/governance/MILESTONE_C_SPRINT_PLAN.md) — Milestone C status (CLOSED)
 - [docs/governance/PUBLIC_BETA_SPRINT_PLAN.md](docs/governance/PUBLIC_BETA_SPRINT_PLAN.md) — Public Beta PB-1..12
+- [Data Flow & Trust Boundaries](docs/governance/DATA_FLOW.md)
+- [Rollback Protocol](docs/governance/ROLLBACK_PROTOCOL.md)
+- [Business Model](docs/governance/BUSINESS_MODEL.md)
 - [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) · [LICENSE](LICENSE)
 - [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) — public-beta gates
 
@@ -162,6 +182,12 @@ ruff check src/ tests/
 ```
 
 Current gate: **177 pytest**, smoke 8/8 + CI on `master`.
+
+## Security
+
+- Threat model: [docs/governance/THREAT_MODEL.md](docs/governance/THREAT_MODEL.md)
+- Report vulnerabilities: security@dataxmind.com (see [SECURITY.md](SECURITY.md))
+- Known attack surfaces: [SECURITY.md §Known Attack Surfaces](SECURITY.md#known-attack-surfaces-0x-beta)
 
 ## Maintainer & security
 
