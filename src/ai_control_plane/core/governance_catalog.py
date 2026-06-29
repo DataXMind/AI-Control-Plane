@@ -45,6 +45,7 @@ DOC_LINKS: dict[str, str] = {
     "mcp_contract": "docs/governance/MCP_INTEGRATION_CONTRACT.md",
     "load_characteristics": "docs/governance/LOAD_CHARACTERISTICS.md",
     "business_model": "docs/governance/BUSINESS_MODEL.md",
+    "product_positioning": "docs/governance/PRODUCT_POSITIONING.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
