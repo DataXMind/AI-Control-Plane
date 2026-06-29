@@ -6,10 +6,10 @@ BASE="${ACP_API_URL:-http://127.0.0.1:8000}"
 curl -sf "${BASE}/governance/status" | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
-assert d['governance_version'] == '1.3.3', d.get('governance_version')
+assert d['governance_version'] == '1.4.0', d.get('governance_version')
 assert len(d['known_gaps']) == 7
 assert sum(1 for g in d['known_gaps'] if g['status'] == 'OPEN') == 1
-assert len(d['lessons_patterns']) >= 13
+assert len(d['lessons_patterns']) >= 16
 assert len(d['public_beta']['gates_remaining']) >= 5
 assert len(d['public_beta']['gates_closed']) >= 3
 assert d['doc_links']['risk_policy'].endswith('CURSOR_RISK_POLICY.md')

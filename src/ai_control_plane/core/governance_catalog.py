@@ -6,7 +6,7 @@ from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
 # Semantic: MAJOR.MINOR.PATCH — see docs/governance/GOVERNANCE_CHANGELOG.md
-GOVERNANCE_VERSION = "1.3.3"
+GOVERNANCE_VERSION = "1.4.0"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -51,6 +51,7 @@ DOC_LINKS: dict[str, str] = {
     "governance_changelog": "docs/governance/GOVERNANCE_CHANGELOG.md",
     "dependency_audit": "docs/governance/DEPENDENCY_AUDIT.md",
     "sapal_legal": "docs/governance/SAPAL_LEGAL_ASSESSMENT.md",
+    "pb12_succession": "docs/governance/PB12_SUCCESSION_PLAN.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
@@ -204,7 +205,7 @@ KNOWN_GAPS: list[dict[str, str]] = [
     },
 ]
 
-# LESSONS_LEARNED pattern registry (P-01..P-13) — summary only; full prose in markdown SSOT
+# LESSONS_LEARNED pattern registry (P-01..P-16) — summary only; full prose in markdown SSOT
 LESSON_PATTERNS: list[dict[str, Any]] = [
     {
         "id": "P-01",
