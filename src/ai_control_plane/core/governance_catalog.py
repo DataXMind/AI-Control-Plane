@@ -14,6 +14,7 @@ VERIFY_GATE_COMMANDS: list[str] = [
     "pytest tests/ -v",
     "pytest tests/test_smoke.py -v -m smoke",
     "pytest tests/test_shipped_config_parity.py -v -m shipped_config",
+    "pip-audit  # dependency vulnerability scan — see DEPENDENCY_AUDIT.md",
 ]
 
 DOC_LINKS: dict[str, str] = {
@@ -48,6 +49,7 @@ DOC_LINKS: dict[str, str] = {
     "business_model": "docs/governance/BUSINESS_MODEL.md",
     "product_positioning": "docs/governance/PRODUCT_POSITIONING.md",
     "governance_changelog": "docs/governance/GOVERNANCE_CHANGELOG.md",
+    "dependency_audit": "docs/governance/DEPENDENCY_AUDIT.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
