@@ -38,10 +38,25 @@ bash scripts/acp-up.sh
 **No clone (GHCR):** after the demo image is published:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/DataXMind/AI-Control-Plane/master/scripts/acp-up.sh)" -- --ghcr
-# or from repo:
 ACP_UP_MODE=ghcr bash scripts/acp-up.sh
 ```
+
+If GHCR pull fails (`denied` / not found), the script **falls back to docker compose** when you are inside a repo clone. Use `--no-fallback` to disable.
+
+#### Publish GHCR demo image (maintainer — one-time or on release)
+
+1. Open [GitHub Actions → Publish GHCR demo image](https://github.com/DataXMind/AI-Control-Plane/actions/workflows/publish-ghcr.yml)
+2. Click **Run workflow** → branch `master` → **Run workflow**
+3. Wait ~2–5 min for green check
+4. **Private repo:** log in before pull:
+   ```bash
+   echo YOUR_GITHUB_PAT | docker login ghcr.io -u YOUR_GITHUB_USER --password-stdin
+   ```
+   PAT needs scope `read:packages`.
+
+CLI equivalent: `gh workflow run "Publish GHCR demo image"`
+
+Image: `ghcr.io/dataxmind/ai-control-plane:demo`
 
 ### Manual compose (equivalent)
 
@@ -208,6 +223,7 @@ python examples/integrate/python/before_tool_call.py
 | Symptom | Fix |
 |---------|-----|
 | `connection refused` on CONNECT | Check `ACP_API_URL`, firewall, WSL portproxy ([`RUNBOOK.md`](RUNBOOK.md)) |
+| GHCR `denied` on `--ghcr` | Run publish workflow; `docker login ghcr.io`; or use `bash scripts/acp-up.sh --compose` |
 | `allowed: false` for known agent | Ask operator — your `agent_id` / `role` may not match their config |
 | Changed config but API unchanged | Restart API host — config loads at startup only |
 | After `git pull`, old governance version | `docker compose up --build -d` (not `restart` only) |

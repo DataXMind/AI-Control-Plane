@@ -31,6 +31,7 @@
 - Added: `docs/DEVELOPER_SCENARIOS.md` (fork/clone + client usage); `DOC_LINKS.developer_scenarios`
 - Added: `docs/QUICKSTART.md` (RUN/CONNECT); `examples/integrate/`; `DOC_LINKS.quickstart`
 - Added: `scripts/acp-up.sh`, `docker-compose.ghcr.yml`, GHCR publish workflow (demo image)
+- Updated: `acp-up.sh` GHCR pull diagnostics + compose fallback on denied/not-found
 
 ## v1.3.3 (2026-06-28)
 **Type:** PATCH
