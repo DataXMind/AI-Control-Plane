@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
+# Semantic: MAJOR.MINOR.PATCH — see docs/governance/GOVERNANCE_CHANGELOG.md
 GOVERNANCE_VERSION = "1.3.3"
 
 VERIFY_GATE_COMMANDS: list[str] = [
@@ -46,6 +47,7 @@ DOC_LINKS: dict[str, str] = {
     "load_characteristics": "docs/governance/LOAD_CHARACTERISTICS.md",
     "business_model": "docs/governance/BUSINESS_MODEL.md",
     "product_positioning": "docs/governance/PRODUCT_POSITIONING.md",
+    "governance_changelog": "docs/governance/GOVERNANCE_CHANGELOG.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
