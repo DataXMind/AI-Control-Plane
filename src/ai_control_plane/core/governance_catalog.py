@@ -54,6 +54,7 @@ DOC_LINKS: dict[str, str] = {
     "pb12_succession": "docs/governance/PB12_SUCCESSION_PLAN.md",
     "value_audit_matrix": "docs/governance/VALUE_AUDIT_MATRIX.md",
     "developer_scenarios": "docs/DEVELOPER_SCENARIOS.md",
+    "quickstart": "docs/QUICKSTART.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {

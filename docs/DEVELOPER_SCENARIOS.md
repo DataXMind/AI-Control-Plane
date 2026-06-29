@@ -1,5 +1,8 @@
 # Developer Scenarios — Fork, Clone, and Client Usage
 
+> **End-user / evaluator / app integrator?** Start with **[`QUICKSTART.md`](QUICKSTART.md)** (5 min, two doors).  
+> This document is the **advanced map** for contributors, operators, and multi-host setups.
+
 **Document ID:** ACP-DEV-SCENARIOS-001  
 **Status:** Active (pre–Public Beta)  
 **Audience:** Evaluators, contributors, operators, remote clients  

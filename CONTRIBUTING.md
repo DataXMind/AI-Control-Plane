@@ -4,7 +4,8 @@
 
 New to ACP? Start here before reading the full governance docs.
 
-**Fork vs clone, evaluator vs client:** [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — 10 scenarios (5 common, 3 edge, 2 special) + end-user client checklist.
+**Evaluate or integrate (not contributing)?** [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — two doors, 5 minutes.  
+**Fork vs clone map:** [`docs/DEVELOPER_SCENARIOS.md`](docs/DEVELOPER_SCENARIOS.md) — advanced / operator paths.
 
 ### Your First Contribution Path
 
