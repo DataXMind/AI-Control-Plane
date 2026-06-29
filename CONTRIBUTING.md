@@ -1,5 +1,50 @@
 # Contributing to AI Control Plane
 
+## Quick Start for Contributors (5 minutes)
+
+New to ACP? Start here before reading the full governance docs.
+
+### Your First Contribution Path
+
+1. **Bug fix or docs:** Follow this guide completely.
+2. **New feature:** Read AGENTS.md and CURSOR_RISK_POLICY.md first, then return here.
+3. **Security issue:** Do NOT open a public issue. Email security@dataxmind.com — see SECURITY.md.
+
+### Minimum Viable Setup
+
+```bash
+git clone https://github.com/DataXMind/AI-Control-Plane
+cd AI-Control-Plane
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+export ACP_CONFIG_DIR=tests/fixtures/config
+pytest tests/test_smoke.py -v -m smoke  # should be 8/8 PASS
+```
+
+### The One Rule
+
+**Every PR must pass smoke gate (8/8) before review.**
+Smoke fail → fix first → then request review. Reviewers will not merge failing PRs.
+
+### What You Can Do Without Reading All Docs
+
+- Fix typos in docs/ → open PR directly
+- Add examples in examples/ → open PR, describe what you tested
+- Report bugs → use GitHub Issue templates (bug_report template)
+
+### What Requires Reading Governance Docs First
+
+- Changes to src/ai_control_plane/ → read AGENTS.md
+- Changes to policy behavior → read CURSOR_RISK_POLICY.md §ABAC
+- New CI gates → discuss in issue first
+
+### AI-Assisted Contributions (Cursor / Claude Code)
+
+If using AI coding assistants, paste session anchor at start:
+See docs/prompts/SESSION_ANCHOR_TEMPLATE.md for the canonical one-liner and PACE verify commands.
+
+---
+
 Thank you for contributing. This project is a **governance control plane** — changes that weaken fail-closed behavior or bypass invariants will be rejected.
 
 **Process SSOT:** [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) (PACE) · [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) (L2 risk)
