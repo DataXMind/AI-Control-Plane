@@ -5,7 +5,7 @@
 **Document ID:** ACP-DEV-PROTOCOL-001  
 **Version:** 1.5  
 **Created:** 2026-06-22 (rebased từ ACOP/AEOS Development Protocol template)  
-**Last updated:** 2026-06-25 — ML5 memory pack (`AGENTS.md`, `.cursor/rules/`, session anchor, CI `governance-memory`)  
+**Last updated:** 2026-06-30 — 48H Phase 4 iterative retrieval note (`AGENTS.md`, A6)  
 **Status:** ACTIVE  
 **Applies to:** Mọi task code/config có rủi ro; docs-only có thể rút gọn (xem §2)
 
@@ -67,6 +67,8 @@ TASK (một issue / một PR) — Standard+ và High-risk
 | **Trivial** | Typo doc, comment, format không đổi hành vi | `ruff` nếu chạm `.py`; không cần 9 bước đầy đủ |
 | **Standard** | Feature `core/`, endpoint mới, loader, test file | Steps 1–7 + session **Check**; micro-PACE nếu ≥2 file hoặc chạm `core/` |
 | **High-risk** | `models.py`, `policies.py`, policy YAML adapter, schema config, deploy | Full 9 steps + human confirm; không merge khi P0 gate chưa pass |
+
+**Iterative retrieval (ECC A6 — adopted as process, no ECC import):** Trước khi patch repo-wide, dùng ≤3 vòng search/read có chủ đích (xem [`AGENTS.md`](../AGENTS.md) §Iterative retrieval). Sau vòng 3 vẫn mơ hồ → Pause + Anchor gap; không đoán path.
 
 **Luôn áp dụng** (mọi mức có code):
 

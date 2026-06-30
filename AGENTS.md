@@ -85,12 +85,27 @@ Chat history is **not** durable memory. Write decisions to Tier C.
 
 ---
 
+## Iterative retrieval (broad exploration)
+
+When a task needs **repo-wide discovery** (unknown file location, cross-module flow, audit sweep):
+
+1. **Round 1** — narrow question + `SemanticSearch` / `Grep` / `Glob` (parallel where independent).
+2. **Round 2** — read only hits from round 1; refine query; avoid re-reading full trees.
+3. **Round 3** — max one follow-up if still blocked; then **Pause** and state gap in anchor/issue.
+
+**Limits:** ≤3 retrieval rounds before Act; do not spawn unbounded subagent chains.  
+**Policy work:** After discovery, classify risk (L2) and anchor file allowlist before patch.  
+**SSOT:** [`DEVELOPMENT_PROTOCOL.md`](docs/DEVELOPMENT_PROTOCOL.md) §2 · [`ECC_ACP_LAYER_MAP.md`](docs/governance/ECC_ACP_LAYER_MAP.md) (Agents = L3 delegation).
+
+---
+
 ## Task packets & gold patterns
 
 | Resource | Use |
 |----------|-----|
 | [`docs/prompts/_TEMPLATE.md`](docs/prompts/_TEMPLATE.md) | New Claude/Cursor task packets |
 | [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) | Open every Cursor session |
+| [`docs/governance/ACP_SESSION_CONTRACT_v1.md`](docs/governance/ACP_SESSION_CONTRACT_v1.md) | Compare `ecc.session.v1` vs ACP anchor (no implement) |
 | [`docs/governance/gold-patterns/GP-01-agent-session-memory.md`](docs/governance/gold-patterns/GP-01-agent-session-memory.md) | **Public export** — adopt in any repo |
 
 ---
@@ -118,4 +133,4 @@ bash scripts/verify_governance_memory.sh
 
 ---
 
-**Last updated:** 2026-06-25 · ML5 memory pack
+**Last updated:** 2026-06-30 · 48H Phase 4 · ML5 memory pack
