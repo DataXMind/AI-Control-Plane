@@ -1,15 +1,17 @@
 # AGENTS.md — AI Control Plane
 
-**Purpose:** Single entry point for **all coding agents** (Cursor, Claude Code, Copilot, etc.) on this repo.  
+**Purpose:** Single entry point for **all coding agents** (Cursor, Claude Code, Copilot, Codex, etc.) on this repo.  
 **Framework:** 6-layer Karpathy governance · **Memory target:** [Maturity Level 5](docs/governance/L5_MATURITY_MODEL.md)  
+**Operating system:** [`docs/prompts/AGENT_OPERATING_SYSTEM.md`](docs/prompts/AGENT_OPERATING_SYSTEM.md) (AOS) — **read for new session / new account**  
 **Companion:** [`.cursorrules`](.cursorrules) (L0–L5) · [`CLAUDE.md`](CLAUDE.md) (L0 summary)
 
 ---
 
 ## Start every session (mandatory)
 
-1. **Anchor** — copy [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md), fill baseline commit, risk, gates, allowlist.
-2. **Read SSOT** — `ARCHITECTURE.md` before non-trivial code; [`CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md) before any patch.
+1. **Anchor** — copy [`docs/prompts/ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md) (living snapshot) or fill [`SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) for full YAML.
+2. **Platform playbook** — Cursor: [`CURSOR_NEW_SESSION_PLAYBOOK.md`](docs/prompts/CURSOR_NEW_SESSION_PLAYBOOK.md) · Claude/Codex: [`CLAUDE_CODEX_PLAYBOOK.md`](docs/prompts/CLAUDE_CODEX_PLAYBOOK.md).
+3. **Read SSOT** — `ARCHITECTURE.md` before non-trivial code; [`CURSOR_RISK_POLICY.md`](docs/governance/CURSOR_RISK_POLICY.md) before any patch.
 3. **Runtime check** (when API up):
 
 ```bash
@@ -103,8 +105,12 @@ When a task needs **repo-wide discovery** (unknown file location, cross-module f
 
 | Resource | Use |
 |----------|-----|
+| [`docs/prompts/AGENT_OPERATING_SYSTEM.md`](docs/prompts/AGENT_OPERATING_SYSTEM.md) | **AOS** — memory, PACE, platforms, anti-drift |
+| [`docs/prompts/ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md) | Living anchor — paste every session |
+| [`docs/prompts/README.md`](docs/prompts/README.md) | Prompts index |
 | [`docs/prompts/_TEMPLATE.md`](docs/prompts/_TEMPLATE.md) | New Claude/Cursor task packets |
-| [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) | Open every Cursor session |
+| [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) | Full anchor structure + drift reject list |
+| [`docs/governance/MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) | **Human only** — PB-9 / Day 14 / PB-12 |
 | [`docs/governance/ACP_SESSION_CONTRACT_v1.md`](docs/governance/ACP_SESSION_CONTRACT_v1.md) | Compare `ecc.session.v1` vs ACP anchor (no implement) |
 | [`docs/governance/gold-patterns/GP-01-agent-session-memory.md`](docs/governance/gold-patterns/GP-01-agent-session-memory.md) | **Public export** — adopt in any repo |
 
@@ -133,4 +139,4 @@ bash scripts/verify_governance_memory.sh
 
 ---
 
-**Last updated:** 2026-06-30 · 48H Phase 4 · ML5 memory pack
+**Last updated:** 2026-06-30 · AOS v1.0 · ML5 memory pack

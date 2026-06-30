@@ -7,7 +7,8 @@
 **Reference date:** **2026-06-30** · PB-9 human tick cuối: **2026-06-30** (PR [#169](https://github.com/DataXMind/AI-Control-Plane/pull/169)–[#171](https://github.com/DataXMind/AI-Control-Plane/pull/171))  
 **SSOT companions:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md)
 
-> **Purpose:** Execute all remaining Public Beta operator work **without Cursor Agent** — shell, editor, GitHub UI, SSH VPS, optional Claude Project for drafting only.
+> **Purpose:** Execute all remaining Public Beta operator work **without Cursor Agent** — shell, editor, GitHub UI, SSH VPS, optional Claude Project for drafting only.  
+> **Agent framework (when using AI):** [`docs/prompts/AGENT_OPERATING_SYSTEM.md`](../prompts/AGENT_OPERATING_SYSTEM.md) · **This file = human-only track**
 
 ---
 

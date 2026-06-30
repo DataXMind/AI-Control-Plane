@@ -76,7 +76,7 @@ task: |
   Goal in one paragraph.
 ```
 
-Full template: ACP [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](../../../prompts/SESSION_ANCHOR_TEMPLATE.md).
+Full template: ACP [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](../../../prompts/SESSION_ANCHOR_TEMPLATE.md) · living snapshot [`ANCHOR_CURRENT.md`](../../../prompts/ANCHOR_CURRENT.md) · framework [`AGENT_OPERATING_SYSTEM.md`](../../../prompts/AGENT_OPERATING_SYSTEM.md).
 
 ---
 
