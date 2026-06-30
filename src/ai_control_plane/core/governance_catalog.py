@@ -61,6 +61,7 @@ DOC_LINKS: dict[str, str] = {
     "acp_session_contract_v1": "docs/governance/ACP_SESSION_CONTRACT_v1.md",
     "ecc_48h_results": "docs/governance/ECC_48H_RESULTS.md",
     "ecc_48h_post_verify": "docs/governance/practice-evidence/ecc-48h-post-verify/RESULTS.md",
+    "k6_policy_smoke": "docs/governance/practice-evidence/k6-policy-smoke/RESULTS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {

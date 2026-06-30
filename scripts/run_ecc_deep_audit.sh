@@ -23,13 +23,7 @@ bash scripts/verify_openapi_runtime.sh
 bash scripts/verify_governance_memory.sh
 
 echo "--- GHCR catalog version (local image if present) ---"
-if docker image inspect ghcr.io/dataxmind/ai-control-plane:demo >/dev/null 2>&1; then
-  docker run --rm ghcr.io/dataxmind/ai-control-plane:demo python3 -c \
-    "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print('GHCR_CATALOG', GOVERNANCE_VERSION)" \
-    || echo "GHCR_RUN_FAIL"
-else
-  echo "GHCR image not local"
-fi
+bash scripts/verify_ghcr_catalog.sh || true
 
 echo "--- integrate examples (live API) ---"
 python3 examples/integrate/python/before_tool_call.py

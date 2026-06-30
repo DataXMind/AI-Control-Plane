@@ -24,7 +24,7 @@
 | L3 integrate | `examples/integrate/python/*` live | **PASS** | allow + deny + health + quota |
 | L1 OpenAPI | `export_openapi.py` diff | **PASS** | Static `docs/openapi/openapi.json` in sync |
 | ECC 48H | 5-phase artifacts on disk | **PASS** | A1–A9 per closeout doc |
-| **GAP** | GHCR `demo` image catalog | **FAIL** | Local image reports **1.4.0** — see G-ECC-01 |
+| **GAP** | GHCR `demo` image catalog | **RESOLVED** @ PR #157 | Was **1.4.0** — auto-republish on `governance_catalog.py` push + `verify_ghcr_catalog.sh` |
 | **GAP** | `SESSION_ANCHOR_TEMPLATE` | **DRIFT** | Still cited v1.3.3 — fixed in this PR (P-14) |
 | **GAP** | Port 8000 conflict | **RISK** | `acp-demo` (GHCR) vs `minimal-acp-api-1` — operator must `--down` before switch |
 
@@ -38,9 +38,9 @@
 |-------|--------|
 | **Symptom** | `verify_governance_status_runtime.sh` returned **1.4.0** while repo @ **1.5.0** |
 | **Root cause** | `acp-demo` container (`ghcr.io/dataxmind/ai-control-plane:demo`) bound :8000; image built pre–Phase 5 |
-| **Trigger gap** | `.github/workflows/publish-ghcr.yml` runs on `v0.1.*` / `docker-demo-*` tags only — **not** on catalog MINOR |
-| **Mitigation** | `docker stop acp-demo` + `docker compose -f examples/minimal/docker-compose.yml up --build -d` OR republish GHCR via workflow_dispatch / tag |
-| **Prevention** | Document in QUICKSTART; P-17 connector minimalism — prefer compose when verifying catalog |
+| **Trigger gap** | ~~tags only~~ | **Fixed:** `publish-ghcr.yml` triggers on `governance_catalog.py` / Dockerfile push to `master` |
+| **Mitigation** | `docker stop acp-demo` + compose build OR `gh workflow run "Publish GHCR demo image"` |
+| **Prevention** | `bash scripts/verify_ghcr_catalog.sh` before CONNECT-path verify |
 
 ### G-ECC-02 — Session anchor drift (P-14)
 
@@ -55,10 +55,10 @@ Direct `curl -d '{...}'` from PowerShell/WSL wrappers can fail silently (405/inv
 | Item | Why deferred |
 |------|----------------|
 | Study 09 MCP inventory | Post-flip per ECC analysis |
-| k6 / fleet load (P-15) | No load harness in repo |
+| k6 / fleet load (P-15) | **Closed** @ `k6-policy-smoke/` PASS 10 VUs |
 | Cross-host / Tailscale | Requires second machine |
 | Kill switch live drill | Covered by SMK-04 + Study 05 runbook; not re-run live |
-| `acp-up.sh --ghcr` end-to-end | Blocked until GHCR republish |
+| `acp-up.sh --ghcr` end-to-end | Unblocked after GHCR republish @ PR #157 |
 | AgentShield / ECC plugin | REJECT per 48H plan |
 
 ---

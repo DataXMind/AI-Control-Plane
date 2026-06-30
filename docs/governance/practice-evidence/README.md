@@ -29,7 +29,7 @@
 | k6 policy smoke | P-15 load smoke @ 10 VUs | **PASS** | 2026-06-30 | [`k6-policy-smoke/`](k6-policy-smoke/) |
 | PB-7 | Clean-machine fork ≤15 min (G3-1) | **PAUSED** | — | Operator: other laptop — [`pb-7-clean-machine-fork/`](pb-7-clean-machine-fork/) |
 
-‡ ECC post-verify: compose local **1.5.0** PASS; GHCR `demo` image still **1.4.0** until republish.
+‡ ECC post-verify: compose local **1.5.0** PASS; GHCR republish coupled to catalog push (G-ECC-01 closed @ PR #157).
 
 † Study 05: 5g G2-1 + 5e G2-2 closed @ 2026-06-26.
 
