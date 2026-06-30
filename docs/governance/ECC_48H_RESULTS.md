@@ -17,7 +17,9 @@
 | P-17 in `GET /governance/status` | ✅ @ v1.5.0 |
 | Version bump only Phase 5 | ✅ |
 
-**Deferred (explicit):** Study 09 MCP inventory, AgentShield, k6 load closure, cross-harness session adapter implementation.
+**Deferred (explicit @ ECC closeout):** AgentShield, cross-harness session adapter implementation.
+
+**Closed post-roadmap (#156–#161):** Study 09 MCP inventory · P-15 k6 load smoke · GHCR catalog coupling (G-ECC-01).
 
 ---
 
@@ -36,16 +38,18 @@
 
 ## Post-verify deep audit (2026-06-30)
 
-Operator MSI WSL — **PASS** with gaps **G-ECC-01** (GHCR demo still v1.4.0) and anchor drift fix.
+Operator MSI WSL — **PASS**; G-ECC-01 (GHCR) and G-ECC-02 (anchor) **resolved** @ PR #157–#161.
 
 **Evidence:** [`practice-evidence/ecc-48h-post-verify/RESULTS.md`](practice-evidence/ecc-48h-post-verify/RESULTS.md) · log `artifacts/deep-audit-2026-06-30.log`
 
 | Check | Result |
 |-------|--------|
-| pytest 177 | PASS |
+| pytest 181 | PASS |
 | runtime verify 1.5.0 / 17 patterns | PASS @ compose local |
 | integrate examples live | PASS |
-| GHCR `demo` catalog | **1.4.0** — republish required for CONNECT path |
+| GHCR `demo` catalog | **1.5.0** @ PR #157–#160 — `verify_ghcr_catalog.sh` |
+| P-15 k6 smoke | PASS @ `k6-policy-smoke/` |
+| Study 09 MCP inventory | PASS @ `study-09-mcp-inventory/` |
 
 ---
 

@@ -1,7 +1,7 @@
 # ACP Load Characteristics & Soak Scope — 0.x
 
 **Document ID:** ACP-GOV-LOAD-CHARS-001  
-**Baseline:** `master` @ `cc4e442` · Catalog v1.3.3  
+**Baseline:** `master` @ `ad3d58a` · Catalog v1.5.0  
 **Related:** [`PB9_STAGING_SOAK_LOG.md`](PB9_STAGING_SOAK_LOG.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)
 
 ---

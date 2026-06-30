@@ -3,7 +3,7 @@
 **Document ID:** ACP-PROMPT-CLAUDE-PROJECT-SETUP-001  
 **Audience:** Maintainer · operator · Claude Projects (claude.ai)  
 **Phase:** PB-9 staging soak → PB-12 flip  
-**Baseline:** `master` @ **`77c4cc8`** · catalog **v1.5.0** · 17 patterns  
+**Baseline:** `master` @ **`ad3d58a`** · catalog **v1.5.0** · 17 patterns  
 **Companion:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) (Cursor) · [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) (SSOT)
 
 > **Use:** One-time Project setup on claude.ai + paste **opener** at every new conversation.  
@@ -60,7 +60,7 @@ Practice PASS: PB-7 CLEAN, security@, PB-8 tag v0.1.0-rc.1 @ c58b4cc, CHANGELOG/
 Catalog still shows 7 gates_remaining until maintainer bump @ PB-12 flip.
 Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~2026-07-10.
 PB-10 production soak DEFERRED to GA (#78 post-flip) — does NOT block 0.x beta.
-177 pytest, smoke 8/8 (SMK-01..06c).
+181 pytest, smoke 8/8 (SMK-01..06c).
 </current_state>
 
 <hard_rules>

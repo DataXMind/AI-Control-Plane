@@ -208,6 +208,8 @@ class PracticeEvidenceSummary(BaseModel):
     index_url: str
     audit_url: str
     study_08_url: str
+    study_09_url: str
+    k6_policy_smoke_url: str
 
 
 class PublicBetaGateDetail(BaseModel):

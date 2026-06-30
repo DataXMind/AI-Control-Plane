@@ -25,7 +25,7 @@
 | L1 OpenAPI | `export_openapi.py` diff | **PASS** | Static `docs/openapi/openapi.json` in sync |
 | ECC 48H | 5-phase artifacts on disk | **PASS** | A1–A9 per closeout doc |
 | **GAP** | GHCR `demo` image catalog | **RESOLVED** @ PR #157 | Was **1.4.0** — auto-republish on `governance_catalog.py` push + `verify_ghcr_catalog.sh` |
-| **GAP** | `SESSION_ANCHOR_TEMPLATE` | **DRIFT** | Still cited v1.3.3 — fixed in this PR (P-14) |
+| **GAP** | `SESSION_ANCHOR_TEMPLATE` | **RESOLVED** @ PR #161 | Was v1.3.3 / stale SHA — anchor @ `ad3d58a` |
 | **GAP** | Port 8000 conflict | **RISK** | `acp-demo` (GHCR) vs `minimal-acp-api-1` — operator must `--down` before switch |
 
 ---
@@ -42,9 +42,9 @@
 | **Mitigation** | `docker stop acp-demo` + compose build OR `gh workflow run "Publish GHCR demo image"` |
 | **Prevention** | `bash scripts/verify_ghcr_catalog.sh` before CONNECT-path verify |
 
-### G-ECC-02 — Session anchor drift (P-14)
+### G-ECC-02 — Session anchor drift (P-14) — **RESOLVED** @ PR #161
 
-Canonical anchor cited **v1.3.3 / 13 patterns** while runtime SSOT is **v1.5.0 / 17**. Agents following stale anchor mis-state catalog gates.
+Was: anchor cited v1.3.3 / 13 patterns. Now: `SESSION_ANCHOR_TEMPLATE.md` @ `ad3d58a` · v1.5.0 · 17 patterns.
 
 ### G-ECC-03 — Shell `curl` JSON escaping (operator trap)
 

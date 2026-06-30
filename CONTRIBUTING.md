@@ -22,6 +22,15 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 export ACP_CONFIG_DIR=tests/fixtures/config
 pytest tests/test_smoke.py -v -m smoke  # should be 8/8 PASS
+bash scripts/verify_governance_memory.sh
+```
+
+**Operator / staging (API running on :8000):**
+
+```bash
+export ACP_API_URL=http://127.0.0.1:8000
+bash scripts/verify_governance_status_runtime.sh
+bash scripts/verify_ghcr_catalog.sh   # SKIP if no GHCR image pulled
 ```
 
 ### The One Rule

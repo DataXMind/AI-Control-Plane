@@ -1001,6 +1001,14 @@
           "study_08_url": {
             "type": "string",
             "title": "Study 08 Url"
+          },
+          "study_09_url": {
+            "type": "string",
+            "title": "Study 09 Url"
+          },
+          "k6_policy_smoke_url": {
+            "type": "string",
+            "title": "K6 Policy Smoke Url"
           }
         },
         "additionalProperties": false,
@@ -1016,7 +1024,9 @@
           "note",
           "index_url",
           "audit_url",
-          "study_08_url"
+          "study_08_url",
+          "study_09_url",
+          "k6_policy_smoke_url"
         ],
         "title": "PracticeEvidenceSummary",
         "description": "Operator practice studies summary."
