@@ -34,9 +34,9 @@
 | Moat | Strength | Evidence | Timeline to strengthen |
 |---|---|---|---|
 | Practice evidence | Strong | 8 studies, dual-host, kill-switch | Study 09+ post-flip |
-| Governance catalog runtime | Medium-Strong | GET /governance/status v1.4.0 | v1.5.x new gates |
+| Governance catalog runtime | Medium-Strong | GET /governance/status v1.5.0 · 17 patterns | GHCR demo image may lag until tag publish |
 | 16 LESSONS + 6-layer | Medium | P-01..P-16, PACE | Community additions |
 | Agent-native ABAC | Medium | Shipped parity CI, CS-04 | Load test (P-15 closure) |
 | SAPAL adaptive loop | Weak | Stub → Phase 0 v0.2.x | v0.3.x proposals |
 
-**Last updated:** 2026-06-29 · master @ `cff686e` · catalog v1.4.0
+**Last updated:** 2026-06-30 · master @ `1dd8f31` · catalog v1.5.0

@@ -8,12 +8,13 @@
 ## Canonical one-liner (paste at session start)
 
 ```text
-AI Control Plane @ master 20e4fc3: Milestones A–C+ closed.
-Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.3.3 live.
-Practice: PB-7 PASS · security@ PASS · tag v0.1.0-rc.1 @ c58b4cc · CHANGELOG/go-no-go merged (#119/#120).
+AI Control Plane @ master 1dd8f31: Milestones A–C+ closed.
+Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.5.0 live · 17 LESSON patterns (P-17 ECC).
+ECC 48H PASS (#146–#151). Practice: PB-7 PASS · security@ PASS · tag v0.1.0-rc.1 @ c58b4cc.
 Runtime catalog: 7 gates_remaining until maintainer bump @ PB-12 flip.
 Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → PB-12 ~2026-07-10.
-PB-10 production soak deferred to GA (#78 post-flip). Trust verify_* scripts — not stale HTML.
+PB-10 production soak deferred to GA (#78). Trust verify_* scripts — not stale HTML.
+GHCR demo image may lag catalog — use compose build for v1.5.0 verify (see ecc-48h-post-verify).
 ```
 
 ---
@@ -63,13 +64,14 @@ curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, 
 export ACP_CONFIG_DIR=tests/fixtures/config
 pytest tests/test_smoke.py -v -m smoke                   # 8/8
 export ACP_API_URL=http://127.0.0.1:8000
-bash scripts/verify_governance_status_runtime.sh          # 1.3.3, 13 patterns
+bash scripts/verify_governance_status_runtime.sh          # 1.5.0, 17 patterns
 bash scripts/verify_openapi_runtime.sh                   # 3.1.0, 13 paths
+bash scripts/run_ecc_deep_audit.sh                       # optional: full post-verify battery
 ```
 
 ---
 
-## `gates_remaining` @ catalog v1.3.3 (runtime — not HTML)
+## `gates_remaining` @ catalog v1.5.0 (runtime — not HTML)
 
 | # | Gate | Practice @ 2026-06-28 | Blocks PB-12 @ 0.x? |
 |---|------|------------------------|---------------------|

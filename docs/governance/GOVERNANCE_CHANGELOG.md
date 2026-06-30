@@ -16,6 +16,9 @@
 - Added: `DOC_LINKS.ecc_48h_results`
 - Updated: README + CONTRIBUTING ECC integration pointers → `ECC_ACP_INTEGRATION_ANALYSIS.md`
 - Carries forward: 48H Phase 1–4 artifacts (A1–A8) merged PR #146–#150
+- Added: `practice-evidence/ecc-48h-post-verify/` deep audit (PATCH reconcile); `scripts/run_ecc_deep_audit.sh`
+- Updated: `SESSION_ANCHOR_TEMPLATE.md` v1.5.0 / 17 patterns / master `1dd8f31` (P-14 drift fix)
+- Added: `DOC_LINKS.ecc_48h_post_verify`; QUICKSTART GHCR catalog lag note (G-ECC-01)
 
 ## v1.4.0 (2026-06-30)
 **Type:** MINOR

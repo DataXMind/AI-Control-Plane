@@ -60,4 +60,4 @@ Document how an external harness session envelope (`ecc.session.v1`) relates to 
 
 ---
 
-**Last updated:** 2026-06-30 · 48H Phase 4 · Catalog v1.4.0 → v1.5.0 at Phase 5
+**Last updated:** 2026-06-30 · Catalog v1.5.0

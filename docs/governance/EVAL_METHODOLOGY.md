@@ -47,4 +47,4 @@ Industry harness practice (pass@k for exploration vs pass^k for reliability) is 
 
 ---
 
-**Last updated:** 2026-06-30 · 48H Phase 3 · Catalog v1.4.0 → v1.5.0 at Phase 5
+**Last updated:** 2026-06-30 · Catalog v1.5.0
