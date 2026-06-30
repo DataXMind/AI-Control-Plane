@@ -69,6 +69,8 @@ code + ARCHITECTURE.md
 | **L4** | CI, `DEVELOPMENT_PROTOCOL.md` §5.5 | Verify gate before done |
 | **L5** | `LESSONS_LEARNED.md`, plans, practice-evidence | Update after sprint close; never delete patterns |
 
+**Harness vs policy:** ECC-style skills/hooks/rules map to Karpathy layers — see [`ECC_ACP_LAYER_MAP.md`](docs/governance/ECC_ACP_LAYER_MAP.md). Runtime allow/deny stays `POST /policy/evaluate`.
+
 ---
 
 ## Memory tiers (L5 — do not rely on chat)
