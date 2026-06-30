@@ -55,6 +55,7 @@ DOC_LINKS: dict[str, str] = {
     "value_audit_matrix": "docs/governance/VALUE_AUDIT_MATRIX.md",
     "developer_scenarios": "docs/DEVELOPER_SCENARIOS.md",
     "quickstart": "docs/QUICKSTART.md",
+    "ecc_integration_analysis": "docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
