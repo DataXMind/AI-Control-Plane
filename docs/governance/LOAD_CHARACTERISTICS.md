@@ -41,8 +41,19 @@ The **p99 < 500ms** target in [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.m
 
 - **Benchmark:** 50 / 100 / 500 concurrent agents
 - **Target:** p99 < 200ms at 100 concurrent
-- **Tool:** k6 with ACP policy evaluation scenario
-- **Issue:** [to be created post-flip]
+- **Tool:** k6 — skeleton @ `benchmarks/k6/policy_evaluate.js`
+- **Runner:** `bash scripts/run_k6_policy_smoke.sh` (skips if k6 not installed)
+- **Issue:** post-flip closure for P-15
+
+### Operator quick start (skeleton)
+
+```bash
+export ACP_API_URL=http://127.0.0.1:8000
+bash scripts/run_k6_policy_smoke.sh
+# Or: K6_VUS=50 K6_DURATION=60s k6 run benchmarks/k6/policy_evaluate.js
+```
+
+Label results **load smoke** — not PB-9 soak replacement.
 
 ---
 
@@ -57,4 +68,4 @@ These are **developer-grade machines**, not production infrastructure. Productio
 
 ---
 
-**Last updated:** 2026-06-29 · Catalog v1.3.3 · `master` @ `cc4e442`
+**Last updated:** 2026-06-30 · Catalog v1.5.0 · k6 skeleton `benchmarks/k6/`

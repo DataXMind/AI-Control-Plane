@@ -19,6 +19,7 @@
 - Added: `practice-evidence/ecc-48h-post-verify/` deep audit (PATCH reconcile); `scripts/run_ecc_deep_audit.sh`
 - Updated: `SESSION_ANCHOR_TEMPLATE.md` v1.5.0 / 17 patterns / master `1dd8f31` (P-14 drift fix)
 - Added: P-14 gate evidence predicates — `gate_details` + `gates_blocking_pb12` on `/governance/status`
+- Added: k6 load skeleton `benchmarks/k6/policy_evaluate.js` + `run_k6_policy_smoke.sh` (P-15)
 
 ## v1.4.0 (2026-06-30)
 **Type:** MINOR

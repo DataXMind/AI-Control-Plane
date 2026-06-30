@@ -27,7 +27,7 @@
 | PB-7 clean fork | pass^1 | 1 | health + allow + deny ≤15 min |
 | PB-9 calendar soak | pass^14 | 14 | daily human tick + machine log |
 | PB-10 production soak | pass^30 | 30 | calendar days (post-flip) |
-| Policy evaluate SLO | pass^k load | fleet RPS | `LOAD_CHARACTERISTICS.md` (P-15) |
+| Policy evaluate SLO | pass^k load | fleet RPS | `LOAD_CHARACTERISTICS.md` + `benchmarks/k6/` (P-15) |
 
 ---
 
