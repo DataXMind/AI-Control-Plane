@@ -24,6 +24,7 @@
 - Added: `k6_policy_smoke` DOC_LINKS entry; GHCR auto-republish on `governance_catalog.py` push
 - Added: `scripts/verify_ghcr_catalog.sh` — operator GHCR vs repo catalog check
 - Added: `evaluation_path` on policy evaluate response (rbac | abac | guardrail | …)
+- Added: Study 09 MCP inventory practice evidence; SAPAL demoted in PRODUCT_POSITIONING
 
 ## v1.4.0 (2026-06-30)
 **Type:** MINOR

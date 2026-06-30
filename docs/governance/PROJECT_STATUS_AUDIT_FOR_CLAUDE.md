@@ -1,5 +1,13 @@
 # AI Control Plane — Project Status Audit (Claude Handoff)
 
+> ## ⚠️ DEPRECATION NOTICE — 2026-06-30
+>
+> **Stale for ops state** — cites v1.3.3 / 13 patterns / `20e4fc3`.
+>
+> **Use instead:** [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) · [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `GET /governance/status`
+>
+> **Still valid:** architectural sections below (invariants, module map) as historical reference.
+
 **Document ID:** ACP-GOV-PROJECT-STATUS-AUDIT-CLAUDE-001  
 **Audience:** Claude (Anthropic) — architecture, governance, and Public Beta planning sessions  
 **Prepared by:** Cursor operator session · reconciled against runtime evidence  

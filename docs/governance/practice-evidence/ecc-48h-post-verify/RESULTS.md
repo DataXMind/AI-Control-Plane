@@ -54,7 +54,7 @@ Direct `curl -d '{...}'` from PowerShell/WSL wrappers can fail silently (405/inv
 
 | Item | Why deferred |
 |------|----------------|
-| Study 09 MCP inventory | Post-flip per ECC analysis |
+| Study 09 MCP inventory | **Closed** @ `study-09-mcp-inventory/` |
 | k6 / fleet load (P-15) | **Closed** @ `k6-policy-smoke/` PASS 10 VUs |
 | Cross-host / Tailscale | Requires second machine |
 | Kill switch live drill | Covered by SMK-04 + Study 05 runbook; not re-run live |
