@@ -5,7 +5,7 @@
 | Moat | Enterprise (Tier 1) | LLM Builder (Tier 2) | Gov-only (Tier 3) |
 |---|---|---|---|
 | Fail-closed policy | CS-06, SMK-04 | PB-7 quick start | — |
-| Practice evidence corpus | Studies 01-08, dual-host, ecc-48h-post-verify | Studies 01-03 | Studies 04-07 |
+| Practice evidence corpus | Studies 01-09, k6-policy-smoke, ecc-48h-post-verify | Studies 01-03 | Studies 04-07 |
 | Governance catalog runtime | GET /governance/status · gate_details | — | SESSION_ANCHOR |
 | Agent-native ABAC | CS-04, shipped parity | PRODUCT_POSITIONING | — |
 | 17 LESSONS encoded | P-01..P-17, PACE | CONTRIBUTING QS | P-01..P-17 |
@@ -49,4 +49,4 @@
 
 **SSOT:** `curl $ACP_API_URL/governance/status | jq '.public_beta'`
 
-**Last updated:** 2026-06-30 · master @ `77c4cc8` · catalog v1.5.0
+**Last updated:** 2026-06-30 · master @ `ad3d58a` · catalog v1.5.0

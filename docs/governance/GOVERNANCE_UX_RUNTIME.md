@@ -169,18 +169,21 @@ Evidence: [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice
 | `/health` | CI smoke, config wire proof, k8s liveness |
 | `/governance/status` | On-call governance checklist, pre-merge review, onboarding |
 
-**Operator verify (catalog v1.3):** After merges touching `src/`, rebuild Docker staging then:
+**Operator verify (catalog v1.5):** After merges touching `src/`, rebuild Docker staging then:
 
 ```bash
-bash scripts/verify_governance_status_runtime.sh   # ACP_API_URL defaults to http://127.0.0.1:8000
+docker ps --filter publish=8000 --format '{{.Names}} {{.Image}}'  # avoid port conflict
+bash scripts/verify_governance_status_runtime.sh   # expects 1.5.0 · 17 patterns
+bash scripts/verify_ghcr_catalog.sh                # CONNECT path; SKIP if no local image
+bash scripts/verify_governance_memory.sh           # ML5 pack
 ```
 
 See also [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-evidence/governance-status-v13-verify/RESULTS.md) (v1.3) and [`governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md) (v1.2).
 
-**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 PASS.  
+**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 + Study 09 + k6-policy-smoke PASS.  
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-30 — catalog v1.5.0: `gate_details` + `gates_blocking_pb12` (P-14)
+**Last updated:** 2026-06-30 — catalog v1.5.0: `gate_details` · `evaluation_path` · roadmap #153–#161 reconcile
 
 **Note on CS-01/03/04:** Process-layer governance — validated via `LESSONS_LEARNED.md` P-01..P-04 and `lessons_patterns[]`, not operator runtime drill. **G-01..G-04, G-06, G-07: CLOSED** @ 2026-06-26. **G-05 OPEN** — PB-9 calendar soak until ~2026-07-06. Supersedes stale Claude sync prompt (pre-PR #99).

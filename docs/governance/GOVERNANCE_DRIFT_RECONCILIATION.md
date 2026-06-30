@@ -246,4 +246,21 @@ Engineering packets merged (#116–#118). Active phase = **operator pipeline** p
 ---
 
 **Next:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md)  
-**Last updated:** 2026-06-27 @ v1.3.3 artifact registry
+### 1.5 Post-roadmap P0–P2 @ `ad3d58a` (PR #153–#161)
+
+| Area | Status | Residual |
+|------|--------|----------|
+| P-14 `gate_details` / `gates_blocking_pb12` | ✅ | `gates_remaining` still 7 until flip bump |
+| P-15 k6 load smoke | ✅ `k6-policy-smoke/` | Not fleet-scale SLO proof |
+| GHCR catalog coupling | ✅ auto-republish + verify script | Operator must `docker pull` after publish |
+| `evaluation_path` on `/policy/evaluate` | ✅ | OIDC / identity federation deferred |
+| Study 09 MCP inventory | ✅ | cyanheads E2E still `[mcp-unverified]` |
+| SAPAL positioning | ✅ demoted @ 0.x | apex MVP unchanged |
+| pytest baseline | **181** SMK **8/8** | — |
+| PB-9 soak | 🔄 | Operator calendar unchanged |
+
+**Last updated:** 2026-06-30 @ v1.5.0 post-roadmap reconcile
+
+---
+
+**Last updated (§1 registry):** 2026-06-27 @ v1.3.3 artifact registry

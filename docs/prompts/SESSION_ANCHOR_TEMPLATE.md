@@ -8,19 +8,19 @@
 ## Canonical one-liner (paste at session start)
 
 ```text
-AI Control Plane @ master 5e0eaef: Milestones A–C+ closed.
+AI Control Plane @ master ad3d58a: Milestones A–C+ closed.
 Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.5.0 live · 17 LESSON patterns (P-17 ECC).
-ECC 48H PASS (#146–#151). P-15 k6 PASS · roadmap PRs #153–#156 merged.
-Runtime catalog: gates_blocking_pb12 PB-9, PB-12; gates_remaining 7 until flip bump.
+Roadmap PRs #153–#161 merged: P-14 gate_details · P-15 k6 PASS · GHCR coupling · evaluation_path · Study 09.
+Runtime: gates_blocking_pb12 PB-9, PB-12; gates_remaining 7 until maintainer flip bump.
 Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → PB-12 ~2026-07-10.
-PB-10 production soak deferred to GA (#78). GHCR: `verify_ghcr_catalog.sh` after pull.
+PB-10 deferred GA (#78). Verify: smoke 8/8 · runtime · verify_ghcr_catalog.sh (CONNECT path).
 ```
 
 ---
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · **Claude full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `master` @ **`20e4fc3`**
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · **Claude full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `master` @ **`ad3d58a`**
 
 **Chờ calendar / operator**
 

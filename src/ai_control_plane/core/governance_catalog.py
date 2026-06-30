@@ -62,6 +62,7 @@ DOC_LINKS: dict[str, str] = {
     "ecc_48h_results": "docs/governance/ECC_48H_RESULTS.md",
     "ecc_48h_post_verify": "docs/governance/practice-evidence/ecc-48h-post-verify/RESULTS.md",
     "k6_policy_smoke": "docs/governance/practice-evidence/k6-policy-smoke/RESULTS.md",
+    "study_09_mcp_inventory": "docs/governance/practice-evidence/study-09-mcp-inventory/RESULTS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
@@ -465,23 +466,28 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "case_study_id": None,
         "prevention": (
             "Default 0–1 MCP connectors; prefer skill/CLI; "
-            "inventory deferred Study 09 — cite connector count in anchor"
+            "Study 09 inventory PASS — cite connector count in anchor"
         ),
     },
 ]
 
 PRACTICE_EVIDENCE: dict[str, str | int | list[str]] = {
     "studies_completed": 8,
-    "last_run": "2026-06-26",
+    "last_run": "2026-06-30",
     "overall_verdict": "PASS",
     "open_gaps_count": 1,
     "artifacts_count": 45,
     "hosts": ["MSI WSL", "Mac Mini M2", "ubuntu-vps"],
     "network_topologies": ["localhost", "Docker", "LAN", "Tailscale"],
-    "note": "Studies 01–08 PASS; PB-9 calendar soak (G-05) separate from one-shot drills.",
+    "note": (
+        "Studies 01–08 PASS; Study 09 MCP inventory PASS; "
+        "k6-policy-smoke PASS; PB-9 calendar soak (G-05) separate."
+    ),
     "index_url": "docs/governance/practice-evidence/README.md",
     "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "study_08_url": "docs/governance/practice-evidence/study-08-shipped-remote/RESULTS.md",
+    "study_09_url": "docs/governance/practice-evidence/study-09-mcp-inventory/RESULTS.md",
+    "k6_policy_smoke_url": "docs/governance/practice-evidence/k6-policy-smoke/RESULTS.md",
 }
 
 __all__ = [
