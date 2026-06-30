@@ -209,6 +209,19 @@ class PracticeEvidenceSummary(BaseModel):
     study_08_url: str
 
 
+class PublicBetaGateDetail(BaseModel):
+    """PB gate with practice evidence predicate (P-14)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    label: str
+    practice_status: str
+    blocks_pb12: bool
+    catalog_list: str
+    evidence: str
+
+
 class PublicBetaSummary(BaseModel):
     """Public Beta track metadata (PB-9..PB-12)."""
 
@@ -220,6 +233,8 @@ class PublicBetaSummary(BaseModel):
     soak_review_target: str
     gates_remaining: list[str]
     gates_closed: list[str]
+    gates_blocking_pb12: list[str]
+    gate_details: list[PublicBetaGateDetail]
 
 
 class GovernanceStatusResponse(BaseModel):
@@ -254,6 +269,7 @@ __all__ = [
     "GovernanceKnownGap",
     "GovernanceStatusResponse",
     "LessonPattern",
+    "PublicBetaGateDetail",
     "PublicBetaSummary",
     "PracticeEvidenceSummary",
     "HealthResponse",

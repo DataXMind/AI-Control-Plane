@@ -61,8 +61,8 @@ from ai_control_plane.core.governance_catalog import (
     LESSON_PATTERNS,
     MILESTONE_STATUS,
     PRACTICE_EVIDENCE,
-    PUBLIC_BETA,
     VERIFY_GATE_COMMANDS,
+    build_public_beta_summary,
 )
 from ai_control_plane.core.identity import JWTValidationError, TokenValidator, create_jwt_validator
 from ai_control_plane.core.models import (
@@ -514,7 +514,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
             layers=dict(LAYER_SUMMARY),
             verify_gate=list(VERIFY_GATE_COMMANDS),
             doc_links=dict(DOC_LINKS),
-            public_beta=PublicBetaSummary.model_validate(PUBLIC_BETA),
+            public_beta=PublicBetaSummary.model_validate(build_public_beta_summary()),
             case_studies=studies,
             known_gaps=gaps,
             lessons_patterns=patterns,

@@ -80,27 +80,107 @@ MILESTONE_STATUS: dict[str, str] = {
     "public_beta": "IN_PROGRESS",
 }
 
-PUBLIC_BETA: dict[str, str | list[str]] = {
-    "phase": "PB-9 staging soak",
-    "open_issues": "#77-#80",
-    "soak_started": "2026-06-22",
-    "soak_review_target": "2026-07-06",
-    "gates_remaining": [
-        "PB-9 calendar soak (G-05)",
-        "PB-7 clean-machine fork ≤15 min",
-        "PB-10 production soak ≥30d",
-        "PB-6 OpenAPI publish on flip",
-        "PB-8 v0.1.0-rc.1 tag",
-        "security@ mailbox live test (pre-PB-12)",
-        "PB-12 human go/no-go",
-    ],
-    "gates_closed": [
-        "PB-11 legal artifacts (SECURITY, CONTRIBUTING, CoC)",
-        "docs/RUNBOOK.md operator SSOT",
-        "Governance catalog 3-stream convergence",
-        "GitHub Discussions enabled",
-    ],
-}
+PUBLIC_BETA_GATE_REGISTRY: list[dict[str, Any]] = [
+    {
+        "id": "PB-9",
+        "label": "PB-9 calendar soak (G-05)",
+        "catalog_list": "remaining",
+        "practice_status": "OPEN",
+        "blocks_pb12": True,
+        "evidence": "docs/governance/PB9_STAGING_SOAK_LOG.md",
+    },
+    {
+        "id": "PB-7",
+        "label": "PB-7 clean-machine fork ≤15 min",
+        "catalog_list": "remaining",
+        "practice_status": "PASS",
+        "blocks_pb12": False,
+        "evidence": "docs/governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md",
+    },
+    {
+        "id": "PB-10",
+        "label": "PB-10 production soak ≥30d",
+        "catalog_list": "remaining",
+        "practice_status": "DEFERRED",
+        "blocks_pb12": False,
+        "evidence": "docs/governance/PUBLIC_BETA_GO_NO_GO.md",
+    },
+    {
+        "id": "PB-6",
+        "label": "PB-6 OpenAPI publish on flip",
+        "catalog_list": "remaining",
+        "practice_status": "IN_PROGRESS",
+        "blocks_pb12": False,
+        "evidence": "docs/openapi/openapi.json",
+    },
+    {
+        "id": "PB-8",
+        "label": "PB-8 v0.1.0-rc.1 tag",
+        "catalog_list": "remaining",
+        "practice_status": "PASS",
+        "blocks_pb12": False,
+        "evidence": "CHANGELOG.md",
+    },
+    {
+        "id": "PB-SEC",
+        "label": "security@ mailbox live test (pre-PB-12)",
+        "catalog_list": "remaining",
+        "practice_status": "PASS",
+        "blocks_pb12": False,
+        "evidence": (
+            "docs/governance/practice-evidence/security-email-live-test/RESULTS.md"
+        ),
+    },
+    {
+        "id": "PB-12",
+        "label": "PB-12 human go/no-go",
+        "catalog_list": "remaining",
+        "practice_status": "OPEN",
+        "blocks_pb12": True,
+        "evidence": "docs/governance/PUBLIC_BETA_GO_NO_GO.md",
+    },
+]
+
+PUBLIC_BETA_GATES_CLOSED_STATIC: list[str] = [
+    "PB-11 legal artifacts (SECURITY, CONTRIBUTING, CoC)",
+    "docs/RUNBOOK.md operator SSOT",
+    "Governance catalog 3-stream convergence",
+    "GitHub Discussions enabled",
+]
+
+
+def build_public_beta_summary() -> dict[str, Any]:
+    """P-14 — derive gate lists from evidence registry (catalog bump @ flip unchanged)."""
+    remaining = [g["label"] for g in PUBLIC_BETA_GATE_REGISTRY if g["catalog_list"] == "remaining"]
+    details = [
+        {
+            "id": g["id"],
+            "label": g["label"],
+            "practice_status": g["practice_status"],
+            "blocks_pb12": g["blocks_pb12"],
+            "catalog_list": g["catalog_list"],
+            "evidence": g["evidence"],
+        }
+        for g in PUBLIC_BETA_GATE_REGISTRY
+    ]
+    blocking = [
+        g["id"]
+        for g in PUBLIC_BETA_GATE_REGISTRY
+        if g["blocks_pb12"] and g["practice_status"] in ("OPEN", "IN_PROGRESS")
+    ]
+    return {
+        "phase": "PB-9 staging soak",
+        "open_issues": "#77-#80",
+        "soak_started": "2026-06-22",
+        "soak_review_target": "2026-07-06",
+        "gates_remaining": remaining,
+        "gates_closed": list(PUBLIC_BETA_GATES_CLOSED_STATIC),
+        "gates_blocking_pb12": blocking,
+        "gate_details": details,
+    }
+
+
+PUBLIC_BETA: dict[str, Any] = build_public_beta_summary()
 
 # Case studies — mapped to LESSONS_LEARNED patterns + operational gates
 CASE_STUDIES: list[dict[str, Any]] = [
@@ -414,5 +494,7 @@ __all__ = [
     "MILESTONE_STATUS",
     "PRACTICE_EVIDENCE",
     "PUBLIC_BETA",
+    "PUBLIC_BETA_GATE_REGISTRY",
     "VERIFY_GATE_COMMANDS",
+    "build_public_beta_summary",
 ]

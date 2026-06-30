@@ -41,6 +41,8 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert parsed.governance_version == "1.5.0"
     assert len(parsed.public_beta.gates_remaining) >= 5
     assert len(parsed.public_beta.gates_closed) >= 3
+    assert parsed.public_beta.gates_blocking_pb12 == ["PB-9", "PB-12"]
+    assert len(parsed.public_beta.gate_details) == 7
     assert parsed.practice_evidence.studies_completed == 8
     assert parsed.practice_evidence.open_gaps_count == 1
     assert parsed.practice_evidence.study_08_url.endswith("study-08-shipped-remote/RESULTS.md")

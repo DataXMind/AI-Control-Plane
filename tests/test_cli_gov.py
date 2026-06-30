@@ -34,6 +34,17 @@ GOV_PAYLOAD: dict[str, object] = {
         "soak_review_target": "2026-07-06",
         "gates_remaining": ["PB-9 calendar soak (G-05)"],
         "gates_closed": ["PB-11 legal artifacts"],
+        "gates_blocking_pb12": ["PB-9"],
+        "gate_details": [
+            {
+                "id": "PB-9",
+                "label": "PB-9 calendar soak (G-05)",
+                "practice_status": "OPEN",
+                "blocks_pb12": True,
+                "catalog_list": "remaining",
+                "evidence": "docs/governance/PB9_STAGING_SOAK_LOG.md",
+            },
+        ],
     },
     "case_studies": [
         {

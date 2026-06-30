@@ -11,6 +11,8 @@ assert len(d['known_gaps']) == 7
 assert sum(1 for g in d['known_gaps'] if g['status'] == 'OPEN') == 1
 assert len(d['lessons_patterns']) >= 17
 assert len(d['public_beta']['gates_remaining']) >= 5
+assert d['public_beta']['gates_blocking_pb12'] == ['PB-9', 'PB-12']
+assert len(d['public_beta']['gate_details']) == 7
 assert len(d['public_beta']['gates_closed']) >= 3
 assert d['doc_links']['risk_policy'].endswith('CURSOR_RISK_POLICY.md')
 assert d['practice_evidence']['studies_completed'] == 8
