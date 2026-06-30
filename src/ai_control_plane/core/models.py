@@ -109,6 +109,7 @@ class PolicyDecision(BaseModel):
     reason: str
     requires_approval: bool
     policy_id: Optional[str] = None  # noqa: UP045
+    evaluation_path: Optional[str] = None  # noqa: UP045 — rbac | abac | guardrail | kill_switch | identity | default_allow
 
 
 class AgentIdentity(BaseModel):

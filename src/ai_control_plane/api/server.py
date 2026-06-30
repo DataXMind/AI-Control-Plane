@@ -412,6 +412,7 @@ def create_app(state: AppState | None = None) -> FastAPI:
             reason=decision.reason,
             requires_approval=decision.requires_approval,
             policy_id=decision.policy_id,
+            evaluation_path=decision.evaluation_path,
             latency_ms=round(latency_ms, 2),
         )
 

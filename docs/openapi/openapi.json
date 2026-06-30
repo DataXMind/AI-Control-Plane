@@ -923,6 +923,17 @@
             ],
             "title": "Policy Id"
           },
+          "evaluation_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Path"
+          },
           "latency_ms": {
             "type": "number",
             "title": "Latency Ms"
@@ -1010,6 +1021,46 @@
         "title": "PracticeEvidenceSummary",
         "description": "Operator practice studies summary."
       },
+      "PublicBetaGateDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "practice_status": {
+            "type": "string",
+            "title": "Practice Status"
+          },
+          "blocks_pb12": {
+            "type": "boolean",
+            "title": "Blocks Pb12"
+          },
+          "catalog_list": {
+            "type": "string",
+            "title": "Catalog List"
+          },
+          "evidence": {
+            "type": "string",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "practice_status",
+          "blocks_pb12",
+          "catalog_list",
+          "evidence"
+        ],
+        "title": "PublicBetaGateDetail",
+        "description": "PB gate with practice evidence predicate (P-14)."
+      },
       "PublicBetaSummary": {
         "properties": {
           "phase": {
@@ -1041,6 +1092,20 @@
             },
             "type": "array",
             "title": "Gates Closed"
+          },
+          "gates_blocking_pb12": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Gates Blocking Pb12"
+          },
+          "gate_details": {
+            "items": {
+              "$ref": "#/components/schemas/PublicBetaGateDetail"
+            },
+            "type": "array",
+            "title": "Gate Details"
           }
         },
         "additionalProperties": false,
@@ -1051,7 +1116,9 @@
           "soak_started",
           "soak_review_target",
           "gates_remaining",
-          "gates_closed"
+          "gates_closed",
+          "gates_blocking_pb12",
+          "gate_details"
         ],
         "title": "PublicBetaSummary",
         "description": "Public Beta track metadata (PB-9..PB-12)."

@@ -37,6 +37,7 @@ class PolicyEvalResponse(BaseModel):
     reason: str
     requires_approval: bool
     policy_id: str | None = None
+    evaluation_path: str | None = None
     latency_ms: float
 
 
