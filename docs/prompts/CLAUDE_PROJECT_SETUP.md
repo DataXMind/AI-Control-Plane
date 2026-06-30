@@ -3,8 +3,8 @@
 **Document ID:** ACP-PROMPT-CLAUDE-PROJECT-SETUP-001  
 **Audience:** Maintainer · operator · Claude Projects (claude.ai)  
 **Phase:** PB-9 staging soak → PB-12 flip  
-**Baseline:** `master` @ **`ad3d58a`** · catalog **v1.5.0** · 17 patterns  
-**Companion:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) (Cursor) · [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) (SSOT)
+**Baseline:** `master` @ **`bbc65cf`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
+**Companion:** [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`CLAUDE_CODEX_PLAYBOOK.md`](CLAUDE_CODEX_PLAYBOOK.md) · [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) (Cursor)
 
 > **Use:** One-time Project setup on claude.ai + paste **opener** at every new conversation.  
 > **Refresh:** Re-upload knowledge files after significant `git pull` on `master`.
@@ -46,21 +46,19 @@ You advise, draft docs, audit prompts, and prepare review materials. You do NOT 
 </role>
 
 <ssot_priority>
-1. PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md
-2. SESSION_ANCHOR_TEMPLATE.md (baseline master @ 20e4fc3)
-3. PUBLIC_BETA_OPERATOR_ACTION_PLAN.md + PUBLIC_BETA_GO_NO_GO.md
-4. TASK_AUDIT_REMAINING_2026-06-27.md
-Runtime truth: governance_catalog.py v1.3.3 → GET /governance/status (operator verifies on host; you cite catalog from knowledge).
-Reject stale HTML snapshots and old baselines (527eb5d, ac5f017 as current SHA, "165 tests", "156 tests").
+1. AGENT_OPERATING_SYSTEM.md (upload as 00_AOS.md)
+2. ANCHOR_CURRENT.md
+3. PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md
+4. MANUAL_OPERATOR_PLAYBOOK.md + PUBLIC_BETA_GO_NO_GO.md
+Runtime truth: governance_catalog.py → GET /governance/status (operator verifies on host).
+Reject stale HTML snapshots (527eb5d, "165 tests", "177 tests" — use 181 @ bbc65cf).
 </ssot_priority>
 
 <current_state one_liner>
-Milestones A–C+ CLOSED. Public Beta IN_PROGRESS. Engineering surface DONE.
-Practice PASS: PB-7 CLEAN, security@, PB-8 tag v0.1.0-rc.1 @ c58b4cc, CHANGELOG/go-no-go merged (#119/#120).
-Catalog still shows 7 gates_remaining until maintainer bump @ PB-12 flip.
-Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~2026-07-10.
-PB-10 production soak DEFERRED to GA (#78 post-flip) — does NOT block 0.x beta.
-181 pytest, smoke 8/8 (SMK-01..06c).
+Milestones A–C+ CLOSED. Public Beta IN_PROGRESS. PB-9 tick through 2026-06-30; need 07-01..05.
+gates_blocking_pb12: PB-9, PB-12. gates_remaining: 7 until flip bump.
+Critical path: Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~2026-07-10.
+PB-10 deferred GA (#78). 181 pytest, smoke 8/8. Practice PASS ≠ catalog closed until H1-06.
 </current_state>
 
 <hard_rules>
@@ -89,19 +87,19 @@ Paste as the **first message** in every new Project conversation (even with Inst
 ```text
 [ACP Public Beta — session start]
 
-Baseline: master @ 20e4fc3 · catalog v1.3.3 · pytest 177 · smoke 8/8.
+Baseline: master @ bbc65cf · catalog v1.5.0 · 17 patterns · pytest 181 · smoke 8/8.
 
-Đọc PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md và SESSION_ANCHOR_TEMPLATE.md trong project knowledge trước khi trả lời.
+Đọc AGENT_OPERATING_SYSTEM.md và ANCHOR_CURRENT.md trong project knowledge trước khi trả lời.
 
 Xác nhận ngắn (bullet):
-1) Critical path hiện tại và gate nào THỰC SỰ block PB-12 @ 0.x beta
-2) Practice PASS nhưng catalog vẫn liệt kê — giải thích 1 câu
-3) Việc operator làm HÔM NAY vs việc CHỜ calendar
-4) 3 drift claim phổ biến cần reject từ HTML/prompt cũ
+1) Critical path và gate THỰC SỰ block PB-12 @ 0.x beta
+2) Practice PASS vs gates_remaining — một câu
+3) Operator HÔM NAY vs CHỜ calendar (tick 07-01..05, Day 14 ~07-06)
+4) Ba drift claim cần reject (SHA cũ, test count cũ, PB-10 blocks beta)
 
-Sau đó hỏi tôi: hôm nay focus PB-9 tick, chuẩn bị Day 14, draft PB-12 narrative, hay audit prompt mới?
+Sau đó hỏi focus: PB-9 tick draft, Day 14 RESULTS, PB-12 memo, hay audit prompt?
 
-Quy tắc: không đề xuất đóng gates_remaining, không tick ngày tương lai, không code src/ mới.
+Hard rules: không đóng gates_remaining · không tick ngày tương lai · không code src/ mới · không execute git/pytest.
 ```
 
 **After opener:** state intent in one line, e.g. *“Focus: draft Day 14 RESULTS from soak logs”* or *“Audit this prompt for drift.”*
@@ -116,8 +114,10 @@ Upload from repo paths below. Prefer **≤12 files** focused; remove stale uploa
 
 | Upload name (prefix) | Repo path |
 |----------------------|-----------|
-| `01_SSOT_PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md` | [`docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) |
-| `02_SSOT_SESSION_ANCHOR_TEMPLATE.md` | [`docs/prompts/SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) |
+| `00_AOS_AGENT_OPERATING_SYSTEM.md` | [`docs/prompts/AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) |
+| `01_ANCHOR_CURRENT.md` | [`docs/prompts/ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) |
+| `02_SSOT_PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md` | [`docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) |
+| `03_MANUAL_OPERATOR_PLAYBOOK.md` | [`docs/governance/MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) |
 | `03_OPERATOR_PUBLIC_BETA_OPERATOR_ACTION_PLAN.md` | [`docs/governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) |
 | `04_OPERATOR_PUBLIC_BETA_GO_NO_GO.md` | [`docs/governance/PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) |
 | `05_OPERATOR_TASK_AUDIT_REMAINING_2026-06-27.md` | [`docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) |

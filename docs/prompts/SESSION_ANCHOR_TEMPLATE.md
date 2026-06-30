@@ -1,30 +1,31 @@
 # Session anchor template (L5 — copy into every Cursor chat)
 
-> **Use:** Paste this block as the **first message** (or pin) when starting a session.  
-> **Policy:** [`AGENTS.md`](../../AGENTS.md) · [`CURSOR_RISK_POLICY.md`](../governance/CURSOR_RISK_POLICY.md) · Gold pattern: [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md)
+> **Use:** Paste [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) every session (living facts). Use **this file** for full YAML structure, drift reject list, and examples.  
+> **Framework:** [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`AGENTS.md`](../../AGENTS.md) · [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md)
 
 ---
 
-## Canonical one-liner (paste at session start)
+## Canonical one-liner
+
+> **Living copy:** [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) — update after major `master` merge.  
+> **Do not** duplicate stale SHAs here; template shows structure only.
 
 ```text
-AI Control Plane @ master ad3d58a: Milestones A–C+ closed.
-Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.5.0 live · 17 LESSON patterns (P-17 ECC).
-Roadmap PRs #153–#161 merged: P-14 gate_details · P-15 k6 PASS · GHCR coupling · evaluation_path · Study 09.
-Runtime: gates_blocking_pb12 PB-9, PB-12; gates_remaining 7 until maintainer flip bump.
-Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → PB-12 ~2026-07-10.
-PB-10 deferred GA (#78). Verify: smoke 8/8 · runtime · verify_ghcr_catalog.sh (CONNECT path).
+SESSION ANCHOR: master @ bbc65cf · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+Public Beta IN_PROGRESS (PB-9). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7.
+Critical path: tick 07-01..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
+See ANCHOR_CURRENT.md for full paste block.
 ```
 
 ---
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](../governance/PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · **Claude full audit:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) · `master` @ **`ad3d58a`**
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · `master` @ **`bbc65cf`**
 
 **Chờ calendar / operator**
 
-- [ ] **PB-9** daily tick — last **2026-06-28** · Day 14 review ~**2026-07-06**
+- [ ] **PB-9** daily tick — last **2026-06-30** (Apex ☐) · need **07-01..05** · Day 14 ~**2026-07-06**
 - [x] **PB-7** CLEAN fork — **PASS** 2026-06-27
 - [x] **security@** — live test **PASS** 2026-06-28
 - [x] **OP-02 soak** — MSI repo log + VPS hourly PASS — [`vps-hourly-loop-verify-2026-06-28.md`](../governance/practice-evidence/pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md)
@@ -88,7 +89,7 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 
 - `examples/docker-compose.yml` → `examples/minimal/docker-compose.yml`
 - CI job `examples-smoke` → `examples-minimal-smoke`
-- `"165 tests"` → ~**177** pytest @ master (use `pytest tests/ --collect-only -q`)
+- `"165 tests"` / `"177 tests"` → **181** pytest (`pytest --collect-only -q`)
 - `"PB-9 only gate"` → 7 `gates_remaining` in catalog
 - `"HOÀN TẤT"` → engineering done; operator calendar open
 - MSI WARM = PB-7 PASS
@@ -103,13 +104,10 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 
 ## Claude / Cursor role this phase
 
-- ✅ Day 14 template · go-no-go sync · CHANGELOG expand · CUR-04 VPS soak
-- **Claude Projects:** [`CLAUDE_PROJECT_SETUP.md`](CLAUDE_PROJECT_SETUP.md) — Instructions · opener · knowledge list
-- **Manual ops (no Agent):** [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) — daily · calendar · 3 schemes
-- **Now:** PB-9 daily tick support · doc drift only (LOW)
-- **~07-06:** Day 14 `RESULTS.md` when operator shares verdict
-- **~07-10:** PB-12 narrative support — **human signature only**
-- **DO NOT:** new feature code · close catalog gates · accelerate soak calendar · re-tag rc.1
+- ✅ AOS + platform playbooks: [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`CURSOR_NEW_SESSION_PLAYBOOK.md`](CURSOR_NEW_SESSION_PLAYBOOK.md) · [`CLAUDE_CODEX_PLAYBOOK.md`](CLAUDE_CODEX_PLAYBOOK.md)
+- ✅ Day 14: start [`DAY14_REVIEW_DRAFT_2026-07-06.md`](../governance/practice-evidence/pb-9-day14-review/DAY14_REVIEW_DRAFT_2026-07-06.md) → `RESULTS.md`
+- **Claude Projects:** [`CLAUDE_PROJECT_SETUP.md`](CLAUDE_PROJECT_SETUP.md)
+- **Manual ops (no Agent):** [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md)
 
 ---
 
@@ -220,4 +218,4 @@ agentctl gov status --json | python3 -m json.tool
 - [ ] `practice-evidence/` if operator ran hands-on steps
 - [ ] Do **not** store sole copy of evidence in chat
 
-**Last updated:** 2026-06-28 — VPS hourly verify · post #119/#120 · session anchor sync
+**Last updated:** 2026-06-30 — AOS v1.0 · ANCHOR_CURRENT split · baseline `bbc65cf`

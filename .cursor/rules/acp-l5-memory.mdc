@@ -1,5 +1,5 @@
 ---
-description: L5 agent memory — session anchor, SSOT hierarchy, no chat-only memory
+description: L5 agent memory — AOS, session anchor, SSOT hierarchy, no chat-only memory
 alwaysApply: true
 ---
 
@@ -7,19 +7,22 @@ alwaysApply: true
 
 ## Every session
 
-1. Fill `docs/prompts/SESSION_ANCHOR_TEMPLATE.md` (baseline SHA, risk, gates, allowlist).
-2. Read `AGENTS.md` if task spans governance, ops, or multi-PR work.
+1. Paste `docs/prompts/ANCHOR_CURRENT.md` (living facts).
+2. Read `docs/prompts/AGENT_OPERATING_SYSTEM.md` for governance, soak, or multi-PR work.
+3. Read `AGENTS.md` if task spans platforms or approval gates.
 
 ## SSOT order
 
-`ARCHITECTURE.md` + code > `practice-evidence/` > `GOVERNANCE_UX_RUNTIME.md` > drift reconciliation > HTML artifacts (historical).
+`ARCHITECTURE.md` + code > `practice-evidence/` > `GET /governance/status` > drift reconciliation > HTML (historical).
 
 ## Do not
 
 - Rely on prior chat for study results, PB-9 soak, or approval gates.
-- Claim CS-01/03/04 hands-on PASS — catalog visibility only (`PRACTICE_STUDIES_AUDIT_01-07.md` §7).
-- Delete or rewrite `LESSONS_LEARNED.md` patterns (audit trail).
+- Claim CS-01/03/04 hands-on PASS — catalog visibility only.
+- Delete or rewrite `LESSONS_LEARNED.md` patterns.
 
-## Sprint close
+## Platform docs
 
-Update `LESSONS_LEARNED.md` when a pitfall repeats; map pattern → L0–L3 rule per `.cursorrules` §L5.
+- Cursor: `docs/prompts/CURSOR_NEW_SESSION_PLAYBOOK.md`
+- Claude/Codex: `docs/prompts/CLAUDE_CODEX_PLAYBOOK.md`
+- Human ops: `docs/governance/MANUAL_OPERATOR_PLAYBOOK.md` (no Agent)
