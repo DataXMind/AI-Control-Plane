@@ -63,6 +63,7 @@ nohup bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log &
 | 2026-06-27 | ☑ | ☑ | ☑ | ☑ | 0 | AM: soak PASS @ 06:51, 06:58 UTC; hourly loop PID 3195. **PM tick (post-merge #118):** `master` @ `375ef14`; PACE smoke 8/8 + governance 1.3.3 + OpenAPI 13 paths; soak PASS @ 11:53Z |
 | 2026-06-28 | ☑ | ☑ | ☑ | ☑ | 0 | MSI: PACE 8/8 · governance/OpenAPI verify · soak @ 02:23Z — [`pace-verify-msi-2026-06-28.md`](practice-evidence/governance-status-v13-verify/artifacts/pace-verify-msi-2026-06-28.md). **VPS:** CUR-04 deploy + hourly PASS `08:29Z`/`09:29Z` · pull `98f193c` — [`vps-hourly-loop-verify-2026-06-28.md`](practice-evidence/pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md) |
 | 2026-06-29 | ☑ | ☑ | ☑ | ☑ | 0 | MSI gap 13h Docker stop → restarted 01:20Z; VPS continuous |
+| 2026-06-30 | ☑ | ☑ | ☑ | ☐ | 0 | Live verify 2026-06-30: health=ok (8 rules, 3 agents, 1 project); policy/evaluate allowed=true evaluation_path=default_allow latency=5.34ms; quota tokens_remaining=2000000.0. Container `minimal-acp-api-1` StartedAt=2026-06-30T10:32:30Z, RestartCount=0 (manual restart during PR #163-168 verification, not a crash/fail-open). Soak iteration log gap 2026-06-29T11:26:07Z → restart: classified SEV-3 (planned/manual restart per PB9_DAY14_REVIEW_TEMPLATE.md criteria) — no data loss, no fail-open observed, health/policy/quota all green post-restart. Apex not independently re-tested today; last known good from iteration log: 2026-06-29T11:26:07Z apex=ok. |
 | 2026-07-06 | ☐ | ☐ | ☐ | ☐ | 0 | Day 14 review |
 
 ---
