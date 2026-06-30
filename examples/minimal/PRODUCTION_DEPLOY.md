@@ -21,9 +21,59 @@ This is **Tier A pilot** from the go-live assessment — not Public Beta (PB-12)
 
 ## Prerequisites
 
-- Linux VPS or WSL2 with Docker Compose v2
+- **Docker Compose V2** (`docker compose`, not legacy `docker-compose` only) — see [macOS troubleshooting](#macos-docker-desktop) below
+- Linux VPS, WSL2, or **macOS** (Docker Desktop / Colima with compose plugin)
 - DNS or Tailscale if remote agents connect ([`RUNBOOK.md`](../../docs/RUNBOOK.md))
 - Strong `REDIS_PASSWORD` (generate: `openssl rand -hex 32`)
+
+### macOS (Docker Desktop)
+
+**Symptom:** `docker: unknown command: docker compose` and `docker-compose: command not found`
+
+**Cause:** Only the **Docker CLI** is installed (`brew install docker`) — **Compose plugin** and **daemon** are separate. Docker 29.x CLI alone does not include Compose.
+
+**Fix A — Recommended: Docker Desktop (daemon + Compose V2)**
+
+```bash
+brew install --cask docker
+open -a Docker          # wait until whale icon is steady
+docker compose version  # must print v2.x
+```
+
+**Fix B — Homebrew Compose standalone**
+
+```bash
+brew install docker-compose   # provides docker-compose (hyphen)
+docker-compose version
+
+# Colima (daemon if you don't use Desktop):
+brew install colima
+colima start
+```
+
+**Fix C — No Compose at all (pilot script)**
+
+From repo root, after config exists:
+
+```bash
+mkdir -p examples/minimal/production-config
+cp config/{policies,agents,projects}.yml examples/minimal/production-config/
+export REDIS_PASSWORD="$(openssl rand -hex 16)"
+bash examples/minimal/run-pilot-without-compose.sh
+```
+
+Uses `docker build` + `docker run` only (see script header).
+
+**Symptom:** `unknown shorthand flag: 'f' in -f` — same root cause; use Fix A/B/C above.
+
+**Wrong directory:** Files live under `examples/minimal/`, not repo root.
+
+```bash
+cd /path/to/AI-Control-Plane/examples/minimal   # NOT cd /examples/minimal
+cp .env.production.example .env.production
+```
+
+**Important:** `export ACP_CONFIG_DIR=/opt/acp/config` in the **host shell** does **not** change the container. For pilot, set `ACP_HOST_CONFIG_DIR` in `.env.production` or use `run-pilot-without-compose.sh` with `ACP_HOST_CONFIG_DIR=/opt/acp/config`.
 
 ---
 
@@ -39,14 +89,24 @@ cp ../../config/{policies,agents,projects}.yml production-config/
 # Edit production-config/*.yml — agents, roles, quotas
 ```
 
-On VPS, prefer absolute path:
+**Option A — config beside repo (simplest on Mac):**
 
 ```bash
-export ACP_HOST_CONFIG_DIR=/opt/acp/config
-# in .env.production
+# .env.production:
+# ACP_HOST_CONFIG_DIR=./production-config
 ```
 
----
+**Option B — system path (VPS / Mac):**
+
+```bash
+sudo mkdir -p /opt/acp/config
+sudo cp ../../config/{policies,agents,projects}.yml /opt/acp/config/
+# Edit /opt/acp/config/*.yml
+# .env.production:
+ACP_HOST_CONFIG_DIR=/opt/acp/config
+```
+
+Do **not** rely on `export ACP_CONFIG_DIR=...` on the host unless running **native uvicorn** (no Docker).
 
 ## Step 2 — Start stack
 
@@ -76,7 +136,45 @@ docker compose -f docker-compose.ghcr.yml \
 ```bash
 export ACP_API_URL=http://127.0.0.1:8000   # or VPS / Tailscale IP
 
-curl -sf "$ACP_API_URL/health" | python3 -m json.tool
+# From examples/minimal — retry health + show logs if fail:
+bash verify-pilot.sh
+
+# Or manual (wait up to ~30s after first start):
+curl -v http://127.0.0.1:8000/health
+```
+
+**`Expecting value: line 1 column 1` from `curl | python3 -m json.tool`:**  
+`curl -sf` returned **empty body** — usually API still starting, container restarting, or port not bound. Run `bash verify-pilot.sh` or `docker compose … logs acp-api`.
+
+**Repo scripts** (`verify_governance_status_runtime.sh`, `restart_soak_loop.sh`) live at **`scripts/`** (repo root), not under `examples/minimal`:
+
+```bash
+cd ../..   # repo root from examples/minimal
+export ACP_API_URL=http://127.0.0.1:8000
+bash scripts/verify_governance_status_runtime.sh
+```
+
+PB-9 soak uses **fixture** stack (`docker-compose.yml` only) — pilot stack is separate; do not mix evidence unless documented.
+
+### Crash loop: `redis package required for RedisQuotaStore`
+
+**Symptom:** `docker compose ps` shows `acp-api` **Restarting (1)**; logs end with:
+
+```text
+RuntimeError: redis package required for RedisQuotaStore (pip install ai-control-plane[redis])
+```
+
+**Cause:** Production override sets `ACP_REDIS_URL` but the image was built with `pip install -e .` only (no `redis` extra).
+
+**Fix:** Rebuild after `examples/minimal/Dockerfile` includes `pip install -e ".[redis]"`:
+
+```bash
+cd examples/minimal
+docker compose -f docker-compose.yml -f docker-compose.production.yml \
+  --env-file .env.production up -d --build
+```
+
+```bash
 curl -sf -X POST "$ACP_API_URL/policy/evaluate" \
   -H "Content-Type: application/json" \
   -d '{"agent_id":"YOUR_AGENT","project_id":"YOUR_PROJECT","tool_name":"git_read","role":"backend"}' \
