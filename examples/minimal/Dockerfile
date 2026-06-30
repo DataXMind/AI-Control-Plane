@@ -9,7 +9,7 @@ COPY pyproject.toml README.md LICENSE ./
 COPY src ./src
 COPY tests/fixtures/config ./tests/fixtures/config
 
-RUN pip install --no-cache-dir -e .
+RUN pip install --no-cache-dir -e ".[redis]"
 
 EXPOSE 8000
 
