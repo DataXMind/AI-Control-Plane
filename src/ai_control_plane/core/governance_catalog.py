@@ -56,6 +56,8 @@ DOC_LINKS: dict[str, str] = {
     "developer_scenarios": "docs/DEVELOPER_SCENARIOS.md",
     "quickstart": "docs/QUICKSTART.md",
     "ecc_integration_analysis": "docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md",
+    "eval_methodology": "docs/governance/EVAL_METHODOLOGY.md",
+    "ecc_acp_layer_map": "docs/governance/ECC_ACP_LAYER_MAP.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
