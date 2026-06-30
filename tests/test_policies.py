@@ -148,3 +148,15 @@ def test_approval_status_blocks_without_approval(
     )
     assert decision.allowed is False
     assert decision.policy_id == "Deny-prod-k8s-unapproved"
+    assert decision.evaluation_path == "abac"
+
+
+def test_evaluation_path_layers(
+    mock_policy_engine: PolicyEngine,
+    backend_identity: AgentIdentity,
+) -> None:
+    allow = evaluate_tool(mock_policy_engine, backend_identity, "git_read")
+    assert allow.evaluation_path == "default_allow"
+
+    deny = evaluate_tool(mock_policy_engine, backend_identity, "k8s_apply_prod")
+    assert deny.evaluation_path == "rbac"

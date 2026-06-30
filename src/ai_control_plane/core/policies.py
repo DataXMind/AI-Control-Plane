@@ -308,6 +308,7 @@ class PolicyEngine:
                     f"does not match requested project '{project_id}'"
                 ),
                 requires_approval=False,
+                evaluation_path="identity",
             )
 
         if self._kill_switch.active:
@@ -316,6 +317,7 @@ class PolicyEngine:
                 reason=f"kill_switch_active: {self._kill_switch.reason}",
                 requires_approval=False,
                 policy_id="kill_switch",
+                evaluation_path="kill_switch",
             )
 
         context: dict[str, Any] = {
@@ -336,20 +338,21 @@ class PolicyEngine:
 
         rbac_decision = self._evaluate_rbac(identity.role, tool_name)
         if rbac_decision is not None:
-            return rbac_decision
+            return rbac_decision.model_copy(update={"evaluation_path": "rbac"})
 
         abac_decision = self._evaluate_abac(tool_name, context)
         if abac_decision is not None:
-            return abac_decision
+            return abac_decision.model_copy(update={"evaluation_path": "abac"})
 
         guardrail_decision = self._evaluate_guardrails(tool_name, identity, args, context)
         if guardrail_decision is not None:
-            return guardrail_decision
+            return guardrail_decision.model_copy(update={"evaluation_path": "guardrail"})
 
         return PolicyDecision(
             allowed=True,
             reason="action permitted",
             requires_approval=False,
+            evaluation_path="default_allow",
         )
 
     def _rbac_rules_for_role(self, role: str) -> list[PolicyRule]:
