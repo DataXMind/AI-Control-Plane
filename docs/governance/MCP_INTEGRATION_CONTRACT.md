@@ -81,9 +81,24 @@ Because MCP integration is **not CI-tested** in 0.x:
 
 ## Roadmap to CI Coverage
 
-- **Target:** v0.2.x
-- **Approach:** Contract test with mock MCP adapter (not cyanheads E2E)
-- **Issue:** [to be created post-flip]
+> **STATUS: PROPOSED — implementation sau PB-12 flip (~2026-07-10), không kích hoạt trước**
+
+**Prerequisite:** Pin the **MCP spec version** (and cyanheads git-mcp-server release) in this contract **before** authoring any E2E test. The placeholder in [MCP Version Compatibility](#mcp-version-compatibility) must be replaced with a concrete semver; E2E assertions depend on that pin.
+
+**Target:** v0.2.x post-flip (one focused PR — **not** a 48H item).
+
+**Approach options (choose one at implementation time):**
+
+| Option | Summary |
+|--------|---------|
+| **(A) Docker service in CI** | Spin cyanheads git-mcp-server as a workflow service container; contract test exercises `SubprocessGitForwarder` against a real MCP process |
+| **(B) Waiver continues** | Keep **`[mcp-unverified]`** label on MCP-related issues/PRs; no CI job; manual operator verification only |
+
+**Effort:** ~1 PR after PB-12 flip (mock-adapter contract test **or** docker-service E2E — not both in the first pass).
+
+**Explicit constraint (this document only):** No new `.github/workflows/` job is added as part of the roadmap clarification PR. Implementation PR is a separate maintainer-approved branch.
+
+**Activation:** Open implementation task only when **(1)** PB-12 flip is complete **and** **(2)** maintainers approve a dedicated MCP CI branch.
 
 ---
 
