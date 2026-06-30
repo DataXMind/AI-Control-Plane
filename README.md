@@ -7,7 +7,7 @@ Control plane for multi-agent AI systems:
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
 **Status:** Milestones A/B/C/C+ **CLOSED** · **181** pytest · smoke **8/8** · policy engine primary; SAPAL `apex/` experimental @ 0.x  
-**Public Beta:** **IN PROGRESS** — PB-9 staging soak since 2026-06-22 · review target **~2026-07-06** · [`gates_remaining`](docs/governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) via `GET /governance/status` · **Claude handoff:** [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](docs/governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md)
+**Public Beta:** **IN PROGRESS** — PB-9 soak · tick **2026-07-01** · Day 14 **~2026-07-06** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
 
 ## What ACP Is
 
@@ -126,6 +126,8 @@ docker compose -f examples/minimal/docker-compose.yml up --build
 
 See [examples/README.md](examples/README.md) and [examples/minimal/README.md](examples/minimal/README.md).
 
+**Production pilot (Tier A — shipped config + Redis):** [examples/minimal/PRODUCTION_DEPLOY.md](examples/minimal/PRODUCTION_DEPLOY.md) · PASS evidence [mac-pilot-deploy-2026-06-30](docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md). **Not** the PB-9 fixture soak stack (8 rules).
+
 **PB-7 clean-machine verify (≤15 min):** operator runbook — [docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md](docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md).
 
 **Staging soak (PB-9):** after `docker compose up`, run `bash scripts/restart_soak_loop.sh` (hourly loop + `--repo-log docs/governance/PB9_SOAK_ITERATION_LOG.md`). Tracker: [docs/governance/PB9_STAGING_SOAK_LOG.md](docs/governance/PB9_STAGING_SOAK_LOG.md). VPS systemd: [examples/minimal/systemd/README.md](examples/minimal/systemd/README.md).
@@ -157,6 +159,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 ## Documentation
 
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — **start here** for end-users (RUN / CONNECT, 5 min)
+- [docs/governance/MANUAL_OPERATOR_PLAYBOOK.md](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) — **operators** (PB-9 soak, PB-12 flip, no Agent)
+- [examples/minimal/PRODUCTION_DEPLOY.md](examples/minimal/PRODUCTION_DEPLOY.md) — internal pilot (Profile B + Redis)
 - [examples/integrate/](examples/integrate/README.md) — copy-paste integration patterns (Python)
 - [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — advanced fork/clone / operator scenarios
 - [docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md](docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md) — ECC harness vs ACP policy (48H SSOT)
@@ -166,7 +170,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
 - [docs/governance/L5_MATURITY_MODEL.md](docs/governance/L5_MATURITY_MODEL.md) — ML0–ML5 memory maturity (target ML5)
 - [docs/governance/gold-patterns/GP-01-agent-session-memory.md](docs/governance/gold-patterns/GP-01-agent-session-memory.md) — public gold pattern
-- [docs/prompts/SESSION_ANCHOR_TEMPLATE.md](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) — open every agent session
+- [docs/prompts/ANCHOR_CURRENT.md](docs/prompts/ANCHOR_CURRENT.md) — **living session anchor** (paste every agent session)
+- [docs/prompts/SESSION_ANCHOR_TEMPLATE.md](docs/prompts/SESSION_ANCHOR_TEMPLATE.md) — full anchor YAML + drift reject list
 - [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — 6-layer L2 risk classification
 - [.cursorrules](.cursorrules) · [`.cursor/rules/`](.cursor/rules/) — L0–L5 Cursor governance (Karpathy)
 - [docs/governance/GOVERNANCE_UX_RUNTIME.md](docs/governance/GOVERNANCE_UX_RUNTIME.md) — governance UX runtime + case studies (`GET /governance/status`, `agentctl gov status`)

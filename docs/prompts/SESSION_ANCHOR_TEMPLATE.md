@@ -11,17 +11,17 @@
 > **Do not** duplicate stale SHAs here; template shows structure only.
 
 ```text
-SESSION ANCHOR: master @ 8a4e7fa · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+SESSION ANCHOR: master @ 4210ad2 · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
 Public Beta IN_PROGRESS (PB-9). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7.
-Critical path: tick 07-01..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
-Tier A pilot PASS Mac 2026-06-30 — see ANCHOR_CURRENT.md for full paste block.
+Critical path: tick 07-02..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
+Tier A pilot PASS — see ANCHOR_CURRENT.md for full paste block.
 ```
 
 ---
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · `master` @ **`8a4e7fa`**
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · living SHA: [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) (`4210ad2`)
 
 **Chờ calendar / operator**
 
@@ -223,4 +223,4 @@ agentctl gov status --json | python3 -m json.tool
 - [ ] `practice-evidence/` if operator ran hands-on steps
 - [ ] Do **not** store sole copy of evidence in chat
 
-**Last updated:** 2026-06-30 — Mac pilot evidence · baseline `8a4e7fa` (living SHA: `ANCHOR_CURRENT.md`)
+**Last updated:** 2026-07-01 — living SHA: `ANCHOR_CURRENT.md` @ `4210ad2`

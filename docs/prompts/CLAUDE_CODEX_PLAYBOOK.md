@@ -122,7 +122,7 @@ Follow [`CLAUDE_PROJECT_SETUP.md`](CLAUDE_PROJECT_SETUP.md) — upload ≤12 kno
 ```text
 [ACP Public Beta — Claude session]
 
-Baseline: master @ 8a4e7fa · catalog v1.5.0 · 17 patterns · pytest 181 · smoke 8/8.
+Baseline: master @ 4210ad2 · catalog v1.5.0 · 17 patterns · pytest 181 · smoke 8/8.
 
 Đọc trong project knowledge (theo thứ tự):
 1) AGENT_OPERATING_SYSTEM.md hoặc PROJECT_STATUS_FULL_TECHNICAL_REPORT
@@ -189,7 +189,7 @@ Save as `docs/prompts/CLAUDE_PROMPT_<TOPIC>.md` — durable Tier C for repeat ta
 
 | Stale claim | Correct @ 2026-06-30 |
 |-------------|----------------------|
-| `5dc565b`, `ad3d58a`, `527eb5d`, `bbc65cf` as current | `8a4e7fa` — use `ANCHOR_CURRENT` |
+| `5dc565b`, `ad3d58a`, `527eb5d`, `bbc65cf`, `8a4e7fa`, `2202f16` as current | **`4210ad2`** — use [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) |
 | catalog v1.3.3 | **v1.5.0** · **17** patterns |
 | 165 / 177 tests | **181** pytest |
 | PB-9 tick through 28/06 | Through **30/06**; missing **07-01..05** |

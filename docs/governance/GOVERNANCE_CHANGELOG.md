@@ -28,6 +28,7 @@
 - Updated: post-roadmap anchor reconcile @ `ad3d58a` — SESSION_ANCHOR, ECC_48H, DRIFT §1.5, README 181 pytest
 - Updated: `PracticeEvidenceSummary` + `PRACTICE_EVIDENCE` study_09 / k6 URLs; P-17 prevention text
 - Added: Mac Tier A pilot PASS evidence `practice-evidence/mac-pilot-deploy-2026-06-30/`; DRIFT §1.6; anchor @ `8a4e7fa`
+- Updated: GitHub end-user drift reconcile @ `4210ad2` — README operator links, GOVERNANCE_UX_RUNTIME 1.5.0 verify, living anchors
 
 ## v1.4.0 (2026-06-30)
 **Type:** MINOR

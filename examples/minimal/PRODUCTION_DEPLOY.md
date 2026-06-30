@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-EXAMPLES-PROD-DEPLOY-001  
 **Status:** Operator-ready — **PASS** Mac Mini @ 2026-06-30 ([evidence](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md))  
-**Baseline:** `master` @ **`8a4e7fa`** (PR [#175](https://github.com/DataXMind/AI-Control-Plane/pull/175) — Dockerfile `[redis]`)  
+**Baseline (pilot run):** `8a4e7fa` (#175 Dockerfile `[redis]`) · **Docs on master:** `4210ad2` (#176–#177)  
 **Related:** [`README.md`](README.md) · [`docs/RUNBOOK.md`](../../docs/RUNBOOK.md) · ADR-002 (OIDC PROPOSED)
 
 ---
@@ -235,4 +235,4 @@ Every tool call should hit `POST /policy/evaluate` before execution.
 
 ---
 
-**Last updated:** 2026-06-30 · Mac pilot PASS evidence @ `8a4e7fa`
+**Last updated:** 2026-07-01 · docs reconcile @ `4210ad2`
