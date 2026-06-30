@@ -32,6 +32,7 @@
 - Added: `docs/QUICKSTART.md` (RUN/CONNECT); `examples/integrate/`; `DOC_LINKS.quickstart`
 - Added: `scripts/acp-up.sh`, `docker-compose.ghcr.yml`, GHCR publish workflow (demo image)
 - Updated: `acp-up.sh` GHCR pull diagnostics + compose fallback on denied/not-found
+- Added: `ECC_ACP_INTEGRATION_ANALYSIS.md` (48H Phase 1); `DOC_LINKS.ecc_integration_analysis`
 
 ## v1.3.3 (2026-06-28)
 **Type:** PATCH
