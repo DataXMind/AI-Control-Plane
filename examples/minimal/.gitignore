@@ -1,3 +1,5 @@
 .env
+.env.production
 data/
+production-config/*.yml
 *.log

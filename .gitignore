@@ -76,5 +76,6 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.client.example
+!examples/minimal/.env.production.example
 credentials.json
 *.pem

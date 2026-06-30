@@ -24,6 +24,7 @@
 | File | When |
 |------|------|
 | `RESULTS.md` | After Day 14 review (~2026-07-06) — copy from template |
+| [`DAY14_REVIEW_DRAFT_2026-07-06.md`](DAY14_REVIEW_DRAFT_2026-07-06.md) | **Pre-filled draft** — operator completes on review day |
 | `artifacts/vps-soak-iteration.log` | Runtime on VPS only (not committed) |
 | [`artifacts/vps-hourly-loop-verify-2026-06-28.md`](artifacts/vps-hourly-loop-verify-2026-06-28.md) | CUR-04 hourly loop PASS @ 08:29 / 09:29 UTC |
 | `artifacts/*-excerpt-*.md` | Optional operator paste for Day 14 |
