@@ -25,6 +25,31 @@
 
 ---
 
+## Connector decision matrix (48H — aligned with industry MCP minimalism)
+
+**SSOT context:** [`ECC_ACP_INTEGRATION_ANALYSIS.md`](ECC_ACP_INTEGRATION_ANALYSIS.md) · external reference [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) MCP connector policy.
+
+ACP **policy enforcement** sits **below** the harness MCP surface. Use this matrix when adding integrations:
+
+| Prefer | When | ACP 0.x example |
+|--------|------|-----------------|
+| **HTTP `/policy/evaluate`** | Every tool call decision | `examples/integrate/python/before_tool_call.py` |
+| **CLI / skill wrapper** | Stateless one-shot (create PR, run smoke) | `gh`, `agentctl`, `pytest` — not a persistent MCP server |
+| **MCP connector** | Stateful, session-bound, universal across operators | Git via cyanheads adapter (**experimental**) |
+
+**Default connector count target (operator harness):** **0–1** optional MCP servers beyond built-in harness tools. Each default connector taxes every session's context window.
+
+**PR bar for new default MCP in ACP docs:** Must satisfy **both**:
+
+1. **Universal** — applies to most coding-agent operators on any harness.  
+2. **MCP beats CLI** — needs interactive session state, streaming, or auth handshake — not a single request/response.
+
+If only one criterion holds → document as **skill/CLI**, not MCP.
+
+**ACP does not ship** a general-purpose MCP catalog. Shipped path: policy API + optional git MCP facade.
+
+---
+
 ## Contract: What ACP Expects from MCP Layer
 
 ACP treats MCP as an **event source** that emits agent action intents.
@@ -68,4 +93,4 @@ Architecture artifacts and CHANGELOG reference `mcp/server_utils.py` with `redac
 
 ---
 
-**Last updated:** 2026-06-29 · Catalog v1.3.3 · `master` @ `635ed8c`
+**Last updated:** 2026-06-30 · 48H Phase 2a · Catalog v1.4.0
