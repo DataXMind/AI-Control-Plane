@@ -34,7 +34,7 @@
 | Moat | Strength | Evidence | Timeline to strengthen |
 |---|---|---|---|
 | Practice evidence | Strong | 8 studies, dual-host, kill-switch, ecc-48h-post-verify | Study 09+ post-flip |
-| Governance catalog runtime | Medium-Strong | v1.5.0 · 17 patterns · gate_details / gates_blocking_pb12 | GHCR sync on tag publish |
+| Governance catalog runtime | Medium-Strong | v1.5.0 · 17 patterns · GHCR auto-republish coupling | Post-flip fleet k6 |
 | 17 LESSONS + 6-layer | Medium-Strong | P-01..P-17, PACE, ECC 48H | Community additions |
 | Agent-native ABAC | Medium | Shipped parity CI, CS-04, k6 smoke PASS | Higher-VU fleet test post-flip |
 | SAPAL adaptive loop | Weak | MVP in apex/ — demote in pitch until v0.3.x | v0.3.x proposals |

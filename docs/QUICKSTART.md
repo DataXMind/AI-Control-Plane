@@ -43,11 +43,15 @@ ACP_UP_MODE=ghcr bash scripts/acp-up.sh
 
 If GHCR pull fails (`denied` / not found), the script **falls back to docker compose** when you are inside a repo clone. Use `--no-fallback` to disable.
 
-#### Publish GHCR demo image (maintainer — one-time or on release)
+#### Publish GHCR demo image (maintainer)
 
-1. Open [GitHub Actions → Publish GHCR demo image](https://github.com/DataXMind/AI-Control-Plane/actions/workflows/publish-ghcr.yml)
-2. Click **Run workflow** → branch `master` → **Run workflow**
-3. Wait ~2–5 min for green check
+**Auto:** pushing changes to `governance_catalog.py` or `examples/minimal/Dockerfile` on `master` triggers [Publish GHCR demo image](https://github.com/DataXMind/AI-Control-Plane/actions/workflows/publish-ghcr.yml).
+
+**Manual:** workflow_dispatch or tag `v0.1.*` / `docker-demo-*`.
+
+1. Open Actions → **Publish GHCR demo image** → **Run workflow** (or `gh workflow run "Publish GHCR demo image"`)
+2. Wait ~2–5 min for green check
+3. **Verify local image:** `bash scripts/verify_ghcr_catalog.sh` (SKIP if image not pulled)
 4. **Private repo:** log in before pull:
    ```bash
    echo YOUR_GITHUB_PAT | docker login ghcr.io -u YOUR_GITHUB_USER --password-stdin

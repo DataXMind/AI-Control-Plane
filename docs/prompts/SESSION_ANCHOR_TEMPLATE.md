@@ -8,13 +8,12 @@
 ## Canonical one-liner (paste at session start)
 
 ```text
-AI Control Plane @ master 1dd8f31: Milestones A–C+ closed.
+AI Control Plane @ master 5e0eaef: Milestones A–C+ closed.
 Public Beta IN_PROGRESS (PB-9 soak). Catalog v1.5.0 live · 17 LESSON patterns (P-17 ECC).
-ECC 48H PASS (#146–#151). Practice: PB-7 PASS · security@ PASS · tag v0.1.0-rc.1 @ c58b4cc.
-Runtime catalog: 7 gates_remaining until maintainer bump @ PB-12 flip.
+ECC 48H PASS (#146–#151). P-15 k6 PASS · roadmap PRs #153–#156 merged.
+Runtime catalog: gates_blocking_pb12 PB-9, PB-12; gates_remaining 7 until flip bump.
 Critical path: PB-9 daily tick → Day 14 ~2026-07-06 → PB-12 ~2026-07-10.
-PB-10 production soak deferred to GA (#78). Trust verify_* scripts — not stale HTML.
-GHCR demo image may lag catalog — use compose build for v1.5.0 verify (see ecc-48h-post-verify).
+PB-10 production soak deferred to GA (#78). GHCR: `verify_ghcr_catalog.sh` after pull.
 ```
 
 ---

@@ -68,7 +68,7 @@
 |------|--------|----------|
 | ECC 48H docs track | ✅ PASS | Study 09 / AgentShield deferred |
 | Runtime v1.5.0 / 17 patterns | ✅ @ compose local | [`ecc-48h-post-verify/RESULTS.md`](practice-evidence/ecc-48h-post-verify/RESULTS.md) |
-| GHCR `demo` image | ⚠️ **1.4.0** | G-ECC-01 — republish on tag/workflow_dispatch |
+| GHCR `demo` image | ✅ coupling @ PR #157 | Auto-republish on `governance_catalog.py` push; `verify_ghcr_catalog.sh` |
 | `SESSION_ANCHOR_TEMPLATE` | ✅ Reconciled | Was v1.3.3 — P-14 |
 | Historical HTML / handoff @ v1.3.3 | 📁 Historical | Do not use for go/no-go |
 | PB-9 soak | 🔄 | Operator calendar unchanged |

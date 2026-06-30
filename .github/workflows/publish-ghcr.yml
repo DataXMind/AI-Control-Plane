@@ -3,6 +3,12 @@ name: Publish GHCR demo image
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
+    paths:
+      - src/ai_control_plane/core/governance_catalog.py
+      - examples/minimal/Dockerfile
+      - examples/minimal/docker-compose.yml
     tags:
       - "v0.1.*"
       - "docker-demo-*"
@@ -47,3 +53,13 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Verify catalog version in pushed image
+        run: |
+          docker pull "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:demo"
+          EXPECTED=$(python3 -c "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
+          ACTUAL=$(docker run --rm "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:demo" python3 -c \
+            "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
+          echo "Expected catalog: ${EXPECTED}"
+          echo "Image catalog:    ${ACTUAL}"
+          test "${EXPECTED}" = "${ACTUAL}"
