@@ -143,6 +143,21 @@ This project governs AI agents. The following are **CRITICAL** by default:
 
 ---
 
+## Third-party harness artifacts (ECC and similar)
+
+When adopting external agent-harness packs (e.g. [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code)):
+
+| Rule | Detail |
+|------|--------|
+| **Official sources only** | Install from upstream repo, verified npm scope, or maintainer docs — not unreviewed mirrors |
+| **No blind copy** | Do not paste ECC skills/hooks/MCP configs into this repo without 48H/ADR review ([`ECC_ACP_INTEGRATION_ANALYSIS.md`](docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md)) |
+| **Supply chain** | Treat harness configs as executable context — same class as dependency code |
+| **Separate concerns** | ECC optimizes harness workflow; ACP enforces policy — do not merge install paths |
+
+Report suspicious repackaged “ECC” bundles as security@ (supply-chain concern).
+
+---
+
 ## Safe defaults
 
 - Never commit production API keys or cluster IDs to `config/`.
