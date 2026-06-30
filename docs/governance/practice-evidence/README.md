@@ -25,7 +25,10 @@
 | Study 08 | B — shipped remote VPS | **PASS** | 2026-06-26 | [`study-08-shipped-remote/`](study-08-shipped-remote/) |
 | Gov status v1.2 | Docker dual-host (PR #99) | **PASS** | 2026-06-26 | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
 | Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PASS** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) — latest **v1.3.2** · 13 patterns @ `68ae48e` |
+| ECC 48H post-verify | Deep audit v1.5.0 + integrate live | **PASS**‡ | 2026-06-30 | [`ecc-48h-post-verify/`](ecc-48h-post-verify/) — GHCR gap G-ECC-01 |
 | PB-7 | Clean-machine fork ≤15 min (G3-1) | **PAUSED** | — | Operator: other laptop — [`pb-7-clean-machine-fork/`](pb-7-clean-machine-fork/) |
+
+‡ ECC post-verify: compose local **1.5.0** PASS; GHCR `demo` image still **1.4.0** until republish.
 
 † Study 05: 5g G2-1 + 5e G2-2 closed @ 2026-06-26.
 

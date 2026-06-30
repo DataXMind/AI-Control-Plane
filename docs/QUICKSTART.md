@@ -58,6 +58,8 @@ CLI equivalent: `gh workflow run "Publish GHCR demo image"`
 
 Image: `ghcr.io/dataxmind/ai-control-plane:demo`
 
+**Catalog note:** GHCR `demo` republishes on `v0.1.*` / `docker-demo-*` tags — not on every governance MINOR. After catalog bump (e.g. v1.5.0), verify runtime with **compose build** or republish workflow before `verify_governance_status_runtime.sh` on GHCR.
+
 ### Manual compose (equivalent)
 
 ```bash
@@ -224,10 +226,11 @@ python examples/integrate/python/before_tool_call.py
 |---------|-----|
 | `connection refused` on CONNECT | Check `ACP_API_URL`, firewall, WSL portproxy ([`RUNBOOK.md`](RUNBOOK.md)) |
 | GHCR `denied` on `--ghcr` | Run publish workflow; `docker login ghcr.io`; or use `bash scripts/acp-up.sh --compose` |
+| GHCR verify shows old `governance_version` | Image stale vs `master` — `docker compose up --build` or republish GHCR; see [`ecc-48h-post-verify/RESULTS.md`](governance/practice-evidence/ecc-48h-post-verify/RESULTS.md) G-ECC-01 |
 | `allowed: false` for known agent | Ask operator — your `agent_id` / `role` may not match their config |
 | Changed config but API unchanged | Restart API host — config loads at startup only |
 | After `git pull`, old governance version | `docker compose up --build -d` (not `restart` only) |
 
 ---
 
-**Last updated:** 2026-06-30 · Catalog v1.4.0
+**Last updated:** 2026-06-30 · Catalog v1.5.0 · GHCR `demo` may lag — use `compose` for catalog verify

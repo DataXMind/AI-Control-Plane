@@ -93,4 +93,4 @@ Architecture artifacts and CHANGELOG reference `mcp/server_utils.py` with `redac
 
 ---
 
-**Last updated:** 2026-06-30 · 48H Phase 2a · Catalog v1.4.0
+**Last updated:** 2026-06-30 · Catalog v1.5.0

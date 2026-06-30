@@ -30,7 +30,22 @@
 | 2b | [#148](https://github.com/DataXMind/AI-Control-Plane/pull/148) | THREAT_MODEL §6 + PRODUCT_POSITIONING | `aa05812` |
 | 3 | [#149](https://github.com/DataXMind/AI-Control-Plane/pull/149) | `EVAL_METHODOLOGY.md` + `ECC_ACP_LAYER_MAP.md` | `d24d28d` |
 | 4 | [#150](https://github.com/DataXMind/AI-Control-Plane/pull/150) | Iterative retrieval + `ACP_SESSION_CONTRACT_v1.md` | `0556027` |
-| 5 | [#151](https://github.com/DataXMind/AI-Control-Plane/pull/151) | P-17 + catalog v1.5.0 + this file | pending merge |
+| 5 | [#151](https://github.com/DataXMind/AI-Control-Plane/pull/151) | P-17 + catalog v1.5.0 + this file | `1dd8f31` |
+
+---
+
+## Post-verify deep audit (2026-06-30)
+
+Operator MSI WSL — **PASS** with gaps **G-ECC-01** (GHCR demo still v1.4.0) and anchor drift fix.
+
+**Evidence:** [`practice-evidence/ecc-48h-post-verify/RESULTS.md`](practice-evidence/ecc-48h-post-verify/RESULTS.md) · log `artifacts/deep-audit-2026-06-30.log`
+
+| Check | Result |
+|-------|--------|
+| pytest 177 | PASS |
+| runtime verify 1.5.0 / 17 patterns | PASS @ compose local |
+| integrate examples live | PASS |
+| GHCR `demo` catalog | **1.4.0** — republish required for CONNECT path |
 
 ---
 

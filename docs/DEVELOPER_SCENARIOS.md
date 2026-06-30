@@ -394,4 +394,4 @@ curl -s $ACP_API_URL/governance/status | jq '.doc_links.developer_scenarios'
 
 ---
 
-**Last updated:** 2026-06-30 · Catalog v1.4.0 · See [`GOVERNANCE_CHANGELOG.md`](governance/GOVERNANCE_CHANGELOG.md)
+**Last updated:** 2026-06-30 · Catalog v1.5.0 · See [`GOVERNANCE_CHANGELOG.md`](governance/GOVERNANCE_CHANGELOG.md)

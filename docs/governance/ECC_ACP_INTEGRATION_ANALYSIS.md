@@ -98,4 +98,4 @@ Agent session → ECC (how to work) ──tool intent──► ACP (allow/deny) 
 
 ---
 
-**Last updated:** 2026-06-30 · 48H Phase 1 · Catalog v1.4.0 → v1.5.0 at Phase 5
+**Last updated:** 2026-06-30 · 48H complete · Catalog v1.5.0

@@ -62,6 +62,17 @@
 | PB-9 soak log | 🔄 | Operator — daily tick still required |
 | G1-4 addendum | ✅ | `GOV_6LAYER_AUDIT_PASS.md` post-studies section |
 
+### 1.4 Post-ECC 48H @ `1dd8f31` (catalog v1.5.0 · PR #146–#151)
+
+| Area | Status | Residual |
+|------|--------|----------|
+| ECC 48H docs track | ✅ PASS | Study 09 / AgentShield deferred |
+| Runtime v1.5.0 / 17 patterns | ✅ @ compose local | [`ecc-48h-post-verify/RESULTS.md`](practice-evidence/ecc-48h-post-verify/RESULTS.md) |
+| GHCR `demo` image | ⚠️ **1.4.0** | G-ECC-01 — republish on tag/workflow_dispatch |
+| `SESSION_ANCHOR_TEMPLATE` | ✅ Reconciled | Was v1.3.3 — P-14 |
+| Historical HTML / handoff @ v1.3.3 | 📁 Historical | Do not use for go/no-go |
+| PB-9 soak | 🔄 | Operator calendar unchanged |
+
 ---
 
 ## 2. Timeline (context anti-drift)
