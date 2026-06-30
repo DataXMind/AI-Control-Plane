@@ -170,6 +170,21 @@ curl -sf http://localhost:8000/health | jq .policy_rules_count   # expect 10
 **Optional:** `export ACP_DATA_DIR=/var/lib/acp` · `ACP_REDIS_URL=redis://...`  
 **Anchor:** [`ARCHITECTURE.md`](../ARCHITECTURE.md) · Study 08 remote Profile B in [`PRACTICE_STUDIES_AUDIT_01-07.md`](governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md)
 
+**K5b — Docker pilot (Profile B + Redis, Tier A)**
+
+Same **10 rules** as native Profile B, with Redis quota persistence — **parallel** to PB-9 fixture soak (8 rules).
+
+```bash
+cd examples/minimal
+cp .env.production.example .env.production
+mkdir -p production-config && cp ../../config/{policies,agents,projects}.yml production-config/
+docker compose -f docker-compose.yml -f docker-compose.production.yml \
+  --env-file .env.production up -d --build
+bash verify-pilot.sh
+```
+
+Do **not** set `ACP_CONFIG_DIR` on the host for Docker — use `ACP_HOST_CONFIG_DIR` in `.env.production`. Evidence: [`mac-pilot-deploy-2026-06-30/RESULTS.md`](governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md).
+
 ---
 
 ## B. Three edge scenarios (easy to get wrong)

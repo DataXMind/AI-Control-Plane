@@ -3,7 +3,7 @@
 **Document ID:** ACP-AOS-001  
 **Version:** 1.0  
 **Audience:** Cursor · Claude (Projects / Code / CLI) · OpenAI Codex · any coding agent  
-**Baseline:** `master` @ `bbc65cf` · catalog **v1.5.0** · **17** LESSON patterns · pytest **181**  
+**Baseline:** `master` @ `8a4e7fa` · catalog **v1.5.0** · **17** LESSON patterns · pytest **181**  
 **Gold pattern:** [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md)  
 **Companion:** [`AGENTS.md`](../../AGENTS.md) · [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md)
 
@@ -67,10 +67,12 @@ src/ai_control_plane/
 
 | Deploy path | Use |
 |-------------|-----|
-| `examples/minimal/docker-compose.yml` | PB-9 soak, CI parity (fixture) |
-| `docker-compose.production.yml` | Pilot Tier A — **parallel**, not soak SSOT |
+| `examples/minimal/docker-compose.yml` | PB-9 soak, CI parity (fixture, **8** rules) |
+| `docker-compose.yml` + `docker-compose.production.yml` | Pilot Tier A — Profile **B** (**10** rules) + Redis; PASS evidence [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) |
 | `ghcr.io/dataxmind/ai-control-plane:demo` | CONNECT door (private until PB-12) |
 | VPS systemd | 24/7 soak — [`examples/minimal/systemd/`](../../examples/minimal/systemd/) |
+
+**Pilot gotchas (Mac / Docker):** host `ACP_CONFIG_DIR` does not mount into container — use `ACP_HOST_CONFIG_DIR` in `.env.production`. Image must include `pip install -e ".[redis]"` when `ACP_REDIS_URL` is set (PR #175). Run `bash verify-pilot.sh` from `examples/minimal/`; repo `scripts/verify_*` from repo root.
 
 ### 1.5 Eight invariants (never violate)
 
@@ -171,7 +173,7 @@ Post-merge / runtime (Docker fresh build):
 ```bash
 export ACP_API_URL=http://127.0.0.1:8000
 bash scripts/verify_governance_status_runtime.sh   # catalog · patterns
-pytest --collect-only -q | tail -3                  # 181 @ bbc65cf
+pytest --collect-only -q | tail -3                  # 181 @ 8a4e7fa
 ```
 
 Full protocol: [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md).
@@ -275,4 +277,4 @@ Template: [`_TEMPLATE.md`](_TEMPLATE.md).
 | [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) | Flip checklist |
 | [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) | Deep audit snapshot |
 
-**Last updated:** 2026-06-30 · AOS v1.0 · baseline `bbc65cf`
+**Last updated:** 2026-06-30 · AOS v1.0 · baseline `8a4e7fa` · Mac pilot PASS evidence

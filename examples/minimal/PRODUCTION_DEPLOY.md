@@ -1,8 +1,8 @@
 # Production-style deploy (pilot / internal)
 
 **Document ID:** ACP-EXAMPLES-PROD-DEPLOY-001  
-**Status:** Operator-ready draft — **0.x beta** (not GA; see README disclaimer)  
-**Baseline:** `master` @ catalog v1.5.0  
+**Status:** Operator-ready — **PASS** Mac Mini @ 2026-06-30 ([evidence](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md))  
+**Baseline:** `master` @ **`8a4e7fa`** (PR [#175](https://github.com/DataXMind/AI-Control-Plane/pull/175) — Dockerfile `[redis]`)  
 **Related:** [`README.md`](README.md) · [`docs/RUNBOOK.md`](../../docs/RUNBOOK.md) · ADR-002 (OIDC PROPOSED)
 
 ---
@@ -156,6 +156,8 @@ bash scripts/verify_governance_status_runtime.sh
 
 PB-9 soak uses **fixture** stack (`docker-compose.yml` only) — pilot stack is separate; do not mix evidence unless documented.
 
+**Operator-confirmed PASS (2026-06-30):** `minimal-acp-api-1` healthy · `minimal-redis-1` healthy · `verify-pilot.sh` OK · `verify_governance_status_runtime.sh` → v1.5.0 · 17 patterns. Full transcript: [`mac-pilot-deploy-2026-06-30/RESULTS.md`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md).
+
 ### Crash loop: `redis package required for RedisQuotaStore`
 
 **Symptom:** `docker compose ps` shows `acp-api` **Restarting (1)**; logs end with:
@@ -233,4 +235,4 @@ Every tool call should hit `POST /policy/evaluate` before execution.
 
 ---
 
-**Last updated:** 2026-06-30 · Operator draft for PB-12 prep
+**Last updated:** 2026-06-30 · Mac pilot PASS evidence @ `8a4e7fa`

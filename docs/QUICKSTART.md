@@ -107,7 +107,17 @@ agentctl assign rust-gateway agent2 git_read --json
 ### What you are running
 
 This uses **demo mode**: fixture config (8 policy rules) baked into the minimal Docker stack.  
-For production-like shipped config (10 rules), see [`RUNBOOK.md`](RUNBOOK.md) — operator path.
+For production-like shipped config (10 rules), see [`RUNBOOK.md`](RUNBOOK.md) — operator path, or [`examples/minimal/PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) for Docker pilot (Redis + host YAML bind mount).
+
+**Pilot verify (from `examples/minimal/` after production stack up):**
+
+```bash
+bash verify-pilot.sh
+cd ../.. && export ACP_API_URL=http://127.0.0.1:8000
+bash scripts/verify_governance_status_runtime.sh   # expect 1.5.0 · 17 patterns
+```
+
+Evidence: [`mac-pilot-deploy-2026-06-30/RESULTS.md`](governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md).
 
 ### Stop
 

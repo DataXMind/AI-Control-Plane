@@ -172,6 +172,8 @@ curl -sf http://localhost:8000/health | python3 -m json.tool
 
 See [`examples/minimal/README.md`](../examples/minimal/README.md). On Windows, Docker Desktop publishes `localhost:8000` without portproxy.
 
+**Tier A pilot (Profile B + Redis):** [`examples/minimal/PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) — not PB-9 soak. Mac Mini PASS @ 2026-06-30: [`mac-pilot-deploy-2026-06-30/RESULTS.md`](governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md). Requires `docker compose` plugin on macOS; image must include `[redis]` extra when `ACP_REDIS_URL` is set (#175).
+
 ---
 
 ## Deploy — Linux / Ubuntu

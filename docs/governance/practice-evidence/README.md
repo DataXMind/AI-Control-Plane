@@ -28,6 +28,7 @@
 | Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PASS** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) — latest **v1.3.2** · 13 patterns @ `68ae48e` |
 | ECC 48H post-verify | Deep audit v1.5.0 + integrate live | **PASS**‡ | 2026-06-30 | [`ecc-48h-post-verify/`](ecc-48h-post-verify/) — GHCR gap G-ECC-01 |
 | k6 policy smoke | P-15 load smoke @ 10 VUs | **PASS** | 2026-06-30 | [`k6-policy-smoke/`](k6-policy-smoke/) |
+| Mac Tier A pilot | B + Redis Docker (`production-compose`) | **PASS** | 2026-06-30 | [`mac-pilot-deploy-2026-06-30/`](mac-pilot-deploy-2026-06-30/) |
 | PB-7 | Clean-machine fork ≤15 min (G3-1) | **PAUSED** | — | Operator: other laptop — [`pb-7-clean-machine-fork/`](pb-7-clean-machine-fork/) |
 
 ‡ ECC post-verify: compose local **1.5.0** PASS; GHCR republish coupled to catalog push (G-ECC-01 closed @ PR #157).

@@ -8,6 +8,7 @@ Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 |---------|----------|
 | [`scripts/acp-up.sh`](../scripts/acp-up.sh) | One-command RUN door: `bash scripts/acp-up.sh` |
 | [**minimal/**](minimal/README.md) | Docker/native, fixture config (8 rules), PB-9 soak parity |
+| [**minimal/PRODUCTION_DEPLOY.md**](minimal/PRODUCTION_DEPLOY.md) | Tier A pilot — Profile B (10 rules) + Redis; Mac PASS 2026-06-30 |
 | [**integrate/**](integrate/README.md) | CONNECT door: Python before tool call, health gate, quota |
 
 ## Quick start (Docker — recommended)
