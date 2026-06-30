@@ -6,7 +6,7 @@ from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
 # Semantic: MAJOR.MINOR.PATCH — see docs/governance/GOVERNANCE_CHANGELOG.md
-GOVERNANCE_VERSION = "1.4.0"
+GOVERNANCE_VERSION = "1.5.0"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -59,6 +59,7 @@ DOC_LINKS: dict[str, str] = {
     "eval_methodology": "docs/governance/EVAL_METHODOLOGY.md",
     "ecc_acp_layer_map": "docs/governance/ECC_ACP_LAYER_MAP.md",
     "acp_session_contract_v1": "docs/governance/ACP_SESSION_CONTRACT_v1.md",
+    "ecc_48h_results": "docs/governance/ECC_48H_RESULTS.md",
 }
 
 LAYER_SUMMARY: dict[str, str] = {
@@ -212,7 +213,7 @@ KNOWN_GAPS: list[dict[str, str]] = [
     },
 ]
 
-# LESSONS_LEARNED pattern registry (P-01..P-16) — summary only; full prose in markdown SSOT
+# LESSONS_LEARNED pattern registry (P-01..P-17) — summary only; full prose in markdown SSOT
 LESSON_PATTERNS: list[dict[str, Any]] = [
     {
         "id": "P-01",
@@ -368,6 +369,21 @@ LESSON_PATTERNS: list[dict[str, Any]] = [
         "prevention": (
             "STRIDE-lite before public surface; fail-closed ≠ DoS-safe; "
             "update THREAT_MODEL at MINOR bump"
+        ),
+    },
+    {
+        "id": "P-17",
+        "title": "MCP context tax / connector minimalism",
+        "layer": "L2",
+        "status": "ACTIVE",
+        "rule_ref": (
+            "MCP_INTEGRATION_CONTRACT.md §Decision matrix; "
+            "THREAT_MODEL.md §6; ECC_ACP_INTEGRATION_ANALYSIS.md A8"
+        ),
+        "case_study_id": None,
+        "prevention": (
+            "Default 0–1 MCP connectors; prefer skill/CLI; "
+            "inventory deferred Study 09 — cite connector count in anchor"
         ),
     },
 ]

@@ -38,7 +38,7 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert len(parsed.lessons_patterns) == len(LESSON_PATTERNS)
     assert parsed.lessons_patterns[0].id == "P-01"
     assert parsed.lessons_patterns[0].case_study_id == "CS-01"
-    assert parsed.governance_version == "1.4.0"
+    assert parsed.governance_version == "1.5.0"
     assert len(parsed.public_beta.gates_remaining) >= 5
     assert len(parsed.public_beta.gates_closed) >= 3
     assert parsed.practice_evidence.studies_completed == 8

@@ -62,7 +62,8 @@ Thank you for contributing. This project is a **governance control plane** — c
 4. Read [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE workflow, 9-step executor path, **smoke gate §5.5**.
 5. Read [docs/governance/CURSOR_RISK_POLICY.md](docs/governance/CURSOR_RISK_POLICY.md) — classify task risk (L2) **before** coding.
 6. Open sessions with [docs/prompts/SESSION_ANCHOR_TEMPLATE.md](docs/prompts/SESSION_ANCHOR_TEMPLATE.md).
-7. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`) — **questions** → [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions).
+7. Harness vs policy boundary: [docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md](docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md) (48H SSOT — no ECC plugin import).
+8. Open or link a GitHub issue (`bug`, `spec-gap`, `debt`, `quality`) — **questions** → [GitHub Discussions](https://github.com/DataXMind/AI-Control-Plane/discussions).
 
 ---
 
