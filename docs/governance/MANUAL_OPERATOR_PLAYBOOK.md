@@ -3,8 +3,8 @@
 **Document ID:** ACP-GOV-MANUAL-OPERATOR-PLAYBOOK-001  
 **Audience:** Operator · maintainer · org admin  
 **Phase:** PB-9 staging soak → PB-12 flip → PB-10 GA (deferred)  
-**Baseline:** `master` @ **`d492e11`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
-**Reference date:** **2026-06-30** · PB-9 human tick cuối: **2026-06-30** (PR [#169](https://github.com/DataXMind/AI-Control-Plane/pull/169)–[#171](https://github.com/DataXMind/AI-Control-Plane/pull/171))  
+**Baseline:** `master` @ **`8a4e7fa`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
+**Reference date:** **2026-06-30** · PB-9 human tick cuối: **2026-06-30** (PR [#169](https://github.com/DataXMind/AI-Control-Plane/pull/169)–[#171](https://github.com/DataXMind/AI-Control-Plane/pull/171)) · **Tier A pilot PASS** Mac Mini (PR [#175](https://github.com/DataXMind/AI-Control-Plane/pull/175))  
 **SSOT companions:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md)
 
 > **Purpose:** Execute all remaining Public Beta operator work **without Cursor Agent** — shell, editor, GitHub UI, SSH VPS, optional Claude Project for drafting only.  
@@ -16,7 +16,7 @@
 
 | Tier | Ready? | Action |
 |------|--------|--------|
-| **A — Pilot nội bộ** (policy + Docker + YAML riêng) | **Có — ngay** | [`examples/minimal/PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md) + `docker-compose.production.yml` — **không thay** stack PB-9 fixture soak |
+| **A — Pilot nội bộ** (policy + Docker + YAML riêng) | **Có — ngay** (PASS Mac Mini 2026-06-30) | [`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md) + evidence [`mac-pilot-deploy-2026-06-30/RESULTS.md`](practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) — **không thay** stack PB-9 fixture soak |
 | **B — Public Beta (PB-12)** | **Chưa** — chờ Day 14 ~**07-06** + human GO ~**07-10** | M1 tick 07-01..05 → C1-01 → H1-02 |
 | **C — Production GA (1.0.0)** | **Chưa** — PB-10 deferred, OIDC/k6/MCP PROPOSED | Post-flip #78 |
 
@@ -440,7 +440,8 @@ All of **A3 + A4**, plus:
 | [`DAY14_REVIEW_DRAFT_2026-07-06.md`](practice-evidence/pb-9-day14-review/DAY14_REVIEW_DRAFT_2026-07-06.md) | Day 14 pre-fill |
 | [`PB9_DAY14_REVIEW_TEMPLATE.md`](PB9_DAY14_REVIEW_TEMPLATE.md) | Structure fallback |
 | [`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md) | Pilot Tier A (optional) |
+| [`mac-pilot-deploy-2026-06-30/RESULTS.md`](practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) | Tier A PASS evidence @ 2026-06-30 |
 | [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) | Optional drafting on claude.ai |
 | [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) | Gate checklist (update @ Day 14) |
 
-**Last updated:** 2026-06-30 · reconciled post PR #169–#172 · baseline `d492e11`
+**Last updated:** 2026-06-30 · Mac pilot PASS evidence @ `8a4e7fa` · baseline `8a4e7fa`

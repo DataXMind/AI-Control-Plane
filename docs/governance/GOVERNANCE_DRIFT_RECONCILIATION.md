@@ -261,6 +261,21 @@ Engineering packets merged (#116–#118). Active phase = **operator pipeline** p
 
 **Last updated:** 2026-06-30 @ v1.5.0 post-roadmap reconcile
 
+### 1.6 Mac Tier A pilot @ `8a4e7fa` (PR #172–#175)
+
+| Area | Status | Residual |
+|------|--------|----------|
+| Production compose + `.env.production.example` | ✅ merged #172 | OIDC still PROPOSED (ADR-002) |
+| `verify-pilot.sh` / `run-pilot-without-compose.sh` | ✅ merged #175 | — |
+| Dockerfile `pip install -e ".[redis]"` | ✅ merged #175 | GHCR `demo` tag may lag until republish |
+| Mac Mini operator PASS | ✅ 2026-06-30 | [`mac-pilot-deploy-2026-06-30/RESULTS.md`](practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) |
+| `policy_rules_count: 10` on pilot | ✅ Profile **B** bind mount | **Not** PB-9 fixture (8 rules) |
+| PB-9 soak calendar | 🔄 unchanged | Pilot stack ≠ soak evidence stack |
+
+**Drift rejects (pilot):** `export ACP_CONFIG_DIR` on host does not mount into Docker — use `ACP_HOST_CONFIG_DIR` in `.env.production`. `scripts/verify_*` from **repo root**, not `examples/minimal/`. `docker compose` plugin required on macOS (Docker Desktop or `brew install docker-compose`).
+
+**Last updated:** 2026-06-30 @ Mac pilot evidence reconcile
+
 ---
 
 **Last updated (§1 registry):** 2026-06-27 @ v1.3.3 artifact registry

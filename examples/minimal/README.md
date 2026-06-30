@@ -44,7 +44,7 @@ curl -sf "$ACP_API_URL/governance/status" | python3 -m json.tool | head -30
 bash scripts/verify_governance_status_runtime.sh
 ```
 
-Expected: `config_loaded: true`, `OK: governance/status runtime verify 1.3.3 13 patterns`.
+Expected: `config_loaded: true`, `OK: governance/status runtime verify 1.5.0 17 patterns` (fixture stack: `policy_rules_count: 8`).
 
 ## Assign your first task (CLI)
 
@@ -64,7 +64,7 @@ agentctl status --project rust-gateway
 | Auth | HS256 dev stub | `ACP_JWKS_URL` |
 | MCP Git | disabled | `ACP_MCP_GIT_URL` |
 
-**Production pilot (Redis + host config):** [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) · `docker-compose.production.yml`
+**Production pilot (Redis + host config, Profile B / 10 rules):** [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) · `docker-compose.production.yml` · PASS evidence [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md)
 
 See [ARCHITECTURE.md](../../ARCHITECTURE.md) for invariants and wiring.
 

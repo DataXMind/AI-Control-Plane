@@ -210,6 +210,7 @@ class PracticeEvidenceSummary(BaseModel):
     study_08_url: str
     study_09_url: str
     k6_policy_smoke_url: str
+    mac_pilot_deploy_url: str
 
 
 class PublicBetaGateDetail(BaseModel):

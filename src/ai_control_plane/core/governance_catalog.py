@@ -62,6 +62,9 @@ DOC_LINKS: dict[str, str] = {
     "ecc_48h_results": "docs/governance/ECC_48H_RESULTS.md",
     "ecc_48h_post_verify": "docs/governance/practice-evidence/ecc-48h-post-verify/RESULTS.md",
     "k6_policy_smoke": "docs/governance/practice-evidence/k6-policy-smoke/RESULTS.md",
+    "mac_pilot_deploy": (
+        "docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md"
+    ),
     "study_09_mcp_inventory": "docs/governance/practice-evidence/study-09-mcp-inventory/RESULTS.md",
 }
 
@@ -481,13 +484,17 @@ PRACTICE_EVIDENCE: dict[str, str | int | list[str]] = {
     "network_topologies": ["localhost", "Docker", "LAN", "Tailscale"],
     "note": (
         "Studies 01–08 PASS; Study 09 MCP inventory PASS; "
-        "k6-policy-smoke PASS; PB-9 calendar soak (G-05) separate."
+        "k6-policy-smoke PASS; Mac Tier A pilot PASS 2026-06-30; "
+        "PB-9 calendar soak (G-05) separate."
     ),
     "index_url": "docs/governance/practice-evidence/README.md",
     "audit_url": "docs/governance/practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md",
     "study_08_url": "docs/governance/practice-evidence/study-08-shipped-remote/RESULTS.md",
     "study_09_url": "docs/governance/practice-evidence/study-09-mcp-inventory/RESULTS.md",
     "k6_policy_smoke_url": "docs/governance/practice-evidence/k6-policy-smoke/RESULTS.md",
+    "mac_pilot_deploy_url": (
+        "docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md"
+    ),
 }
 
 __all__ = [

@@ -11,11 +11,12 @@
 ## Canonical one-liner (2026-06-30)
 
 ```text
-SESSION ANCHOR: master @ bbc65cf · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+SESSION ANCHOR: master @ 8a4e7fa · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
 TRACK: [fill: feature | governance | ops | docs-only]
 Public Beta IN_PROGRESS (PB-9 soak). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7 until flip bump.
 Critical path: PB-9 tick 07-01..05 → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~07-10.
 PB-9 last tick: 2026-06-30 (Apex ☐). PB-10 deferred GA (#78). PB-8 @ c58b4cc — no re-tag.
+Tier A pilot: PASS Mac Mini 2026-06-30 — practice-evidence/mac-pilot-deploy-2026-06-30 (10 rules · Redis · #175 Dockerfile [redis])
 Verify: source .venv/bin/activate · smoke 8/8 · verify_governance_status_runtime.sh (1.5.0 · 17)
 SSOT: AGENT_OPERATING_SYSTEM.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for daily ops)
 ```
@@ -28,7 +29,7 @@ SSOT: AGENT_OPERATING_SYSTEM.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for dai
 session_anchor:
   version: "1.0"
   date: "2026-06-30"
-  baseline: "master @ bbc65cf"
+  baseline: "master @ 8a4e7fa"
   risk: "LOW"
   track: "docs-only"
   gates_approved: []
@@ -58,4 +59,4 @@ task: |
   [One paragraph — goal, out of scope, done definition]
 ```
 
-**Last updated:** 2026-06-30 · post PR #173 manual operator playbook
+**Last updated:** 2026-06-30 · post PR #175 Mac pilot PASS evidence + drift reconcile

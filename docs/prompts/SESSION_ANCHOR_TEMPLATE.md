@@ -11,17 +11,17 @@
 > **Do not** duplicate stale SHAs here; template shows structure only.
 
 ```text
-SESSION ANCHOR: master @ bbc65cf · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+SESSION ANCHOR: master @ 8a4e7fa · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
 Public Beta IN_PROGRESS (PB-9). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7.
 Critical path: tick 07-01..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
-See ANCHOR_CURRENT.md for full paste block.
+Tier A pilot PASS Mac 2026-06-30 — see ANCHOR_CURRENT.md for full paste block.
 ```
 
 ---
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · `master` @ **`bbc65cf`**
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · `master` @ **`8a4e7fa`**
 
 **Chờ calendar / operator**
 
@@ -95,6 +95,11 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 - MSI WARM = PB-7 PASS
 - `curl … > docs/openapi.json` → `python scripts/export_openapi.py` → `docs/openapi/openapi.json`
 - PB-9 gap Scenario B/C default → calendar Day 14 **~07-06** (gap 06-22→25 documented)
+- `export ACP_CONFIG_DIR` on host changes Docker pilot → use `ACP_HOST_CONFIG_DIR` in `.env.production` ([`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md))
+- `bash scripts/verify_*` from `examples/minimal/` → **repo root** (`cd ../..`)
+- Mac `unknown command: docker compose` → install Compose plugin (Docker Desktop or `docker-compose` standalone)
+- Pilot `policy_rules_count: 10` = Profile **B** — not drift vs fixture **8** (PB-9 / smoke)
+- Pilot PASS on Mac ≠ PB-9 soak PASS — separate stacks; evidence @ [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md)
 
 | Claim | Verdict |
 |-------|---------|
@@ -218,4 +223,4 @@ agentctl gov status --json | python3 -m json.tool
 - [ ] `practice-evidence/` if operator ran hands-on steps
 - [ ] Do **not** store sole copy of evidence in chat
 
-**Last updated:** 2026-06-30 — AOS v1.0 · ANCHOR_CURRENT split · baseline `bbc65cf`
+**Last updated:** 2026-06-30 — Mac pilot evidence · baseline `8a4e7fa` (living SHA: `ANCHOR_CURRENT.md`)
