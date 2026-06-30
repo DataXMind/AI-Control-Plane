@@ -1,0 +1,47 @@
+# Production-style override — use WITH base compose (not standalone).
+#
+# Build path (from repo root):
+#   docker compose -f examples/minimal/docker-compose.yml \
+#     -f examples/minimal/docker-compose.production.yml \
+#     --env-file examples/minimal/.env.production up -d --build
+#
+# GHCR path (no local build):
+#   docker compose -f examples/minimal/docker-compose.ghcr.yml \
+#     -f examples/minimal/docker-compose.production.yml \
+#     --env-file examples/minimal/.env.production up -d
+#
+# See PRODUCTION_DEPLOY.md for full operator steps.
+
+services:
+  acp-api:
+    environment:
+      ACP_CONFIG_DIR: /etc/acp/config
+      ACP_DATA_DIR: /data/acp
+      ACP_REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379/0
+      # Optional — set in .env.production when IdP ready (ADR-002 PROPOSED)
+      ACP_JWKS_URL: ${ACP_JWKS_URL:-}
+      ACP_MCP_GIT_URL: ${ACP_MCP_GIT_URL:-}
+    volumes:
+      - ${ACP_HOST_CONFIG_DIR:-./production-config}:/etc/acp/config:ro
+      - acp-data:/data/acp
+    ports:
+      - "${ACP_HOST_PORT:-8000}:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:-changeme}
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  redis-data:

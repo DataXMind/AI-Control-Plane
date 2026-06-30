@@ -64,6 +64,8 @@ agentctl status --project rust-gateway
 | Auth | HS256 dev stub | `ACP_JWKS_URL` |
 | MCP Git | disabled | `ACP_MCP_GIT_URL` |
 
+**Production pilot (Redis + host config):** [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) · `docker-compose.production.yml`
+
 See [ARCHITECTURE.md](../../ARCHITECTURE.md) for invariants and wiring.
 
 ## VPS 24/7 (PB-9)
