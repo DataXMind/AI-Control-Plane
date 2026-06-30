@@ -56,9 +56,10 @@ jobs:
 
       - name: Verify catalog version in pushed image
         run: |
-          docker pull "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:demo"
+          IMAGE="${{ env.REGISTRY }}/dataxmind/ai-control-plane:demo"
+          docker pull "${IMAGE}"
           EXPECTED=$(python3 -c "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
-          ACTUAL=$(docker run --rm "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:demo" python3 -c \
+          ACTUAL=$(docker run --rm "${IMAGE}" python3 -c \
             "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
           echo "Expected catalog: ${EXPECTED}"
           echo "Image catalog:    ${ACTUAL}"
