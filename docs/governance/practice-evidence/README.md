@@ -23,6 +23,7 @@
 | Study 06 | Multi-host (2+ machines) | **PASS** | 2026-06-25 | [`study-06-multi-host/`](study-06-multi-host/) |
 | Study 07 | Cross-network (Tailscale) | **PASS** | 2026-06-25 | [`study-07-cross-network/`](study-07-cross-network/) |
 | Study 08 | B — shipped remote VPS | **PASS** | 2026-06-26 | [`study-08-shipped-remote/`](study-08-shipped-remote/) |
+| Study 09 | MCP inventory (P-17) | **PASS** | 2026-06-30 | [`study-09-mcp-inventory/`](study-09-mcp-inventory/) |
 | Gov status v1.2 | Docker dual-host (PR #99) | **PASS** | 2026-06-26 | [`governance-status-v12-verify/`](governance-status-v12-verify/) |
 | Gov status v1.3 | Runtime `lessons_patterns` (PR #104) | **PASS** | 2026-06-26 | [`governance-status-v13-verify/`](governance-status-v13-verify/) — latest **v1.3.2** · 13 patterns @ `68ae48e` |
 | ECC 48H post-verify | Deep audit v1.5.0 + integrate live | **PASS**‡ | 2026-06-30 | [`ecc-48h-post-verify/`](ecc-48h-post-verify/) — GHCR gap G-ECC-01 |

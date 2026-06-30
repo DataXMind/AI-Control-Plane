@@ -1,0 +1,15 @@
+{
+  "study": "09-mcp-inventory",
+  "date": "2026-06-30",
+  "baseline_sha": "25cfee0",
+  "governance_version": "1.5.0",
+  "shipped_mcp_modules": [
+    "src/ai_control_plane/mcp/git_server.py",
+    "src/ai_control_plane/mcp/server_factory.py",
+    "src/ai_control_plane/mcp/__init__.py"
+  ],
+  "default_connector_target": "0-1",
+  "primary_integration": "POST /policy/evaluate",
+  "external_adapter": "cyanheads git-mcp-server (experimental)",
+  "rejected": ["ECC plugin import", "AgentShield import"]
+}

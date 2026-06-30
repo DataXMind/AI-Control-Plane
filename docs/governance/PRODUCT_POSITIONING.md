@@ -50,6 +50,20 @@
 
 ---
 
+## SAPAL / apex — Experimental (demoted @ 0.x)
+
+**Do not lead with SAPAL in pitches.** The adaptive loop in `apex/` is an **MVP scaffold**, not a proven moat @ 0.x.
+
+| Aspect | Status @ 0.x |
+|--------|----------------|
+| Moat strength | **Weak** — see [`VALUE_AUDIT_MATRIX.md`](VALUE_AUDIT_MATRIX.md) |
+| Public Beta pitch | **Out of scope** — policy engine + governance OS are primary |
+| When to mention | v0.3.x+ proposals only; legal posture in [`SAPAL_LEGAL_ASSESSMENT.md`](SAPAL_LEGAL_ASSESSMENT.md) |
+
+Tier 1/2 evaluators should judge ACP on **fail-closed policy + practice evidence**, not SAPAL depth.
+
+---
+
 ## Security posture (least agency)
 
 ACP implements **least agency** at the **action layer**: every tool call is evaluated; deny is default on error. This complements (does not replace) harness-level rules, hooks, and MCP minimalism. See [`THREAT_MODEL.md`](THREAT_MODEL.md) §6 and [`ECC_ACP_INTEGRATION_ANALYSIS.md`](ECC_ACP_INTEGRATION_ANALYSIS.md).
