@@ -20,6 +20,7 @@
 - Updated: `SESSION_ANCHOR_TEMPLATE.md` v1.5.0 / 17 patterns / master `1dd8f31` (P-14 drift fix)
 - Added: P-14 gate evidence predicates — `gate_details` + `gates_blocking_pb12` on `/governance/status`
 - Added: k6 load skeleton `benchmarks/k6/policy_evaluate.js` + `run_k6_policy_smoke.sh` (P-15)
+- Updated: VALUE_AUDIT_MATRIX v1.5.0 / P-17; ACP_HANDOFF deprecation banner; GOVERNANCE_UX_RUNTIME gate_details
 
 ## v1.4.0 (2026-06-30)
 **Type:** MINOR

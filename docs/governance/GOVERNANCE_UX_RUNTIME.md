@@ -116,9 +116,9 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `layers` | L0–L5 one-line summary |
 | `verify_gate` | Commands from `.cursorrules` L4 |
 | `doc_links` | Paths to governance markdown (incl. `behavioral_constitution`, `cursor_risk_policy`, `lessons_learned`, `practice_evidence_index`) |
-| `public_beta` | PB-9 soak metadata; **`gates_remaining`**, **`gates_closed`** |
+| `public_beta` | PB-9 soak; **`gates_remaining`**, **`gates_closed`**, **`gates_blocking_pb12`**, **`gate_details`** |
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
-| `lessons_patterns` | P-01..P-13 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
+| `lessons_patterns` | P-01..P-17 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
 | `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
 | `practice_evidence` | Studies 01–08 summary, hosts, topologies, `open_gaps_count`, index URLs |
 | `config_loaded`, `policy_rules_count` | Live wire proof (like `/health`) |
@@ -133,7 +133,7 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | | | `pytest tests/ -v` · `pytest -m smoke` (8/8) |
 | | | `bash scripts/verify_governance_memory.sh` (ML5 doc links) |
 | **Runtime** (post-deploy) | API host | `export ACP_API_URL=http://127.0.0.1:8000` |
-| | | `bash scripts/verify_governance_status_runtime.sh` (catalog v1.3+) |
+| | | `bash scripts/verify_governance_status_runtime.sh` (catalog v1.5.0 · 17 patterns) |
 
 **Run scripts from repo root** (`~/AI-Control-Plane`), not from `scripts/`:
 
@@ -181,6 +181,6 @@ See also [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-27 — catalog v1.3.3: `public_beta.gates_remaining` + artifact SSOT §10
+**Last updated:** 2026-06-30 — catalog v1.5.0: `gate_details` + `gates_blocking_pb12` (P-14)
 
 **Note on CS-01/03/04:** Process-layer governance — validated via `LESSONS_LEARNED.md` P-01..P-04 and `lessons_patterns[]`, not operator runtime drill. **G-01..G-04, G-06, G-07: CLOSED** @ 2026-06-26. **G-05 OPEN** — PB-9 calendar soak until ~2026-07-06. Supersedes stale Claude sync prompt (pre-PR #99).
