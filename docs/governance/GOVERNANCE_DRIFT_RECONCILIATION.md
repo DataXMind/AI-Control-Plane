@@ -264,3 +264,17 @@ Engineering packets merged (#116–#118). Active phase = **operator pipeline** p
 ---
 
 **Last updated (§1 registry):** 2026-06-27 @ v1.3.3 artifact registry
+
+---
+
+## §12 — Composite drift risk khi đọc nhiều artifact cùng lúc
+
+**Rủi ro:** Khi một phiên agent đọc **nhiều file lịch sử cùng lúc** (ví dụ: tổng hợp nhiều báo cáo Cursor thành một document dài), banner deprecation đơn lẻ trên từng file có thể **không đủ nổi bật** để ngăn trộn lẫn số liệu giữa các mốc thời gian khác nhau (ví dụ: SHA cũ + catalog version mới bị ghép sai).
+
+**Rule bắt buộc cho agent:** Khi nhận một artifact tổng hợp (multi-session report, file `.docx` / `.md` dài >500 dòng tự ghép nhiều mốc thời gian), **PHẢI:**
+
+1. Xác minh anchor hiện tại bằng **lệnh thật** trước khi tin bất kỳ SHA/version nào trong artifact đó (`git log -1 --oneline`, `curl …/governance/status`, `pytest --collect-only -q | tail -1`).
+2. Gắn nhãn rõ **"theo báo cáo X, chưa verify độc lập"** cho mọi số liệu chưa confirm bằng output terminal thật.
+3. **Không** tự nhảy anchor sang baseline mới chỉ vì artifact tự xưng "đã hoàn tất".
+
+**SSOT anchor:** [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) · `GET /governance/status` · `scripts/verify_governance_status_runtime.sh`
