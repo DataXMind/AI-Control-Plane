@@ -97,4 +97,20 @@
 
 ---
 
-**Last updated:** 2026-06-28 · Catalog v1.3.3 · `master` @ `9bf5655`
+## 6. Least agency and harness context (48H)
+
+**Principle (adapted from industry harness security practice):** The real safety boundary is **policy between model intent and action** — not system prompt alone.
+
+| Concept | ACP interpretation |
+|---------|-------------------|
+| **Least agency** | Agents get minimum tool scope; `/policy/evaluate` is the enforcement gate |
+| **Lethal trifecta** | Private data + untrusted content + outbound tools in one runtime → high injection risk |
+| **ACP scope** | We enforce **tool/action** gate (TB-1); we do **not** inspect LLM output (out of scope) |
+
+**Operator pairing:** Use ACP with harness configs that minimize default MCP connectors ([`MCP_INTEGRATION_CONTRACT.md`](MCP_INTEGRATION_CONTRACT.md)). Prompt safety without action policy is insufficient for production agents.
+
+**Integration SSOT:** [`ECC_ACP_INTEGRATION_ANALYSIS.md`](ECC_ACP_INTEGRATION_ANALYSIS.md)
+
+---
+
+**Last updated:** 2026-06-30 · 48H Phase 2b · Catalog v1.4.0

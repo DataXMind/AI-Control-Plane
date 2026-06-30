@@ -50,6 +50,12 @@
 
 ---
 
+## Security posture (least agency)
+
+ACP implements **least agency** at the **action layer**: every tool call is evaluated; deny is default on error. This complements (does not replace) harness-level rules, hooks, and MCP minimalism. See [`THREAT_MODEL.md`](THREAT_MODEL.md) §6 and [`ECC_ACP_INTEGRATION_ANALYSIS.md`](ECC_ACP_INTEGRATION_ANALYSIS.md).
+
+---
+
 ## Competitive Landscape
 
 | Alternative | Difference |
@@ -64,10 +70,10 @@
 
 ## Governance Framework — Standalone Value
 
-The Karpathy 6-layer governance + PACE + LESSONS P-01..P-13 can be adopted independently of the policy engine. See [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) (plan referenced `docs/governance/README.md` — not yet published; Karpathy plan is SSOT).
+The Karpathy 6-layer governance + PACE + LESSONS P-01..P-16 can be adopted independently of the policy engine. See [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) (plan referenced `docs/governance/README.md` — not yet published; Karpathy plan is SSOT).
 
 **Target audience:** Teams using AI coding assistants who want structured governance.
 
 ---
 
-**Last updated:** 2026-06-29 · Catalog v1.3.3 · `master` @ `72571db`
+**Last updated:** 2026-06-30 · 48H Phase 2b · Catalog v1.4.0

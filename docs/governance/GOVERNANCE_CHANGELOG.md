@@ -34,6 +34,7 @@
 - Updated: `acp-up.sh` GHCR pull diagnostics + compose fallback on denied/not-found
 - Added: `ECC_ACP_INTEGRATION_ANALYSIS.md` (48H Phase 1); `DOC_LINKS.ecc_integration_analysis`
 - Updated: MCP_INTEGRATION_CONTRACT connector decision matrix (48H E2a); SECURITY ECC supply-chain
+- Updated: THREAT_MODEL §6 least agency; PRODUCT_POSITIONING security posture (48H E2b)
 
 ## v1.3.3 (2026-06-28)
 **Type:** PATCH
