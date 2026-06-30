@@ -37,6 +37,8 @@
 - Updated: THREAT_MODEL §6 least agency; PRODUCT_POSITIONING security posture (48H E2b)
 - Added: `EVAL_METHODOLOGY.md` (pass@k / pass^k; 48H Phase 3); `DOC_LINKS.eval_methodology`
 - Added: `ECC_ACP_LAYER_MAP.md` (harness vs control plane; 48H Phase 3); `DOC_LINKS.ecc_acp_layer_map`
+- Added: `ACP_SESSION_CONTRACT_v1.md` (ecc.session.v1 compare; 48H Phase 4); `DOC_LINKS.acp_session_contract_v1`
+- Updated: `AGENTS.md` iterative retrieval; `DEVELOPMENT_PROTOCOL.md` §2 retrieval note (48H Phase 4)
 
 ## v1.3.3 (2026-06-28)
 **Type:** PATCH
