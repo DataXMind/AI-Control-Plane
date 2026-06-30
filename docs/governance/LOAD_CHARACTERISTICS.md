@@ -41,9 +41,9 @@ The **p99 < 500ms** target in [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.m
 
 - **Benchmark:** 50 / 100 / 500 concurrent agents
 - **Target:** p99 < 200ms at 100 concurrent
-- **Tool:** k6 — skeleton @ `benchmarks/k6/policy_evaluate.js`
-- **Runner:** `bash scripts/run_k6_policy_smoke.sh` (skips if k6 not installed)
-- **Issue:** post-flip closure for P-15
+- **Tool:** k6 — closure @ `practice-evidence/k6-policy-smoke/` (2026-06-30 PASS @ 10 VUs)
+- **Runner:** `bash scripts/run_k6_policy_smoke.sh` (skips if k6 missing; `.tools/k6` fallback)
+- **Issue:** post-flip higher-VU fleet test (50–500 VUs) — optional v0.2.x
 
 ### Operator quick start (skeleton)
 

@@ -1,6 +1,6 @@
 # k6 load benchmarks — ACP policy path (P-15)
 
-**Status:** Skeleton — operator-run; **not** a CI merge gate (yet).
+**Status:** Operator-run closure @ `practice-evidence/k6-policy-smoke/` — **not** a CI merge gate.
 
 ## Prerequisites
 
