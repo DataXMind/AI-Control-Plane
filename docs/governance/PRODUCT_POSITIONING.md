@@ -70,7 +70,7 @@ ACP implements **least agency** at the **action layer**: every tool call is eval
 
 ## Governance Framework — Standalone Value
 
-The Karpathy 6-layer governance + PACE + LESSONS P-01..P-16 can be adopted independently of the policy engine. See [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) (plan referenced `docs/governance/README.md` — not yet published; Karpathy plan is SSOT).
+The Karpathy 6-layer governance + PACE + LESSONS P-01..P-17 can be adopted independently of the policy engine. See [`ACP_KARPATHY_REARCHITECTURE_PLAN.md`](ACP_KARPATHY_REARCHITECTURE_PLAN.md) (plan referenced `docs/governance/README.md` — not yet published; Karpathy plan is SSOT).
 
 **Target audience:** Teams using AI coding assistants who want structured governance.
 

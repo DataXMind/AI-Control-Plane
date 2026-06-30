@@ -3,7 +3,7 @@
 **Document ID:** ACP-PROMPT-CLAUDE-PROJECT-SETUP-001  
 **Audience:** Maintainer · operator · Claude Projects (claude.ai)  
 **Phase:** PB-9 staging soak → PB-12 flip  
-**Baseline:** `master` @ **`20e4fc3`** · catalog **v1.3.3**  
+**Baseline:** `master` @ **`77c4cc8`** · catalog **v1.5.0** · 17 patterns  
 **Companion:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) (Cursor) · [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) (SSOT)
 
 > **Use:** One-time Project setup on claude.ai + paste **opener** at every new conversation.  

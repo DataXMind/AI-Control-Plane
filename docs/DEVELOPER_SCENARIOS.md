@@ -281,7 +281,7 @@ sudo systemctl enable --now acp-staging.service acp-soak.service
 git clone https://github.com/DataXMind/AI-Control-Plane.git
 # Adopt without running API:
 #   .cursorrules, docs/prompts/SESSION_ANCHOR_TEMPLATE.md
-#   docs/governance/LESSONS_LEARNED.md (P-01..P-16)
+#   docs/governance/LESSONS_LEARNED.md (P-01..P-17)
 #   docs/DEVELOPMENT_PROTOCOL.md (PACE)
 ```
 
