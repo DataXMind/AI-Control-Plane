@@ -22,6 +22,8 @@
 | Multi-host Study 06 | [`study-06-multi-host/RUNBOOK.md`](governance/practice-evidence/study-06-multi-host/RUNBOOK.md) |
 | Clean-machine fork (PB-7) | [`pb-7-clean-machine-fork/RUNBOOK.md`](governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md) |
 
+> ⚠️ **Local verify scripts require activated `.venv`** (`source .venv/bin/activate`). Running with system Python (e.g. WSL default) will fail with `ModuleNotFoundError` (e.g. missing `structlog`) — this is an environment issue, not a regression. CI (GitHub Actions) always uses correct venv and is the source of truth if local environment differs.
+
 ---
 
 ## Run API server
