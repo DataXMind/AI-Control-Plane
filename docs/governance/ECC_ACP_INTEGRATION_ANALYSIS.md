@@ -61,6 +61,8 @@ Agent session → ECC (how to work) ──tool intent──► ACP (allow/deny) 
 | kubernetes-patterns skill pack | Out of scope 0.x |
 | ECC Pro commercial features | `BUSINESS_MODEL.md` path differs |
 
+**Quyết định này là FINAL cho 0.x** — xem [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md) §Drift guard.
+
 ---
 
 ## 5. DEFER (post PB-12)

@@ -95,6 +95,10 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 - `curl … > docs/openapi.json` → `python scripts/export_openapi.py` → `docs/openapi/openapi.json`
 - PB-9 gap Scenario B/C default → calendar Day 14 **~07-06** (gap 06-22→25 documented)
 
+| Claim | Verdict |
+|-------|---------|
+| AgentShield / ECC plugin import (skills, agents, npm dependency) | **REJECTED** — xem [`ECC_ACP_INTEGRATION_ANALYSIS.md`](../governance/ECC_ACP_INTEGRATION_ANALYSIS.md) §REJECT; không re-propose trừ khi operator yêu cầu rõ ràng bằng văn bản |
+
 ---
 
 ## Claude / Cursor role this phase
