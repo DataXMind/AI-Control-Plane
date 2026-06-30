@@ -58,7 +58,7 @@ jobs:
         run: |
           IMAGE="${{ env.REGISTRY }}/dataxmind/ai-control-plane:demo"
           docker pull "${IMAGE}"
-          EXPECTED=$(python3 -c "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
+          EXPECTED=$(grep '^GOVERNANCE_VERSION' src/ai_control_plane/core/governance_catalog.py | sed -n 's/.*"\([^"]*\)".*/\1/p')
           ACTUAL=$(docker run --rm "${IMAGE}" python3 -c \
             "from ai_control_plane.core.governance_catalog import GOVERNANCE_VERSION; print(GOVERNANCE_VERSION)")
           echo "Expected catalog: ${EXPECTED}"
