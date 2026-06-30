@@ -9,7 +9,15 @@
 - **PATCH:** Doc fix, drift correction, reconciliation update,
   clarity improvement, new DOC_LINKS entry
 
-## v1.4.0 (current — 2026-06-30)
+## v1.5.0 (current — 2026-06-30)
+**Type:** MINOR
+- Added: P-17 MCP context tax / connector minimalism (`LESSONS_LEARNED.md`, `LESSON_PATTERNS`)
+- Added: `ECC_48H_RESULTS.md` (48H closeout SSOT)
+- Added: `DOC_LINKS.ecc_48h_results`
+- Updated: README + CONTRIBUTING ECC integration pointers → `ECC_ACP_INTEGRATION_ANALYSIS.md`
+- Carries forward: 48H Phase 1–4 artifacts (A1–A8) merged PR #146–#150
+
+## v1.4.0 (2026-06-30)
 **Type:** MINOR
 - Added: THREAT_MODEL.md (P-16 resolved)
 - Added: REDIS_FAILURE_MODES.md (C2 resolved)

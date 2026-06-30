@@ -235,6 +235,20 @@
 
 ---
 
+### P-17 — MCP Context Tax / Connector Minimalism
+
+| Field | Detail |
+|-------|--------|
+| **When** | 48H ECC integration — industry shift to default **zero** MCP connectors; each connector loads tool schemas into every session context window |
+| **Root cause** | Treating MCP inventory as free — connectors multiply tokens, attack surface, and session startup latency without policy benefit |
+| **Impact** | Agents exhaust context on tool metadata; operators confuse harness transport with ACP policy truth |
+| **Rule added** | [`MCP_INTEGRATION_CONTRACT.md`](MCP_INTEGRATION_CONTRACT.md) §Decision matrix; [`THREAT_MODEL.md`](THREAT_MODEL.md) §6; [`ECC_ACP_INTEGRATION_ANALYSIS.md`](ECC_ACP_INTEGRATION_ANALYSIS.md) A8 |
+| **Layer** | L2 (Risk Policy) + L1 (context budget) |
+| **Prevention** | 1. Target **0–1** default MCP connectors per operator harness. 2. Prefer skill/CLI/`docs/prompts/` over new connector. 3. Policy allow/deny stays `POST /policy/evaluate` — MCP is transport only. 4. Full inventory audit deferred **Study 09** post-flip. |
+| **Status** | [ACTIVE] |
+
+---
+
 ## Maintenance
 
 Add a pattern at each **sprint close** (before declaring sprint DONE).  
@@ -263,4 +277,4 @@ Each pattern must:
 
 ---
 
-**Last updated:** 2026-06-26 @ P-13 kill switch HTTP contract (G2-1); P-08..P-12 unchanged
+**Last updated:** 2026-06-30 @ P-17 MCP context tax (48H Phase 5); P-08..P-16 unchanged

@@ -75,7 +75,7 @@ Requires `ACP_CONFIG_DIR` (see quick start above) and a running API:
 export ACP_API_URL=http://localhost:8000
 curl -sf "$ACP_API_URL/governance/status" | python3 -m json.tool | head -30
 bash scripts/verify_governance_status_runtime.sh
-# Expected: OK: governance/status runtime verify 1.4.0 16 patterns
+# Expected: OK: governance/status runtime verify 1.5.0 17 patterns
 agentctl gov status
 ```
 
@@ -159,6 +159,8 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — **start here** for end-users (RUN / CONNECT, 5 min)
 - [examples/integrate/](examples/integrate/README.md) — copy-paste integration patterns (Python)
 - [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — advanced fork/clone / operator scenarios
+- [docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md](docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md) — ECC harness vs ACP policy (48H SSOT)
+- [docs/governance/ECC_48H_RESULTS.md](docs/governance/ECC_48H_RESULTS.md) — 48H integration closeout
 - [AGENTS.md](AGENTS.md) — **start here** for coding agents (ML5 memory, session anchor)
 - [ARCHITECTURE.md](ARCHITECTURE.md) — invariants, API contract, config wiring
 - [docs/DEVELOPMENT_PROTOCOL.md](docs/DEVELOPMENT_PROTOCOL.md) — PACE, P0 gate, smoke gate §5.5
