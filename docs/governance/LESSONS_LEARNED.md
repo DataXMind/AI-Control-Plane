@@ -202,7 +202,7 @@
 | **Impact** | Practice PASS and catalog state diverge silently; operator assumes gates closed when catalog still lists them |
 | **Rule added** | [`ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md`](ACP_STATUS_AUDIT_ANALYSIS_RECONCILIATION.md) §deeper-perspectives; [`GOVERNANCE_CHANGELOG.md`](GOVERNANCE_CHANGELOG.md) |
 | **Layer** | L5 (Governance & Memory) |
-| **Prevention** | 1. Always update GOVERNANCE_CHANGELOG.md when bumping governance version. 2. Every gate PASS must reference a specific RESULTS.md path, not just verbal claim. 3. Future: compute `gates_remaining` from evidence predicates (ADR-001 target v0.3.x). |
+| **Prevention** | 1. Always update GOVERNANCE_CHANGELOG.md when bumping governance version. 2. Every gate PASS must reference a specific RESULTS.md path, not just verbal claim. 3. Use `GET /governance/status` → `gate_details` + `gates_blocking_pb12` (P-14 predicates @ v1.5.0). |
 | **Status** | [ACTIVE] |
 
 ---
