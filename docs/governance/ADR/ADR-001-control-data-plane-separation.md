@@ -60,6 +60,18 @@ Do not implement if:
 
 ---
 
+## Reactivation Trigger
+
+ADR-001 review must be **reopened** (not auto-implemented) if **any one** of the following occurs:
+
+1. **`apex/` module growth exceeds baseline** — current baseline @ `master` `5ea0aef`: **8 Python files**, **~411 LOC** under `src/ai_control_plane/apex/`. Reopen if file count **> 8** or LOC **> 500** (50% growth buffer).
+2. **SAPAL Phase 2 (proposal generation)** is approved per [`SAPAL_LEGAL_ASSESSMENT.md`](../SAPAL_LEGAL_ASSESSMENT.md).
+3. **Production incident** involving resource contention between policy evaluation (`POST /policy/evaluate`) and governance reporting (`GET /governance/status` / telemetry writer).
+
+If **none** of the above occur → ADR-001 remains **PROPOSED**; no separation work.
+
+---
+
 ## Related
 
 - C1 finding: Architecture Assessment 2026-06-28
