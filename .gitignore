@@ -1,4 +1,6 @@
-# Byte-compiled / optimized / DLL files
+# Local operator tools (e.g. k6 binary download)
+.tools/
+
 __pycache__/
 *.py[cod]
 *$py.class
