@@ -14,6 +14,8 @@ from ai_control_plane.mcp.git_server import (
     SubprocessGitForwarder,
 )
 
+_SUBPROCESS_PATCH = "ai_control_plane.mcp.git_server.asyncio.create_subprocess_exec"
+
 
 @pytest.mark.asyncio
 async def test_stub_git_forwarder_returns_delegated_payload() -> None:
@@ -39,7 +41,7 @@ async def test_subprocess_forwarder_invalid_json_stdout() -> None:
     process.returncode = 0
     process.communicate = AsyncMock(return_value=(b"not-json", b""))
 
-    with patch("ai_control_plane.mcp.git_server.asyncio.create_subprocess_exec", return_value=process):
+    with patch(_SUBPROCESS_PATCH, return_value=process):
         forwarder = SubprocessGitForwarder(["echo"])
         with pytest.raises(McpToolError, match="invalid response"):
             await forwarder.call_tool("git_status", {})
@@ -54,7 +56,7 @@ async def test_subprocess_forwarder_json_rpc_error() -> None:
     process.returncode = 0
     process.communicate = AsyncMock(return_value=(error_payload, b""))
 
-    with patch("ai_control_plane.mcp.git_server.asyncio.create_subprocess_exec", return_value=process):
+    with patch(_SUBPROCESS_PATCH, return_value=process):
         forwarder = SubprocessGitForwarder(["cat"])
         with pytest.raises(McpToolError) as exc_info:
             await forwarder.call_tool("git_status", {})
