@@ -95,7 +95,7 @@
 | # | Task | Owner | Target | Depends on | Artifact |
 |---|------|-------|--------|------------|----------|
 | C1-01 | Day 14 PB-9 review | Operator | **~2026-07-06** | ≥14 days from 2026-06-22 + clean soak | `practice-evidence/pb-9-day14-review/RESULTS.md` |
-| C1-02 | Pre-flip refresh | Maintainer | **~2026-07-07** | C1-01 = PASS | `export_openapi.py`, smoke, verify, coverage ≥85% ([`COVERAGE_IMPROVEMENT_REPORT.md`](COVERAGE_IMPROVEMENT_REPORT.md)) |
+| C1-02 | Pre-flip refresh | Maintainer | **~2026-07-07** | C1-01 = PASS | `export_openapi.py`, smoke, verify, coverage ≥85% — [`POST_FLIP_COVERAGE_REMINDER.md`](POST_FLIP_COVERAGE_REMINDER.md) |
 | C1-03 | PB-12 flip window | Human | **~2026-07-10** | C1-01 PASS + C1-02 OK | GitHub public + release |
 
 ### 1.4 H1 — Human gates (cannot delegate to agent)

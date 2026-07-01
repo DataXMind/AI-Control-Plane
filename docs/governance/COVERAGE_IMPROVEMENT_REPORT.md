@@ -73,7 +73,7 @@ See prior analysis in operator playbook § optional verify and [`GOVERNANCE_DRIF
 
 - This report
 - `fail_under` / Codecov target → **85%**
-- GitHub issue **post-flip reminder** (~2026-07-07): Tier 3 MCP CI + OIDC test matrix
+- GitHub issue **post-flip reminder** (~2026-07-07): Tier 3 MCP CI + OIDC test matrix — [`POST_FLIP_COVERAGE_REMINDER.md`](POST_FLIP_COVERAGE_REMINDER.md)
 
 ---
 
