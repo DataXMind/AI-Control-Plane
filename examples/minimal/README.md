@@ -2,7 +2,7 @@
 
 Run the API with fixture-equivalent config for local exploration (not production).
 
-**Index:** [examples/README.md](../README.md) · **PB-7:** [clean-machine RUNBOOK](../../docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md)
+**Index:** [examples/README.md](../README.md) · **Task 1 (customer):** [`CUSTOMER_INSTALL.md`](CUSTOMER_INSTALL.md) · **Task 2:** [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md) · **PB-7:** [clean-machine RUNBOOK](../../docs/governance/practice-evidence/pb-7-clean-machine-fork/RUNBOOK.md)
 
 ## Prerequisites
 
@@ -64,7 +64,7 @@ agentctl status --project rust-gateway
 | Auth | HS256 dev stub | `ACP_JWKS_URL` |
 | MCP Git | disabled | `ACP_MCP_GIT_URL` |
 
-**Production pilot (Redis + host config, Profile B / 10 rules):** [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) · `docker-compose.production.yml` · PASS evidence [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md)
+**Production pilot (Redis + host config, Profile B / 10 rules):** [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) (maintainer clone) · [`CUSTOMER_INSTALL.md`](CUSTOMER_INSTALL.md) (zero-git Path C)
 
 See [ARCHITECTURE.md](../../ARCHITECTURE.md) for invariants and wiring.
 

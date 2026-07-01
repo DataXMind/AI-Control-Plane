@@ -4,6 +4,16 @@
 **Audience:** End-users, evaluators, app integrators (not contributors)  
 **Advanced map:** [`DEVELOPER_SCENARIOS.md`](DEVELOPER_SCENARIOS.md) · **Contribute:** [`CONTRIBUTING.md`](../CONTRIBUTING.md)
 
+### End-user doc tiers (Task 1 vs Task 2)
+
+| Tier | Document | Who | Git / fork? |
+|------|----------|-----|-------------|
+| **T0** | **This file** | First 5 min RUN or CONNECT | Clone optional (RUN) · none (CONNECT) |
+| **T1 — Task 1** | [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) | Operator hosts ACP for a team | **No** (vendor bundle @ `/opt/acp`) |
+| **T2 — Task 2** | [`CLIENT_INTEGRATION.md`](CLIENT_INTEGRATION.md) | App dev / client-of-client | **No** — only `ACP_API_URL` |
+| **T3** | [`examples/integrate/`](../examples/integrate/README.md) | Runnable Python samples | Optional |
+| **Maintainer** | [`PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) | Full repo + evidence | Clone |
+
 Answer **one question**:
 
 > **Who runs the ACP API?**
@@ -226,11 +236,13 @@ python examples/integrate/python/before_tool_call.py
 
 | Goal | Go to |
 |------|-------|
-| Wire policy into your agent app | [`examples/integrate/README.md`](../examples/integrate/README.md) |
+| Integrate app (Rust / Go / TS / Python, zero-git) | [`CLIENT_INTEGRATION.md`](CLIENT_INTEGRATION.md) |
+| Host ACP for customers (no fork, vendor bundle) | [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) |
+| Runnable Python samples | [`examples/integrate/README.md`](../examples/integrate/README.md) |
 | OpenAPI / HTTP contract | http://localhost:8000/docs after RUN |
 | Fork, PR, governance | [`CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | Staging, VPS, dual-host, profiles | [`DEVELOPER_SCENARIOS.md`](DEVELOPER_SCENARIOS.md) |
-| Production operations | [`RUNBOOK.md`](RUNBOOK.md) |
+| Production operations (maintainer clone) | [`PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) · [`RUNBOOK.md`](RUNBOOK.md) |
 
 ---
 
@@ -247,4 +259,4 @@ python examples/integrate/python/before_tool_call.py
 
 ---
 
-**Last updated:** 2026-06-30 · Catalog v1.5.0 · GHCR `demo` may lag — use `compose` for catalog verify
+**Last updated:** 2026-07-01 · T1/T2: CUSTOMER_INSTALL + CLIENT_INTEGRATION · Catalog v1.5.0

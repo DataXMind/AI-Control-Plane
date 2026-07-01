@@ -3,7 +3,7 @@
 **Document ID:** ACP-EXAMPLES-PROD-DEPLOY-001  
 **Status:** Operator-ready — **PASS** Mac Mini @ 2026-06-30 ([evidence](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md))  
 **Baseline (pilot run):** `8a4e7fa` (#175 Dockerfile `[redis]`) · **Docs on master:** `4210ad2` (#176–#177)  
-**Related:** [`README.md`](README.md) · [`docs/RUNBOOK.md`](../../docs/RUNBOOK.md) · ADR-002 (OIDC PROPOSED)
+**Related:** [`README.md`](README.md) · [`CUSTOMER_INSTALL.md`](CUSTOMER_INSTALL.md) (zero-git Path C) · [`docs/RUNBOOK.md`](../../docs/RUNBOOK.md) · ADR-002 (OIDC PROPOSED)
 
 ---
 
@@ -16,6 +16,9 @@
 | **GHCR pull + production** | `docker-compose.ghcr.yml` + `docker-compose.production.yml` |
 
 This is **Tier A pilot** from the go-live assessment — not Public Beta (PB-12) or GA (PB-10).
+
+**Customer / vendor deploy without git clone:** [`CUSTOMER_INSTALL.md`](CUSTOMER_INSTALL.md) (Path C).  
+**App integrators (client-of-client):** [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md).
 
 ---
 
@@ -79,8 +82,11 @@ cp .env.production.example .env.production
 
 ## Step 1 — Config on host
 
+**Requires:** full repo clone (Path A). For zero-git customer install, use [`CUSTOMER_INSTALL.md`](CUSTOMER_INSTALL.md) Path C instead.
+
 ```bash
-cd examples/minimal
+git clone https://github.com/DataXMind/AI-Control-Plane.git
+cd AI-Control-Plane/examples/minimal
 cp .env.production.example .env.production
 # Edit REDIS_PASSWORD, optional ACP_JWKS_URL
 
@@ -190,7 +196,9 @@ docker inspect minimal-acp-api-1 --format 'RestartCount={{.RestartCount}} Starte
 
 ## Step 4 — Integrate agents
 
-Use [`examples/integrate/python/before_tool_call.py`](../integrate/python/before_tool_call.py):
+Hand integrators [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md) (Rust / Go / TS / Python — zero-git).
+
+Runnable Python sample: [`examples/integrate/python/before_tool_call.py`](../integrate/python/before_tool_call.py):
 
 ```bash
 export ACP_API_URL=http://YOUR_HOST:8000

@@ -7,7 +7,8 @@ cd "${DIR}"
 
 PORT="${ACP_HOST_PORT:-8000}"
 URL="http://127.0.0.1:${PORT}/health"
-COMPOSE=(docker compose -f docker-compose.yml -f docker-compose.production.yml)
+BASE="${ACP_COMPOSE_BASE:-docker-compose.yml}"
+COMPOSE=(docker compose -f "${BASE}" -f docker-compose.production.yml)
 if [[ -f .env.production ]]; then
   COMPOSE+=(--env-file .env.production)
 fi
