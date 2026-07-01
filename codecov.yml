@@ -1,9 +1,9 @@
-# Codecov configuration (GAP-CC-1) — aligns with pyproject.toml fail_under=70
+# Codecov configuration — aligns with pyproject.toml fail_under=85 (pre–PB-12)
 coverage:
   status:
     project:
       default:
-        target: 70%
+        target: 85%
         threshold: 2%
     patch:
       default:

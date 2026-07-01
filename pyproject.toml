@@ -75,6 +75,6 @@ plugins = ["pydantic.mypy"]
 packages = ["ai_control_plane"]
 
 [tool.coverage.report]
-fail_under = 70
+fail_under = 85
 show_missing = true
 skip_covered = false

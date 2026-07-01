@@ -183,8 +183,9 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 - [Data Flow & Trust Boundaries](docs/governance/DATA_FLOW.md)
 - [Rollback Protocol](docs/governance/ROLLBACK_PROTOCOL.md)
 - [Business Model](docs/governance/BUSINESS_MODEL.md)
-- [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) · [LICENSE](LICENSE)
 - [docs/OPEN_SOURCE_READINESS.md](docs/OPEN_SOURCE_READINESS.md) — public-beta gates
+- [docs/governance/COVERAGE_IMPROVEMENT_REPORT.md](docs/governance/COVERAGE_IMPROVEMENT_REPORT.md) — pre–PB-12 Codecov analysis & tier plan
+- [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) · [LICENSE](LICENSE)
 
 ## Tests
 
@@ -193,7 +194,7 @@ pytest tests/ -v
 ruff check src/ tests/
 ```
 
-Current gate: **181 pytest**, smoke 8/8 + CI on `master`.
+Current gate: **221+ pytest**, smoke 8/8 + CI on `master`. Coverage floor **85%** — see [`docs/governance/COVERAGE_IMPROVEMENT_REPORT.md`](docs/governance/COVERAGE_IMPROVEMENT_REPORT.md).
 
 ## Security
 
