@@ -4,7 +4,7 @@
 **Audience:** Operator · maintainer · org admin  
 **Phase:** PB-9 staging soak → PB-12 flip → PB-10 GA (deferred)  
 **Baseline:** `master` @ **`4210ad2`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
-**Reference date:** **2026-07-01** · PB-9 human tick cuối: **2026-07-01** · **Tier A pilot PASS** Mac Mini (PR [#176](https://github.com/DataXMind/AI-Control-Plane/pull/176) merged)  
+**Reference date:** **2026-07-02** · PB-9 human tick cuối: **2026-07-02** · **Tier A pilot PASS** Mac Mini (PR [#176](https://github.com/DataXMind/AI-Control-Plane/pull/176) merged)  
 **SSOT companions:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md)
 
 > **Purpose:** Execute all remaining Public Beta operator work **without Cursor Agent** — shell, editor, GitHub UI, SSH VPS, optional Claude Project for drafting only.  
@@ -81,7 +81,7 @@
 | M1-06 | Watch SEV-1/2 | Operator | On anomaly | Notes column; SEV-3 documented only | **Yes** if SEV-1/2 |
 
 **Ticks remaining (UTC calendar):** **2026-07-02** through **2026-07-05** (+ review row **2026-07-06**).  
-**Last human tick:** **2026-07-01** (Apex ☑ on MSI soak_iter).
+**Last human tick:** **2026-07-02** (Apex ☑ MSI soak_iter @ 07-01T07:09:43Z post-rebuild).
 
 **Known SEV-3 (documented, not blockers):**
 
@@ -420,7 +420,7 @@ All of **A3 + A4**, plus:
 ```
 □ Soak MSI running (tail PB9_SOAK_ITERATION_LOG.md)
 □ Soak VPS running (tail vps-soak-iteration.log)
-□ Tick PB9_STAGING_SOAK_LOG.md (UTC today) → PR   ← 07-01 done; next 07-02
+□ Tick PB9_STAGING_SOAK_LOG.md (UTC today) → PR   ← 07-02 done; next 07-03
 □ SEV-1/2 = 0 (SEV-3 OK if documented)
 □ 07-01..05: daily rows before Day 14
 □ ~07-06: RESULTS.md from DAY14_REVIEW_DRAFT + close #77 if PASS
@@ -444,4 +444,4 @@ All of **A3 + A4**, plus:
 | [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) | Optional drafting on claude.ai |
 | [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) | Gate checklist (update @ Day 14) |
 
-**Last updated:** 2026-07-01 · PB-9 tick 07-01 · baseline `4210ad2`
+**Last updated:** 2026-07-02 · PB-9 tick 07-02 · baseline `ea81082`
