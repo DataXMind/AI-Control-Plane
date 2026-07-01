@@ -46,6 +46,9 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert parsed.practice_evidence.studies_completed == 8
     assert parsed.practice_evidence.open_gaps_count == 1
     assert parsed.practice_evidence.study_08_url.endswith("study-08-shipped-remote/RESULTS.md")
+    assert parsed.practice_evidence.mac_pilot_deploy_url.endswith(
+        "mac-pilot-deploy-2026-06-30/RESULTS.md"
+    )
     assert parsed.practice_evidence.overall_verdict == "PASS"
 
 

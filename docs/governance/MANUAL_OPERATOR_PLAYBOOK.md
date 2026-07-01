@@ -3,7 +3,7 @@
 **Document ID:** ACP-GOV-MANUAL-OPERATOR-PLAYBOOK-001  
 **Audience:** Operator · maintainer · org admin  
 **Phase:** PB-9 staging soak → PB-12 flip → PB-10 GA (deferred)  
-**Baseline:** `master` @ **`2202f16`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
+**Baseline:** `master` @ **`4210ad2`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
 **Reference date:** **2026-07-01** · PB-9 human tick cuối: **2026-07-01** · **Tier A pilot PASS** Mac Mini (PR [#176](https://github.com/DataXMind/AI-Control-Plane/pull/176) merged)  
 **SSOT companions:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md)
 
@@ -95,7 +95,7 @@
 | # | Task | Owner | Target | Depends on | Artifact |
 |---|------|-------|--------|------------|----------|
 | C1-01 | Day 14 PB-9 review | Operator | **~2026-07-06** | ≥14 days from 2026-06-22 + clean soak | `practice-evidence/pb-9-day14-review/RESULTS.md` |
-| C1-02 | Pre-flip refresh | Maintainer | **~2026-07-07** | C1-01 = PASS | `export_openapi.py`, smoke, verify |
+| C1-02 | Pre-flip refresh | Maintainer | **~2026-07-07** | C1-01 = PASS | `export_openapi.py`, smoke, verify, coverage ≥85% — [`POST_FLIP_COVERAGE_REMINDER.md`](POST_FLIP_COVERAGE_REMINDER.md) |
 | C1-03 | PB-12 flip window | Human | **~2026-07-10** | C1-01 PASS + C1-02 OK | GitHub public + release |
 
 ### 1.4 H1 — Human gates (cannot delegate to agent)
@@ -444,4 +444,4 @@ All of **A3 + A4**, plus:
 | [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) | Optional drafting on claude.ai |
 | [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) | Gate checklist (update @ Day 14) |
 
-**Last updated:** 2026-07-01 · PB-9 tick 07-01 · baseline `2202f16`
+**Last updated:** 2026-07-01 · PB-9 tick 07-01 · baseline `4210ad2`

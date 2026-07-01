@@ -120,7 +120,7 @@ Runtime `case_studies[]` in `/governance/status` lists these for **onboarding vi
 | `case_studies` | CS-01..CS-06 with `runtime_check` + `action` |
 | `lessons_patterns` | P-01..P-17 from `LESSONS_LEARNED.md` (summary; `case_study_id` links P→CS where applicable) |
 | `known_gaps` | G-01..G-07 from practice evidence audit (OPEN/CLOSED) |
-| `practice_evidence` | Studies 01–08 summary, hosts, topologies, `open_gaps_count`, index URLs |
+| `practice_evidence` | Studies 01–08 summary, hosts, topologies, `open_gaps_count`, `mac_pilot_deploy_url`, index URLs |
 | `config_loaded`, `policy_rules_count` | Live wire proof (like `/health`) |
 
 ---
@@ -150,11 +150,13 @@ rm -f scripts/verify_governance_status_runtime.sh
 git pull origin master
 ```
 
-**Expected runtime output:**
+**Expected runtime output (catalog v1.5.0 — current):**
 
 ```text
-OK: governance/status runtime verify 1.3.3 13 patterns
+OK: governance/status runtime verify 1.5.0 17 patterns
 ```
+
+> **Historical:** v1.3.3 · 13 patterns evidence in [`governance-status-v13-verify/`](practice-evidence/governance-status-v13-verify/) — do not use for current verify.
 
 After every merge touching `src/`: `git pull` + `sudo systemctl restart acp-staging.service` (VPS) or `docker compose up -d --build` (local).
 
@@ -180,10 +182,10 @@ bash scripts/verify_governance_memory.sh           # ML5 pack
 
 See also [`practice-evidence/governance-status-v13-verify/RESULTS.md`](practice-evidence/governance-status-v13-verify/RESULTS.md) (v1.3) and [`governance-status-v12-verify/RESULTS.md`](practice-evidence/governance-status-v12-verify/RESULTS.md) (v1.2).
 
-**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 + Study 09 + k6-policy-smoke PASS.  
+**Hands-on evidence (operator runs):** [`practice-evidence/`](practice-evidence/) — Studies 01–08 + Study 09 + k6-policy-smoke + Mac Tier A pilot PASS.  
 **Audit pack:** [`practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md`](practice-evidence/PRACTICE_STUDIES_AUDIT_01-07.md).  
 **Drift / next phase:** [`GOVERNANCE_DRIFT_RECONCILIATION.md`](GOVERNANCE_DRIFT_RECONCILIATION.md) · [`GOVERNANCE_NEXT_PHASE_PLAN.md`](GOVERNANCE_NEXT_PHASE_PLAN.md).
 
-**Last updated:** 2026-06-30 — catalog v1.5.0: `gate_details` · `evaluation_path` · roadmap #153–#161 reconcile
+**Last updated:** 2026-07-01 — v1.5.0 verify · mac pilot evidence · PB-9 tick 07-01
 
 **Note on CS-01/03/04:** Process-layer governance — validated via `LESSONS_LEARNED.md` P-01..P-04 and `lessons_patterns[]`, not operator runtime drill. **G-01..G-04, G-06, G-07: CLOSED** @ 2026-06-26. **G-05 OPEN** — PB-9 calendar soak until ~2026-07-06. Supersedes stale Claude sync prompt (pre-PR #99).

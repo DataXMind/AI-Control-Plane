@@ -3,7 +3,7 @@
 **Document ID:** ACP-PROMPT-CLAUDE-PROJECT-SETUP-001  
 **Audience:** Maintainer · operator · Claude Projects (claude.ai)  
 **Phase:** PB-9 staging soak → PB-12 flip  
-**Baseline:** `master` @ **`8a4e7fa`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
+**Baseline:** `master` @ **`4210ad2`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
 **Companion:** [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`CLAUDE_CODEX_PLAYBOOK.md`](CLAUDE_CODEX_PLAYBOOK.md) · [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) (Cursor)
 
 > **Use:** One-time Project setup on claude.ai + paste **opener** at every new conversation.  
@@ -51,7 +51,7 @@ You advise, draft docs, audit prompts, and prepare review materials. You do NOT 
 3. PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md
 4. MANUAL_OPERATOR_PLAYBOOK.md + PUBLIC_BETA_GO_NO_GO.md
 Runtime truth: governance_catalog.py → GET /governance/status (operator verifies on host).
-Reject stale HTML snapshots (527eb5d, "165 tests", "177 tests" — use 181 @ 8a4e7fa).
+Reject stale HTML snapshots (527eb5d, "165 tests", "177 tests" — use **181** @ `ANCHOR_CURRENT.md`).
 </ssot_priority>
 
 <current_state one_liner>
@@ -87,7 +87,7 @@ Paste as the **first message** in every new Project conversation (even with Inst
 ```text
 [ACP Public Beta — session start]
 
-Baseline: master @ 8a4e7fa · catalog v1.5.0 · 17 patterns · pytest 181 · smoke 8/8.
+Baseline: master @ 4210ad2 · catalog v1.5.0 · 17 patterns · pytest 181 · smoke 8/8.
 
 Đọc AGENT_OPERATING_SYSTEM.md và ANCHOR_CURRENT.md trong project knowledge trước khi trả lời.
 
@@ -186,8 +186,8 @@ After `git pull` on `master` when any of these change:
 
 | Stale claim | Correct SSOT |
 |-------------|--------------|
-| `ac5f017` / `527eb5d` as current baseline | **`20e4fc3`** (update when repo advances) |
-| `"165 tests"` / `"156 tests"` | **177** pytest @ master |
+| `ac5f017` / `527eb5d` / `8a4e7fa` as current baseline | **[`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md)** (`4210ad2` @ 2026-07-01) |
+| `"165 tests"` / `"156 tests"` / `"177 tests"` | **181** pytest (`pytest --collect-only -q`) |
 | `"PB-9 only gate remaining"` | **7** `gates_remaining` |
 | MSI WARM = PB-7 PASS | PB-7 needs **CLEAN** machine `RESULTS.md` |
 | PB-10 blocks PB-12 @ 0.x beta | **Deferred GA** — #78 post-flip |

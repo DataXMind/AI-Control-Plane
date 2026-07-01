@@ -115,7 +115,7 @@ feat|fix|chore/<issue>-<short-desc>
 | **Private (GitHub Team/Pro)** | Run `scripts/setup_github_milestones_and_protection.sh --protection-only`; required checks: `Smoke gate`, `Full suite` |
 | **Public beta** | Enable in Settings → Branches → `master`: require PR (1 approval), block force push, require conversation resolution; require status checks **Smoke gate** + **Full suite** |
 
-**Codecov (optional):** set repository variable `CODECOV_ENABLED=true` and secret `CODECOV_TOKEN` to upload `coverage.xml` from the Full suite job.
+**Codecov (optional):** set repository variable `CODECOV_ENABLED=true` and secret `CODECOV_TOKEN` to upload `coverage.xml` from the Full suite job. **Pre–PB-12 report:** [`COVERAGE_IMPROVEMENT_REPORT.md`](governance/COVERAGE_IMPROVEMENT_REPORT.md) · floor **85%**.
 
 Until protection is enabled, treat **PR-only merges to `master`** as a team rule.
 
