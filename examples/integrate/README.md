@@ -1,8 +1,8 @@
 # ACP Integration Examples
 
-Runnable copy-paste patterns for **CONNECT door** users — see [`docs/QUICKSTART.md`](../../docs/QUICKSTART.md).
+Runnable copy-paste patterns for **CONNECT door** (Task 2) — see [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md) for Rust / Go / TypeScript and zero-git checklist.
 
-**Prerequisite:** ACP API is running and `ACP_API_URL` points to it.
+**Prerequisite:** ACP API is running and `ACP_API_URL` points to it. Who hosts ACP: [`minimal/CUSTOMER_INSTALL.md`](../minimal/CUSTOMER_INSTALL.md).
 
 ```bash
 export ACP_API_URL=http://localhost:8000   # or your operator's URL
@@ -32,5 +32,7 @@ If `httpx` raises, `/health` is not `ok`, or `allowed` is `false` → **do not p
 
 ## Index
 
+- Full integration guide (all languages): [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md)
+- Operator install (Task 1): [`minimal/CUSTOMER_INSTALL.md`](../minimal/CUSTOMER_INSTALL.md)
 - Minimal Docker stack: [`examples/minimal/`](../minimal/README.md)
 - Full scenario map: [`docs/DEVELOPER_SCENARIOS.md`](../../docs/DEVELOPER_SCENARIOS.md)

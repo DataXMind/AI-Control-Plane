@@ -308,13 +308,22 @@ git clone https://github.com/DataXMind/AI-Control-Plane.git
 
 This section is for people who **use** ACP (evaluate policy, call API, run `agentctl`) — not for opening PRs.
 
+**Tiered guides (Task 1 vs Task 2):**
+
+| Task | Doc | Git? |
+|------|-----|------|
+| Host ACP (operator / vendor) | [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) | No (Path C bundle) |
+| Integrate app (client-of-client) | [`docs/CLIENT_INTEGRATION.md`](CLIENT_INTEGRATION.md) | No |
+| 5 min overview | [`QUICKSTART.md`](QUICKSTART.md) | Optional |
+
 ### Audience → scenario map
 
 | End-user type | Goal | Scenario | Repo needed? |
 |---------------|------|----------|--------------|
 | **LLM app builder** | Prove deny-by-default in 15 min | K1 | Clone once |
-| **App integrator** | Call `/policy/evaluate` from your agent | K1 or K5 + HTTP client | Clone or API URL only |
-| **Operator** | Run staging, quotas, audit | K5 · [`RUNBOOK.md`](RUNBOOK.md) | Clone |
+| **App integrator** | Call `/policy/evaluate` from your agent | [`CLIENT_INTEGRATION.md`](CLIENT_INTEGRATION.md) | **No** |
+| **Customer operator** | Deploy packaged ACP for a team | [`CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) | **No** |
+| **Operator** | Run staging, quotas, audit (maintainer) | K5 · [`RUNBOOK.md`](RUNBOOK.md) | Clone |
 | **Desktop client** (Mac, second PC) | Talk to API on another host | [U1](#u1--wsl2-remote-client-on-lan) · Study 06/07 | No — `ACP_API_URL` only |
 | **Security auditor** | Read threat model + evidence | S2 docs path | Optional clone |
 | **Contributor** | Merge fix upstream | K2 or K3 | Fork + clone |

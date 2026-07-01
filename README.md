@@ -159,9 +159,11 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 ## Documentation
 
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — **start here** for end-users (RUN / CONNECT, 5 min)
-- [docs/governance/MANUAL_OPERATOR_PLAYBOOK.md](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) — **operators** (PB-9 soak, PB-12 flip, no Agent)
-- [examples/minimal/PRODUCTION_DEPLOY.md](examples/minimal/PRODUCTION_DEPLOY.md) — internal pilot (Profile B + Redis)
-- [examples/integrate/](examples/integrate/README.md) — copy-paste integration patterns (Python)
+- [examples/minimal/CUSTOMER_INSTALL.md](examples/minimal/CUSTOMER_INSTALL.md) — **Task 1** operator: host ACP without fork (Path C)
+- [docs/CLIENT_INTEGRATION.md](docs/CLIENT_INTEGRATION.md) — **Task 2** integrator: Rust / Go / TS / Python (zero-git)
+- [docs/governance/MANUAL_OPERATOR_PLAYBOOK.md](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) — **maintainers** (PB-9 soak, PB-12 flip)
+- [examples/minimal/PRODUCTION_DEPLOY.md](examples/minimal/PRODUCTION_DEPLOY.md) — maintainer pilot (Profile B + Redis, full repo)
+- [examples/integrate/](examples/integrate/README.md) — runnable Python CONNECT samples
 - [docs/DEVELOPER_SCENARIOS.md](docs/DEVELOPER_SCENARIOS.md) — advanced fork/clone / operator scenarios
 - [docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md](docs/governance/ECC_ACP_INTEGRATION_ANALYSIS.md) — ECC harness vs ACP policy (48H SSOT)
 - [docs/governance/ECC_48H_RESULTS.md](docs/governance/ECC_48H_RESULTS.md) — 48H integration closeout

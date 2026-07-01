@@ -2,14 +2,16 @@
 
 Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 
-**Which path?** End-user: [`docs/QUICKSTART.md`](../docs/QUICKSTART.md) · Advanced map: [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
+**Which path?** End-user tiers: [`docs/QUICKSTART.md`](../docs/QUICKSTART.md) · Task 1: [`minimal/CUSTOMER_INSTALL.md`](minimal/CUSTOMER_INSTALL.md) · Task 2: [`docs/CLIENT_INTEGRATION.md`](../docs/CLIENT_INTEGRATION.md) · Advanced: [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
 
 | Example | Use when |
 |---------|----------|
 | [`scripts/acp-up.sh`](../scripts/acp-up.sh) | One-command RUN door: `bash scripts/acp-up.sh` |
 | [**minimal/**](minimal/README.md) | Docker/native, fixture config (8 rules), PB-9 soak parity |
-| [**minimal/PRODUCTION_DEPLOY.md**](minimal/PRODUCTION_DEPLOY.md) | Tier A pilot — Profile B (10 rules) + Redis; Mac PASS 2026-06-30 |
-| [**integrate/**](integrate/README.md) | CONNECT door: Python before tool call, health gate, quota |
+| [**minimal/CUSTOMER_INSTALL.md**](minimal/CUSTOMER_INSTALL.md) | **Task 1** — host ACP without fork (Path C vendor bundle) |
+| [**minimal/PRODUCTION_DEPLOY.md**](minimal/PRODUCTION_DEPLOY.md) | Maintainer pilot — Profile B (10 rules) + Redis |
+| [**integrate/**](integrate/README.md) | **Task 2** — CONNECT door Python samples |
+| [**docs/CLIENT_INTEGRATION.md**](../docs/CLIENT_INTEGRATION.md) | **Task 2** — Rust / Go / TS / Python HTTP integration |
 
 ## Quick start (Docker — recommended)
 
