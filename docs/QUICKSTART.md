@@ -258,6 +258,8 @@ Reproduce (optional, requires k6): `bash scripts/run_k6_policy_smoke.sh`
 | Staging, VPS, dual-host, profiles | [`DEVELOPER_SCENARIOS.md`](DEVELOPER_SCENARIOS.md) |
 | Production operations (maintainer clone) | [`PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) · [`RUNBOOK.md`](RUNBOOK.md) |
 | Governance OS for agent teams (**optional**) | [`prompts/AGENT_OPERATING_SYSTEM.md`](prompts/AGENT_OPERATING_SYSTEM.md) · [`END_USER_VALUE.md`](END_USER_VALUE.md) |
+| Procurement — vs OPA/Cedar/Casbin | [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md) §Feature comparison |
+| Operator policy change / rollback | [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) §12 · [`governance/ROLLBACK_PROTOCOL.md`](governance/ROLLBACK_PROTOCOL.md) |
 
 ---
 
@@ -274,4 +276,4 @@ Reproduce (optional, requires k6): `bash scripts/run_k6_policy_smoke.sh`
 
 ---
 
-**Last updated:** 2026-07-02 · Catalog v1.5.0 · k6 smoke @ 10 VUs cited · END_USER_VALUE map
+**Last updated:** 2026-07-02 · Catalog v1.5.0 · baseline `44a5fef` · Sonnet audit drift-close

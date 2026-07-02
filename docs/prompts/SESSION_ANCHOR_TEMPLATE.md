@@ -11,21 +11,21 @@
 > **Do not** duplicate stale SHAs here; template shows structure only.
 
 ```text
-SESSION ANCHOR: master @ 4210ad2 · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+SESSION ANCHOR: master @ <see ANCHOR_CURRENT.md> · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
 Public Beta IN_PROGRESS (PB-9). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7.
-Critical path: tick 07-02..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
-Tier A pilot PASS — see ANCHOR_CURRENT.md for full paste block.
+Critical path: tick 07-03..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
+Living SHA + PB-9 last tick: ANCHOR_CURRENT.md only (do not paste stale SHAs from this template).
 ```
 
 ---
 
 ## PB-12 operator gates — pinned checklist
 
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · living SHA: [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) (`4210ad2`)
+> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · living SHA: [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md)
 
 **Chờ calendar / operator**
 
-- [ ] **PB-9** daily tick — last **2026-06-30** (Apex ☐) · need **07-01..05** · Day 14 ~**2026-07-06**
+- [ ] **PB-9** daily tick — last **2026-07-02** · need **07-03..05** · Day 14 ~**2026-07-06**
 - [x] **PB-7** CLEAN fork — **PASS** 2026-06-27
 - [x] **security@** — live test **PASS** 2026-06-28
 - [x] **OP-02 soak** — MSI repo log + VPS hourly PASS — [`vps-hourly-loop-verify-2026-06-28.md`](../governance/practice-evidence/pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md)

@@ -2,7 +2,7 @@
 
 Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 
-**Which path?** End-user tiers: [`docs/QUICKSTART.md`](../docs/QUICKSTART.md) · Task 1: [`minimal/CUSTOMER_INSTALL.md`](minimal/CUSTOMER_INSTALL.md) · Task 2: [`docs/CLIENT_INTEGRATION.md`](../docs/CLIENT_INTEGRATION.md) · Advanced: [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
+**Which path?** Map: [`docs/END_USER_VALUE.md`](../docs/END_USER_VALUE.md) · [`docs/QUICKSTART.md`](../docs/QUICKSTART.md) · Task 1: [`minimal/CUSTOMER_INSTALL.md`](minimal/CUSTOMER_INSTALL.md) · Task 2: [`docs/CLIENT_INTEGRATION.md`](../docs/CLIENT_INTEGRATION.md) · Advanced: [`docs/DEVELOPER_SCENARIOS.md`](../docs/DEVELOPER_SCENARIOS.md).
 
 | Example | Use when |
 |---------|----------|

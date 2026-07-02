@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-END-USER-VALUE-001  
 **Audience:** Evaluators, integrators, operators, gov adopters, architects  
-**Baseline:** `master` @ `be33dfc` · catalog **v1.5.0** · **17** LESSON patterns · pytest **221** · smoke **8/8**  
+**Baseline:** `master` @ `44a5fef` · catalog **v1.5.0** · **17** LESSON patterns · pytest **221** · smoke **8/8**  
 **SSOT:** [`governance/VALUE_AUDIT_MATRIX.md`](governance/VALUE_AUDIT_MATRIX.md) · [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md)
 
 > **Positioning invariant:** Product A (policy engine) is the **primary pitch**. Products B/C are **optional** — CONNECT and RUN doors do **not** require Karpathy 6-layer or ECC depth.
@@ -26,7 +26,13 @@ AI Control Plane is an **AI Agent Policy Engine** — before every tool call (gi
 
 **Operator (Task 1 — host ACP):** [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) — not a fifth door; parallel path for whoever runs the API.
 
-**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) → [`integrations/HYBRID_AI_GATEWAY_PR_SPEC.md`](integrations/HYBRID_AI_GATEWAY_PR_SPEC.md) (merged #182).
+**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) → [`integrations/HYBRID_AI_GATEWAY_PR_SPEC.md`](integrations/HYBRID_AI_GATEWAY_PR_SPEC.md) (merged #182). Dog-fooding case study: **post-implementation** in Gateway repo — not yet published @ 0.x.
+
+**Procurement / “why not OPA?”** [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md) §Feature comparison.
+
+**Policy change safety:** staging evaluate-before-apply — [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) §12. Code dry-run tracked: [#184](https://github.com/DataXMind/AI-Control-Plane/issues/184).
+
+**Incidents / rollback:** [`governance/ROLLBACK_PROTOCOL.md`](governance/ROLLBACK_PROTOCOL.md) (operator-owned).
 
 ---
 
@@ -66,7 +72,7 @@ Do **not** claim PB-9 or k6 @ 10 VUs replaces production fleet load proof. See [
 | Integrator | CLIENT_INTEGRATION | Full `.cursorrules`, AOS |
 | Operator host | CUSTOMER_INSTALL | ECC plugin (none shipped) |
 | Cursor agent on repo | AOS → [`ANCHOR_CURRENT.md`](prompts/ANCHOR_CURRENT.md) | Historical HTML governance artifacts |
-| Architect due diligence | PRODUCT_POSITIONING + THREAT_MODEL + GOV_6LAYER_AUDIT_PASS | SAPAL depth for Tier 1/2 pitch |
+| Architect due diligence | PRODUCT_POSITIONING (competitive table) + THREAT_MODEL + GOV_6LAYER_AUDIT_PASS | SAPAL depth for Tier 1/2 pitch |
 
 ---
 
@@ -83,4 +89,4 @@ Runtime check: `GET /governance/status` → `framework: "6-layer-karpathy"`, `go
 
 ---
 
-**Last updated:** 2026-07-02 · Public Beta IN_PROGRESS · PB-9 last tick **2026-07-02**
+**Last updated:** 2026-07-02 · baseline `44a5fef` (#183, #185) · Sonnet audit drift-close

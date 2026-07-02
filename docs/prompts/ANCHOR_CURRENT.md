@@ -11,7 +11,7 @@
 ## Canonical one-liner (2026-07-02)
 
 ```text
-SESSION ANCHOR: master @ 5376efc · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
+SESSION ANCHOR: master @ 44a5fef · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
 TRACK: [fill: feature | governance | ops | docs-only]
 Public Beta IN_PROGRESS (PB-9 soak). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7 until flip bump.
 Critical path: PB-9 tick 07-03..05 → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~07-10.
@@ -29,7 +29,7 @@ SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · MANUAL_OPERATOR_PLAYBOOK
 session_anchor:
   version: "1.0"
   date: "2026-07-02"
-  baseline: "master @ 5376efc"
+  baseline: "master @ 44a5fef"
   risk: "LOW"
   track: "docs-only"
   gates_approved: []
@@ -63,4 +63,4 @@ task: |
   [One paragraph — goal, out of scope, done definition]
 ```
 
-**Last updated:** 2026-07-02 PM · PB-9 soak_iter 07:18:16Z · baseline `5376efc` (#183)
+**Last updated:** 2026-07-02 · baseline `44a5fef` (#183 END_USER_VALUE · #185 PB-9 PM)

@@ -19,6 +19,8 @@
 
 **Fork the repo?** Only if you plan to **contribute code/docs upstream** — see [`CONTRIBUTING.md`](../CONTRIBUTING.md). Integration does **not** require a fork.
 
+**Procurement / competitive:** [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md) §Feature comparison (OPA/Cedar/Casbin). Full map: [`END_USER_VALUE.md`](END_USER_VALUE.md).
+
 ---
 
 ## 1. Prerequisites (checklist)
@@ -389,4 +391,4 @@ Operators changing YAML: see [`CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOME
 
 ---
 
-**Last updated:** 2026-07-02 · Rollback: ROLLBACK_PROTOCOL.md · Catalog v1.5.0
+**Last updated:** 2026-07-02 · baseline `44a5fef` · competitive + END_USER_VALUE cross-links
