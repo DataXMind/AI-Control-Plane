@@ -18,3 +18,16 @@ Append-only log written by `scripts/soak_staging.sh --repo-log` (see `scripts/re
 2026-06-28T09:20:11Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
 2026-06-28T10:20:25Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
 2026-06-28T11:20:39Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-28T12:20:53Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T01:20:46Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T02:20:55Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T06:24:58Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T07:25:11Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T08:25:25Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T09:25:39Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T10:25:53Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-29T11:26:07Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-06-30T16:53:02Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-07-01T01:06:57Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-07-01T06:51:41Z soak_iter health= policy_allowed= tokens_remaining= apex=fail
+2026-07-01T07:09:43Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
