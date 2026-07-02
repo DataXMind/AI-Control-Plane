@@ -3,7 +3,7 @@
 **Document ID:** ACP-GOV-POSITIONING-001  
 **Date:** 2026-06-29  
 **Status:** DECIDED (pre-GA)  
-**Baseline:** `master` @ `72571db`  
+**Baseline:** `master` @ `44a5fef`  
 **Related:** [`BUSINESS_MODEL.md`](BUSINESS_MODEL.md)
 
 ---
@@ -59,6 +59,7 @@
 | Moat strength | **Weak** — see [`VALUE_AUDIT_MATRIX.md`](VALUE_AUDIT_MATRIX.md) |
 | Public Beta pitch | **Out of scope** — policy engine + governance OS are primary |
 | When to mention | v0.3.x+ proposals only; legal posture in [`SAPAL_LEGAL_ASSESSMENT.md`](SAPAL_LEGAL_ASSESSMENT.md) |
+| **Packaging decision target** | **Review @ v0.3.0** (calendar 2026-Q3): separate repo vs optional module vs archive — documented in CHANGELOG; **out of Tier 1/2 pitch through 1.0.0-GA** |
 
 Tier 1/2 evaluators should judge ACP on **fail-closed policy + practice evidence**, not SAPAL depth.
 
@@ -109,4 +110,4 @@ The Karpathy 6-layer governance + PACE + LESSONS P-01..P-17 can be adopted indep
 
 ---
 
-**Last updated:** 2026-07-02 · Catalog v1.5.0 · competitive table expanded
+**Last updated:** 2026-07-02 · Catalog v1.5.0 · SAPAL packaging target v0.3.0
