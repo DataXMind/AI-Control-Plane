@@ -11,14 +11,14 @@
 ## Canonical one-liner (2026-07-02)
 
 ```text
-SESSION ANCHOR: master @ ea81082 · catalog v1.5.0 · 17 patterns · pytest 181 · risk LOW
+SESSION ANCHOR: master @ be33dfc · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
 TRACK: [fill: feature | governance | ops | docs-only]
 Public Beta IN_PROGRESS (PB-9 soak). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7 until flip bump.
 Critical path: PB-9 tick 07-03..05 → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~07-10.
 PB-9 last tick: 2026-07-02 (Apex ☑ MSI post-rebuild 07-01T07:09:43Z). PB-10 deferred GA (#78). PB-8 @ c58b4cc — no re-tag.
 Tier A pilot: PASS Mac Mini 2026-06-30 — practice-evidence/mac-pilot-deploy-2026-06-30 (#176 merged)
-Verify: source .venv/bin/activate · smoke 8/8 · verify_governance_status_runtime.sh (1.5.0 · 17)
-SSOT: AGENT_OPERATING_SYSTEM.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for daily ops)
+Verify: source .venv/bin/activate · smoke 8/8 · verify_governance_memory.sh · pytest 221
+SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for daily ops)
 ```
 
 ---
@@ -29,7 +29,7 @@ SSOT: AGENT_OPERATING_SYSTEM.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for dai
 session_anchor:
   version: "1.0"
   date: "2026-07-02"
-  baseline: "master @ ea81082"
+  baseline: "master @ be33dfc"
   risk: "LOW"
   track: "docs-only"
   gates_approved: []
@@ -40,6 +40,7 @@ memory_tier:
   read_first:
     - AGENTS.md
     - docs/prompts/AGENT_OPERATING_SYSTEM.md
+    - docs/END_USER_VALUE.md
     - docs/governance/MANUAL_OPERATOR_PLAYBOOK.md
   durable_context:
     - docs/governance/PB9_STAGING_SOAK_LOG.md
@@ -48,15 +49,18 @@ memory_tier:
 file_allowlist:
   allowed:
     - docs/**
+    - README.md
+    - examples/minimal/CUSTOMER_INSTALL.md
   forbidden:
     - src/**
 
 verify:
+  - "bash scripts/verify_governance_memory.sh"
   - "pytest tests/test_smoke.py -v -m smoke"
-  - "bash scripts/verify_governance_status_runtime.sh"
+  - "pytest tests/ -v"
 
 task: |
   [One paragraph — goal, out of scope, done definition]
 ```
 
-**Last updated:** 2026-07-02 · PB-9 tick 07-02 · baseline `ea81082`
+**Last updated:** 2026-07-02 · PB-9 tick 07-02 (#181) · baseline `be33dfc` · end-user value wave

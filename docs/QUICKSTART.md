@@ -232,6 +232,20 @@ python examples/integrate/python/before_tool_call.py
 
 ---
 
+## 2.5 Performance (honest @ 0.x)
+
+Load **smoke** (not production SLO): k6 @ **10 VUs**, **15s**, p95 **~9.33ms**, 0% failed — operator evidence only.
+
+| Label | Meaning |
+|-------|---------|
+| **Load smoke** | Low-concurrency correctness check — [`k6-policy-smoke/RESULTS.md`](governance/practice-evidence/k6-policy-smoke/RESULTS.md) |
+| **PB-9 soak** | Calendar stability @ ~1 req/hour — **not** a load benchmark |
+| **Fleet SLO** | **Not verified** @ 0.x — see [`LOAD_CHARACTERISTICS.md`](governance/LOAD_CHARACTERISTICS.md) |
+
+Reproduce (optional, requires k6): `bash scripts/run_k6_policy_smoke.sh`
+
+---
+
 ## 3. What next?
 
 | Goal | Go to |
@@ -243,6 +257,7 @@ python examples/integrate/python/before_tool_call.py
 | Fork, PR, governance | [`CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | Staging, VPS, dual-host, profiles | [`DEVELOPER_SCENARIOS.md`](DEVELOPER_SCENARIOS.md) |
 | Production operations (maintainer clone) | [`PRODUCTION_DEPLOY.md`](../examples/minimal/PRODUCTION_DEPLOY.md) · [`RUNBOOK.md`](RUNBOOK.md) |
+| Governance OS for agent teams (**optional**) | [`prompts/AGENT_OPERATING_SYSTEM.md`](prompts/AGENT_OPERATING_SYSTEM.md) · [`END_USER_VALUE.md`](END_USER_VALUE.md) |
 
 ---
 
@@ -259,4 +274,4 @@ python examples/integrate/python/before_tool_call.py
 
 ---
 
-**Last updated:** 2026-07-01 · T1/T2: CUSTOMER_INSTALL + CLIENT_INTEGRATION · Catalog v1.5.0
+**Last updated:** 2026-07-02 · Catalog v1.5.0 · k6 smoke @ 10 VUs cited · END_USER_VALUE map

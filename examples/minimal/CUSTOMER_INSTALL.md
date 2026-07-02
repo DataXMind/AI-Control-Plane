@@ -242,7 +242,35 @@ macOS Docker Compose issues: [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) § m
 
 ---
 
-## 12. What this does NOT include
+## 12. Evaluate before apply (staging dry-run)
+
+There is **no** `agentctl policy diff` command @ 0.x. Operators validate policy changes **before** production restart using a **staging instance** and the same HTTP contract integrators use.
+
+### Workflow
+
+1. Copy pending YAML edits to a **staging** config dir (or staging compose stack).
+2. Start/restart staging API with `ACP_CONFIG_DIR` pointing at staging config.
+3. Run allow + deny matrix against **representative** `agent_id` / `tool_name` pairs:
+
+```bash
+export ACP_API_URL=http://127.0.0.1:8000   # staging only
+
+curl -sf -X POST "$ACP_API_URL/policy/evaluate" \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"agent1","project_id":"proj1","tool_name":"k8s_apply","role":"backend"}' \
+  | python3 -m json.tool
+```
+
+4. Compare results to expected allow/deny for each critical tool path.
+5. Only after PASS → apply same YAML to production config + **restart production API**.
+
+Config loads at **startup only** — clients with `ACP_API_URL` alone cannot preview unpublished rules.
+
+**Related:** [`ROLLBACK_PROTOCOL.md`](../../docs/governance/ROLLBACK_PROTOCOL.md) · [`LOAD_CHARACTERISTICS.md`](../../docs/governance/LOAD_CHARACTERISTICS.md)
+
+---
+
+## 13. What this does NOT include
 
 - PyPI install (`pip install ai-control-plane`) — post–GA track
 - PB-9 maintainer soak evidence — internal only
@@ -251,4 +279,4 @@ macOS Docker Compose issues: [`PRODUCTION_DEPLOY.md`](PRODUCTION_DEPLOY.md) § m
 
 ---
 
-**Last updated:** 2026-07-01 · Evidence: [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md)
+**Last updated:** 2026-07-02 · Staging evaluate-before-apply · Catalog v1.5.0

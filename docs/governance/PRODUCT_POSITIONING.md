@@ -72,13 +72,32 @@ ACP implements **least agency** at the **action layer**: every tool call is eval
 
 ## Competitive Landscape
 
+### Summary
+
 | Alternative | Difference |
 |---|---|
-| OPA (Open Policy Agent) | OPA is general-purpose; ACP is AI-agent-native (ABAC with agent roles) |
-| AWS Cedar | Cedar is Rust, AWS-ecosystem; ACP is Python, cloud-agnostic |
-| Casbin | Casbin has no agent model or AI-native concepts |
+| OPA (Open Policy Agent) | General-purpose Rego; ACP is AI-agent-native (ABAC with agent roles, tool actions) |
+| AWS Cedar | Rust, AWS-ecosystem; ACP is Python, cloud-agnostic |
+| Casbin | RBAC/ACL library; no agent/project/tool model for AI workloads |
 | LangSmith | Observability, not policy enforcement |
-| None (custom code) | ACP provides governance framework, fail-closed default, and audit log out of box |
+| None (custom code) | ACP ships fail-closed default, YAML governance-as-code, practice evidence |
+
+### Feature comparison (action-layer policy)
+
+| Dimension | OPA | Cedar | Casbin | ACP @ 0.x |
+|-----------|-----|-------|--------|-----------|
+| AI agent / `agent_id` model | Custom attributes | Custom entities | No native model | **Native** (`agents.yml`) |
+| Tool / action name evaluation | Via Rego | Via policies | Via matcher | **Native** (`policies.yml`) |
+| Project / fleet scope | Custom | Custom | Optional domains | **Native** (`projects.yml`) |
+| Fail-closed when engine down | Integrator must implement | Integrator must implement | Integrator must implement | **Contract + SMK-03/04** |
+| Governance-as-code (Git YAML) | Yes (bundle) | Yes | Yes (model file) | **Yes** (`ACP_CONFIG_DIR`) |
+| HTTP evaluate API (integration) | Sidecar / bundle | Limited | Library embed | **`POST /policy/evaluate`** |
+| Content / prompt moderation | Out of scope | Out of scope | Out of scope | **Explicit NOT** |
+| Agent orchestration | No | No | No | **Explicit NOT** (use LangGraph/CrewAI) |
+| Coding-agent governance OS (Karpathy) | No | No | No | **Secondary product** (optional) |
+| Production fleet load SLO @ 0.x | Operator-proven | Operator-proven | Operator-proven | **Not verified** — k6 smoke @ 10 VUs only |
+
+Do not claim superiority without your own benchmark on your workload. See [`LOAD_CHARACTERISTICS.md`](LOAD_CHARACTERISTICS.md) and [`practice-evidence/k6-policy-smoke/`](practice-evidence/k6-policy-smoke/).
 
 ---
 
@@ -90,4 +109,4 @@ The Karpathy 6-layer governance + PACE + LESSONS P-01..P-17 can be adopted indep
 
 ---
 
-**Last updated:** 2026-06-30 · Catalog v1.5.0
+**Last updated:** 2026-07-02 · Catalog v1.5.0 · competitive table expanded
