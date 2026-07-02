@@ -365,7 +365,21 @@ Advanced networking (WSL portproxy, Tailscale): [`RUNBOOK.md`](RUNBOOK.md).
 
 ---
 
-## 10. What next?
+## 11. Operator rollback & incidents (integrator handoff)
+
+Policy rollback and SEV-1 response are **operator-owned**. Integrators: on incident, **stop calling tools** (fail-closed) and contact the operator.
+
+| Scenario | SSOT |
+|----------|------|
+| PB-9 Day 14 FAIL / soak extension | [`governance/ROLLBACK_PROTOCOL.md`](governance/ROLLBACK_PROTOCOL.md) Scenario 1 |
+| SEV-1 after public flip | Same doc — Scenario 2 (hotfix branch, security advisory) |
+| Network / connectivity | [`RUNBOOK.md`](RUNBOOK.md) |
+
+Operators changing YAML: see [`CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) § **Evaluate before apply** (staging matrix before production restart).
+
+---
+
+## 12. What next?
 
 | Goal | Doc |
 |------|-----|
@@ -375,4 +389,4 @@ Advanced networking (WSL portproxy, Tailscale): [`RUNBOOK.md`](RUNBOOK.md).
 
 ---
 
-**Last updated:** 2026-07-01 · Contract: [`CONTRACT_TESTS.md`](CONTRACT_TESTS.md) · 0.x beta disclaimer applies
+**Last updated:** 2026-07-02 · Rollback: ROLLBACK_PROTOCOL.md · Catalog v1.5.0

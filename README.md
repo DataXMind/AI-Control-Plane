@@ -6,8 +6,8 @@ Control plane for multi-agent AI systems:
 - MCP Git server facade for controlled repo access
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
-**Status:** Milestones A/B/C/C+ **CLOSED** · **181** pytest · smoke **8/8** · policy engine primary; SAPAL `apex/` experimental @ 0.x  
-**Public Beta:** **IN PROGRESS** — PB-9 soak · tick **2026-07-01** · Day 14 **~2026-07-06** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
+**Status:** Milestones A/B/C/C+ **CLOSED** · **221** pytest · smoke **8/8** · policy engine primary; SAPAL `apex/` experimental @ 0.x  
+**Public Beta:** **IN PROGRESS** — PB-9 soak · tick **2026-07-02** · Day 14 **~2026-07-06** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
 
 ## What ACP Is
 
@@ -18,6 +18,14 @@ your AI agents and the resources they act on.
 - **Config-driven**: policy rules in version-controlled YAML, not hardcoded
 - **Audit log**: every policy decision is logged with agent_id, action, and outcome
 - **0.x beta**: API may change; not recommended for unmonitored production use
+
+## Three layers in one repo (read order)
+
+1. **Policy engine (primary)** — fail-closed tool authorization (`POST /policy/evaluate`) — start [`docs/QUICKSTART.md`](docs/QUICKSTART.md)
+2. **Governance OS (optional)** — Karpathy 6-layer for coding-agent teams → [`docs/END_USER_VALUE.md`](docs/END_USER_VALUE.md#four-doors-read-order)
+3. **ECC harness boundary (architect)** — ideas adopted, no plugin → same doc
+
+Tier 1–2 integrators: **only #1** is required. CONNECT door does not require reading governance docs.
 
 ## What ACP Is NOT
 
@@ -159,6 +167,7 @@ Without `ACP_DATA_DIR`, task status and in-memory quota/telemetry are lost on AP
 ## Documentation
 
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — **start here** for end-users (RUN / CONNECT, 5 min)
+- [docs/END_USER_VALUE.md](docs/END_USER_VALUE.md) — four doors + three products map (Tier 1–3 visibility)
 - [examples/minimal/CUSTOMER_INSTALL.md](examples/minimal/CUSTOMER_INSTALL.md) — **Task 1** operator: host ACP without fork (Path C)
 - [docs/CLIENT_INTEGRATION.md](docs/CLIENT_INTEGRATION.md) — **Task 2** integrator: Rust / Go / TS / Python (zero-git)
 - [docs/governance/MANUAL_OPERATOR_PLAYBOOK.md](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) — **maintainers** (PB-9 soak, PB-12 flip)
