@@ -10,7 +10,8 @@ Fork-and-run in **≤15 minutes** — SSOT for Public Beta technical gate PB-5.
 | [**minimal/**](minimal/README.md) | Docker/native, fixture config (8 rules), PB-9 soak parity |
 | [**minimal/CUSTOMER_INSTALL.md**](minimal/CUSTOMER_INSTALL.md) | **Task 1** — host ACP without fork (Path C vendor bundle) |
 | [**minimal/PRODUCTION_DEPLOY.md**](minimal/PRODUCTION_DEPLOY.md) | Maintainer pilot — Profile B (10 rules) + Redis |
-| [**integrate/**](integrate/README.md) | **Task 2** — CONNECT door Python samples |
+| [**integrate/**](integrate/README.md) | **Task 2** — CONNECT door: `run_tool_guarded.py`, shell smoke, Python samples |
+| [**integrations/HYBRID_AI_GATEWAY.md**](../docs/integrations/HYBRID_AI_GATEWAY.md) | Gateway + Antigravity agent mapping · checklist |
 | [**docs/CLIENT_INTEGRATION.md**](../docs/CLIENT_INTEGRATION.md) | **Task 2** — Rust / Go / TS / Python HTTP integration |
 
 ## Quick start (Docker — recommended)

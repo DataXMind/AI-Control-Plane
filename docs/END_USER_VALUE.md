@@ -2,7 +2,7 @@
 
 **Document ID:** ACP-END-USER-VALUE-001  
 **Audience:** Evaluators, integrators, operators, gov adopters, architects  
-**Baseline:** `master` @ `44a5fef` · catalog **v1.5.0** · **17** LESSON patterns · pytest **221** · smoke **8/8**  
+**Baseline:** `master` @ `aeca32a` · catalog **v1.5.0** · **17** LESSON patterns · pytest **221** · smoke **8/8**  
 **SSOT:** [`governance/VALUE_AUDIT_MATRIX.md`](governance/VALUE_AUDIT_MATRIX.md) · [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md)
 
 > **Positioning invariant:** Product A (policy engine) is the **primary pitch**. Products B/C are **optional** — CONNECT and RUN doors do **not** require Karpathy 6-layer or ECC depth.
@@ -26,7 +26,7 @@ AI Control Plane is an **AI Agent Policy Engine** — before every tool call (gi
 
 **Operator (Task 1 — host ACP):** [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) — not a fifth door; parallel path for whoever runs the API.
 
-**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) → [`integrations/HYBRID_AI_GATEWAY_PR_SPEC.md`](integrations/HYBRID_AI_GATEWAY_PR_SPEC.md) (merged #182). Dog-fooding case study: **post-implementation** in Gateway repo — not yet published @ 0.x.
+**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) — **ACP CONNECT PASS** @ `aeca32a` ([#188](https://github.com/DataXMind/AI-Control-Plane/pull/188)); enforce via [`examples/integrate/python/run_tool_guarded.py`](../examples/integrate/python/run_tool_guarded.py). Evidence: [`practice-evidence/hybrid-gateway-acp-integration/RESULTS.md`](governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md). Gateway repo PR wire: **open** (see PR spec). Dog-fooding case study: **post-implementation** in Gateway repo.
 
 **Procurement / “why not OPA?”** [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md) §Feature comparison.
 
