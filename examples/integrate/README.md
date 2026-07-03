@@ -14,8 +14,29 @@ pip install httpx                          # or: pip install -e ".[dev]" from re
 | Script | Scenario | Run |
 |--------|----------|-----|
 | [`python/before_tool_call.py`](python/before_tool_call.py) | Deny unknown agents before tool execution | `python examples/integrate/python/before_tool_call.py` |
+| [`python/run_tool_guarded.py`](python/run_tool_guarded.py) | **Enforce:** run shell cmd only if policy allows | `python examples/integrate/python/run_tool_guarded.py --tool git_read -- git status` |
 | [`python/startup_health_gate.py`](python/startup_health_gate.py) | Exit non-zero if ACP unreachable at worker start | `python examples/integrate/python/startup_health_gate.py` |
 | [`python/quota_check.py`](python/quota_check.py) | Read project quota before an LLM call | `python examples/integrate/python/quota_check.py` |
+
+## Shell (Antigravity terminal / CI)
+
+Run from **ai-control-plane repo root** (not Hybrid-AI-Gateway unless you synced `scripts/acp/` there):
+
+```bash
+export ACP_API_URL=http://<acp-host>:8000
+export ACP_AGENT_ID=agent1   # MSI infra; use agent2 on Mac backend
+export ACP_ROLE=infra
+
+bash examples/integrate/shell/policy_smoke_matrix.sh
+bash examples/integrate/shell/fail_closed_drill.sh
+bash examples/integrate/shell/acp_evaluate.sh git_read && git status
+```
+
+| Script | Purpose |
+|--------|---------|
+| [`shell/acp_evaluate.sh`](shell/acp_evaluate.sh) | Exit 1 on deny — wrap any shell tool |
+| [`shell/policy_smoke_matrix.sh`](shell/policy_smoke_matrix.sh) | 5-case live policy smoke |
+| [`shell/fail_closed_drill.sh`](shell/fail_closed_drill.sh) | ACP down → gate blocks command |
 
 ## When to use which pattern
 
