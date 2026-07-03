@@ -26,7 +26,7 @@ AI Control Plane is an **AI Agent Policy Engine** — before every tool call (gi
 
 **Operator (Task 1 — host ACP):** [`examples/minimal/CUSTOMER_INSTALL.md`](../examples/minimal/CUSTOMER_INSTALL.md) — not a fifth door; parallel path for whoever runs the API.
 
-**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) — **ACP CONNECT PASS** @ `aeca32a` ([#188](https://github.com/DataXMind/AI-Control-Plane/pull/188)); enforce via [`examples/integrate/python/run_tool_guarded.py`](../examples/integrate/python/run_tool_guarded.py). Evidence: [`practice-evidence/hybrid-gateway-acp-integration/RESULTS.md`](governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md). Gateway repo PR wire: **open** (see PR spec). Dog-fooding case study: **post-implementation** in Gateway repo.
+**Gateway + Antigravity:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) — **CONNECT CLOSED** @ Gateway [#4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4) + ACP #188–#190. Evidence: [`practice-evidence/hybrid-gateway-acp-integration/RESULTS.md`](governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md). Client bundle: [`customer-bundle/integrations/`](../customer-bundle/integrations/).
 
 **Procurement / “why not OPA?”** [`governance/PRODUCT_POSITIONING.md`](governance/PRODUCT_POSITIONING.md) §Feature comparison.
 
