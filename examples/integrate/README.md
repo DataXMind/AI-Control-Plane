@@ -30,6 +30,10 @@ export ACP_ROLE=infra
 bash examples/integrate/shell/policy_smoke_matrix.sh
 bash examples/integrate/shell/fail_closed_drill.sh
 bash examples/integrate/shell/acp_evaluate.sh git_read && git status
+
+# IDE auto-hook (Antigravity zsh terminal)
+bash examples/integrate/shell/install_antigravity_hook.sh
+# Open new terminal after setting ACP_* env
 ```
 
 | Script | Purpose |
@@ -37,6 +41,8 @@ bash examples/integrate/shell/acp_evaluate.sh git_read && git status
 | [`shell/acp_evaluate.sh`](shell/acp_evaluate.sh) | Exit 1 on deny — wrap any shell tool |
 | [`shell/policy_smoke_matrix.sh`](shell/policy_smoke_matrix.sh) | 5-case live policy smoke |
 | [`shell/fail_closed_drill.sh`](shell/fail_closed_drill.sh) | ACP down → gate blocks command |
+| [`shell/antigravity_shell_hook.zsh`](shell/antigravity_shell_hook.zsh) | **IDE auto-hook** — wraps `kubectl`, `git`, `cargo` in zsh |
+| [`shell/install_antigravity_hook.sh`](shell/install_antigravity_hook.sh) | Add hook to `~/.zshrc` (idempotent) |
 
 ## When to use which pattern
 

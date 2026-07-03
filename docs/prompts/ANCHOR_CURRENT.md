@@ -1,70 +1,22 @@
 # Current session anchor — copy-paste block (living snapshot)
 
 **Document ID:** ACP-PROMPT-ANCHOR-CURRENT-001  
-**Update rule:** Maintainer or closing agent updates this file after **major merge** to `master` (governance bump, roadmap PR batch, PB-9 milestone).  
-**Structure SSOT:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md) · **Framework:** [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md)
-
-> Paste the block below as the **first message** in Cursor / Claude / Codex. Fill `task:` for your session.
+**Update rule:** Maintainer or closing agent updates this file after **major merge** to `master`.  
+**Structure SSOT:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md)
 
 ---
 
 ## Canonical one-liner (2026-07-03)
 
 ```text
-SESSION ANCHOR: master @ aeca32a · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
-TRACK: [fill: feature | governance | ops | docs-only]
-Public Beta IN_PROGRESS (PB-9 soak). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7 until flip bump.
-Critical path: PB-9 tick 07-04..05 → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~07-10.
-Hybrid Gateway × ACP: CONNECT PASS (#188) — examples/integrate/run_tool_guarded · MSI agent1 + Mac agent2 verified.
-Gateway repo orchestrator wire: OPEN (not on Hybrid-AI-Gateway remote).
-PB-9 last tick: 2026-07-03 (see PB9_STAGING_SOAK_LOG.md). PB-10 deferred GA (#78). PB-8 @ c58b4cc — no re-tag.
-Tier A pilot: PASS Mac Mini 2026-06-30 — practice-evidence/mac-pilot-deploy-2026-06-30 (#176 merged)
-Verify: source .venv/bin/activate · smoke 8/8 · verify_governance_memory.sh · pytest 221
-SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · HYBRID_AI_GATEWAY.md · MANUAL_OPERATOR_PLAYBOOK.md
-Integration enforce: examples/integrate/python/run_tool_guarded.py (NOT scripts/acp/ unless Gateway repo)
+SESSION ANCHOR: master @ post-#190 · pytest 221 · risk LOW
+Hybrid Gateway × ACP: CONNECT CLOSED — MSI agent1 + Mac agent2 + Gateway main #4 (35bf124)
+Enforce: examples/integrate/run_tool_guarded.py · antigravity_shell_hook.zsh (install_antigravity_hook.sh)
+Client bundle: customer-bundle/integrations/antigravity-acp.env.example
+ACP VPS: 100.94.21.33:8000 · rust-gateway · 10 rules
+OPEN: mlops-engine kubectl hook, case study, PB-9 07-04..06, PB-12
+Verify: bash examples/integrate/shell/policy_smoke_matrix.sh (live ACP)
+SSOT: HYBRID_AI_GATEWAY.md · practice-evidence/hybrid-gateway-acp-integration/RESULTS.md
 ```
 
----
-
-## Quick YAML (optional — multi-PR / governance)
-
-```yaml
-session_anchor:
-  version: "1.0"
-  date: "2026-07-03"
-  baseline: "master @ aeca32a"
-  risk: "LOW"
-  track: "docs-only"
-  gates_approved: []
-  issue: "N/A"
-  branch: "docs/your-branch"
-
-memory_tier:
-  read_first:
-    - AGENTS.md
-    - docs/prompts/AGENT_OPERATING_SYSTEM.md
-    - docs/END_USER_VALUE.md
-    - docs/integrations/HYBRID_AI_GATEWAY.md
-    - docs/governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md
-  durable_context:
-    - docs/governance/PB9_STAGING_SOAK_LOG.md
-    - docs/governance/GOVERNANCE_DRIFT_RECONCILIATION.md
-
-file_allowlist:
-  allowed:
-    - docs/**
-    - examples/integrate/**
-    - README.md
-  forbidden:
-    - src/**
-
-verify:
-  - "bash scripts/verify_governance_memory.sh"
-  - "pytest tests/test_smoke.py -v -m smoke"
-  - "pytest tests/ -v"
-
-task: |
-  [One paragraph — goal, out of scope, done definition]
-```
-
-**Last updated:** 2026-07-03 · baseline `aeca32a` · Hybrid Gateway × ACP integration close (#188 + docs)
+**Last updated:** 2026-07-03 · Hybrid Gateway × ACP integration **CLOSED**

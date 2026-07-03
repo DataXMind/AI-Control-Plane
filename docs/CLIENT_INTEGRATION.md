@@ -101,6 +101,13 @@ bash examples/integrate/shell/policy_smoke_matrix.sh
 
 Per-machine `ACP_AGENT_ID` / `ACP_ROLE` are **runtime env** (`.env` gitignored) — not synced by `git pull`.
 
+**IDE auto-hook (Antigravity zsh):**
+
+```bash
+bash examples/integrate/shell/install_antigravity_hook.sh
+# New terminal — kubectl/git/cargo gated when ACP_API_URL set
+```
+
 ---
 
 ## 4. Integration pattern — one choke point

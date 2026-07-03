@@ -118,9 +118,19 @@ acp_allow_tool(agent_id="agent1", tool_name="k8s_apply", role="infra")
 # ... proceed with tool ...
 ```
 
-### Hybrid-AI-Gateway `request-router` (optional)
+### Antigravity IDE auto-hook (zsh)
 
-Local pilot on MSI: `orchestrator/acp_client.py`, `GET /acp/status` — see PR spec §4. **Not yet merged** on Gateway GitHub remote.
+```bash
+bash examples/integrate/shell/install_antigravity_hook.sh
+# Requires ACP_API_URL + ACP_AGENT_ID + ACP_ROLE in env; open new terminal
+# Wraps: kubectl apply/delete, git status/commit/push, cargo build/run/test
+```
+
+Disable per session: `export ACP_SHELL_GUARD=0`
+
+### Hybrid-AI-Gateway `request-router`
+
+Merged on GitHub **`main`** ([#4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4)): `orchestrator/acp_client.py`, `GET /acp/status`, `docs/ACP_INTEGRATION.md`.
 
 ### Rust (`src/rust-gateway`)
 
@@ -149,10 +159,11 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 - [x] Antigravity / dev shells have `ACP_API_URL` + per-machine `ACP_AGENT_ID`
 - [x] Tool path calls evaluate before execution — `run_tool_guarded.py`
 - [x] ACP down → tool path denies — `fail_closed_drill.sh`
-- [x] Runnable scripts on `master` — #188
-- [ ] Gateway repo `orchestrator/acp_client` merged on GitHub remote
-- [ ] Antigravity built-in tools auto-gated (IDE hook)
-- [ ] Dog-fooding case study published (Gateway repo)
+- [x] Runnable scripts on `master` — #188, #189
+- [x] Gateway repo `orchestrator/acp_client` merged — [Hybrid-AI-Gateway #4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4)
+- [x] Antigravity shell auto-gate — `antigravity_shell_hook.zsh` + `install_antigravity_hook.sh`
+- [x] Production client bundle — `customer-bundle/integrations/`
+- [ ] Dog-fooding case study published (Gateway repo — optional)
 
 ---
 
@@ -160,8 +171,8 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 
 | Priority | Action | Repo |
 |----------|--------|------|
-| 1 | Use `run_tool_guarded.py` in daily Antigravity shell workflows | ACP `examples/integrate/` |
-| 2 | Open/merge Gateway PR per [`HYBRID_AI_GATEWAY_PR_SPEC.md`](HYBRID_AI_GATEWAY_PR_SPEC.md) | Hybrid-AI-Gateway |
+| 1 | Daily use: `install_antigravity_hook.sh` + `~/.acp-agent.env` | ACP `customer-bundle/integrations/` |
+| 2 | Gateway Docker: `docker compose up` + `/acp/status` | Hybrid-AI-Gateway `main` |
 | 3 | Optional Rust kubectl pre-check | Gateway `mlops-engine` |
 | 4 | PB-9 soak ticks (parallel) | VPS ops |
 
@@ -169,4 +180,4 @@ ACP side stays **HTTP-only** — no import of gateway code into `ai_control_plan
 
 ---
 
-**Last updated:** 2026-07-03 · integration close @ `aeca32a`
+**Last updated:** 2026-07-03 · CONNECT CLOSED · Gateway #4 · ACP master post-close PR
