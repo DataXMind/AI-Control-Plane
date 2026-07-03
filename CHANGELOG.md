@@ -11,12 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Integration enforce: `examples/integrate/python/run_tool_guarded.py`, shell smoke/fail-closed scripts, `gateway_antigravity_hook.py` ([#188](https://github.com/DataXMind/AI-Control-Plane/pull/188))
+- Practice evidence: Hybrid Gateway × ACP integration PASS (MSI + Mac) — [`practice-evidence/hybrid-gateway-acp-integration/RESULTS.md`](docs/governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md)
 - Docs: `END_USER_VALUE.md` four-door map; QUICKSTART k6 §2.5; competitive feature table; SAPAL packaging review target @ v0.3.0 ([#183](https://github.com/DataXMind/AI-Control-Plane/pull/183), drift-close follow-up)
 - Design issue: `agentctl policy diff` dry-run ([#184](https://github.com/DataXMind/AI-Control-Plane/issues/184)) — implementation post-PB-12
 
 ### Changed
 
-- Anchor drift reconcile: `ANCHOR_CURRENT`, `SESSION_ANCHOR_TEMPLATE` → pytest **221**; living SHA `44a5fef`
+- `docs/integrations/HYBRID_AI_GATEWAY.md` — checklist PASS, per-machine env, SSOT paths @ #188
+- Anchor drift reconcile: `ANCHOR_CURRENT` → `aeca32a`; Hybrid Gateway integration status
 
 ### Notes
 

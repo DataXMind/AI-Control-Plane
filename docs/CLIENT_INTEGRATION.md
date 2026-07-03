@@ -83,6 +83,26 @@ curl -sf -X POST "$ACP_API_URL/policy/evaluate" \
 
 ---
 
+## 3.5 Hybrid AI Gateway + Antigravity (verified @ 0.x)
+
+**Full map:** [`integrations/HYBRID_AI_GATEWAY.md`](integrations/HYBRID_AI_GATEWAY.md) · **Evidence:** [`practice-evidence/hybrid-gateway-acp-integration/RESULTS.md`](governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md)
+
+**Enforce before shell tools** (from repo root, since #188):
+
+```bash
+export ACP_API_URL=http://YOUR_ACP_HOST:8000
+export ACP_PROJECT_ID=rust-gateway
+export ACP_AGENT_ID=agent1      # MSI infra — use agent2 + role backend on Mac
+export ACP_ROLE=infra
+
+python3 examples/integrate/python/run_tool_guarded.py --tool git_read -- git status
+bash examples/integrate/shell/policy_smoke_matrix.sh
+```
+
+Per-machine `ACP_AGENT_ID` / `ACP_ROLE` are **runtime env** (`.env` gitignored) — not synced by `git pull`.
+
+---
+
 ## 4. Integration pattern — one choke point
 
 Implement **one function** (or middleware) in your codebase that every tool/action passes through **before** execution:

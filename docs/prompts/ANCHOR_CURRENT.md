@@ -11,14 +11,17 @@
 ## Canonical one-liner (2026-07-03)
 
 ```text
-SESSION ANCHOR: master @ 4274825 · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
+SESSION ANCHOR: master @ aeca32a · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
 TRACK: [fill: feature | governance | ops | docs-only]
 Public Beta IN_PROGRESS (PB-9 soak). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7 until flip bump.
 Critical path: PB-9 tick 07-04..05 → Day 14 ~2026-07-06 → pre-flip ~07-07 → PB-12 ~07-10.
-PB-9 last tick: 2026-07-03 AM (Apex ☑ soak_iter @ 04:13:19Z). PB-10 deferred GA (#78). PB-8 @ c58b4cc — no re-tag.
+Hybrid Gateway × ACP: CONNECT PASS (#188) — examples/integrate/run_tool_guarded · MSI agent1 + Mac agent2 verified.
+Gateway repo orchestrator wire: OPEN (not on Hybrid-AI-Gateway remote).
+PB-9 last tick: 2026-07-03 (see PB9_STAGING_SOAK_LOG.md). PB-10 deferred GA (#78). PB-8 @ c58b4cc — no re-tag.
 Tier A pilot: PASS Mac Mini 2026-06-30 — practice-evidence/mac-pilot-deploy-2026-06-30 (#176 merged)
 Verify: source .venv/bin/activate · smoke 8/8 · verify_governance_memory.sh · pytest 221
-SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · MANUAL_OPERATOR_PLAYBOOK.md (no Agent for daily ops)
+SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · HYBRID_AI_GATEWAY.md · MANUAL_OPERATOR_PLAYBOOK.md
+Integration enforce: examples/integrate/python/run_tool_guarded.py (NOT scripts/acp/ unless Gateway repo)
 ```
 
 ---
@@ -29,7 +32,7 @@ SSOT: AGENT_OPERATING_SYSTEM.md · END_USER_VALUE.md · MANUAL_OPERATOR_PLAYBOOK
 session_anchor:
   version: "1.0"
   date: "2026-07-03"
-  baseline: "master @ 4274825"
+  baseline: "master @ aeca32a"
   risk: "LOW"
   track: "docs-only"
   gates_approved: []
@@ -41,7 +44,8 @@ memory_tier:
     - AGENTS.md
     - docs/prompts/AGENT_OPERATING_SYSTEM.md
     - docs/END_USER_VALUE.md
-    - docs/governance/MANUAL_OPERATOR_PLAYBOOK.md
+    - docs/integrations/HYBRID_AI_GATEWAY.md
+    - docs/governance/practice-evidence/hybrid-gateway-acp-integration/RESULTS.md
   durable_context:
     - docs/governance/PB9_STAGING_SOAK_LOG.md
     - docs/governance/GOVERNANCE_DRIFT_RECONCILIATION.md
@@ -49,8 +53,8 @@ memory_tier:
 file_allowlist:
   allowed:
     - docs/**
+    - examples/integrate/**
     - README.md
-    - examples/minimal/CUSTOMER_INSTALL.md
   forbidden:
     - src/**
 
@@ -63,4 +67,4 @@ task: |
   [One paragraph — goal, out of scope, done definition]
 ```
 
-**Last updated:** 2026-07-03 · baseline `4274825` · PB-9 tick 07-03
+**Last updated:** 2026-07-03 · baseline `aeca32a` · Hybrid Gateway × ACP integration close (#188 + docs)

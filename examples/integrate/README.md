@@ -54,6 +54,7 @@ If `httpx` raises, `/health` is not `ok`, or `allowed` is `false` → **do not p
 ## Index
 
 - Full integration guide (all languages): [`docs/CLIENT_INTEGRATION.md`](../../docs/CLIENT_INTEGRATION.md)
+- Hybrid Gateway + Antigravity: [`docs/integrations/HYBRID_AI_GATEWAY.md`](../../docs/integrations/HYBRID_AI_GATEWAY.md)
 - Operator install (Task 1): [`minimal/CUSTOMER_INSTALL.md`](../minimal/CUSTOMER_INSTALL.md)
 - Minimal Docker stack: [`examples/minimal/`](../minimal/README.md)
 - Full scenario map: [`docs/DEVELOPER_SCENARIOS.md`](../../docs/DEVELOPER_SCENARIOS.md)
