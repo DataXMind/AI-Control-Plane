@@ -75,8 +75,17 @@ curl -sf http://localhost:8082/acp/status
 |------|-------|
 | `mlops-engine` kubectl HTTP pre-check | Gateway Rust PR |
 | Dog-fooding case study publish | Gateway docs |
-| PB-9 soak 07-04..07-06 | VPS operator |
+| PB-9 soak 07-05..07-06 | VPS operator |
 | GHCR Path C when PB-12 | Operator |
+| **`export` in `~/.acp-agent.env`** (2026-07-04) | MSI/Mac — template fixed in bundle |
+
+### 5.1 MSI env pitfall (2026-07-04)
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `curl $ACP_API_URL/health` OK | Shell expands `$ACP_API_URL` | — |
+| `python3` KeyError `ACP_API_URL` | Var not exported to children | `export` every line in `~/.acp-agent.env` |
+| `run_tool_guarded` → `[Errno 111] Connection refused` | Python defaults `ACP_API_URL` to `127.0.0.1:8000` | Re-copy `antigravity-acp.env.example`, `source ~/.acp-agent.env` |
 
 ---
 
