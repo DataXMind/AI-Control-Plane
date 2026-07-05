@@ -6,17 +6,17 @@
 
 ---
 
-## Canonical one-liner (2026-07-03)
+## Canonical one-liner (2026-07-04)
 
 ```text
 SESSION ANCHOR: master @ post-#190 · pytest 221 · risk LOW
 Hybrid Gateway × ACP: CONNECT CLOSED — MSI agent1 + Mac agent2 + Gateway main #4 (35bf124)
-Enforce: examples/integrate/run_tool_guarded.py · antigravity_shell_hook.zsh (install_antigravity_hook.sh)
+Enforce: examples/integrate/run_tool_guarded.py · export in ~/.acp-agent.env (required)
 Client bundle: customer-bundle/integrations/antigravity-acp.env.example
-ACP VPS: 100.94.21.33:8000 · rust-gateway · 10 rules
-OPEN: mlops-engine kubectl hook, case study, PB-9 07-04..06, PB-12
-Verify: bash examples/integrate/shell/policy_smoke_matrix.sh (live ACP)
+ACP VPS: 100.94.21.33:8000 · rust-gateway · 10 rules · build path from ~/AI-Control-Plane
+OPEN: MSI re-source env + acp-git retest, VPS redis healthgate patience, PB-9 07-05..06, PB-12
+Verify: source ~/.acp-agent.env && python3 -c "import os; print(os.environ['ACP_API_URL'])"
 SSOT: HYBRID_AI_GATEWAY.md · practice-evidence/hybrid-gateway-acp-integration/RESULTS.md
 ```
 
-**Last updated:** 2026-07-03 · Hybrid Gateway × ACP integration **CLOSED**
+**Last updated:** 2026-07-04 · PB-9 tick · MSI `export` env pitfall documented

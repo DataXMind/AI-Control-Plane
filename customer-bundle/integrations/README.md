@@ -14,11 +14,14 @@ Hand to **integration team** (not VPS operator secrets).
 ```bash
 # From ai-control-plane repo root (after git pull master)
 cp customer-bundle/integrations/antigravity-acp.env.example ~/.acp-agent.env
-# Edit ACP_AGENT_ID / ACP_ROLE per machine
+# Edit ACP_AGENT_ID / ACP_ROLE per machine — keep export on every line
 
 source ~/.acp-agent.env
+python3 -c "import os; assert os.environ.get('ACP_API_URL'), 'missing export in ~/.acp-agent.env'"
 bash examples/integrate/shell/install_antigravity_hook.sh
 ```
+
+**Pitfall:** `ACP_API_URL=...` without `export` — `curl $ACP_API_URL/health` works but `run_tool_guarded.py` hits `127.0.0.1:8000` (fail-closed).
 
 **MSI:** `ACP_AGENT_ID=agent1` `ACP_ROLE=infra`  
 **Mac:** `ACP_AGENT_ID=agent2` `ACP_ROLE=backend`
