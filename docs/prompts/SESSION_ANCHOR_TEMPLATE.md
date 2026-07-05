@@ -104,6 +104,9 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 | Claim | Verdict |
 |-------|---------|
 | AgentShield / ECC plugin import (skills, agents, npm dependency) | **REJECTED** — xem [`ECC_ACP_INTEGRATION_ANALYSIS.md`](../governance/ECC_ACP_INTEGRATION_ANALYSIS.md) §REJECT; không re-propose trừ khi operator yêu cầu rõ ràng bằng văn bản |
+| AEOS Phase 2 bridge "not wired" | **REJECTED** — aeos `main` @ `9be7e2a`; [`aeos-acp-integration/RESULTS.md`](../governance/practice-evidence/aeos-acp-integration/RESULTS.md) |
+| AEOS GitHub CI green | **REJECTED** until workflow passes — local gate green only |
+| ACP integration PASS = SACP PASS | **REJECTED** — SACP evidence OPEN; see HYBRID_AI_GATEWAY.md §0 |
 
 ---
 
