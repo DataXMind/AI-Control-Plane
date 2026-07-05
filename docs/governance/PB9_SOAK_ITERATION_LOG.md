@@ -45,3 +45,5 @@ Append-only log written by `scripts/soak_staging.sh --repo-log` (see `scripts/re
 2026-07-03T08:35:19Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
 2026-07-03T09:40:40Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
 2026-07-03T10:46:02Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-07-05T01:56:25Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok
+2026-07-05T01:56:35Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok

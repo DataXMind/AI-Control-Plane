@@ -81,7 +81,7 @@
 | M1-06 | Watch SEV-1/2 | Operator | On anomaly | Notes column; SEV-3 documented only | **Yes** if SEV-1/2 |
 
 **Ticks remaining (UTC calendar):** **2026-07-02** through **2026-07-05** (+ review row **2026-07-06**).  
-**Last human tick:** **2026-07-03** (Apex ☑ MSI soak_iter @ 2026-07-03T04:13:19Z post-rebuild).
+**Last human tick:** **2026-07-05** (Apex ☑ MSI soak_iter @ 2026-07-05T01:56:35Z post-rebuild; VPS services inactive — see notes).
 
 **Known SEV-3 (documented, not blockers):**
 
@@ -420,7 +420,7 @@ All of **A3 + A4**, plus:
 ```
 □ Soak MSI running (tail PB9_SOAK_ITERATION_LOG.md)
 □ Soak VPS running (tail vps-soak-iteration.log)
-□ Tick PB9_STAGING_SOAK_LOG.md (UTC today) → PR   ← 07-02 done; next 07-03
+□ Tick PB9_STAGING_SOAK_LOG.md (UTC today) → PR   ← 07-05 done; next 07-06 Day 14
 □ SEV-1/2 = 0 (SEV-3 OK if documented)
 □ 07-01..05: daily rows before Day 14
 □ ~07-06: RESULTS.md from DAY14_REVIEW_DRAFT + close #77 if PASS
@@ -444,4 +444,4 @@ All of **A3 + A4**, plus:
 | [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) | Optional drafting on claude.ai |
 | [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) | Gate checklist (update @ Day 14) |
 
-**Last updated:** 2026-07-03 · PB-9 tick 07-03 · baseline `4274825`
+**Last updated:** 2026-07-05 · PB-9 tick 07-05 · baseline `77437ff` (post-#191)
