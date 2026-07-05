@@ -17,6 +17,7 @@
 | **Antigravity IDE shell auto-hook** | **PASS** — `antigravity_shell_hook.zsh` + `install_antigravity_hook.sh` |
 | **Production client bundle** | **PASS** — `customer-bundle/integrations/` |
 | SACP / Karpathy / ECC | Out of scope |
+| **AEOS × ACP** | **Separate track** — [`aeos-acp-integration/RESULTS.md`](../aeos-acp-integration/RESULTS.md) · Phase 2 PASS 2026-07-05 |
 | Rust `kubectl` middleware, case study | Follow-up (not blocking CONNECT) |
 
 ---
