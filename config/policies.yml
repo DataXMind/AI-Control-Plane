@@ -28,6 +28,7 @@ rbac:
         - test.run
         - build.rust
         - cargo.clippy
+        - admin.budget.freeze
       denied_actions:
         - git.force_push
         - k8s.apply

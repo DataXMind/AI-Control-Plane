@@ -132,9 +132,16 @@ Disable per session: `export ACP_SHELL_GUARD=0`
 
 Merged on GitHub **`main`** ([#4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4)): `orchestrator/acp_client.py`, `GET /acp/status`, `docs/ACP_INTEGRATION.md`.
 
-### Rust (`src/rust-gateway`)
+### Rust (`src/rust-gateway`) — production
 
-Add middleware or pre-tool hook — see [`CLIENT_INTEGRATION.md`](../CLIENT_INTEGRATION.md) §5. **Follow-up.**
+Tracks B1/B2 merged ([#10](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/10), [#12](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/12)):
+
+- `GET /acp/status` — observability (B1)
+- `POST /admin/v1/tenants/:id/freeze` — `acp_gate` middleware (B2)
+
+Operator evidence 2026-07-06: VPS `acp_reachable: true`. Chat completions remain H-2 (no ACP gate).
+
+See Gateway [`sacp-acp-gap/RESULTS.md`](https://github.com/DataXMind/Hybrid-AI-Gateway/blob/main/docs/governance/practice-evidence/sacp-acp-gap/RESULTS.md).
 
 ---
 
@@ -163,7 +170,10 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 - [x] Gateway repo `orchestrator/acp_client` merged — [Hybrid-AI-Gateway #4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4)
 - [x] Antigravity shell auto-gate — `antigravity_shell_hook.zsh` + `install_antigravity_hook.sh`
 - [x] Production client bundle — `customer-bundle/integrations/`
+- [x] Rust prod `/acp/status` (B1) — VPS 2026-07-06
+- [x] Rust admin ACP middleware (B2) — freeze route evaluate
 - [ ] Dog-fooding case study published (Gateway repo — optional)
+- [ ] B2 allow-path after VPS `admin.budget.freeze` in policies.yml
 
 ---
 
@@ -174,10 +184,12 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 | 1 | Daily use: `install_antigravity_hook.sh` + `~/.acp-agent.env` | ACP `customer-bundle/integrations/` |
 | 2 | Gateway Docker: `docker compose up` + `/acp/status` | Hybrid-AI-Gateway `main` |
 | 3 | Optional Rust kubectl pre-check | Gateway `mlops-engine` |
-| 4 | PB-9 soak ticks (parallel) | VPS ops |
+| 4 | PB-9 Day 14 PASS — PB-12 prep | Operator — [`pb-9-day14-review/RESULTS.md`](../governance/practice-evidence/pb-9-day14-review/RESULTS.md) |
+| 5 | VPS policy sync `admin.budget.freeze` | `scripts/sync_vps_acp_admin_freeze.sh` |
+| 6 | NGROK rotate (SACP Track C) | Operator — ngrok.com + VPS systemd |
 
 ACP side stays **HTTP-only** — no import of gateway code into `ai_control_plane`.
 
 ---
 
-**Last updated:** 2026-07-03 · CONNECT CLOSED · Gateway #4 · ACP master post-close PR
+**Last updated:** 2026-07-06 · CONNECT CLOSED · SACP B1/B2 prod PARTIAL PASS
