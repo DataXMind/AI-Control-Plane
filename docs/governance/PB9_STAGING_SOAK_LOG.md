@@ -69,16 +69,16 @@ nohup bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log &
 | 2026-07-03 | ☑ | ☑ | ☑ | ☑ | 0 | **AM:** agent verify @ 04:13:19Z — container down overnight (~17h gap after 07-02T11:23:45Z) → `docker compose up -d --build`; `soak_staging.sh --repo-log` PASS; smoke 8/8 · gov 1.5.0·17. **SEV-3** manual recovery. Hourly loop restarted (`restart_soak_loop.sh`). Iter backlog 07-02 09–11Z in commit `d374780`. |
 | 2026-07-04 | ☑ | ☑ | ☐ | ☐ | 0 | **VPS production (build path):** MSI `curl` health 10 rules @ `100.94.21.33:8000` OK; `minimal-acp-api-1` Running. **MSI enforce:** `run_tool_guarded` fail-closed — `~/.acp-agent.env` vars not `export`ed (python → `127.0.0.1:8000`); fix `antigravity-acp.env.example`. **VPS:** `minimal-redis-1 Waiting` = redis healthgate — wait, do not interrupt. PB-9 local fixture hourly not run today. |
 | 2026-07-05 | ☑ | ☑ | ☑ | ☑ | 0 | **MSI WSL (PB-9 fixture):** `docker compose -f examples/minimal/docker-compose.yml up -d --build`; `restart_soak_loop.sh` → hourly `--repo-log` (PID 4681); `soak_staging.sh --repo-log` PASS @ 01:56:35Z; smoke 8/8 (`.venv`). **SEV-3** gap ~39h after 07-03T10:46:02Z (container stop overnight → manual rebuild). **VPS:** `acp-soak.service` + `acp-staging.service` **inactive** — dual-host soak not running; operator restart required before Day 14. |
-| 2026-07-06 | ☐ | ☐ | ☐ | ☐ | 0 | Day 14 review |
+| 2026-07-06 | ☑ | ☑ | ☑ | ☑ | 0 | **Day 14 review:** MSI fixture `minimal-acp-api-1` Up 25h healthy; soak loop PID 49811; iter through `02:52:53Z`; smoke **8/8**. **VPS:** `acp-staging`+`acp-soak` active; iter through `02:09:55Z`; **production 10 rules** on `:8000` (not fixture 8). SEV-3: MSI gap 07-05 16:22→23:35 (WSL sleep). See [`practice-evidence/pb-9-day14-review/RESULTS.md`](practice-evidence/pb-9-day14-review/RESULTS.md). |
 
 ---
 
 ## Day 14 review criteria
 
-- [ ] Zero SEV-1/2 attributed to control plane
-- [ ] `POST /policy/evaluate` p99 < 500 ms (sample from logs)
-- [ ] Telemetry/task files under `ACP_DATA_DIR` grow predictably (no disk runaway)
-- [ ] Close #77 → open PB-10 (#78) if pass
+- [x] Zero SEV-1/2 attributed to control plane _(0 counted; see RESULTS.md)_
+- [x] `POST /policy/evaluate` p99 < 500 ms _(06-30 live 5.34ms; review-day smoke 8/8 PASS)_
+- [ ] Telemetry/task files under `ACP_DATA_DIR` grow predictably (no disk runaway) _(operator `du -sh` on volume — pending)_
+- [ ] Close #77 → open PB-10 (#78) if pass _(human sign-off on RESULTS.md verdict)_
 
 ---
 
