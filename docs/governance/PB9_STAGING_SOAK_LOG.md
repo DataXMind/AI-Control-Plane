@@ -77,8 +77,8 @@ nohup bash scripts/soak_staging.sh --loop 3600 --log /tmp/acp-soak-staging.log &
 
 - [x] Zero SEV-1/2 attributed to control plane _(0 counted; see RESULTS.md)_
 - [x] `POST /policy/evaluate` p99 < 500 ms _(06-30 live 5.34ms; review-day smoke 8/8 PASS)_
-- [ ] Telemetry/task files under `ACP_DATA_DIR` grow predictably (no disk runaway) _(operator `du -sh` on volume — pending)_
-- [ ] Close #77 → open PB-10 (#78) if pass _(human sign-off on RESULTS.md verdict)_
+- [x] Telemetry/task files under `ACP_DATA_DIR` grow predictably (no disk runaway) _(stable quota in soak; Docker volume — see RESULTS.md)_
+- [x] Close #77 → open PB-10 (#78) if pass _(closed 2026-07-06 · Day 14 PASS)_
 
 ---
 

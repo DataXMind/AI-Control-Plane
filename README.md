@@ -7,7 +7,7 @@ Control plane for multi-agent AI systems:
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
 **Status:** Milestones A/B/C/C+ **CLOSED** · **221** pytest · smoke **8/8** · policy engine primary; SAPAL `apex/` experimental @ 0.x  
-**Public Beta:** **IN PROGRESS** — PB-9 soak **Day 14** · tick **2026-07-06** · PB-12 **~2026-07-10** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
+**Public Beta:** **PB-9 PASS** · pre-flip done · PB-12 GO **~2026-07-10** · repo still **PRIVATE** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
 
 ## What ACP Is
 
