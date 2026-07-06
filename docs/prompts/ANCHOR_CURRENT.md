@@ -1,20 +1,12 @@
-# Current session anchor — copy-paste block (living snapshot)
-
-**Document ID:** ACP-PROMPT-ANCHOR-CURRENT-001  
-**Update rule:** Maintainer or closing agent updates this file after **major merge** to `master`.  
-**Structure SSOT:** [`SESSION_ANCHOR_TEMPLATE.md`](SESSION_ANCHOR_TEMPLATE.md)
-
----
-
-## Canonical one-liner (2026-07-06)
+## Canonical one-liner (2026-07-06 post-flip)
 
 ```text
-SESSION ANCHOR: master @ post-#196 · pytest 221 · risk LOW
-PB-9 Day 14: PASS signed · #77 CLOSED · pre-flip OK
-SACP prod ACP: PARTIAL PASS (B1+B2 @ 2026-07-06) — Gateway sacp-acp-gap/RESULTS.md
-OPEN: PB-12 human GO ~07-10 · NGROK rotate (SACP) · VPS policy sync admin.budget.freeze
-Verify: smoke 8/8 · gov 1.5.0·17 · openapi 3.1.0·13 · 221 pytest @ 07-06
-SSOT: practice-evidence/pb-9-day14-review/RESULTS.md
+SESSION ANCHOR: master @ PB-12 GO · governance 1.6.0 · pytest 221 · risk LOW
+PUBLIC: repo flipped 2026-07-06 · release v0.1.0-beta.1 · PB-10 deferred #78
+PB-9: CLOSED #77 · catalog gates_remaining=1 (PB-10 only)
+OPEN: PB-10 GA clock · branch protection re-probe · OIDC/k6/MCP PROPOSED
+Verify: GET /governance/status → phase Public Beta 0.x · gates_blocking_pb12 []
+SSOT: practice-evidence/pb-12-public-flip/RESULTS.md
 ```
 
-**Last updated:** 2026-07-06 · Day 14 PASS · pre-flip C1-02 complete on MSI
+**Last updated:** 2026-07-06 · PB-12 GO · public flip executed

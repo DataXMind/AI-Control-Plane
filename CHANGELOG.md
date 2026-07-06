@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **0.x note:** API may change without deprecation warning until `1.0.0-GA`.
 
+## [0.1.0-beta.1] - 2026-07-06
+
+### Public Beta (PB-12)
+
+- Repository visibility **public** — first open-source beta release
+- PB-9 staging soak Day 14 **PASS** ([#77](https://github.com/DataXMind/AI-Control-Plane/issues/77))
+- PB-10 production soak **deferred** to GA track ([#78](https://github.com/DataXMind/AI-Control-Plane/issues/78))
+- Governance catalog **v1.6.0** — `gates_remaining`: PB-10 only
+
+**Disclaimer:** 0.x API may change without deprecation warning. Not recommended for production without independent validation.
+
 ## [Unreleased]
 
 ### Added

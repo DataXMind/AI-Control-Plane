@@ -6,7 +6,7 @@ from typing import Any
 
 GOVERNANCE_FRAMEWORK = "6-layer-karpathy"
 # Semantic: MAJOR.MINOR.PATCH — see docs/governance/GOVERNANCE_CHANGELOG.md
-GOVERNANCE_VERSION = "1.5.0"
+GOVERNANCE_VERSION = "1.6.0"
 
 VERIFY_GATE_COMMANDS: list[str] = [
     "ruff check src/ tests/",
@@ -82,22 +82,22 @@ MILESTONE_STATUS: dict[str, str] = {
     "milestone_b": "CLOSED",
     "milestone_c": "CLOSED",
     "milestone_c_plus": "CLOSED",
-    "public_beta": "IN_PROGRESS",
+    "public_beta": "BETA",
 }
 
 PUBLIC_BETA_GATE_REGISTRY: list[dict[str, Any]] = [
     {
         "id": "PB-9",
         "label": "PB-9 calendar soak (G-05)",
-        "catalog_list": "remaining",
-        "practice_status": "OPEN",
-        "blocks_pb12": True,
-        "evidence": "docs/governance/PB9_STAGING_SOAK_LOG.md",
+        "catalog_list": "closed",
+        "practice_status": "PASS",
+        "blocks_pb12": False,
+        "evidence": "docs/governance/practice-evidence/pb-9-day14-review/RESULTS.md",
     },
     {
         "id": "PB-7",
         "label": "PB-7 clean-machine fork ≤15 min",
-        "catalog_list": "remaining",
+        "catalog_list": "closed",
         "practice_status": "PASS",
         "blocks_pb12": False,
         "evidence": "docs/governance/practice-evidence/pb-7-clean-machine-fork/RESULTS.md",
@@ -113,15 +113,15 @@ PUBLIC_BETA_GATE_REGISTRY: list[dict[str, Any]] = [
     {
         "id": "PB-6",
         "label": "PB-6 OpenAPI publish on flip",
-        "catalog_list": "remaining",
-        "practice_status": "IN_PROGRESS",
+        "catalog_list": "closed",
+        "practice_status": "PASS",
         "blocks_pb12": False,
         "evidence": "docs/openapi/openapi.json",
     },
     {
         "id": "PB-8",
         "label": "PB-8 v0.1.0-rc.1 tag",
-        "catalog_list": "remaining",
+        "catalog_list": "closed",
         "practice_status": "PASS",
         "blocks_pb12": False,
         "evidence": "CHANGELOG.md",
@@ -129,7 +129,7 @@ PUBLIC_BETA_GATE_REGISTRY: list[dict[str, Any]] = [
     {
         "id": "PB-SEC",
         "label": "security@ mailbox live test (pre-PB-12)",
-        "catalog_list": "remaining",
+        "catalog_list": "closed",
         "practice_status": "PASS",
         "blocks_pb12": False,
         "evidence": (
@@ -139,10 +139,10 @@ PUBLIC_BETA_GATE_REGISTRY: list[dict[str, Any]] = [
     {
         "id": "PB-12",
         "label": "PB-12 human go/no-go",
-        "catalog_list": "remaining",
-        "practice_status": "OPEN",
-        "blocks_pb12": True,
-        "evidence": "docs/governance/PUBLIC_BETA_GO_NO_GO.md",
+        "catalog_list": "closed",
+        "practice_status": "PASS",
+        "blocks_pb12": False,
+        "evidence": "docs/governance/practice-evidence/pb-12-public-flip/RESULTS.md",
     },
 ]
 
@@ -151,6 +151,12 @@ PUBLIC_BETA_GATES_CLOSED_STATIC: list[str] = [
     "docs/RUNBOOK.md operator SSOT",
     "Governance catalog 3-stream convergence",
     "GitHub Discussions enabled",
+    "PB-9 calendar soak (G-05) — Day 14 PASS 2026-07-06",
+    "PB-7 clean-machine fork ≤15 min",
+    "PB-6 OpenAPI publish on flip",
+    "PB-8 v0.1.0-rc.1 tag",
+    "security@ mailbox live test (pre-PB-12)",
+    "PB-12 human go/no-go — GO 2026-07-06",
 ]
 
 
@@ -174,8 +180,8 @@ def build_public_beta_summary() -> dict[str, Any]:
         if g["blocks_pb12"] and g["practice_status"] in ("OPEN", "IN_PROGRESS")
     ]
     return {
-        "phase": "PB-9 staging soak",
-        "open_issues": "#77-#80",
+        "phase": "Public Beta 0.x (shipped 2026-07-06)",
+        "open_issues": "#78-#80",
         "soak_started": "2026-06-22",
         "soak_review_target": "2026-07-06",
         "gates_remaining": remaining,

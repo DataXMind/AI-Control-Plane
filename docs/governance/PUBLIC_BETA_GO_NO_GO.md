@@ -7,11 +7,25 @@
 
 ---
 
-## Verdict (2026-06-22 — post human approve)
+## Verdict (2026-07-06 — PB-12 GO)
 
 | Question | Answer |
 |----------|--------|
-| **GO** — flip repository public now? | **NO** — PB-9 soak in progress; Day 14 review ~**2026-07-06** |
+| **GO** — flip repository public now? | **YES** — PB-9 Day 14 PASS · pre-flip complete · [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md) |
+| **GO** — start staging soak? | **COMPLETE** — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) closed |
+| **GO** — legal/trust artifacts in repo? | **YES** |
+| **PB-10** | **DEFERRED GA** — 0.x beta ships without 30-day production soak |
+| **PB-11** | Re-evaluate branch protection API post-public flip |
+
+**Operator:** mobilexmind · **Date:** 2026-07-06
+
+---
+
+## Verdict (2026-06-22 — post human approve) — superseded
+
+| Question | Answer |
+|----------|--------|
+| **GO** — flip repository public now? | ~~NO~~ → **YES @ 2026-07-06** |
 | **GO** — start staging soak? | **STARTED** 2026-06-22 — [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
 | **GO** — legal/trust artifacts in repo? | **YES** |
 | **PB-11** | **Approved:** process-only until PB-12 public flip (API 403 unchanged) |

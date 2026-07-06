@@ -9,7 +9,14 @@
 - **PATCH:** Doc fix, drift correction, reconciliation update,
   clarity improvement, new DOC_LINKS entry
 
-## v1.5.0 (current — 2026-06-30)
+## v1.6.0 (2026-07-06 — PB-12 public flip)
+**Type:** MINOR
+- PB-12 GO: repository public · release `v0.1.0-beta.1`
+- Catalog bump: `gates_remaining` → PB-10 only; `gates_blocking_pb12` → `[]`
+- PB-9 Day 14 PASS evidence; PB-12 flip RESULTS @ `practice-evidence/pb-12-public-flip/`
+- `public_beta` milestone → **BETA**; phase → Public Beta 0.x shipped
+
+## v1.5.0 (2026-06-30)
 **Type:** MINOR
 - Added: P-17 MCP context tax / connector minimalism (`LESSONS_LEARNED.md`, `LESSON_PATTERNS`)
 - Added: `ECC_48H_RESULTS.md` (48H closeout SSOT)
