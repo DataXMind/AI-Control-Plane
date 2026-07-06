@@ -23,7 +23,7 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert parsed.config_loaded is True
     assert parsed.policy_rules_count > 0
     assert parsed.milestones["milestone_c_plus"] == "CLOSED"
-    assert parsed.milestones["public_beta"] == "IN_PROGRESS"
+    assert parsed.milestones["public_beta"] == "BETA"
     assert set(parsed.layers.keys()) == {"L0", "L1", "L2", "L3", "L4", "L5"}
     assert len(parsed.case_studies) == len(CASE_STUDIES)
     assert parsed.case_studies[0].id == "CS-01"
@@ -38,10 +38,10 @@ def test_governance_status_returns_6_layer_payload() -> None:
     assert len(parsed.lessons_patterns) == len(LESSON_PATTERNS)
     assert parsed.lessons_patterns[0].id == "P-01"
     assert parsed.lessons_patterns[0].case_study_id == "CS-01"
-    assert parsed.governance_version == "1.5.0"
-    assert len(parsed.public_beta.gates_remaining) >= 5
-    assert len(parsed.public_beta.gates_closed) >= 3
-    assert parsed.public_beta.gates_blocking_pb12 == ["PB-9", "PB-12"]
+    assert parsed.governance_version == "1.6.0"
+    assert len(parsed.public_beta.gates_remaining) == 1
+    assert len(parsed.public_beta.gates_closed) >= 10
+    assert parsed.public_beta.gates_blocking_pb12 == []
     assert len(parsed.public_beta.gate_details) == 7
     assert parsed.practice_evidence.studies_completed == 8
     assert parsed.practice_evidence.open_gaps_count == 1

@@ -320,5 +320,5 @@ def test_governance_status_ok(client: TestClient) -> None:
     response = client.get("/governance/status")
     assert response.status_code == 200
     body = response.json()
-    assert body["governance_version"] == "1.5.0"
+    assert body["governance_version"] == "1.6.0"
     assert "mac_pilot_deploy_url" in body["practice_evidence"]

@@ -7,7 +7,7 @@ Control plane for multi-agent AI systems:
 - CLI `agentctl` for task assign/status/approve/quota/logs
 
 **Status:** Milestones A/B/C/C+ **CLOSED** · **221** pytest · smoke **8/8** · policy engine primary; SAPAL `apex/` experimental @ 0.x  
-**Public Beta:** **PB-9 PASS** · pre-flip done · PB-12 GO **~2026-07-10** · repo still **PRIVATE** · [`MANUAL_OPERATOR_PLAYBOOK.md`](docs/governance/MANUAL_OPERATOR_PLAYBOOK.md) · runtime: `GET /governance/status` · anchor: [`ANCHOR_CURRENT.md`](docs/prompts/ANCHOR_CURRENT.md)
+**Public Beta:** **0.1.0-beta.1** · repo **PUBLIC** @ 2026-07-06 · PB-10 deferred ([#78](https://github.com/DataXMind/AI-Control-Plane/issues/78))
 
 ## What ACP Is
 
