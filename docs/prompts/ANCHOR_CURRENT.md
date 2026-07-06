@@ -9,9 +9,10 @@
 ## Canonical one-liner (2026-07-06)
 
 ```text
-SESSION ANCHOR: master @ post-#195 · pytest 221 · risk LOW
-PB-9 Day 14: PASS signed · #77 CLOSED · pre-flip OK (OpenAPI export pending PR)
-OPEN: PB-12 human GO ~07-10 · public flip · catalog bump · #78 PB-10
+SESSION ANCHOR: master @ post-#196 · pytest 221 · risk LOW
+PB-9 Day 14: PASS signed · #77 CLOSED · pre-flip OK
+SACP prod ACP: PARTIAL PASS (B1+B2 @ 2026-07-06) — Gateway sacp-acp-gap/RESULTS.md
+OPEN: PB-12 human GO ~07-10 · NGROK rotate (SACP) · VPS policy sync admin.budget.freeze
 Verify: smoke 8/8 · gov 1.5.0·17 · openapi 3.1.0·13 · 221 pytest @ 07-06
 SSOT: practice-evidence/pb-9-day14-review/RESULTS.md
 ```

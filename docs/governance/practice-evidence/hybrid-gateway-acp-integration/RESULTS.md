@@ -2,9 +2,9 @@
 
 **Document ID:** ACP-PRACTICE-HYBRID-GATEWAY-ACP-001  
 **Status:** **CONNECT PASS — CLOSED** (MSI + Mac + Gateway remote, 2026-07-03)  
-**ACP baseline:** `master` @ post-#190 (after integration close PR)  
-**Gateway baseline:** `main` @ `35bf124` ([#4](https://github.com/DataXMind/Hybrid-AI-Gateway/pull/4))  
-**ACP host:** VPS `ubuntu-vps` · Tailscale `100.94.21.33:8000` · Profile B · `policy_rules_count: 10`
+**ACP baseline:** `master` @ post-#196  
+**Gateway baseline:** `main` @ `d7a840e` (B1/B2 operator smoke 2026-07-06)  
+**ACP host:** VPS · pod `http://10.42.0.1:8000` · Tailscale `100.94.21.33:8000` · `policy_rules_count: 10`
 
 ---
 
@@ -16,9 +16,21 @@
 | **Gateway `orchestrator/acp_client`** on GitHub | **PASS** — Hybrid-AI-Gateway #4 |
 | **Antigravity IDE shell auto-hook** | **PASS** — `antigravity_shell_hook.zsh` + `install_antigravity_hook.sh` |
 | **Production client bundle** | **PASS** — `customer-bundle/integrations/` |
-| SACP / Karpathy / ECC | Out of scope |
+| **K8s rust-gateway prod (SACP)** | **PARTIAL PASS** — B1+B2 @ 2026-07-06; chat path not ACP-gated (H-2) |
+| SACP full LLM hot path | **OPEN** — Gateway `sacp-acp-gap/RESULTS.md` |
 | **AEOS × ACP** | **Separate track** — [`aeos-acp-integration/RESULTS.md`](../aeos-acp-integration/RESULTS.md) · Phase 2 PASS 2026-07-05 |
-| Rust `kubectl` middleware, case study | Follow-up (not blocking CONNECT) |
+
+*Product A PASS footnote: Prod LLM `/v1/chat/completions` is not ACP-gated by design; tool/admin Rust routes PARTIAL PASS (B1 observability, B2 admin freeze gate).*
+
+### 1.1 Production Rust (SACP) — 2026-07-06
+
+| Check | Result |
+|-------|--------|
+| `GET /acp/status` on prod rust-gateway | `acp_reachable: true` |
+| `POST /admin/v1/tenants/test/freeze` | ACP evaluate + RBAC deny (middleware PASS) |
+| G-SACP-01 | **PARTIAL** — not zero ACP; not full hot path |
+
+SSOT: [Hybrid-AI-Gateway sacp-acp-gap/RESULTS.md](https://github.com/DataXMind/Hybrid-AI-Gateway/blob/main/docs/governance/practice-evidence/sacp-acp-gap/RESULTS.md)
 
 ---
 
@@ -28,7 +40,7 @@
 |------|----------------|------------|----------|
 | MSI (WSL) | `agent1` | `infra` | smoke + enforce + Docker `/acp/status` |
 | Mac Mini | `agent2` | `backend` | allow `build.rust` / deny `k8s_apply` |
-| VPS | — | — | production-config 10 rules |
+| VPS | `agent2` / prod | backend | B1+B2 rust-gateway smoke 2026-07-06 |
 
 ---
 
@@ -44,6 +56,8 @@
 | 6 | Gateway remote merge | ✓ | — | Hybrid-AI-Gateway #4 |
 | 7 | zsh auto-hook kubectl/git/cargo | ✓ | install ready | `antigravity_shell_hook.zsh` |
 | 8 | Scripts on ACP master | ✓ | ✓ | #188, #189, close PR |
+| 9 | Rust prod `/acp/status` (B1) | — | — | Gateway `d7a840e` VPS 2026-07-06 |
+| 10 | Rust admin ACP gate (B2) | — | — | freeze route + evaluate |
 
 ---
 
