@@ -128,10 +128,10 @@ Smoke **8/8** · governance verify **1.5.0 · 17** · full pytest **221** (pre-f
 
 1. ~~Close #77~~ ✅
 2. ~~Pre-flip OpenAPI export~~ ✅ (commit via PR)
-3. **PB-12 human GO** (~2026-07-10): [`PUBLIC_BETA_GO_NO_GO.md`](../../PUBLIC_BETA_GO_NO_GO.md)
-4. GitHub **public visibility** + release **`v0.1.0-beta.1`**
-5. Catalog bump PR (`governance_catalog.py`)
-6. Open [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) (PB-10 GA track)
+3. ~~**PB-12 human GO** (~2026-07-10)~~ ✅ [`PUBLIC_BETA_GO_NO_GO.md`](../../PUBLIC_BETA_GO_NO_GO.md)
+4. ~~GitHub **public visibility** + release **`v0.1.0-beta.1`**~~ ✅ 2026-07-06
+5. ~~Catalog bump PR (`governance_catalog.py`)~~ ✅ v1.6.0
+6. ~~Open [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) (PB-10 GA track)~~ ✅ clock started 2026-07-06
 
 ---
 
