@@ -30,10 +30,11 @@
 | k6 policy smoke | P-15 load smoke @ 10 VUs | **PASS** | 2026-06-30 | [`k6-policy-smoke/`](k6-policy-smoke/) |
 | Mac Tier A pilot | B + Redis Docker (`production-compose`) | **PASS** | 2026-06-30 | [`mac-pilot-deploy-2026-06-30/`](mac-pilot-deploy-2026-06-30/) |
 | Hybrid Gateway × ACP | Product A CONNECT | **PASS** | 2026-07-03 | [`hybrid-gateway-acp-integration/`](hybrid-gateway-acp-integration/) |
+| SACP × ACP (prod rust) | B1+B2 admin scope | **PARTIAL PASS** | 2026-07-06 | [`sacp-acp-gap/`](sacp-acp-gap/) · [Gateway SSOT](https://github.com/DataXMind/Hybrid-AI-Gateway/blob/main/docs/governance/practice-evidence/sacp-acp-gap/RESULTS.md) |
 | AEOS × ACP Guardrails | Phase 2 session bridge | **PASS**‡ | 2026-07-05 | [`aeos-acp-integration/`](aeos-acp-integration/) |
 | PB-7 | Clean-machine fork ≤15 min (G3-1) | **PAUSED** | — | Operator: other laptop — [`pb-7-clean-machine-fork/`](pb-7-clean-machine-fork/) |
 
-‡ AEOS smoke PASS; AEOS GitHub CI still red (runs #15–#21) — local/Docker gate green @ aeos `9be7e2a`; fix deferred. SACP evidence **OPEN**.
+‡ AEOS smoke PASS; AEOS GitHub CI still red (runs #15–#21) — local/Docker gate green @ aeos `9be7e2a`; fix deferred. SACP B1+B2 admin **CLOSED** @ 2026-07-06; LLM hot path OPEN.
 
 ‡ ECC post-verify: compose local **1.5.0** PASS; GHCR republish coupled to catalog push (G-ECC-01 closed @ PR #157).
 

@@ -1,19 +1,31 @@
 #!/usr/bin/env bash
-# Sync admin.budget.freeze RBAC to VPS minimal-acp-api and verify B2 allow-path.
+# Sync policies.yml from ACP git checkout → VPS runtime mount → restart API.
+# VPS prod reads /opt/acp/production-config (NOT the git tree). See aeos-acp-integration/RESULTS.md.
 set -euo pipefail
 
-ACP_DIR="${ACP_DIR:-$HOME/AI-Control-Plane}"
-POLICY_SRC="${ACP_DIR}/config/policies.yml"
+ACP_GIT_DIR="${ACP_GIT_DIR:-/root/AI-Control-Plane}"
+ACP_RUNTIME_CONFIG="${ACP_RUNTIME_CONFIG:-/opt/acp/production-config}"
+POLICY_SRC="${ACP_GIT_DIR}/config/policies.yml"
+POLICY_DST="${ACP_RUNTIME_CONFIG}/policies.yml"
 
-[[ -f "${POLICY_SRC}" ]] || { echo "Missing ${POLICY_SRC}"; exit 1; }
-grep -q 'admin.budget.freeze' "${POLICY_SRC}" || { echo "config/policies.yml missing admin.budget.freeze"; exit 1; }
+if [[ ! -f "${POLICY_SRC}" ]]; then
+  echo "Missing ${POLICY_SRC} — set ACP_GIT_DIR or git pull as root"
+  exit 1
+fi
 
-echo "==> Copy policies to running ACP mount (adjust if your VPS path differs)"
-# Example: docker cp or volume bind — operator edits minimal compose config_dir
-echo "    git -C ${ACP_DIR} pull && restart minimal-acp-api"
+grep -q 'admin.budget.freeze' "${POLICY_SRC}" || {
+  echo "Source missing admin.budget.freeze — git pull origin master in ${ACP_GIT_DIR}"
+  exit 1
+}
 
-docker restart minimal-acp-api-1 2>/dev/null || true
+echo "==> Copy ${POLICY_SRC} → ${POLICY_DST}"
+cp "${POLICY_SRC}" "${POLICY_DST}"
+
+echo "==> Restart minimal-acp-api"
+docker restart minimal-acp-api-1
 sleep 3
+
+docker exec minimal-acp-api-1 grep admin.budget /etc/acp/config/policies.yml
 
 curl -sf http://127.0.0.1:8000/health | jq .
 

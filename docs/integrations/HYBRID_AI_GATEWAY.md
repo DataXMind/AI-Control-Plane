@@ -171,9 +171,8 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 - [x] Antigravity shell auto-gate — `antigravity_shell_hook.zsh` + `install_antigravity_hook.sh`
 - [x] Production client bundle — `customer-bundle/integrations/`
 - [x] Rust prod `/acp/status` (B1) — VPS 2026-07-06
-- [x] Rust admin ACP middleware (B2) — freeze route evaluate
+- [x] Rust admin ACP middleware (B2) — freeze route evaluate + allow HTTP 200
 - [ ] Dog-fooding case study published (Gateway repo — optional)
-- [ ] B2 allow-path after VPS `admin.budget.freeze` in policies.yml
 
 ---
 
@@ -185,11 +184,12 @@ Operator evidence 2026-07-03 — see [RESULTS.md](../governance/practice-evidenc
 | 2 | Gateway Docker: `docker compose up` + `/acp/status` | Hybrid-AI-Gateway `main` |
 | 3 | Optional Rust kubectl pre-check | Gateway `mlops-engine` |
 | 4 | PB-9 Day 14 PASS — PB-12 prep | Operator — [`pb-9-day14-review/RESULTS.md`](../governance/practice-evidence/pb-9-day14-review/RESULTS.md) |
-| 5 | VPS policy sync `admin.budget.freeze` | `scripts/sync_vps_acp_admin_freeze.sh` |
+| 5 | VPS policy sync runbook | `scripts/sync_vps_acp_admin_freeze.sh` (root on VPS) |
 | 6 | NGROK rotate (SACP Track C) | Operator — ngrok.com + VPS systemd |
+| 7 | LLM hot-path ACP (optional future) | Gateway new track — out of B1/B2 scope |
 
 ACP side stays **HTTP-only** — no import of gateway code into `ai_control_plane`.
 
 ---
 
-**Last updated:** 2026-07-06 · CONNECT CLOSED · SACP B1/B2 prod PARTIAL PASS
+**Last updated:** 2026-07-06 · CONNECT CLOSED · SACP B1+B2 VPS CLOSED (admin scope)

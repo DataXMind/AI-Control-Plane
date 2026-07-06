@@ -26,9 +26,14 @@
 
 | Check | Result |
 |-------|--------|
-| `GET /acp/status` on prod rust-gateway | `acp_reachable: true` |
-| `POST /admin/v1/tenants/test/freeze` | ACP evaluate + RBAC deny (middleware PASS) |
-| G-SACP-01 | **PARTIAL** — not zero ACP; not full hot path |
+| `GET /acp/status` on prod rust-gateway | `acp_reachable: true`, `ACP_API_URL=http://10.42.0.1:8000`, `agent2` |
+| `POST /admin/v1/tenants/test/freeze` (middleware) | ACP evaluate + RBAC deny demonstrated (pre-policy) |
+| `POST /admin/v1/tenants/test/freeze` (allow-path) | **HTTP 200** `{"status":"frozen","tenant_id":"test"}` after `/opt/acp/production-config` sync |
+| ACP `admin.budget.freeze` evaluate | `allowed: true`, `evaluation_path: default_allow` |
+| `scripts/smoke_sacp_acp.sh` | **PASS** |
+| G-SACP-01 | **PARTIAL** — B1+B2 admin closed; LLM hot path open (H-2) |
+
+Artifact: [Gateway `vps-operator-smoke-2026-07-06.md`](https://github.com/DataXMind/Hybrid-AI-Gateway/blob/main/docs/governance/practice-evidence/sacp-acp-gap/artifacts/vps-operator-smoke-2026-07-06.md)
 
 SSOT: [Hybrid-AI-Gateway sacp-acp-gap/RESULTS.md](https://github.com/DataXMind/Hybrid-AI-Gateway/blob/main/docs/governance/practice-evidence/sacp-acp-gap/RESULTS.md)
 
@@ -57,7 +62,7 @@ SSOT: [Hybrid-AI-Gateway sacp-acp-gap/RESULTS.md](https://github.com/DataXMind/H
 | 7 | zsh auto-hook kubectl/git/cargo | ✓ | install ready | `antigravity_shell_hook.zsh` |
 | 8 | Scripts on ACP master | ✓ | ✓ | #188, #189, close PR |
 | 9 | Rust prod `/acp/status` (B1) | — | — | Gateway `d7a840e` VPS 2026-07-06 |
-| 10 | Rust admin ACP gate (B2) | — | — | freeze route + evaluate |
+| 10 | Rust admin ACP gate (B2) | — | — | freeze allow HTTP 200 VPS 2026-07-06 |
 
 ---
 
@@ -115,5 +120,6 @@ See prior §6 in git history — key fix: SSOT paths in `examples/integrate/` (A
 | Role | Verdict | Date |
 |------|---------|------|
 | Operator evidence | Hybrid Gateway × ACP **CONNECT CLOSED** | 2026-07-03 |
+| SACP operator (B1+B2) | **PARTIAL PASS** — admin path closed | 2026-07-06 |
 | Gateway remote | **MERGED** #4 `35bf124` | 2026-07-03 |
 | IDE auto-hook | **SHIPPED** zsh wrapper | 2026-07-03 |
