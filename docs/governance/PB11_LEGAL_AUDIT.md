@@ -40,7 +40,7 @@
 
 | Bước | Việc làm |
 |------|----------|
-| 1 | Chọn provider: Google Workspace, Microsoft 365, Zoho Mail, hoặc **Cloudflare Email Routing** (alias → `mobilexmind@gmail.com`) |
+| 1 | Chọn provider: Google Workspace, Microsoft 365, Zoho Mail, hoặc **Cloudflare Email Routing** (alias → maintainer inbox) |
 | 2 | DNS: thêm **MX records** cho `dataxmind.com` theo hướng dẫn provider |
 | 3 | Tạo mailbox **`security@`** hoặc **alias** forward tới inbox maintainer đang monitor |
 | 4 | (Tuỳ chọn) SPF + DKIM + DMARC — giảm spam khi public |

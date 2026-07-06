@@ -78,7 +78,23 @@ Run `pip-audit` locally before deploying from source; confirm CI dependency chec
 
 **security@dataxmind.com** — no PGP key published in 0.x beta.
 For sensitive disclosures, request a Signal contact via initial email.
-GitHub Security Advisories will be enabled upon public flip (PB-12).
+GitHub Security Advisories are enabled on the public repository (PB-12 @ 2026-07-06).
+
+---
+
+## Public repository — operator hygiene (post PB-12)
+
+Historical **practice-evidence** may reference lab Tailscale/LAN addresses from pre-flip soak studies. These are **not routable from the public Internet** (Tailscale CGNAT) but aid tailnet mapping if leaked. **Do not** commit live operator endpoints in integration templates — use `127.0.0.1` or env vars.
+
+| Risk class | Status @ public flip | Action |
+|------------|----------------------|--------|
+| API keys / passwords in git | ✅ None in `config/` (env var names only) | Keep `.env*` gitignored |
+| Default JWT dev secret (`acp-dev-secret`) | ⚠️ Dev/test only | Set `ACP_JWT_HS256_SECRET` in production |
+| Redis `changeme` in compose | ✅ Placeholder | Require strong `REDIS_PASSWORD` @ deploy |
+| Tailscale IPs in old evidence | 🔄 Redacted in templates + bulk practice-evidence pass | Rotate tailnet ACLs if concerned; history may retain old SHAs |
+| Personal emails in audit docs | 🔄 Redacted in security-test artifacts | — |
+
+**VPS operator:** After public flip, confirm ACP binds to Tailscale/LAN only (not `0.0.0.0:8000` on public VPS NIC without firewall). Review [`docs/RUNBOOK.md`](docs/RUNBOOK.md) §network.
 
 ---
 

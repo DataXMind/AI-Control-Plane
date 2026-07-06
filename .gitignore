@@ -72,8 +72,19 @@ Thumbs.db
 *.sqlite3
 .data/
 
-# Secrets
+# Secrets / local operator artifacts (never commit)
 .env.*
+.pr-body-*.md
+.git-commit-msg*.txt
+layer5_report/
+acp-customer-bundle.tgz
+nohup.out
+customer-bundle/production-config/
+customer-bundle/docker-compose*.yml
+customer-bundle/verify-pilot.sh
+scripts/sync_customer_bundle.sh
+scripts/sync_vps_acp_admin_freeze.sh
+
 !.env.example
 !.env.client.example
 !examples/minimal/.env.production.example

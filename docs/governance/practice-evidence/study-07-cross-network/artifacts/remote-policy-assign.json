@@ -1,8 +1,8 @@
-{
+﻿{
   "study": "07-cross-network",
   "captured": "2026-06-25",
-  "acp_api_url": "http://100.94.21.33:8000",
-  "client_tailscale_ip": "100.102.105.47",
+  "acp_api_url": "http://<VPS_TAILSCALE_IP>:8000",
+  "client_tailscale_ip": "<CLIENT_TAILSCALE_IP>",
   "agentctl_gov_status": {
     "policy_rules": 8,
     "public_beta": "IN_PROGRESS",

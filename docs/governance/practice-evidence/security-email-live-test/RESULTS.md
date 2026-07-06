@@ -5,7 +5,7 @@
 
 | Check | Expected | Actual | Result |
 |-------|----------|--------|--------|
-| External send to security@ | Delivered | `ecoaisy.ai@gmail.com` → security@ | ✅ |
+| External send to security@ | Delivered | `[redacted-test-sender]` → security@ | ✅ |
 | Receipt / ack | Within 48h SLA | Reply from `security@dataxmind.com` | ✅ |
 | Evidence committed | Repo artifact | [`artifacts/live-test-2026-06-28.md`](artifacts/live-test-2026-06-28.md) | ✅ |
 
@@ -14,7 +14,7 @@
 | Field | Value |
 |-------|-------|
 | Send date (UTC) | 2026-06-28 |
-| From address | `ecoaisy.ai@gmail.com` (DataXMind) |
+| From address | `[redacted-test-sender]` (operator test mailbox) |
 | To | `security@dataxmind.com` |
 | Reply from | `Security <security@dataxmind.com>` |
 | Ack text | `Received — ACP security@ live test OK @ <timestamp UTC>.` |

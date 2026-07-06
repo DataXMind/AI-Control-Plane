@@ -1,4 +1,4 @@
-# Study 06 — Topology: Windows Laptop (WSL) + Mac Mini M2
+﻿# Study 06 — Topology: Windows Laptop (WSL) + Mac Mini M2
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-06-TOPO-WIN-MAC  
 **Operator topology @ 2026-06-25**
@@ -255,10 +255,10 @@ cat /tmp/acp-soak-remote-mac.log
 | Field | Giá trị operator |
 |-------|------------------|
 | Topology | Windows WSL API + Mac client (round A); đảo vai round B |
-| Round A `ACP_API_URL` | `http://192.168.1.59:8000` |
+| Round A `ACP_API_URL` | `http://<LAN_IP_REDACTED>:8000` |
 | Round B `ACP_API_URL` | `http://192.168.1.99:8000` |
-| Windows LAN IP | `192.168.1.59` |
-| Windows Tailscale IP | `100.102.105.47` |
+| Windows LAN IP | `<LAN_IP_REDACTED>` |
+| Windows Tailscale IP | `<CLIENT_TAILSCALE_IP>` |
 | Mac LAN IP | `192.168.1.99` |
 | Path used | **LAN** (Tailscale up; không drill `100.x`) |
 

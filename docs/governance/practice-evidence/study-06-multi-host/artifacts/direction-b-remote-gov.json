@@ -1,4 +1,4 @@
-{
+﻿{
   "study": "06-multi-host",
   "direction": "B",
   "captured": "2026-06-25",
@@ -17,7 +17,7 @@
   },
   "server_log_mac": {
     "timestamp_local": "2026-06-25T17:03:54",
-    "remote_ip": "192.168.1.59",
+    "remote_ip": "<LAN_IP_REDACTED>",
     "remote_port": 59566,
     "method": "GET",
     "path": "/governance/status",

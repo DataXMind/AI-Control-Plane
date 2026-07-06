@@ -1,13 +1,13 @@
-# Study 07 — Terminal — Laptop Windows client (WSL)
+﻿# Study 07 — Terminal — Laptop Windows client (WSL)
 
 **Captured:** 2026-06-25  
 **Host:** MSI Laptop WSL  
-**Client Tailscale:** `100.102.105.47`
+**Client Tailscale:** `<CLIENT_TAILSCALE_IP>`
 
 ## Client config
 
 ```bash
-export ACP_API_URL=http://100.94.21.33:8000
+export ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000
 ```
 
 ## Drills

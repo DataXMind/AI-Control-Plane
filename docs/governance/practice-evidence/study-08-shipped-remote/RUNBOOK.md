@@ -1,7 +1,7 @@
-# Study 08 — Shipped config remote — Runbook
+﻿# Study 08 — Shipped config remote — Runbook
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-08-RUNBOOK  
-**Prerequisite:** Study 07 PASS · VPS `100.94.21.33`  
+**Prerequisite:** Study 07 PASS · VPS `<VPS_TAILSCALE_IP>`  
 **Profile:** **B** — shipped `config/` (unset fixture `ACP_CONFIG_DIR`)
 
 ---
@@ -11,7 +11,7 @@
 Same as Study 07 option B: API on `ubuntu-vps`, client on MSI Laptop via Tailscale.
 
 ```text
-Laptop  ACP_API_URL=http://100.94.21.33:8000
+Laptop  ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000
    │
    └── Tailscale ──► ubuntu-vps :8000 (Profile B — rules 10)
 ```
@@ -69,7 +69,7 @@ Save → `artifacts/remote-profile-b-health.json`
 ## Phase 4 — Remote client (Laptop)
 
 ```bash
-export ACP_API_URL=http://100.94.21.33:8000
+export ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000
 curl -sf "$ACP_API_URL/health" | python3 -m json.tool
 bash scripts/soak_staging.sh --log /tmp/acp-study08-soak.log
 ```

@@ -1,9 +1,9 @@
-# G2-4 — Study 07 negative LAN / non-overlay path
+﻿# G2-4 — Study 07 negative LAN / non-overlay path
 
 **Gate:** G2-4 · **Gap:** G-03  
 **Run date:** 2026-06-26  
-**Client:** MSI Laptop WSL (`192.168.21.3` on local segment)  
-**API topology:** `ubuntu-vps` option **B** — Tailscale `100.94.21.33` (cloud; **no** routable home LAN to VPS)
+**Client:** MSI Laptop WSL (`<WSL_LAN_IP_REDACTED>` on local segment)  
+**API topology:** `ubuntu-vps` option **B** — Tailscale `<VPS_TAILSCALE_IP>` (cloud; **no** routable home LAN to VPS)
 
 ---
 
@@ -13,7 +13,7 @@ Study 07 requires proof the **client does not reach the API via physical LAN** �
 
 For **VPS option B**, there is no `UBUNTU_LAN_IP` shared with the laptop. Closure uses:
 
-1. **Server log** — all requests from `100.102.105.47` only (see `terminal-ubuntu-server.md`).
+1. **Server log** — all requests from `<CLIENT_TAILSCALE_IP>` only (see `terminal-ubuntu-server.md`).
 2. **Client negative** — LAN ping to non-local subnet fails; API port not reachable without active tailnet session to a live API.
 
 ---
@@ -27,7 +27,7 @@ ping -c 2 -W 2 192.168.1.254
 
 ```
 PING 192.168.1.254 (192.168.1.254) 56(84) bytes of data.
-From 192.168.21.3 icmp_seq=2 Destination Host Unreachable
+From <WSL_LAN_IP_REDACTED> icmp_seq=2 Destination Host Unreachable
 
 --- 192.168.1.254 ping statistics ---
 2 packets transmitted, 0 received, +1 errors, 100% packet loss
@@ -35,15 +35,15 @@ From 192.168.21.3 icmp_seq=2 Destination Host Unreachable
 
 ```bash
 # API on overlay IP — fails when API down or port closed (not LAN shortcut)
-curl -v --connect-timeout 5 http://100.94.21.33:8000/health
+curl -v --connect-timeout 5 http://<VPS_TAILSCALE_IP>:8000/health
 ```
 
 ```
-* connect to 100.94.21.33 port 8000 from 192.168.21.3 port 37232 failed: Connection refused
-curl: (7) Failed to connect to 100.94.21.33 port 8000
+* connect to <VPS_TAILSCALE_IP> port 8000 from <WSL_LAN_IP_REDACTED> port 37232 failed: Connection refused
+curl: (7) Failed to connect to <VPS_TAILSCALE_IP> port 8000
 ```
 
-**Note:** Ping to `100.94.21.33` succeeded while Tailscale was up — overlay path only. Study 07 PASS path used `ACP_API_URL=http://100.94.21.33:8000` with API running (2026-06-25).
+**Note:** Ping to `<VPS_TAILSCALE_IP>` succeeded while Tailscale was up — overlay path only. Study 07 PASS path used `ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000` with API running (2026-06-25).
 
 ---
 
@@ -65,5 +65,5 @@ Paste output here when run — not required for VPS topology B closure.
 | Check | Evidence | Result |
 |-------|----------|--------|
 | No LAN shortcut to API | Server logs TS IP only; client LAN ping fail | ✅ |
-| Overlay path used for PASS | `100.102.105.47` → `100.94.21.33:8000` soak 7-5 | ✅ |
+| Overlay path used for PASS | `<CLIENT_TAILSCALE_IP>` → `<VPS_TAILSCALE_IP>:8000` soak 7-5 | ✅ |
 | G-03 strict hotspot paste | VPS B — structural + client negative above | ✅ G2-4 |

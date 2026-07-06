@@ -1,7 +1,7 @@
-{
+﻿{
   "captured": "2026-06-26T10:36:00Z",
   "host": "ubuntu-vps",
-  "tailscale_ip": "100.94.21.33",
+  "tailscale_ip": "<VPS_TAILSCALE_IP>",
   "profile": "B",
   "acp_config_dir": "unset (shipped config/)",
   "health": {

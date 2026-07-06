@@ -1,9 +1,9 @@
-{
+﻿{
   "study": "06-multi-host",
   "direction": "A",
   "captured": "2026-06-25",
   "api_host": "laptop_wsl_via_portproxy",
-  "acp_api_url": "http://192.168.1.59:8000",
+  "acp_api_url": "http://<LAN_IP_REDACTED>:8000",
   "client_host": "mac_mini",
   "client_lan_ip": "192.168.1.99",
   "request": "GET /health",

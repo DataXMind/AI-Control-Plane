@@ -1,4 +1,4 @@
-# Study 07 — Cross-network (Ubuntu API + remote Windows client)
+﻿# Study 07 — Cross-network (Ubuntu API + remote Windows client)
 
 **Status:** **PASS** — 2026-06-25 (`ubuntu-vps` + Laptop via Tailscale)
 
@@ -9,4 +9,4 @@
 | [CHECKLIST.md](CHECKLIST.md) | Operator checklist |
 | [RUNBOOK.md](RUNBOOK.md) | Drill steps |
 
-**API:** `ubuntu-vps` `100.94.21.33` · **Client:** MSI `100.102.105.47` · **Path:** Tailscale only
+**API:** `ubuntu-vps` `<VPS_TAILSCALE_IP>` · **Client:** MSI `<CLIENT_TAILSCALE_IP>` · **Path:** Tailscale only

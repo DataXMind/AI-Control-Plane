@@ -1,4 +1,4 @@
-# Study 07 — Cross-network — Runbook
+﻿# Study 07 — Cross-network — Runbook
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-07-RUNBOOK  
 **Prerequisite:** Study 06 PASS  
@@ -30,7 +30,7 @@
 | Option | Host | Ghi chú |
 |--------|------|---------|
 | **A** (khuyến nghị) | Workstation Ubuntu tại nhà | Giống “staging box” cố định |
-| **B** | `ubuntu-vps` (`100.94.21.33` trong tailnet hiện tại) | Cloud Linux, không WSL |
+| **B** | `ubuntu-vps` (`<VPS_TAILSCALE_IP>` trong tailnet hiện tại) | Cloud Linux, không WSL |
 
 Trên Ubuntu:
 
@@ -98,7 +98,7 @@ curl -s -X POST "$ACP_API_URL/policy/evaluate" \
 agentctl assign rust-gateway agent2 git_read --json
 ```
 
-Ubuntu server log kỳ vọng: request từ **`100.102.105.47`** (Tailscale IP Laptop) hoặc Tailscale IP của client.
+Ubuntu server log kỳ vọng: request từ **`<CLIENT_TAILSCALE_IP>`** (Tailscale IP Laptop) hoặc Tailscale IP của client.
 
 ---
 

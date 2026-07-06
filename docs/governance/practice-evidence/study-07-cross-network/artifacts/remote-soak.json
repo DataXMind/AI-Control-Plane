@@ -1,12 +1,12 @@
-{
+﻿{
   "study": "07-cross-network",
   "drill": "7-5",
   "captured": "2026-06-25",
-  "acp_api_url": "http://100.94.21.33:8000",
+  "acp_api_url": "http://<VPS_TAILSCALE_IP>:8000",
   "command": "bash scripts/soak_staging.sh",
   "output": "2026-06-25T11:18:21Z soak_iter health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok",
   "server_log": {
-    "client_tailscale_ip": "100.102.105.47",
+    "client_tailscale_ip": "<CLIENT_TAILSCALE_IP>",
     "paths": [
       "GET /health",
       "POST /policy/evaluate",

@@ -4,7 +4,7 @@
 Works from ai-control-plane OR Hybrid-AI-Gateway — no gateway package import.
 
 Usage (from repo root):
-    export ACP_API_URL=http://100.94.21.33:8000
+    export ACP_API_URL=http://127.0.0.1:8000
     export ACP_AGENT_ID=agent1
     export ACP_ROLE=infra
     python examples/integrate/python/run_tool_guarded.py --tool git_read -- git status
