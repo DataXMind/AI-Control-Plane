@@ -9,13 +9,11 @@
 ## Canonical one-liner (2026-07-06)
 
 ```text
-SESSION ANCHOR: master @ post-#194 · pytest 221 · risk LOW
-PB-9 Day 14: PRE-FILLED RESULTS.md — CONDITIONAL (VPS prod 10 rules vs MSI fixture 8)
-Hybrid Gateway × ACP: CONNECT CLOSED · AEOS Phase 2 smoke PASS
-Enforce: examples/integrate/python/run_tool_guarded.py · export in ~/.acp-agent.env
-OPEN: human sign-off #77 · telemetry du · pre-flip 07-07 · PB-12 ~07-10
-Verify: MSI smoke 8/8 @ 07-06 · VPS acp-soak active · iter PASS through 02:09Z
+SESSION ANCHOR: master @ post-#195 · pytest 221 · risk LOW
+PB-9 Day 14: PASS signed · #77 CLOSED · pre-flip OK (OpenAPI export pending PR)
+OPEN: PB-12 human GO ~07-10 · public flip · catalog bump · #78 PB-10
+Verify: smoke 8/8 · gov 1.5.0·17 · openapi 3.1.0·13 · 221 pytest @ 07-06
 SSOT: practice-evidence/pb-9-day14-review/RESULTS.md
 ```
 
-**Last updated:** 2026-07-06 · PB-9 Day 14 pre-fill · tick 07-06
+**Last updated:** 2026-07-06 · Day 14 PASS · pre-flip C1-02 complete on MSI

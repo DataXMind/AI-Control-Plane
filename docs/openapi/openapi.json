@@ -1009,6 +1009,10 @@
           "k6_policy_smoke_url": {
             "type": "string",
             "title": "K6 Policy Smoke Url"
+          },
+          "mac_pilot_deploy_url": {
+            "type": "string",
+            "title": "Mac Pilot Deploy Url"
           }
         },
         "additionalProperties": false,
@@ -1026,7 +1030,8 @@
           "audit_url",
           "study_08_url",
           "study_09_url",
-          "k6_policy_smoke_url"
+          "k6_policy_smoke_url",
+          "mac_pilot_deploy_url"
         ],
         "title": "PracticeEvidenceSummary",
         "description": "Operator practice studies summary."
