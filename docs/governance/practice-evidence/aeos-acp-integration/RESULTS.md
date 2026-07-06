@@ -1,8 +1,8 @@
-# AEOS × ACP Guardrails — Integration evidence (ACP repo view)
+﻿# AEOS × ACP Guardrails — Integration evidence (ACP repo view)
 
 **Document ID:** ACP-PRACTICE-AEOS-ACP-001  
 **Status:** **AEOS PHASE 2 SMOKE PASS** (MSI WSL client → VPS ACP, 2026-07-05)  
-**ACP baseline:** VPS production pilot · Tailscale `100.94.21.33:8000` · `policy_rules_count: 10`  
+**ACP baseline:** VPS production pilot · Tailscale `<VPS_TAILSCALE_IP>:8000` · `policy_rules_count: 10`  
 **AEOS baseline:** `main` @ `9be7e2a` (duydp/aeos — merge PR #4)  
 **AEOS SSOT (detail):** [`duydp/aeos`](https://github.com/duydp/aeos) → `docs/governance/practice-evidence/aeos-acp-integration/RESULTS.md`
 
@@ -36,7 +36,7 @@ See [`HYBRID_AI_GATEWAY.md`](../../integrations/HYBRID_AI_GATEWAY.md) §0.
 
 | Field | Value |
 |-------|-------|
-| Tailscale URL | `http://100.94.21.33:8000` |
+| Tailscale URL | `http://<VPS_TAILSCALE_IP>:8000` |
 | VPS localhost | `http://127.0.0.1:8000` |
 | `policy_rules_count` | **10** |
 | Config | `/opt/acp/production-config` → container `/etc/acp/config` |
@@ -61,7 +61,7 @@ See [`HYBRID_AI_GATEWAY.md`](../../integrations/HYBRID_AI_GATEWAY.md) §0.
 | Variable | Value |
 |----------|-------|
 | `ACP_ENABLED` | `true` (server terminal only) |
-| `ACP_API_URL` | `http://100.94.21.33:8000` |
+| `ACP_API_URL` | `http://<VPS_TAILSCALE_IP>:8000` |
 | `ACP_AGENT_ID` | `agent2` |
 | `ACP_ROLE` | `backend` |
 | `ACP_PROJECT_ID` | `rust-gateway` (temporary) |

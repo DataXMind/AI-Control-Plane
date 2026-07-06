@@ -1,4 +1,4 @@
-# Study 07 — Cross-network — Checklist
+﻿# Study 07 — Cross-network — Checklist
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-07-CHECKLIST  
 **Status:** **PASS** — 2026-06-25  
@@ -11,13 +11,13 @@
 
 | Host | Vai trò | Thực tế operator |
 |------|---------|------------------|
-| **ubuntu-vps** | API | `100.94.21.33` (cloud — option B) |
-| **Laptop Windows** | Client | `100.102.105.47`; `ACP_API_URL=http://100.94.21.33:8000` |
+| **ubuntu-vps** | API | `<VPS_TAILSCALE_IP>` (cloud — option B) |
+| **Laptop Windows** | Client | `<CLIENT_TAILSCALE_IP>`; `ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000` |
 | Mac Mini | Không dùng | Study 06 đã cover; xem RESULTS § Mac |
 
 - [x] Study 06 PASS
 - [x] Ubuntu + Windows cùng tailnet
-- [x] Ubuntu log chỉ `100.102.105.47` (overlay-only)
+- [x] Ubuntu log chỉ `<CLIENT_TAILSCALE_IP>` (overlay-only)
 - [x] curl health via TS → 200, rules **8**
 
 ---

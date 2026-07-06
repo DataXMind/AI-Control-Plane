@@ -1,4 +1,4 @@
-# Study 06 — Direction B — Mac server (native API)
+﻿# Study 06 — Direction B — Mac server (native API)
 
 **Captured:** 2026-06-25  
 **Role:** API host (round 2)
@@ -12,7 +12,7 @@ uvicorn ai_control_plane.api.server:app --reload --host 0.0.0.0 --port 8000
 
 Worker **56713** (reloader 56711).
 
-## Remote requests (Laptop `192.168.1.59`)
+## Remote requests (Laptop `<LAN_IP_REDACTED>`)
 
 | Time (local) | Method | Path | Status |
 |--------------|--------|------|--------|
@@ -21,7 +21,7 @@ Worker **56713** (reloader 56711).
 | 17:34:39 | POST | /policy/evaluate | 200 (agent2) |
 | 17:34:39 | POST | /tasks | 200 (agent2) |
 
-All from **`192.168.1.59`** — direct LAN (macOS native bind).
+All from **`<LAN_IP_REDACTED>`** — direct LAN (macOS native bind).
 
 ## Shutdown
 

@@ -1,4 +1,4 @@
-# Study 06 — Direction A — Mac client
+﻿# Study 06 — Direction A — Mac client
 
 **Captured:** 2026-06-25  
 **Role:** Client (round 1)  
@@ -9,14 +9,14 @@
 
 ```bash
 sudo tailscale up
-tailscale status   # msi 100.102.105.47 online
-ping -c 4 192.168.1.59   # 0% loss
+tailscale status   # msi <CLIENT_TAILSCALE_IP> online
+ping -c 4 <LAN_IP_REDACTED>   # 0% loss
 ```
 
 ## Client drills
 
 ```bash
-export ACP_API_URL=http://192.168.1.59:8000
+export ACP_API_URL=http://<LAN_IP_REDACTED>:8000
 
 curl -v --connect-timeout 5 "$ACP_API_URL/health"
 # → HTTP 200, rules 8

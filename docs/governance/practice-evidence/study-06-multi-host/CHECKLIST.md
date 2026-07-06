@@ -1,4 +1,4 @@
-# Study 06 — Multi-host — Checklist & hướng đi
+﻿# Study 06 — Multi-host — Checklist & hướng đi
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-06-CHECKLIST  
 **Status:** **PASS** — 2026-06-25 (full bidirectional LAN, round B policy+assign @ 17:34)  
@@ -33,8 +33,8 @@ Study 06 **không chạy được trên 1 terminal giả lập** — cần **2 e
 ## Phase 0 — Trước khi bắt đầu
 
 - [x] Study 05 PASS
-- [x] IP LAN: Laptop `192.168.1.59`, Mac `192.168.1.99` (WSL `192.168.21.3` chỉ portproxy)
-- [x] Mac `ping 192.168.1.59` — 0% loss
+- [x] IP LAN: Laptop `<LAN_IP_REDACTED>`, Mac `192.168.1.99` (WSL `<WSL_LAN_IP_REDACTED>` chỉ portproxy)
+- [x] Mac `ping <LAN_IP_REDACTED>` — 0% loss
 - [x] Port 8000 trống trước start; bind `0.0.0.0:8000`
 - [x] **Không** dùng `127.0.0.1` cho remote client
 
@@ -55,7 +55,7 @@ uvicorn ai_control_plane.api.server:app --reload --host 0.0.0.0 --port 8000
 - [x] Local smoke: rules **8**
 - [x] Windows Admin portproxy + firewall `ACP-Study06-TCP8000`
 
-Ghi: Round A API = `192.168.1.59:8000` (via portproxy); Round B API = `192.168.1.99:8000`
+Ghi: Round A API = `<LAN_IP_REDACTED>:8000` (via portproxy); Round B API = `192.168.1.99:8000`
 
 ---
 

@@ -1,4 +1,4 @@
-# Study 06 — Multi-host — Results
+﻿# Study 06 — Multi-host — Results
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-06  
 **Status:** **PASS** (bidirectional LAN, full suite both rounds)  
@@ -22,8 +22,8 @@
 
 | Host | Role(s) | LAN IP | Tailscale | Notes |
 |------|---------|--------|-----------|-------|
-| **MSI Laptop** | API (round A) + client (round B) | `192.168.1.59` (Wi-Fi) | `100.102.105.47` | WSL `192.168.21.3`; portproxy round A only |
-| **Mac Mini M2** | client (round A) + API (round B) | `192.168.1.99` (`en0`) | `100.72.15.27` | Native macOS uvicorn — no portproxy |
+| **MSI Laptop** | API (round A) + client (round B) | `<LAN_IP_REDACTED>` (Wi-Fi) | `<CLIENT_TAILSCALE_IP>` | WSL `<WSL_LAN_IP_REDACTED>`; portproxy round A only |
+| **Mac Mini M2** | client (round A) + API (round B) | `192.168.1.99` (`en0`) | `<MAC_TAILSCALE_IP>` | Native macOS uvicorn — no portproxy |
 
 **Đường test:** **LAN** `192.168.1.0/24`. Tailscale up; drill chính dùng LAN IP.
 
@@ -34,7 +34,7 @@
 | ID | Test | Client | Expected | Actual | Result |
 |----|------|--------|----------|--------|--------|
 | 6-0 | clone + pip | both | OK | repo + `.venv` | ✅ |
-| 6-1 | curl `/health` remote | Mac → `192.168.1.59:8000` | 200, rules **8** | HTTP 200; rules **8** | ✅ |
+| 6-1 | curl `/health` remote | Mac → `<LAN_IP_REDACTED>:8000` | 200, rules **8** | HTTP 200; rules **8** | ✅ |
 | 6-2 | `agentctl gov status` | Mac | rules **8** | rules **8**; PB-9 IN_PROGRESS | ✅ |
 | 6-3 | `POST /policy/evaluate` | Mac → A | `allowed: true` | `allowed: true`, 4.17 ms | ✅ |
 | 6-4 | `agentctl assign` | Mac → A | `task_id` + A logs | `03c332db-645a-481f-834f-6b9420fb9375`; WSL `192.168.16.1` @ 16:59:55 | ✅ |
@@ -48,9 +48,9 @@
 | 6-1 | remote reachability | WSL → `192.168.1.99:8000` | API up | gov @ 17:03:54; policy @ 17:34:35 | ✅ |
 | 6-2 | `agentctl gov status` | WSL | rules **8** | rules **8**; milestones khớp | ✅ |
 | 6-3 | policy evaluate | WSL → Mac | `allowed: true` | `allowed: true`, latency **1.47 ms** | ✅ |
-| 6-4 | assign | WSL → Mac | `task_id` + Mac log `192.168.1.59` | `ae6c13a4-0281-4321-b6fc-95a9e37ff777`; Mac log `192.168.1.59` @ 17:34:39 | ✅ |
+| 6-4 | assign | WSL → Mac | `task_id` + Mac log `<LAN_IP_REDACTED>` | `ae6c13a4-0281-4321-b6fc-95a9e37ff777`; Mac log `<LAN_IP_REDACTED>` @ 17:34:39 | ✅ |
 
-Mac server log round B: `GET /governance/status`, `POST /policy/evaluate` ×2, `POST /tasks` từ **`192.168.1.59`** — IP LAN Laptop trực tiếp (native macOS API).
+Mac server log round B: `GET /governance/status`, `POST /policy/evaluate` ×2, `POST /tasks` từ **`<LAN_IP_REDACTED>`** — IP LAN Laptop trực tiếp (native macOS API).
 
 ---
 
@@ -73,7 +73,7 @@ Mac server log round B: `GET /governance/status`, `POST /policy/evaluate` ×2, `
 
 | Host | Event |
 |------|-------|
-| Mac API | `POST /policy/evaluate` 200; `POST /tasks` 200 from `192.168.1.59:59576` / `:59592` |
+| Mac API | `POST /policy/evaluate` 200; `POST /tasks` 200 from `<LAN_IP_REDACTED>:59576` / `:59592` |
 | Laptop client | `allowed: true`; assign `ae6c13a4-0281-4321-b6fc-95a9e37ff777` |
 
 (Xem terminal captures đầy đủ trong `terminal-direction-b-*.md`.)
@@ -83,7 +83,7 @@ Mac server log round B: `GET /governance/status`, `POST /policy/evaluate` ×2, `
 ## Operator notes
 
 1. Round A: portproxy Admin bắt buộc; WSL log client = `192.168.16.1` (NAT).
-2. Round B: Mac native API → log client = `192.168.1.59` (LAN trực tiếp).
+2. Round B: Mac native API → log client = `<LAN_IP_REDACTED>` (LAN trực tiếp).
 3. Round B full policy + assign hoàn tất sau lần ghi evidence đầu — cập nhật 2026-06-25 @ 17:34.
 
 ---

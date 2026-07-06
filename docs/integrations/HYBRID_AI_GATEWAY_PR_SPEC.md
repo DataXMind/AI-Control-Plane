@@ -138,7 +138,7 @@ def acp_health_ok(*, config: AcpConfig | None = None) -> bool:
 
 | Variable | Required (prod) | Default | Example |
 |----------|-----------------|---------|---------|
-| `ACP_API_URL` | Yes | `http://127.0.0.1:8000` | `http://100.94.21.33:8000` |
+| `ACP_API_URL` | Yes | `http://127.0.0.1:8000` | `http://<your-acp-host>:8000` (Tailscale/LAN) |
 | `ACP_PROJECT_ID` | No | `rust-gateway` | `rust-gateway` |
 | `ACP_AGENT_ID` | No | — | `agent1` (Antigravity infra) |
 | `ACP_TIMEOUT_S` | No | `2.0` | `3.0` on slow tailnet |

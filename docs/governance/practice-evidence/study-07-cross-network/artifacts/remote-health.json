@@ -1,7 +1,7 @@
-{
+﻿{
   "study": "07-cross-network",
   "captured": "2026-06-25",
-  "acp_api_url": "http://100.94.21.33:8000",
+  "acp_api_url": "http://<VPS_TAILSCALE_IP>:8000",
   "request": "GET /health",
   "http_status": 200,
   "response": {
@@ -12,7 +12,7 @@
     "projects_loaded": ["rust-gateway"]
   },
   "server_log": {
-    "client_tailscale_ip": "100.102.105.47",
+    "client_tailscale_ip": "<CLIENT_TAILSCALE_IP>",
     "timestamp_utc_approx": "2026-06-25T11:17:48"
   },
   "verdict": "PASS"

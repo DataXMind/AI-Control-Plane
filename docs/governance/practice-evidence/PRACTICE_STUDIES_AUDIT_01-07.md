@@ -1,4 +1,4 @@
-# Practice Studies 01–07 — Audit & progression (Claude analyzer pack)
+﻿# Practice Studies 01–07 — Audit & progression (Claude analyzer pack)
 
 **Document ID:** ACP-GOV-PRACTICE-AUDIT-01-07  
 **Version:** 1.0  
@@ -106,9 +106,9 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 |-------|-------|----------|----------------------|------------------------|
 | Loopback | 01–05 | `127.0.0.1:8000` | `http://localhost:8000` | `127.0.0.1` |
 | Docker publish | 03 | `0.0.0.0:8000` (container) | `http://localhost:8000` | `172.27.0.1` (host bridge) |
-| LAN remote | 06A | WSL `0.0.0.0` + **portproxy** | `http://192.168.1.59:8000` | `192.168.16.1` (WSL NAT) |
-| LAN native API | 06B | Mac `0.0.0.0:8000` | `http://192.168.1.99:8000` | `192.168.1.59` (direct) |
-| Tailscale overlay | 07 | VPS `0.0.0.0:8000` | `http://100.94.21.33:8000` | `100.102.105.47` (msi TS) |
+| LAN remote | 06A | WSL `0.0.0.0` + **portproxy** | `http://<LAN_IP_REDACTED>:8000` | `192.168.16.1` (WSL NAT) |
+| LAN native API | 06B | Mac `0.0.0.0:8000` | `http://192.168.1.99:8000` | `<LAN_IP_REDACTED>` (direct) |
+| Tailscale overlay | 07 | VPS `0.0.0.0:8000` | `http://<VPS_TAILSCALE_IP>:8000` | `<CLIENT_TAILSCALE_IP>` (msi TS) |
 
 **Claude check:** Study 06 chứng minh **cùng subnet**; Study 07 chứng minh **overlay-only** (log VPS không có LAN client IP).
 
@@ -228,8 +228,8 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 
 | Round | API | Client | Key task_ids | Server client IP in log |
 |-------|-----|--------|--------------|-------------------------|
-| A | Laptop `192.168.1.59` + portproxy | Mac | `03c332db-...` | `192.168.16.1` (WSL NAT) |
-| B | Mac `192.168.1.99` | Laptop | `ae6c13a4-...` | `192.168.1.59` (direct) |
+| A | Laptop `<LAN_IP_REDACTED>` + portproxy | Mac | `03c332db-...` | `192.168.16.1` (WSL NAT) |
+| B | Mac `192.168.1.99` | Laptop | `ae6c13a4-...` | `<LAN_IP_REDACTED>` (direct) |
 
 | Test | Round A | Round B |
 |------|---------|---------|
@@ -255,7 +255,7 @@ Tài liệu này **không thay thế** từng `RESULTS.md` per study. Nó cung c
 
 | Test ID | Result | Key value |
 |---------|--------|-----------|
-| 7-0 tailnet | ✅ | Client TS `100.102.105.47` only in VPS logs |
+| 7-0 tailnet | ✅ | Client TS `<CLIENT_TAILSCALE_IP>` only in VPS logs |
 | 7-1 health | ✅ | rules 8 |
 | 7-2 gov | ✅ | rules 8 |
 | 7-3 policy | ✅ | allow in assign + soak |
@@ -321,9 +321,9 @@ Catalog SSOT: `src/ai_control_plane/core/governance_catalog.py` · narrative: [`
 
 | Host | OS | Tailscale | Roles in studies | LAN IP (when relevant) |
 |------|-----|-----------|------------------|------------------------|
-| MSI Laptop | Windows + WSL Ubuntu | `100.102.105.47` | 01–05 client/server; 06 API+client; 07 client | `192.168.1.59` |
-| Mac Mini M2 | macOS | `100.72.15.27` | **06 only** (LAN peer) | `192.168.1.99` |
-| ubuntu-vps | Linux (cloud) | `100.94.21.33` | **07 API** | N/A (not home LAN) |
+| MSI Laptop | Windows + WSL Ubuntu | `<CLIENT_TAILSCALE_IP>` | 01–05 client/server; 06 API+client; 07 client | `<LAN_IP_REDACTED>` |
+| Mac Mini M2 | macOS | `<MAC_TAILSCALE_IP>` | **06 only** (LAN peer) | `192.168.1.99` |
+| ubuntu-vps | Linux (cloud) | `<VPS_TAILSCALE_IP>` | **07 API** | N/A (not home LAN) |
 
 ### Vì sao Mac Mini không trong Study 07?
 

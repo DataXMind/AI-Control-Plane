@@ -1,7 +1,7 @@
-# VPS verify — ubuntu-vps + systemd staging
+﻿# VPS verify — ubuntu-vps + systemd staging
 
 **Run date:** 2026-06-26  
-**Host:** `ubuntu-vps` (`100.94.21.33` Tailscale)  
+**Host:** `ubuntu-vps` (`<VPS_TAILSCALE_IP>` Tailscale)  
 **Repo:** `/root/AI-Control-Plane` @ `8b30ad4`  
 **API:** `http://127.0.0.1:8000` → Docker via `acp-staging.service`
 

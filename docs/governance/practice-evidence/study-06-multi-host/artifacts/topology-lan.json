@@ -1,4 +1,4 @@
-{
+﻿{
   "study": "06-multi-host",
   "captured": "2026-06-25",
   "network": "LAN",
@@ -6,27 +6,27 @@
   "hosts": {
     "laptop_windows": {
       "hostname": "msi",
-      "lan_ip": "192.168.1.59",
-      "wsl_ip": "192.168.21.3",
-      "tailscale_ip": "100.102.105.47",
+      "lan_ip": "<LAN_IP_REDACTED>",
+      "wsl_ip": "<WSL_LAN_IP_REDACTED>",
+      "tailscale_ip": "<CLIENT_TAILSCALE_IP>",
       "roles": ["api_round_a", "client_round_b"]
     },
     "mac_mini_m2": {
       "hostname": "dataxminds-mac-mini",
       "lan_ip": "192.168.1.99",
       "interface": "en0",
-      "tailscale_ip": "100.72.15.27",
+      "tailscale_ip": "<MAC_TAILSCALE_IP>",
       "roles": ["client_round_a", "api_round_b"]
     }
   },
   "windows_portproxy_round_a": {
     "listen": "0.0.0.0:8000",
-    "connect": "192.168.21.3:8000",
+    "connect": "<WSL_LAN_IP_REDACTED>:8000",
     "firewall_rule": "ACP-Study06-TCP8000",
     "removed_after_study": true
   },
   "ping_mac_to_laptop": {
-    "target": "192.168.1.59",
+    "target": "<LAN_IP_REDACTED>",
     "packet_loss_pct": 0,
     "verdict": "PASS"
   },

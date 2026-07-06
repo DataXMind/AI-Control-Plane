@@ -1,7 +1,7 @@
-# Study 07 — Terminal — Ubuntu VPS (API)
+﻿# Study 07 — Terminal — Ubuntu VPS (API)
 
 **Captured:** 2026-06-25  
-**Host:** `ubuntu-vps` (`100.94.21.33` Tailscale)  
+**Host:** `ubuntu-vps` (`<VPS_TAILSCALE_IP>` Tailscale)  
 **Path:** `/root/AI-Control-Plane`
 
 ## Setup
@@ -13,7 +13,7 @@ uvicorn ai_control_plane.api.server:app --reload --host 0.0.0.0 --port 8000
 
 Worker **666511** (reloader 666506).
 
-## Remote client: `100.102.105.47` (msi Tailscale)
+## Remote client: `<CLIENT_TAILSCALE_IP>` (msi Tailscale)
 
 | Time (UTC/local) | Method | Path | Status |
 |------------------|--------|------|--------|

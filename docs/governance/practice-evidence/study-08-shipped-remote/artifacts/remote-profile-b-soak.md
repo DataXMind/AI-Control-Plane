@@ -1,14 +1,14 @@
-# Study 08 — Remote soak (client phase, partial)
+﻿# Study 08 — Remote soak (client phase, partial)
 
 **Captured:** 2026-06-26T10:36:10Z UTC (final PASS after Profile B)  
-**Client:** MSI Laptop (WSL) `100.102.105.47`  
-**API:** `http://100.94.21.33:8000` (ubuntu-vps)  
+**Client:** MSI Laptop (WSL) `<CLIENT_TAILSCALE_IP>`  
+**API:** `http://<VPS_TAILSCALE_IP>:8000` (ubuntu-vps)  
 **Gate B:** Approved by operator 2026-06-26
 
 ## Command
 
 ```bash
-export ACP_API_URL=http://100.94.21.33:8000
+export ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000
 bash scripts/soak_staging.sh --log /tmp/acp-study08-soak.log
 ```
 

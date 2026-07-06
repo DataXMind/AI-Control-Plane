@@ -1,13 +1,13 @@
-# Study 07 — Topology: Ubuntu workstation + Windows laptop (mạng ngoài)
+﻿# Study 07 — Topology: Ubuntu workstation + Windows laptop (mạng ngoài)
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-07-TOPO-UBUNTU-TS  
 **Operator topology (planned)**
 
 | Vai trò | Thiết bị | Mạng vật lý | Tailscale (tailnet) |
 |---------|----------|-------------|---------------------|
-| **Máy A — API** | Ubuntu workstation (hoặc `ubuntu-vps`) | LAN nhà / datacenter | `100.94.21.33` (ví dụ) |
-| **Máy B — Client** | Laptop Windows (WSL) | **Hotspot / Wi-Fi ngoài** — không `192.168.1.x` | `100.102.105.47` (msi) |
-| Witness (optional) | Mac Mini M2 | LAN nhà `192.168.1.99` | `100.72.15.27` |
+| **Máy A — API** | Ubuntu workstation (hoặc `ubuntu-vps`) | LAN nhà / datacenter | `<VPS_TAILSCALE_IP>` (ví dụ) |
+| **Máy B — Client** | Laptop Windows (WSL) | **Hotspot / Wi-Fi ngoài** — không `192.168.1.x` | `<CLIENT_TAILSCALE_IP>` (msi) |
+| Witness (optional) | Mac Mini M2 | LAN nhà `192.168.1.99` | `<MAC_TAILSCALE_IP>` |
 
 ```text
      [ Internet / 4G hotspot ]
@@ -108,9 +108,9 @@ Cả hai đều hợp lệ miễn Tailscale IP ổn định trong tailnet.
 
 | Field | Giá trị |
 |-------|---------|
-| API host | `ubuntu-vps` `100.94.21.33` |
-| Client | MSI `100.102.105.47` |
-| `ACP_API_URL` | `http://100.94.21.33:8000` |
+| API host | `ubuntu-vps` `<VPS_TAILSCALE_IP>` |
+| Client | MSI `<CLIENT_TAILSCALE_IP>` |
+| `ACP_API_URL` | `http://<VPS_TAILSCALE_IP>:8000` |
 | Path | **Tailscale only** (VPS log chỉ TS IP client) |
 | Mac Mini | **Không dùng** — xem [`RESULTS.md`](RESULTS.md) § Mac |
 
@@ -122,7 +122,7 @@ Artifacts: `artifacts/*.json`, `terminal-ubuntu-server.md`, `terminal-windows-cl
 
 | Câu hỏi | Trả lời |
 |---------|---------|
-| Mac đã có trong tailnet? | Có (`100.72.15.27`) — nhưng **không cần** cho PASS |
+| Mac đã có trong tailnet? | Có (`<MAC_TAILSCALE_IP>`) — nhưng **không cần** cho PASS |
 | Mac làm API được không? | Được — nhưng **trùng Study 06 round B** (Mac API trên LAN) |
 | Mac làm client được không? | Được — nhưng Mac **cố định tại nhà**, không mô phỏng laptop mang đi |
 | Vai trò hợp lý của Mac | **Witness** (Study 07b): so sánh LAN vs TS — tùy chọn |

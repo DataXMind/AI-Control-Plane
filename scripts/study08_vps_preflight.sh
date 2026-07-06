@@ -18,4 +18,4 @@ nohup uvicorn ai_control_plane.api.server:app --host 0.0.0.0 --port 8000 \
 sleep 2
 curl -sf http://127.0.0.1:8000/health | python3 -m json.tool
 curl -sf http://127.0.0.1:8000/governance/status | python3 -m json.tool | head -40
-echo "Study 08 Phase 2–3 complete. Run laptop Phase 4: ACP_API_URL=http://100.94.21.33:8000 bash scripts/soak_staging.sh"
+echo "Study 08 Phase 2-3 complete. Run laptop Phase 4: ACP_API_URL=http://<your-acp-host>:8000 bash scripts/soak_staging.sh"

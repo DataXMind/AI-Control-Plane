@@ -1,4 +1,4 @@
-# Study 07 — Cross-network — Results
+﻿# Study 07 — Cross-network — Results
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-07  
 **Status:** **PASS**  
@@ -14,7 +14,7 @@
 
 | Overall | Overlay-only? | CS-05 remote soak? | Blocks PB-9? |
 |---------|---------------|-------------------|--------------|
-| **PASS** | **Yes** — Ubuntu log chỉ `100.102.105.47` | **Yes** — 7-5 one iter | **No** |
+| **PASS** | **Yes** — Ubuntu log chỉ `<CLIENT_TAILSCALE_IP>` | **Yes** — 7-5 one iter | **No** |
 
 ---
 
@@ -22,9 +22,9 @@
 
 | Host | Role | Tailscale IP | Notes |
 |------|------|--------------|-------|
-| **ubuntu-vps** | API | `100.94.21.33` | Cloud Linux; `uvicorn 0.0.0.0:8000`; fixture config |
-| **MSI Laptop (WSL)** | Client | `100.102.105.47` | `ACP_API_URL=http://100.94.21.33:8000` |
-| Mac Mini M2 | **Không dùng** | `100.72.15.27` | Xem § [Vì sao không dùng Mac Mini](#vì-sao-không-dùng-mac-mini) |
+| **ubuntu-vps** | API | `<VPS_TAILSCALE_IP>` | Cloud Linux; `uvicorn 0.0.0.0:8000`; fixture config |
+| **MSI Laptop (WSL)** | Client | `<CLIENT_TAILSCALE_IP>` | `ACP_API_URL=http://<VPS_TAILSCALE_IP>:8000` |
+| Mac Mini M2 | **Không dùng** | `<MAC_TAILSCALE_IP>` | Xem § [Vì sao không dùng Mac Mini](#vì-sao-không-dùng-mac-mini) |
 
 **API host option:** Runbook option **B** (`ubuntu-vps`) — hợp lệ; VPS cloud vốn **không** cùng LAN nhà với Laptop.
 
@@ -34,12 +34,12 @@
 
 | ID | Test | Expected | Actual | Result |
 |----|------|----------|--------|--------|
-| 7-0 | Tailnet membership | Ubuntu + Laptop online | Requests từ `100.102.105.47` trên VPS | ✅ |
-| 7-0n | Không đi LAN tới API | Client chỉ reach qua TS | Ubuntu log chỉ `100.102.105.47`; client LAN ping fail — `artifacts/terminal-7-0n-negative-lan.md` | ✅ |
+| 7-0 | Tailnet membership | Ubuntu + Laptop online | Requests từ `<CLIENT_TAILSCALE_IP>` trên VPS | ✅ |
+| 7-0n | Không đi LAN tới API | Client chỉ reach qua TS | Ubuntu log chỉ `<CLIENT_TAILSCALE_IP>`; client LAN ping fail — `artifacts/terminal-7-0n-negative-lan.md` | ✅ |
 | 7-1 | curl `/health` via TS | 200, rules **8** | rules **8** @ 11:17:48 | ✅ |
 | 7-2 | `agentctl gov status` | rules **8** | rules **8** @ 11:17:57 | ✅ |
 | 7-3 | policy evaluate | `allowed: true` | implicit trong assign; explicit soak policy **True** | ✅ |
-| 7-4 | `agentctl assign` | `task_id` + TS IP in log | `6206697f-eab5-49c8-83e0-0dcf887d4999`; log `100.102.105.47` @ 11:18:10 | ✅ |
+| 7-4 | `agentctl assign` | `task_id` + TS IP in log | `6206697f-eab5-49c8-83e0-0dcf887d4999`; log `<CLIENT_TAILSCALE_IP>` @ 11:18:10 | ✅ |
 | 7-5 | `soak_staging.sh` remote | `soak_iter health=ok` | `health=ok policy_allowed=True tokens_remaining=2000000.0 apex=ok` @ 11:18:21 | ✅ |
 
 ---
@@ -52,14 +52,14 @@
 |-------|--------|
 | Config | `ACP_CONFIG_DIR=tests/fixtures/config` |
 | Bind | `0.0.0.0:8000` |
-| Client IP (all requests) | **`100.102.105.47`** (msi Tailscale) |
+| Client IP (all requests) | **`<CLIENT_TAILSCALE_IP>`** (msi Tailscale) |
 | Burst @ 11:17–11:18 | health ×4, governance, policy, tasks, soak (health, policy, quota, apex) |
 
 ### Laptop WSL — client
 
 | Event | Detail |
 |-------|--------|
-| `ACP_API_URL` | `http://100.94.21.33:8000` |
+| `ACP_API_URL` | `http://<VPS_TAILSCALE_IP>:8000` |
 | health | 200, rules **8** |
 | assign | `6206697f-eab5-49c8-83e0-0dcf887d4999` |
 | soak | one iteration PASS |
@@ -84,7 +84,7 @@
 
 | Item | Evidence |
 |------|----------|
-| Invariant #4 remote CLI | Laptop → `100.94.21.33:8000` |
+| Invariant #4 remote CLI | Laptop → `<VPS_TAILSCALE_IP>:8000` |
 | CS-05 PB-9 staging soak | 7-5 remote `soak_staging.sh` |
 | CS-06 policy path | policy allow + assign |
 | Study 06 gap (6-5, TS drill) | Covered by 7-1..7-5 |

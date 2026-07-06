@@ -1,10 +1,10 @@
-# Hybrid AI Gateway × ACP — Integration evidence (Product A)
+﻿# Hybrid AI Gateway × ACP — Integration evidence (Product A)
 
 **Document ID:** ACP-PRACTICE-HYBRID-GATEWAY-ACP-001  
 **Status:** **CONNECT PASS — CLOSED** (MSI + Mac + Gateway remote, 2026-07-03)  
 **ACP baseline:** `master` @ post-#196  
 **Gateway baseline:** `main` @ `d7a840e` (B1/B2 operator smoke 2026-07-06)  
-**ACP host:** VPS · pod `http://10.42.0.1:8000` · Tailscale `100.94.21.33:8000` · `policy_rules_count: 10`
+**ACP host:** VPS · pod `http://<POD_CLUSTER_IP>:8000` · Tailscale `<VPS_TAILSCALE_IP>:8000` · `policy_rules_count: 10`
 
 ---
 

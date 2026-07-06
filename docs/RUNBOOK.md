@@ -153,7 +153,7 @@ In WSL: `Ctrl+C` uvicorn.
 For cross-network / VPS staging (Study 07), use Tailscale IP — **no LAN portproxy required on client path** when API runs on a Linux host with `0.0.0.0:8000`.
 
 ```bash
-export ACP_API_URL=http://100.94.21.33:8000   # example ubuntu-vps
+export ACP_API_URL=http://127.0.0.1:8000   # remote: your Tailscale/LAN ACP host
 curl -sf "$ACP_API_URL/health" | python3 -m json.tool
 ```
 

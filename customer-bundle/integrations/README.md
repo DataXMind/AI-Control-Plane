@@ -23,6 +23,8 @@ bash examples/integrate/shell/install_antigravity_hook.sh
 
 **Pitfall:** `ACP_API_URL=...` without `export` — `curl $ACP_API_URL/health` works but `run_tool_guarded.py` hits `127.0.0.1:8000` (fail-closed).
 
+**Security:** Do not commit real Tailscale/VPS URLs in git — edit `~/.acp-agent.env` locally only.
+
 **MSI:** `ACP_AGENT_ID=agent1` `ACP_ROLE=infra`  
 **Mac:** `ACP_AGENT_ID=agent2` `ACP_ROLE=backend`
 

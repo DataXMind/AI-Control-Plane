@@ -1,4 +1,4 @@
-# Study 07b — Mac witness (deferred)
+﻿# Study 07b — Mac witness (deferred)
 
 **Document ID:** ACP-GOV-PRACTICE-STUDY-07B-DEFER  
 **Status:** **WAIVED** (optional G2-3)  
@@ -9,7 +9,7 @@
 
 ## Scope (optional)
 
-Mac on home LAN (`100.72.15.27`) curls VPS via LAN (fail) vs Tailscale (ok) while laptop on hotspot — strict negative-path witness beyond Study 07 G2-4.
+Mac on home LAN (`<MAC_TAILSCALE_IP>`) curls VPS via LAN (fail) vs Tailscale (ok) while laptop on hotspot — strict negative-path witness beyond Study 07 G2-4.
 
 ## Decision
 

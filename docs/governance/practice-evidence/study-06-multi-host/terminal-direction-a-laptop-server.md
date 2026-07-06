@@ -1,4 +1,4 @@
-# Study 06 — Direction A — Laptop server (WSL)
+﻿# Study 06 — Direction A — Laptop server (WSL)
 
 **Captured:** 2026-06-25  
 **Role:** API host (round 1)  
@@ -14,9 +14,9 @@ uvicorn ai_control_plane.api.server:app --reload --host 0.0.0.0 --port 8000
 ## Windows portproxy (Admin PowerShell)
 
 ```text
-0.0.0.0:8000 → 192.168.21.3:8000
+0.0.0.0:8000 → <WSL_LAN_IP_REDACTED>:8000
 Firewall: ACP-Study06-TCP8000
-curl.exe http://192.168.1.59:8000/health → rules 8
+curl.exe http://<LAN_IP_REDACTED>:8000/health → rules 8
 ```
 
 ## Local smoke
