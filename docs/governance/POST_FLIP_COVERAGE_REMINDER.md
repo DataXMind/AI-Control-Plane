@@ -10,6 +10,8 @@
 
 ## Operator checklist @ ~07-07
 
+**Pre-flip C1-02 (executed early 2026-07-06 on MSI):** smoke **8/8** · gov **1.6.0·17** · OpenAPI export + verify · **221** pytest PASS — see [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md).
+
 ```bash
 source .venv/bin/activate
 export ACP_CONFIG_DIR=tests/fixtures/config
@@ -19,6 +21,12 @@ bash scripts/verify_governance_status_runtime.sh
 python scripts/export_openapi.py && git diff --exit-code docs/openapi/openapi.json
 ```
 
+- [x] Smoke **8/8** @ 2026-07-06 (pre-flip)
+- [x] `verify_governance_status_runtime.sh` PASS @ 2026-07-06
+- [x] `export_openapi.py` — no drift (merged pre-flip)
+- [x] `verify_openapi_runtime.sh` PASS @ 2026-07-06
+- [x] Full pytest suite **221** PASS @ 2026-07-06
+- [ ] Local `--cov` ≥ **85%** (run on MSI/WSL — not re-run @ 07-07 yet)
 - [ ] Codecov project green vs **85%** target
 - [ ] Re-read residual gaps in [`COVERAGE_IMPROVEMENT_REPORT.md`](COVERAGE_IMPROVEMENT_REPORT.md) § Residual gaps
 - [ ] Open/follow Tier 3 issue: MCP E2E CI + OIDC test matrix (ADR-002)
@@ -34,4 +42,4 @@ python scripts/export_openapi.py && git diff --exit-code docs/openapi/openapi.js
 
 **Do not** raise `fail_under` to 95% before GA.
 
-**Last updated:** 2026-07-01
+**Last updated:** 2026-07-07 · C1-02 pre-flip ticks @ 07-06 · coverage/Codecov/Tier 3 still open

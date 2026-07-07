@@ -1,7 +1,7 @@
 # PB-12 Succession Plan
 
 **Purpose:** Ensure PB-12 public flip can proceed even if primary maintainer is unavailable.
-**Target date:** ~2026-07-10
+**Target date:** ~2026-07-10 · **executed 2026-07-06** (early GO)
 
 ## Authorization Matrix
 
@@ -27,16 +27,16 @@
 3. Primary Maintainer ratifies decision on return (retroactive sign-off)
 
 ## PB-12 Checklist (Complete Before Any Flip)
-- [ ] Day 14 PB-9 RESULTS.md complete — PASS verdict
-- [ ] Smoke 8/8 PASS on flip day (not from earlier)
-- [ ] export_openapi.py run — no diff or diff committed
-- [ ] verify_governance_status_runtime.sh PASS
-- [ ] verify_openapi_runtime.sh PASS
-- [ ] CHANGELOG entry for v0.1.0-beta.1 verified
-- [ ] PB-10 defer text recorded in this sign-off
-- [ ] GitHub Security Advisories enabled (post-flip immediate action)
-- [ ] Dependabot enabled (post-flip immediate action)
-- [ ] Release v0.1.0-beta.1 created from existing v0.1.0-rc.1 tag
+- [x] Day 14 PB-9 RESULTS.md complete — PASS verdict (@ 2026-07-06 · #77 closed)
+- [x] Smoke 8/8 PASS on flip day (@ 2026-07-06 pre-flip)
+- [x] export_openapi.py run — no diff or diff committed (PR #196)
+- [x] verify_governance_status_runtime.sh PASS (@ 2026-07-06)
+- [x] verify_openapi_runtime.sh PASS (@ 2026-07-06)
+- [x] CHANGELOG entry for v0.1.0-beta.1 verified
+- [x] PB-10 defer text recorded in this sign-off — [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md)
+- [x] GitHub Security Advisories enabled (post-flip — repo public @ 2026-07-06)
+- [x] Dependabot alerts enabled (UI shows **Disable** = ON; verified 2026-07-07)
+- [x] Release v0.1.0-beta.1 created from existing v0.1.0-rc.1 tag (@ 2026-07-06)
 
 ## Digital Authorization Format
 PB-12 sign-off is a commit to master with this format:
