@@ -139,7 +139,7 @@ Upload from repo paths below. Prefer **≤12 files** focused; remove stale uploa
 
 | Avoid | Why |
 |-------|-----|
-| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (Claude UI export) | Stale @ `527eb5d` — use [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
+| [`ACP_HANDOFF_FOR_NEW_CONVERSATION_2026-06-27.md`](../governance/ACP_HANDOFF_FOR_NEW_CONVERSATION_2026-06-27.md) (archived, Claude UI export) | Stale @ `527eb5d` — use [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
 | `docs/governance/*.html` | Stale counts/SHAs — use `*_RECONCILIATION.md` instead |
 | Entire `src/`, `tests/`, `.github/` | Too large; retrieval noise |
 | `CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md` alone | Partially stale — prefer FULL report + TASK_AUDIT |
@@ -195,7 +195,7 @@ After `git pull` on `master` when any of these change:
 | `curl > docs/openapi.json` | `python scripts/export_openapi.py` |
 | Day 14 default = 2026-07-10 | **~2026-07-06** (soak start 2026-06-22) |
 | HTML `acp_status_audit_analysis.html` as live state | Use reconciliation + FULL report |
-| `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` (UI @ `527eb5d`) | [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
+| `ACP_HANDOFF_FOR_NEW_CONVERSATION_2026-06-27.md` (archived, UI @ `527eb5d`) | [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](../governance/HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md) |
 
 ---
 

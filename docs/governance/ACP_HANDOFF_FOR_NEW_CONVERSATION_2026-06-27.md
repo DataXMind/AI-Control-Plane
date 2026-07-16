@@ -4,6 +4,10 @@
 # DataXMind/AI-Control-Plane (private repo → Public Beta ~2026-07-10)
 
 ---
+> **Moved 2026-07-16:** relocated from repo root to `docs/governance/` (historical reference
+> only, co-located with [`HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md`](HANDOFF_UI_DRIFT_RECONCILIATION_2026-06-28.md)).
+> The old root path `ACP_HANDOFF_FOR_NEW_CONVERSATION.md` no longer exists.
+>
 > ## ⚠️ DEPRECATION NOTICE — 2026-06-30
 >
 > **This document is STALE for ops state** as of 2026-06-28+.
