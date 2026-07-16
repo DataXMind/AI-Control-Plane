@@ -2,9 +2,9 @@
 
 **Document ID:** ACP-GOV-MANUAL-OPERATOR-PLAYBOOK-001  
 **Audience:** Operator · maintainer · org admin  
-**Phase:** PB-9 staging soak → PB-12 flip → PB-10 GA (deferred)  
-**Baseline:** `master` @ **`4210ad2`** · catalog **v1.5.0** · **17** patterns · pytest **181**  
-**Reference date:** **2026-07-03** · PB-9 human tick cuối: **2026-07-03** · **Tier A pilot PASS** Mac Mini (PR [#176](https://github.com/DataXMind/AI-Control-Plane/pull/176) merged)  
+**Phase:** PB-12 **SHIPPED** @ 2026-07-06 → PB-10 GA (deferred)  
+**Baseline:** `master` @ **`a5d5776`** · catalog **v1.6.0** · **17** patterns · pytest **221**  
+**Reference date:** **2026-07-07** · PB-9 human tick cuối: **2026-07-06** (Day 14) · repo **PUBLIC** · release **`v0.1.0-beta.1`**  
 **SSOT companions:** [`PUBLIC_BETA_OPERATOR_ACTION_PLAN.md`](PUBLIC_BETA_OPERATOR_ACTION_PLAN.md) · [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) · [`SESSION_ANCHOR_TEMPLATE.md`](../prompts/SESSION_ANCHOR_TEMPLATE.md)
 
 > **Purpose:** Execute all remaining Public Beta operator work **without Cursor Agent** — shell, editor, GitHub UI, SSH VPS, optional Claude Project for drafting only.  
@@ -12,15 +12,15 @@
 
 ---
 
-## Go-live verdict (operator summary @ 2026-06-30)
+## Go-live verdict (operator summary @ 2026-07-07)
 
 | Tier | Ready? | Action |
 |------|--------|--------|
-| **A — Pilot nội bộ** (policy + Docker + YAML riêng) | **Có — ngay** (PASS Mac Mini 2026-06-30) | [`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md) + evidence [`mac-pilot-deploy-2026-06-30/RESULTS.md`](practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) — **không thay** stack PB-9 fixture soak |
-| **B — Public Beta (PB-12)** | **Chưa** — chờ Day 14 ~**07-06** + human GO ~**07-10** | M1 tick 07-01..05 → C1-01 → H1-02 |
-| **C — Production GA (1.0.0)** | **Chưa** — PB-10 deferred, OIDC/k6/MCP PROPOSED | Post-flip #78 |
+| **A — Pilot nội bộ** (policy + Docker + YAML riêng) | **Có** (PASS Mac Mini 2026-06-30) | [`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md) + evidence [`mac-pilot-deploy-2026-06-30/RESULTS.md`](practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md) |
+| **B — Public Beta (PB-12)** | **✅ SHIPPED** @ **2026-07-06** | Repo **PUBLIC** · release **`v0.1.0-beta.1`** · [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md) |
+| **C — Production GA (1.0.0)** | **Chưa** — PB-10 deferred, OIDC/k6/MCP PROPOSED | Post-flip [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) |
 
-**Critical path thực sự block PB-12 @ 0.x:** chỉ **PB-9 (calendar)** + **PB-12 (human GO)**. Mọi thứ khác đã PASS practice hoặc deferred.
+**Critical path @ 0.x beta:** **CLOSED** — only **PB-10 GA clock** remains (`gates_remaining=1`).
 
 ---
 
@@ -46,7 +46,7 @@
 | MSI machine | `docs/governance/PB9_SOAK_ITERATION_LOG.md` | `restart_soak_loop.sh --repo-log` |
 | VPS machine | `practice-evidence/pb-9-day14-review/artifacts/vps-soak-iteration.log` | `acp-soak.service` |
 
-**Runtime @ pre-flip:** `gates_blocking_pb12` = **PB-9, PB-12** · `gates_remaining` = **7** (unchanged until flip bump).
+**Runtime @ post-flip (2026-07-06):** `gates_blocking_pb12` = **`[]`** · `gates_remaining` = **1** (PB-10 only) · `public_beta.phase` = **BETA**.
 
 ---
 
@@ -63,25 +63,29 @@
 | OP-06 | security@ live | Operator | [`security-email-live-test/RESULTS.md`](practice-evidence/security-email-live-test/RESULTS.md) |
 | OP-03 | Gap 06-22→25 | Done | `PB9_STAGING_SOAK_LOG.md` § clock |
 | OP-05 | PB-7 waiver | Cancelled | OP-04 PASS |
-| Engineering | Milestones A–C+, smoke, OpenAPI | Done | CI green · **181** tests |
+| Engineering | Milestones A–C+, smoke, OpenAPI | Done | CI green · **221** tests |
 | OP-08 | CHANGELOG #120, go-no-go #119 | Done | merged |
 | SOAK-01..03 | Ticks 06-29 reconcile, 06-30, RUNBOOK `.venv` | Operator/docs | PR [#169](https://github.com/DataXMind/AI-Control-Plane/pull/169)–[#171](https://github.com/DataXMind/AI-Control-Plane/pull/171) |
-| PROD draft | Production compose + Day 14 draft | Docs | PR [#172](https://github.com/DataXMind/AI-Control-Plane/pull/172) |
+| PB-9 Day 14 | PASS + #77 closed | Operator | 2026-07-06 | [`pb-9-day14-review/RESULTS.md`](practice-evidence/pb-9-day14-review/RESULTS.md) |
+| PB-12 flip | GO + public + beta.1 | Maintainer | 2026-07-06 | [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md) |
+| C1-02 pre-flip | export · smoke · verify · 221 pytest | Maintainer | 2026-07-06 (early) | [`POST_FLIP_COVERAGE_REMINDER.md`](POST_FLIP_COVERAGE_REMINDER.md) |
+| Catalog v1.6.0 | gates_remaining=1 | Maintainer | 2026-07-06 | PR #198 |
 | ADR/prep | OIDC, k6 fleet, MCP CI, ADR-001 — **PROPOSED only** | Docs | PR [#165](https://github.com/DataXMind/AI-Control-Plane/pull/165)–[#168](https://github.com/DataXMind/AI-Control-Plane/pull/168) — **no implementation** |
 
-### 1.2 M1 — Continuous (daily → ~2026-07-06)
+### 1.2 M1 — Continuous (**CLOSED** @ Day 14 2026-07-06)
+
+> PB-9 calendar ended. MSI/VPS soak may continue for ops hygiene but **no new human daily ticks** unless SEV-1/2 extends soak per ROLLBACK_PROTOCOL.
 
 | # | Task | Owner | Trigger | Artifact | Blocks flip? |
 |---|------|-------|---------|----------|--------------|
-| M1-01 | Keep MSI Docker stack up (**PB-9 fixture**) | Operator | Daily | `docker compose -f examples/minimal/docker-compose.yml ps` healthy | Indirect |
-| M1-02 | Keep MSI soak loop | Operator | Daily / after reboot | New lines in `PB9_SOAK_ITERATION_LOG.md` ~hourly | **Yes** |
-| M1-03 | Keep VPS `acp-staging` + `acp-soak` | Operator | Daily | `vps-soak-iteration.log` + `/var/log/` | **Yes** |
-| M1-04 | **Daily tick** human table | Operator | After 00:00 UTC when soak OK | `PB9_STAGING_SOAK_LOG.md` → **PR** | **Yes** |
-| M1-05 | `git pull` MSI/VPS | Operator | After remote push | No soak restart if **docs-only** | No |
-| M1-06 | Watch SEV-1/2 | Operator | On anomaly | Notes column; SEV-3 documented only | **Yes** if SEV-1/2 |
+| M1-01 | Keep MSI Docker stack up (**PB-9 fixture**) | Operator | Optional post-flip | `docker compose … ps` healthy | No |
+| M1-02 | Keep MSI soak loop | Operator | Optional | `PB9_SOAK_ITERATION_LOG.md` | No |
+| M1-03 | Keep VPS `acp-staging` + `acp-soak` | Operator | Optional | `vps-soak-iteration.log` | No |
+| M1-04 | **Daily tick** human table | Operator | **ENDED** 2026-07-06 | `PB9_STAGING_SOAK_LOG.md` | No |
+| M1-05 | `git pull` MSI/VPS | Operator | After remote push | Sync to `a5d5776`+ | No |
+| M1-06 | Watch SEV-1/2 | Operator | On anomaly | Notes column | GA only |
 
-**Ticks remaining (UTC calendar):** **2026-07-02** through **2026-07-05** (+ review row **2026-07-06**).  
-**Last human tick:** **2026-07-05** (Apex ☑ MSI soak_iter @ 2026-07-05T01:56:35Z post-rebuild; VPS services inactive — see notes).
+**Last human tick:** **2026-07-06** (Day 14 PASS · #77 closed).
 
 **Known SEV-3 (documented, not blockers):**
 
@@ -90,32 +94,32 @@
 
 **MSI iteration log @ 2026-06-30:** **21 PASS** / **0 ERROR** through `2026-06-29T11:26:07Z` — **re-count** on Day 14 after soak resumes post-restart.
 
-### 1.3 C1 — Calendar (wait for date)
+### 1.3 C1 — Calendar (**DONE** @ 2026-07-06)
 
 | # | Task | Owner | Target | Depends on | Artifact |
 |---|------|-------|--------|------------|----------|
-| C1-01 | Day 14 PB-9 review | Operator | **~2026-07-06** | ≥14 days from 2026-06-22 + clean soak | `practice-evidence/pb-9-day14-review/RESULTS.md` |
-| C1-02 | Pre-flip refresh | Maintainer | **~2026-07-07** | C1-01 = PASS | `export_openapi.py`, smoke, verify, coverage ≥85% — [`POST_FLIP_COVERAGE_REMINDER.md`](POST_FLIP_COVERAGE_REMINDER.md) |
-| C1-03 | PB-12 flip window | Human | **~2026-07-10** | C1-01 PASS + C1-02 OK | GitHub public + release |
+| C1-01 | Day 14 PB-9 review | Operator | **2026-07-06** ✅ | ≥14 days from 2026-06-22 | [`pb-9-day14-review/RESULTS.md`](practice-evidence/pb-9-day14-review/RESULTS.md) |
+| C1-02 | Pre-flip refresh | Maintainer | **2026-07-06** ✅ (early) | C1-01 = PASS | smoke · verify · 221 pytest — coverage verify @ 07-07 open |
+| C1-03 | PB-12 flip window | Human | **2026-07-06** ✅ | C1-01 + C1-02 OK | Public + `v0.1.0-beta.1` |
 
-### 1.4 H1 — Human gates (cannot delegate to agent)
+### 1.4 H1 — Human gates
 
-| # | Task | Owner | When | Why not automatable |
-|---|------|-------|------|---------------------|
-| H1-01 | Day 14 **verdict** PASS/FAIL/CONDITIONAL | Operator sign-off | ~2026-07-06 | Operational accountability |
-| H1-02 | PB-12 **GO / NO-GO** + signature | Maintainer | ~2026-07-10 | Product decision |
-| H1-03 | Record **PB-10 defer** in PB-12 record | Maintainer | @ PB-12 | 0.x vs GA policy |
-| H1-04 | GitHub **public visibility** | Org admin | @ PB-12 GO | Org permission |
-| H1-05 | Release **`v0.1.0-beta.1`** | Maintainer | @ PB-12 | Human approve |
-| H1-06 | Catalog **`gates_remaining` bump** | Maintainer | @ flip | Edit `governance_catalog.py` + PR |
-| H1-07 | PB-11 branch protection API | Org | Post-public or Team plan | GitHub plan |
+| # | Task | Owner | When | Status |
+|---|------|-------|------|--------|
+| H1-01 | Day 14 **verdict** PASS/FAIL/CONDITIONAL | Operator sign-off | 2026-07-06 | ✅ PASS · #77 closed |
+| H1-02 | PB-12 **GO / NO-GO** + signature | Maintainer | 2026-07-06 | ✅ GO · [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md) |
+| H1-03 | Record **PB-10 defer** in PB-12 record | Maintainer | 2026-07-06 | ✅ recorded |
+| H1-04 | GitHub **public visibility** | Org admin | 2026-07-06 | ✅ PUBLIC |
+| H1-05 | Release **`v0.1.0-beta.1`** | Maintainer | 2026-07-06 | ✅ published |
+| H1-06 | Catalog **`gates_remaining` bump** | Maintainer | 2026-07-06 | ✅ v1.6.0 · PR #198 |
+| H1-07 | PB-11 branch protection API | Org | Post-public | ⏳ probe when Team plan ready |
 
 ### 1.5 D1 — Post-flip / deferred
 
 | # | Task | Owner | Depends on | Issue |
 |---|------|-------|------------|-------|
-| D1-01 | PB-10 production soak 30d | Operator | PB-12 GO | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) |
-| D1-02 | Close #77 | Operator | Day 14 PASS | [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
+| D1-01 | PB-10 production soak 30d | Operator | PB-12 GO ✅ | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) — **NOW** |
+| D1-02 | Close #77 | Operator | Day 14 PASS | ✅ closed 2026-07-06 |
 | D1-03 | OpenAPI publish prominence in README | Maintainer | Flip | PB-6 |
 | D1-04 | GA `1.0.0` / PyPI | Future | PB-10 PASS | Phase 3 |
 | D1-05 | OIDC / k6 fleet / MCP E2E CI | Maintainer | PB-12 + pilot need | ADR-002, `K6_FLEET_TEST_PLAN.md`, MCP contract — **PROPOSED** |
@@ -418,15 +422,13 @@ All of **A3 + A4**, plus:
 ## 6. Printable desk checklist
 
 ```
-□ Soak MSI running (tail PB9_SOAK_ITERATION_LOG.md)
-□ Soak VPS running (tail vps-soak-iteration.log)
-□ Tick PB9_STAGING_SOAK_LOG.md (UTC today) → PR   ← 07-05 done; next 07-06 Day 14
-□ SEV-1/2 = 0 (SEV-3 OK if documented)
-□ 07-01..05: daily rows before Day 14
-□ ~07-06: RESULTS.md from DAY14_REVIEW_DRAFT + close #77 if PASS
-□ ~07-07: export_openapi + smoke 8/8 + verify 1.5.0·17 + 181 collect
-□ ~07-10: PB-12 GO + public + v0.1.0-beta.1 + catalog bump
-□ Post-flip: start PB-10 clock #78
+□ PB-9 CLOSED — no daily soak ticks (07-06 Day 14 PASS)
+□ MSI/VPS git pull → master @ a5d5776+
+□ POST_FLIP: pytest --cov ≥85% on MSI (POST_FLIP_COVERAGE_REMINDER.md)
+□ POST_FLIP: Codecov green · Tier 3 issue MCP/OIDC
+□ PB-10 GA clock active — track #78
+□ PB-11: branch protection probe when org plan allows
+□ SACP: NGROK rotate if needed (see ANCHOR_CURRENT.md)
 ```
 
 ---
@@ -444,4 +446,4 @@ All of **A3 + A4**, plus:
 | [`CLAUDE_PROJECT_SETUP.md`](../prompts/CLAUDE_PROJECT_SETUP.md) | Optional drafting on claude.ai |
 | [`TASK_AUDIT_REMAINING_2026-06-27.md`](practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) | Gate checklist (update @ Day 14) |
 
-**Last updated:** 2026-07-05 · PB-9 tick 07-05 · baseline `77437ff` (post-#191)
+**Last updated:** 2026-07-07 · PB-12 SHIPPED · baseline `a5d5776` (post-#200)
