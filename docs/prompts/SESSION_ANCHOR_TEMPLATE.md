@@ -5,55 +5,17 @@
 
 ---
 
-## Canonical one-liner
+## Current status, gates, and drift
 
-> **Living copy:** [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) — update after major `master` merge.  
-> **Do not** duplicate stale SHAs here; template shows structure only.
+> **Do not maintain a second copy of live facts here.** SHA, catalog version, test count,
+> `gates_remaining`, and dated drift-reject claims live in **only one place:**
+> [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) (updated after every major `master` merge) and
+> `GET /governance/status`. A dated snapshot pasted into this template drifts the moment
+> it's written — see [`LESSONS_LEARNED.md`](../governance/LESSONS_LEARNED.md) P-07 / P-18.
 
 ```text
-SESSION ANCHOR: master @ <see ANCHOR_CURRENT.md> · catalog v1.5.0 · 17 patterns · pytest 221 · risk LOW
-Public Beta IN_PROGRESS (PB-9). gates_blocking_pb12: PB-9, PB-12 · gates_remaining: 7.
-Critical path: tick 07-03..05 → Day 14 ~07-06 → PB-12 ~07-10. PB-10 deferred (#78).
-Living SHA + PB-9 last tick: ANCHOR_CURRENT.md only (do not paste stale SHAs from this template).
-```
-
----
-
-## PB-12 operator gates — pinned checklist
-
-> SSOT: [`TASK_AUDIT_REMAINING_2026-06-27.md`](../governance/practice-evidence/governance-status-v13-verify/artifacts/TASK_AUDIT_REMAINING_2026-06-27.md) · [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md) · [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) · living SHA: [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md)
-
-**Chờ calendar / operator**
-
-- [ ] **PB-9** daily tick — last **2026-07-02** · need **07-03..05** · Day 14 ~**2026-07-06**
-- [x] **PB-7** CLEAN fork — **PASS** 2026-06-27
-- [x] **security@** — live test **PASS** 2026-06-28
-- [x] **OP-02 soak** — MSI repo log + VPS hourly PASS — [`vps-hourly-loop-verify-2026-06-28.md`](../governance/practice-evidence/pb-9-day14-review/artifacts/vps-hourly-loop-verify-2026-06-28.md)
-
-**Practice done · catalog still lists until flip**
-
-- [x] **PB-8** tag `v0.1.0-rc.1` @ `c58b4cc` (2026-06-28, pre–Day-14)
-- [x] **CHANGELOG** `v0.1.0-rc.1` body — merged #120
-- [x] **go/no-go** practice gates — merged #119
-
-**Sau Day 14 PASS (~07-07–10)**
-
-- [ ] Pre-flip: `export_openapi.py` (commit if diff) · smoke + verify
-- [ ] **PB-12** human GO + operator signature (PB-10 defer recorded)
-- [ ] **PB-10** / #78 — GA production soak **after** public flip
-
-**Không claim**
-
-- PB-7 trên MSI WARM (`dmin@MSI` @ `/mnt/d/Projects/…`) = PB-7 PASS
-- PB-9 PASS / đóng #77 trước Day 14 (~07-06)
-- `gates_remaining` = 0 trước maintainer catalog bump @ flip
-- PB-10 blocks PB-12 @ 0.x beta (deferred GA — see go/no-go)
-- CS-01/03/04 runtime drill
-- Stale HTML: SHA `527eb5d`, "165 tests", gap Q1–Q3 open, PB-10 "needs confirm"
-
-```bash
-export ACP_API_URL=http://localhost:8000
-curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, gates_closed}'
+SESSION ANCHOR: paste the block from ANCHOR_CURRENT.md — this template carries no
+dated values of its own.
 ```
 
 ---
@@ -62,44 +24,33 @@ curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, 
 
 ```bash
 export ACP_CONFIG_DIR=tests/fixtures/config
-pytest tests/test_smoke.py -v -m smoke                   # 8/8
+pytest tests/test_smoke.py -v -m smoke                   # 8/8 — fixed count, not catalog-dependent
 export ACP_API_URL=http://127.0.0.1:8000
-bash scripts/verify_governance_status_runtime.sh          # 1.5.0, 17 patterns
-bash scripts/verify_openapi_runtime.sh                   # 3.1.0, 13 paths
-bash scripts/run_ecc_deep_audit.sh                       # optional: full post-verify battery
+bash scripts/verify_governance_status_runtime.sh          # compare output vs ANCHOR_CURRENT.md
+bash scripts/verify_openapi_runtime.sh                    # compare output vs ANCHOR_CURRENT.md
+bash scripts/run_ecc_deep_audit.sh                        # optional: full post-verify battery
+```
+
+```bash
+export ACP_API_URL=http://localhost:8000
+curl -s "$ACP_API_URL/governance/status" | jq '.public_beta | {gates_remaining, gates_closed}'
 ```
 
 ---
 
-## `gates_remaining` @ catalog v1.5.0 (runtime — not HTML)
-
-| # | Gate | Practice @ 2026-06-28 | Blocks PB-12 @ 0.x? |
-|---|------|------------------------|---------------------|
-| 1 | PB-9 staging soak | 🔄 ticks through 28/06 | **Yes** — until Day 14 PASS |
-| 2 | PB-7 clean fork | ✅ PASS | No (catalog until bump) |
-| 3 | PB-8 rc tag | ✅ @ `c58b4cc` | No |
-| 4 | PB-10 prod 30d | ❌ deferred GA | **No** |
-| 5 | PB-6 OpenAPI publish | 🔄 static synced | Flip-day prominent link |
-| 6 | security@ live | ✅ PASS | No |
-| 7 | PB-12 human go/no-go | ⏳ ~07-10 | **Yes** |
-
----
-
-## Drift — reject these claims
+## Structural / naming drift — reject these claims (timeless, not date-bound)
 
 - `examples/docker-compose.yml` → `examples/minimal/docker-compose.yml`
 - CI job `examples-smoke` → `examples-minimal-smoke`
-- `"165 tests"` / `"177 tests"` → **181** pytest (`pytest --collect-only -q`)
-- `"PB-9 only gate"` → 7 `gates_remaining` in catalog
-- `"HOÀN TẤT"` → engineering done; operator calendar open
-- MSI WARM = PB-7 PASS
 - `curl … > docs/openapi.json` → `python scripts/export_openapi.py` → `docs/openapi/openapi.json`
-- PB-9 gap Scenario B/C default → calendar Day 14 **~07-06** (gap 06-22→25 documented)
 - `export ACP_CONFIG_DIR` on host changes Docker pilot → use `ACP_HOST_CONFIG_DIR` in `.env.production` ([`PRODUCTION_DEPLOY.md`](../../examples/minimal/PRODUCTION_DEPLOY.md))
 - `bash scripts/verify_*` from `examples/minimal/` → **repo root** (`cd ../..`)
 - Mac `unknown command: docker compose` → install Compose plugin (Docker Desktop or `docker-compose` standalone)
-- Pilot `policy_rules_count: 10` = Profile **B** — not drift vs fixture **8** (PB-9 / smoke)
-- Pilot PASS on Mac ≠ PB-9 soak PASS — separate stacks; evidence @ [`mac-pilot-deploy-2026-06-30`](../../docs/governance/practice-evidence/mac-pilot-deploy-2026-06-30/RESULTS.md)
+- Pilot `policy_rules_count: 10` = Profile **B** — not drift vs fixture **8** (smoke)
+- Pilot PASS on one stack (e.g. Mac) ≠ PASS on another (e.g. a staging/production soak) — separate stacks, don't conflate results
+
+**Dated/calendar drift (test counts, gate counts, PB-N status, "HOÀN TẤT" claims) is tracked in
+[`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) only — do not hardcode a number here; it will go stale.**
 
 | Claim | Verdict |
 |-------|---------|
@@ -112,10 +63,10 @@ bash scripts/run_ecc_deep_audit.sh                       # optional: full post-v
 
 ## Claude / Cursor role this phase
 
-- ✅ AOS + platform playbooks: [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`CURSOR_NEW_SESSION_PLAYBOOK.md`](CURSOR_NEW_SESSION_PLAYBOOK.md) · [`CLAUDE_CODEX_PLAYBOOK.md`](CLAUDE_CODEX_PLAYBOOK.md)
-- ✅ Day 14: start [`DAY14_REVIEW_DRAFT_2026-07-06.md`](../governance/practice-evidence/pb-9-day14-review/DAY14_REVIEW_DRAFT_2026-07-06.md) → `RESULTS.md`
+- AOS + platform playbooks: [`AGENT_OPERATING_SYSTEM.md`](AGENT_OPERATING_SYSTEM.md) · [`CURSOR_NEW_SESSION_PLAYBOOK.md`](CURSOR_NEW_SESSION_PLAYBOOK.md) · [`CLAUDE_CODEX_PLAYBOOK.md`](CLAUDE_CODEX_PLAYBOOK.md)
 - **Claude Projects:** [`CLAUDE_PROJECT_SETUP.md`](CLAUDE_PROJECT_SETUP.md)
 - **Manual ops (no Agent):** [`MANUAL_OPERATOR_PLAYBOOK.md`](../governance/MANUAL_OPERATOR_PLAYBOOK.md)
+- What's open right now (phase-specific work items) → [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) and `STATE/PROGRESS.md`
 
 ---
 
@@ -226,4 +177,4 @@ agentctl gov status --json | python3 -m json.tool
 - [ ] `practice-evidence/` if operator ran hands-on steps
 - [ ] Do **not** store sole copy of evidence in chat
 
-**Last updated:** 2026-07-01 — living SHA: `ANCHOR_CURRENT.md` @ `4210ad2`
+**Last updated:** 2026-07-16 — structure/template only; live SHA and gate status are in `ANCHOR_CURRENT.md`
