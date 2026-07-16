@@ -3,7 +3,7 @@
 **Document ID:** ACP-AOS-001  
 **Version:** 1.0  
 **Audience:** Cursor · Claude (Projects / Code / CLI) · OpenAI Codex · any coding agent  
-**Baseline:** `master` @ `4210ad2` · catalog **v1.5.0** · **17** LESSON patterns · pytest **181**  
+**Baseline:** see [`ANCHOR_CURRENT.md`](ANCHOR_CURRENT.md) for the live SHA, catalog version, pattern count, and test count — this doc is a framework/mental-model reference, not a dated snapshot.  
 **Gold pattern:** [`GP-01`](../governance/gold-patterns/GP-01-agent-session-memory.md)  
 **Companion:** [`AGENTS.md`](../../AGENTS.md) · [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md)
 
@@ -173,7 +173,7 @@ Post-merge / runtime (Docker fresh build):
 ```bash
 export ACP_API_URL=http://127.0.0.1:8000
 bash scripts/verify_governance_status_runtime.sh   # catalog · patterns
-pytest --collect-only -q | tail -3                  # 181 @ 4210ad2
+pytest --collect-only -q | tail -3                  # compare count vs ANCHOR_CURRENT.md
 ```
 
 Full protocol: [`DEVELOPMENT_PROTOCOL.md`](../DEVELOPMENT_PROTOCOL.md).
@@ -277,4 +277,4 @@ Template: [`_TEMPLATE.md`](_TEMPLATE.md).
 | [`PUBLIC_BETA_GO_NO_GO.md`](../governance/PUBLIC_BETA_GO_NO_GO.md) | Flip checklist |
 | [`PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md`](../governance/PROJECT_STATUS_FULL_TECHNICAL_REPORT_2026-06-28.md) | Deep audit snapshot |
 
-**Last updated:** 2026-07-01 · baseline `4210ad2` · GitHub end-user drift reconcile
+**Last updated:** 2026-07-16 · framework/structure doc — live baseline lives in `ANCHOR_CURRENT.md`
