@@ -90,3 +90,10 @@ scripts/sync_vps_acp_admin_freeze.sh
 !examples/minimal/.env.production.example
 credentials.json
 *.pem
+
+# Local Claude Code config (machine-specific paths + personal permission grants)
+.claude/settings.local.json
+
+# INTERNAL — never publish (repo is public since PB-12 flip). File itself carries
+# the same instruction: STATE/ACP_MOAT_STRATEGY.md, "KHONG publish len repo public."
+STATE/ACP_MOAT_STRATEGY.md

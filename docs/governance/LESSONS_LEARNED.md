@@ -249,6 +249,64 @@
 
 ---
 
+### P-18 — External agent-protocol prompts must map onto existing SSOT, not spawn new ones
+
+| Field | Detail |
+|-------|--------|
+| **When** | 2026-07-08 — human supplied an external, generic "Autonomous Project Execution Agent" prompt (context anchoring, decision log, lessons log, human-gate tiers, smoke matrix) to be integrated into `CLAUDE.md` |
+| **Root cause** | Generic multi-session agent protocols are written file-name-agnostic (`PROJECT_ANCHOR.md`, `DECISION_LOG.md`, `LESSONS_LOG.md`, `CURRENT_STATUS.md`, `DAILY_LOG.md`) — applied literally, they would create a second SSOT next to `docs/prompts/ANCHOR_CURRENT.md`, `STATE/DECISIONS.md`, `docs/governance/LESSONS_LEARNED.md`, and `STATE/PROGRESS.md` |
+| **Impact** | Same failure shape as P-07/P-08 (doc drift, stale layer) but self-inflicted by the agent this time, from following an external prompt too literally instead of reconciling it with what already exists |
+| **Rule added** | `CLAUDE.md` §5.1 — explicit generic-role → repo-file mapping table; new sections of any adopted external protocol must be mapped onto existing files before being written into `CLAUDE.md`, never given parallel files |
+| **Layer** | L0 (Behavioral Constitution) + L5 (Governance & Memory) |
+| **Prevention** | Before adopting any external agent protocol: `grep`/`ls` this repo's `docs/prompts/`, `docs/governance/`, and `STATE/` for an existing file serving the same role; only create new files for roles with no existing analogue (verified none needed here) |
+| **Status** | [ACTIVE] |
+
+**`.cursorrules` review (L5 sprint-close checklist item 4, performed for P-18):** checked `.cursorrules` L0 (lines 8-33) and L5 (lines 144-157) — L0 is, by existing design, a condensed mirror of only the 4 core Karpathy principles from `CLAUDE.md`; the "ACP-specific rules" and "Governance memory" blocks of `CLAUDE.md` (invariants, risk classification, forbidden list, memory resources) were **already** un-mirrored before this pattern existed. **Conclusion: no `.cursorrules` rule addition needed** — P-18's rule lives in `CLAUDE.md` §5.1 consistent with that existing split, not a gap.
+
+---
+
+### P-19 — STATE claims about other repos go stale fast in a concurrent multi-session environment
+
+| Field | Detail |
+|-------|--------|
+| **When** | 2026-07-08 — a Self-Audit re-check (re-running `git fetch` on the Hybrid-AI-Gateway remote) found that this repo's own `STATE/DECISIONS.md`/`STATE/PROGRESS.md` claim "GATE-O1 blocked — SACP hasn't pushed the contract" was already false: SACP had pushed (`origin/main` had moved from `c6ec8e4` to `711c6b4`), and GATE-O1 had actually resolved to PASS-with-conditions, independently confirmed in both the SACP and AEOS repos' own STATE files |
+| **Root cause** | A cross-repo claim was written once (Batch ACP-02) and then treated as durable fact by the next review pass (Opus Review Gate) without a re-fetch, even though the claim's whole premise was "another session's future action" — the one thing guaranteed to change without this repo's own commits reflecting it |
+| **Impact** | Low this time (caught before being acted on) but the failure mode is real: a future session could skip re-verifying, waste effort re-deriving already-resolved state, or worse, escalate a already-closed blocker to a human as if still open |
+| **Rule added** | `CLAUDE.md` §5.2 (re-anchor "whenever an assumption contradicts `STATE/DECISIONS.md`" — extend in practice to: **any STATE claim describing another repo's pending action is provisional and must be re-verified via a live check (`git fetch`/read remote), not re-cited from memory, before being relied on** |
+| **Layer** | L0 (re-anchoring) + L5 (cross-repo decision log) |
+| **Prevention** | Before treating a cross-repo "blocked on X" claim as current: re-run the actual check that would resolve it (fetch, read remote file) — do not answer from the last time it was checked |
+| **Status** | [ACTIVE] |
+
+---
+
+### P-20 — Partial read of a long reference doc, silently treated as full review
+
+| Field | Detail |
+|-------|--------|
+| **When** | 2026-07-08 — human directly asked "have you reviewed `ACP_Guardrails_report.md`?" and it surfaced that an earlier turn had called `Read` on that file with `offset=100`, skipping lines 1-99 (header, changelog v2→v3, confidence-label legend, table of contents, and all of §1 "Hiện trạng hệ thống": identity table, hosting/deploy, milestones, per-module % complete) — and no later turn ever went back to close that gap until asked |
+| **Root cause** | Jumping to a mid-file offset out of habit, with no stated reason, then citing/using content from later sections as if the whole document had been read — the gap was invisible because nothing downstream happened to contradict it |
+| **Impact** | Low this time (lines 1-99 turned out consistent with everything already in use — `STATE/DECISIONS.md` #1, `STATE/PROGRESS.md` gap table), but the consistency was luck, not verification — a partial read of a source-of-truth document was silently presented as complete understanding of it |
+| **Rule added** | When reading a file cited as an authoritative source (an `#Anchor:` reference in the Kickoff Brief, an audit report, etc.) for the first time, read from the start (or state explicitly which range was read and why, e.g. "read only §5, task doesn't need the rest") — never silently partial-read and let it pass as "reviewed" |
+| **Layer** | L0 (Think before coding — "state assumptions", extended to "state what was actually read") |
+| **Prevention** | Before claiming to have "reviewed" or "read" a file: `grep -c ''` its line count vs. what was actually passed to `Read` (offset/limit) — a claim of review with a truncated range and no disclosure is the same failure as an unverified assumption |
+| **Status** | [ACTIVE] |
+
+---
+
+### P-21 — Conflating "no dedicated registration" with "not operational / bypasses policy"
+
+| Field | Detail |
+|-------|--------|
+| **When** | 2026-07-09 — deep-audit report labeled the AEOS integration row as "CHƯA ĐĂNG KÝ / hoàn toàn không qua ACP check nào", which the operator corrected: AEOS **is** operational and **does** call ACP by design |
+| **Root cause** | Two distinct facts were collapsed into one wrong conclusion: (1) `aeos` has no dedicated project/agent in ACP config — it borrows `agent2/backend/rust-gateway` (TRUE, O-02); (2) `ACP_ENABLED=false` in AEOS **dev** while Q-15 is unfixed (TRUE but TEMPORARY). From these two, the report wrongly generalized to "AEOS isn't integrated / bypasses ACP entirely" — contradicting `OSAgent_audit_report.md` §2.2/§4.2 which verifies the session-create path calls `POST /policy/evaluate` and smoke-passed HTTP 201 on 2026-07-05 |
+| **Impact** | Mischaracterized a partner system's real maturity in a report to the operator — the kind of over-claim (in the negative direction) that erodes trust in the audit itself |
+| **Rule added** | Separate "registered as its own identity" from "operational / policy-enforced". A borrowed identity or a temporary dev-mode toggle is not the same as "not integrated". State each fact at its own scope; never generalize a config gap into a capability claim without reading the partner repo's own audit |
+| **Layer** | L0 (state assumptions at correct scope) + L5 (cross-repo claims) |
+| **Prevention** | Before asserting a partner system's integration status: read that repo's own audit/STATE (here `OSAgent_audit_report.md`), and distinguish config-registration ≠ runtime-behavior ≠ temporary-toggle |
+| **Status** | [ACTIVE] |
+
+---
+
 ## Maintenance
 
 Add a pattern at each **sprint close** (before declaring sprint DONE).  
