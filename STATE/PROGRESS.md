@@ -83,6 +83,23 @@ Tạo lại một file "HANDOFF.md" mới ở root sẽ lặp lại đúng lỗi
 - F-01: vẫn CHƯA có branch nào vá — cần Human approve hướng vá trước (2 lựa chọn đã nêu ở `STATE/DECISIONS.md` câu hỏi mở #6, không lặp lại ở đây).
 - Toàn bộ 13 mục `HUMAN_REVIEW_QUEUE.md` gốc vẫn treo, trừ mục A.4 vừa đóng ở trên.
 
+### Lượt 2 (cùng phiên, 2026-07-26) — đóng gói mọi thứ "chờ Human" thành PR thật
+
+Sau khi viết phần trên, phát hiện thêm: `critical/policy-trust-hardening` và `fix/f03-timeout-test-coroutine-warning` tồn tại **chỉ trên máy local, chưa từng push lên origin** — nghĩa là không Human hay agent nào ở máy/session khác có thể thấy hay review được, dù `HUMAN_REVIEW_QUEUE.md` đã ghi "chờ Human merge" cho cả hai. Cùng lúc, working-tree edit (`PUBLIC_BETA_SPRINT_PLAN.md`, và cả batch `CLAUDE.md`/`LESSONS_LEARNED.md`/`ANCHOR_CURRENT.md`/`STATE/*.md`) chỉ tồn tại uncommitted trên đúng 1 checkout — cùng một rủi ro "vô hình với session khác".
+
+**Đã đóng gói thành 4 PR thật** (mỗi PR: rebase sạch lên `origin/master` hiện tại nếu cần, verify gate chạy lại thật — không chỉ trích dẫn kết quả cũ, `git diff --name-only` xác nhận đúng phạm vi file):
+
+| PR | Nội dung | Nguồn gốc | Risk | Trạng thái mở |
+|---|---|---|---|---|
+| [#206](https://github.com/DataXMind/AI-Control-Plane/pull/206) | Sửa drift `PUBLIC_BETA_SPRINT_PLAN.md` | working tree cũ (`docs/post-flip-status-0707`) | LOW/docs-only | PR thường |
+| [#207](https://github.com/DataXMind/AI-Control-Plane/pull/207) | `CLAUDE.md` §5 (+ §5.13 mới) + LESSONS P-18..21 + bootstrap `STATE/PROGRESS.md`/`DECISIONS.md`/`HUMAN_REVIEW_QUEUE.md` vào git lần đầu + `ANCHOR_CURRENT.md` resync | working tree cũ | LOW file-scope nhưng process-risk | **DRAFT — cố ý chưa sẵn sàng merge**, cần quyết định §5.13 trước (xem `STATE/DECISIONS.md` #7) |
+| [#208](https://github.com/DataXMind/AI-Control-Plane/pull/208) | Fix F-03 (coroutine warning) | branch local `fix/f03-timeout-test-coroutine-warning` @ `b16052c`, chưa từng push | Tier A / LOW | PR thường |
+| [#209](https://github.com/DataXMind/AI-Control-Plane/pull/209) | Fix A1/A3/A5/A6 (F-02) + A7 invariant test | branch local `critical/policy-trust-hardening`, chưa từng push | **CRITICAL** | PR thường nhưng ghi rõ "chờ Opus review + Human merge", KHÔNG vá F-01 |
+
+**Cố ý loại trừ khỏi mọi commit:** `STATE/ACP_MOAT_STRATEGY.md` — file tự ghi "KHÔNG publish lên repo public"; đã thêm dòng loại trừ vào `.gitignore` (bảo vệ cho mọi session sau, không chỉ lượt này).
+
+**Còn nguyên, cố ý không đụng:** working tree hiện tại (`fix/f03-timeout-test-coroutine-warning`) vẫn còn bản sao uncommitted của các file đã đóng gói ở trên (`CLAUDE.md`, `LESSONS_LEARNED.md`, `PUBLIC_BETA_SPRINT_PLAN.md`, `ANCHOR_CURRENT.md`, `.gitignore`, `STATE/*.md`) — **giờ là dữ liệu dư thừa an toàn** (đã có bản backup trong PR #206/#207), có thể `git checkout -- <file>` / để nguyên tuỳ Human, KHÔNG tự ý discard vì đó là thao tác phá dữ liệu chưa được xác nhận rõ ràng (git safety protocol).
+
 **Việc mới phát sinh trong lượt này — xem `STATE/DECISIONS.md` câu hỏi mở mới** về việc có nên chính thức hoá quy trình "đóng cửa sổ phiên làm việc" (session close-out) thành một mục riêng trong `CLAUDE.md` §5 hay không — dựa trên so sánh giữa một prompt close-out tổng quát do Human cung cấp và cách batch 07-20 ở trên đã tự làm trên thực tế.
 
 ---
