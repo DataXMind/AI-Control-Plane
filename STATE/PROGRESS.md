@@ -1,5 +1,5 @@
 # PROGRESS — ACP (ai-control-plane)
-Cập nhật lần cuối: 2026-07-19 (Batch REVIEW-01 — Prompt-1/2 pipeline) bởi Claude **Fable 5** (finder+verify) + **Opus 4.8** (cross-review §5.7), Claude Code / VS Code extension
+Cập nhật lần cuối: 2026-07-26/27 (WINDOW-CLOSE lượt 3) bởi Claude Sonnet 5, Claude Code — Human approve + merge PR #206/207/208/209; vá + mở PR F-01 (#210, chờ merge); mục B/C viết lại rõ ràng. Xem section "🔒 WINDOW-CLOSE — 2026-07-26" bên dưới. Trước đó: 2026-07-19 (Batch REVIEW-01 — Prompt-1/2 pipeline) bởi Claude **Fable 5** (finder+verify) + **Opus 4.8** (cross-review §5.7), Claude Code / VS Code extension
 
 ---
 
@@ -101,6 +101,23 @@ Sau khi viết phần trên, phát hiện thêm: `critical/policy-trust-hardenin
 **Còn nguyên, cố ý không đụng:** working tree hiện tại (`fix/f03-timeout-test-coroutine-warning`) vẫn còn bản sao uncommitted của các file đã đóng gói ở trên (`CLAUDE.md`, `LESSONS_LEARNED.md`, `PUBLIC_BETA_SPRINT_PLAN.md`, `ANCHOR_CURRENT.md`, `.gitignore`, `STATE/*.md`) — **giờ là dữ liệu dư thừa an toàn** (đã có bản backup trong PR #206/#207), có thể `git checkout -- <file>` / để nguyên tuỳ Human, KHÔNG tự ý discard vì đó là thao tác phá dữ liệu chưa được xác nhận rõ ràng (git safety protocol).
 
 **Việc mới phát sinh trong lượt này — xem `STATE/DECISIONS.md` câu hỏi mở mới** về việc có nên chính thức hoá quy trình "đóng cửa sổ phiên làm việc" (session close-out) thành một mục riêng trong `CLAUDE.md` §5 hay không — dựa trên so sánh giữa một prompt close-out tổng quát do Human cung cấp và cách batch 07-20 ở trên đã tự làm trên thực tế.
+
+### Lượt 3 (cùng phiên, 2026-07-26/27) — Human approve + merge, vá F-01, làm rõ mục B/C
+
+**Human approve trực tiếp** 4 PR ở Lượt 2 → đã merge thật (xác nhận qua `gh pr view` sau khi merge, không chỉ giả định lệnh thành công):
+
+| PR | Merge commit | Ghi chú |
+|---|---|---|
+| #206 | `be6d306` | — |
+| #207 | `a2ccc13` | Human approve process (CLAUDE.md §5.9) — đã convert draft→ready trước khi merge |
+| #208 | `1b8e730` | — |
+| #209 | `b69f776` | Human approve trực tiếp thay vì chờ Opus review riêng — ghi rõ để không ai hiểu nhầm bước Opus đã thật sự chạy |
+
+**F-01 — điều tra sâu hơn + vá (Human yêu cầu "hãy vá lại"):** đọc trực tiếp `config/loader.py` (`derive_allowed_patterns`/`derive_denied_patterns` dòng 30-46, `_map_abac_entry` dòng 152-196) và `core/policies.py` (`_matches_pattern`/`_matches_any_pattern`/`_matches_any_action` dòng 63-78, `_DEFAULT_WRITE_ACTIONS` dòng 108-119) — phát hiện wildcard `k8s_apply_*` **có chủ đích thật**, khớp họ action `k8s_apply_dev/stage/prod` đã tồn tại sẵn (dùng trong `_DEFAULT_WRITE_ACTIONS` và `tests/test_registry.py`). Bug thật chỉ nằm ở `ConditionEvaluator.evaluate()` so khớp key `actions` (số nhiều) bằng exact membership thay vì pattern-match — quyết định vá: dùng `_matches_any_action()` cho key đó, KHÔNG đổi loader. Đã tự chứng minh red→green bằng `git stash` (test fail đúng với `allowed=True path=default_allow` khi bỏ fix, pass khi có fix) trước khi kết luận — không chỉ tin logic suông. Full verify: ruff/mypy PASS, pytest 253 (was 252, +1 test mới), smoke 8/8, shipped_config_parity 6/6 (was 5). PR [#210](https://github.com/DataXMind/AI-Control-Plane/pull/210) mở, **chờ Human merge** (không tự merge — CRITICAL, luật ACP).
+
+**Mục B/C `HUMAN_REVIEW_QUEUE.md`:** Human báo "không hiểu rõ nội dung" — đã viết lại bằng ngôn ngữ thường (không dùng thuật ngữ nội bộ mà không giải thích), và với mục Q-15 (#6) đã soạn sẵn diff YAML cụ thể để Human chỉ cần đọc + approve. **Không** tự soạn phần đăng ký `aeos` project/agent (mục #10) vì cần thông tin thật từ repo `aeos` (đường dẫn, nhánh) mà phiên này không có nhiệm vụ đọc — bịa số liệu ở đây rủi ro hơn để trống. Các mục #7/#8/#9/#11/#12/#13 xác nhận lại: không có phần nào tách được để "thực thi trước", toàn bộ đều cần câu trả lời của Human trước khi có việc để agent làm.
+
+**Chưa đổi, còn treo:** working tree hiện tại (`fix/f03-timeout-test-coroutine-warning`) vẫn còn bản uncommitted dư thừa-nhưng-an-toàn của các file đã merge qua PR #206/#207 — chưa dọn (như Lượt 2 đã ghi, chờ Human quyết). Sau khi `git pull`/rebase branch này, `STATE/*.md` sẽ từ "untracked" chuyển thành "tracked, có thể conflict với bản local" — cần lưu ý khi dọn.
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Mục đích:** hiển thị đầu mỗi phiên/ngày các việc CHỜ HUMAN (quyết định, credential, hoặc duyệt merge). Agent tự cập nhật cột trạng thái khi làm được phần của mình; việc nào chỉ Human mới xử lý được thì giữ nguyên chờ.
 
-**Cập nhật lần cuối:** 2026-07-26 (lượt 2, cùng phiên) bởi Claude (Sonnet 5, Claude Code) — đóng gói TOÀN BỘ nội dung "chờ Human merge" đang nằm ở dạng branch-chưa-push hoặc working-tree-chưa-commit thành PR thật trên GitHub: mục A.1/A.2 → PR #209 (CRITICAL, rebase sạch), A.3 → PR #206 (đã đóng, không còn working tree), A.5 → PR #207 (draft, cố ý chưa sẵn sàng merge), F-03 (mục 0) → PR #208. Không đổi nội dung/quyết định của mục 0 (F-01/F-02 vẫn đúng nguyên trạng, chỉ thêm link PR cho F-03) hay mục B/C — không thuộc phạm vi lượt này. Lượt 1 cùng ngày: đóng A.4 (PR #201) + thêm dòng mục D (PR #202-205). Batch trước: 2026-07-19 (Fable 5 finder + Opus 4.8 cross-review) — Prompt-1/2 review+refactor pipeline.
+**Cập nhật lần cuối:** 2026-07-26/27 (lượt 3, cùng phiên) bởi Claude (Sonnet 5, Claude Code) — Human approve trực tiếp → đã merge PR #206/#207/#208/#209 (mục A.1-5 giờ 🟢). Điều tra sâu + vá F-01 (mục 0) → PR #210 mở, chờ merge (mục A.14). Viết lại mục B bằng ngôn ngữ dễ hiểu theo yêu cầu Human + soạn sẵn diff Q-15 cụ thể (mục 6) để Human chỉ cần approve, chưa áp dụng. Mục C giữ nguyên, chỉ diễn giải lại. Lượt 2 cùng ngày: đóng gói branch/working-tree thành PR. Lượt 1: đóng A.4 (PR #201). Batch trước: 2026-07-19 (Fable 5 finder + Opus 4.8 cross-review).
 **Quy ước:** 🔴 chỉ Human · 🟡 agent đã làm, chờ Human duyệt/merge · 🟢 đã đóng
 
 ---
@@ -13,11 +13,11 @@ Pipeline review toàn repo. Handoff Package validate PASS theo `HANDOFF-CONTRACT
 
 | # | Finding | Mức | Bằng chứng (repro thật) | Trạng thái |
 |---|---|---|---|---|
-| F-01 | 🔴 **ABAC `Deny-prod-k8s` KHÔNG chặn `k8s.apply` prod chưa duyệt** → rơi xuống `default_allow=True`. Root cause: loader viết `k8s.apply`→`k8s_apply_*` (wildcard) vào key số nhiều `actions`, nhưng `ConditionEvaluator.evaluate` (`core/policies.py:163-166`) so khớp `actions` bằng EXACT membership. `helm.upgrade` bị chặn đúng (path=abac) → chứng minh bất đối xứng. Unit test xanh vì fixture dùng 1-action → map sang key số ít `action` (pattern-match đúng). | **P0 CRITICAL** | `repro_abac.py` qua loader thật + shipped config: infra+prod+not_approved+k8s.apply → `allowed=True path=default_allow` | 🔴 Chờ Human approve (CRITICAL/ABAC/invariant #1 — Tier C). CHƯA vá. |
-| F-02 | 🔴 **Role-trust escalation trên `/policy/evaluate`**: `body.role` được tin nguyên văn (`api/server.py:_resolve_role` 246-257) → caller tự khai role bất kỳ. **Chained với F-01**: agent2 (backend, bị RBAC cấm k8s.apply) gửi `role='infra'` + `plan_submitted` + `environment=prod` → **unapproved prod k8s.apply = allowed=True**. Đây là A1/A3 đã biết. | **P1 CRITICAL** | `repro_roletrust.py` qua API thật (TestClient): combined exploit → `allowed=True path=default_allow` | 🔴 Đã có fix trên branch `critical/policy-trust-hardening` (#1 mục A) chờ merge. XÁC NHẬN vẫn LIVE trên master. |
-| F-03 | 🟡 Test `test_policy_evaluate_timeout_fail_closed` bỏ rơi coroutine `to_thread` → RuntimeWarning. | P3 test-only | pytest warnings 2→1 sau vá | 🟡 **PR [#208](https://github.com/DataXMind/AI-Control-Plane/pull/208)** (branch cũ chỉ nằm local, chưa từng push — đã push + mở PR 2026-07-26, rebase sạch lên `origin/master` hiện tại). ruff/mypy/221 pass (re-run trên bản rebase, không chỉ trích dẫn). Chờ Human merge. |
+| F-01 | 🟡 **ABAC `Deny-prod-k8s` KHÔNG chặn `k8s.apply` prod chưa duyệt** → rơi xuống `default_allow=True`. Root cause CONFIRMED sau điều tra sâu hơn (2026-07-26): wildcard `k8s_apply_*` sinh bởi loader là **có chủ đích** (khớp họ action `k8s_apply_dev/stage/prod` dùng thật ở nơi khác trong code, xem `core/policies.py` `_DEFAULT_WRITE_ACTIONS` + `tests/test_registry.py`) — lỗi thật nằm ở `ConditionEvaluator.evaluate()` so khớp key số nhiều `actions` bằng EXACT membership thay vì pattern-match (trong khi key số ít `action` và toàn bộ path RBAC đã dùng `_matches_any_pattern`/`_matches_any_action` đúng từ trước). | **P0 CRITICAL** | Repro qua shipped config thật (role infra, k8s_apply, prod+not_approved) → `allowed=True path=default_allow`, khớp chính xác báo cáo cũ | 🟡 **PR [#210](https://github.com/DataXMind/AI-Control-Plane/pull/210)** (2026-07-26) — vá `_matches_any_action()` cho key `actions`; KHÔNG đổi cách loader sinh wildcard (đã xác minh cách đó đúng ý đồ thiết kế, xoá nó sẽ thu hẹp phạm vi chặn dưới mức dự kiến). Có test hồi quy chứng minh red-trước-vá/green-sau-vá bằng `git stash`. Verify: ruff/mypy PASS, pytest 253 (was 252, +1), smoke 8/8, shipped_config_parity 6/6 (was 5, +1). Chờ Human merge (không tự merge — luật ACP). |
+| F-02 | 🟢 **Role-trust escalation trên `/policy/evaluate`** | **P1 CRITICAL** | — | **Đã merge** 2026-07-26/27 — PR [#209](https://github.com/DataXMind/AI-Control-Plane/pull/209) (`b69f776`), Human-approved trực tiếp (queue từng ghi "chờ Opus review + Human merge" — Human tự duyệt, không chờ Opus review riêng — ghi nhận rõ để không ai hiểu nhầm bước Opus đã chạy) |
+| F-03 | 🟢 Test `test_policy_evaluate_timeout_fail_closed` bỏ rơi coroutine `to_thread` → RuntimeWarning. | P3 test-only | — | **Đã merge** 2026-07-26/27 — PR [#208](https://github.com/DataXMind/AI-Control-Plane/pull/208) (`1b8e730`) |
 
-**⚠️ F-01 + F-02 hợp lại = bypass HOÀN TOÀN cổng phê duyệt K8s production** — kiểm soát quan trọng nhất của ACP. F-01 là finding MỚI (chưa có trong queue trước), độc lập với branch trust-hardening; branch đó vá F-02 (role-trust) nhưng KHÔNG vá F-01 (ABAC wildcard) → cần fix riêng cho F-01 kể cả sau khi merge trust-hardening.
+**Cập nhật 2026-07-26 (lượt 3):** F-02 và F-03 đã merge. F-01 đã có fix hoàn chỉnh + test hồi quy, đang chờ merge ở PR #210 — đây là **hạng mục CRITICAL cuối cùng còn treo** trong toàn bộ mục 0. Sau khi #210 merge, `Deny-prod-k8s` sẽ chặn đúng cả 3 action như thiết kế ban đầu.
 
 ---
 
@@ -25,29 +25,44 @@ Pipeline review toàn repo. Handoff Package validate PASS theo `HANDOFF-CONTRACT
 
 | # | Việc | Branch / File | Trạng thái | Ghi chú |
 |---|---|---|---|---|
-| 1 | 🟡 Fix bảo mật A1/A3/A5/A6 (role-trust, audit-trail, loader warnings) | **PR [#209](https://github.com/DataXMind/AI-Control-Plane/pull/209)** (branch `critical/policy-trust-hardening` @ `9c56efa`, chưa từng push — đã push + mở PR 2026-07-26, rebase sạch) | Chờ Opus review + Human merge | CRITICAL — chạm auth endpoint quyết định. Verify re-run trên bản rebase: ruff/mypy PASS, pytest 252 pass/smoke 8/parity 5; exploit A1 verified closed. PR ghi rõ KHÔNG vá F-01 (khác root cause, xem mục 0) |
-| 2 | 🟡 A7 invariant test (Inv #1 no-OSS-engine, Inv #4 cli HTTP-only) | Cùng PR **[#209](https://github.com/DataXMind/AI-Control-Plane/pull/209)** @ `12d7a97` | Chờ Human merge | 21 case pass (re-verify 2026-07-26) |
-| 3 | 🟢 Sửa drift timeline (PUBLIC_BETA_SPRINT_PLAN: PB-9/PB-12 đang sai công khai) | **PR [#206](https://github.com/DataXMind/AI-Control-Plane/pull/206)** (đã đóng gói từ working tree `docs/post-flip-status-0707` cũ, mở 2026-07-26) | Chờ Human merge (đã đóng gói xong, không còn nằm working tree) | File public từng khẳng định PB-9 IN PROGRESS + PB-12 ❌ — đều sai, đã sửa; verify docs-only + smoke 8/8 pass |
-| 4 | 🟢 PR #201 (post-flip status ticks) | GitHub, mở từ 07-07 | **Đã merge** 2026-07-16 (squash `ab5a2a7`, tác giả `mobilexmind`) | Đóng bởi phiên 2026-07-26 (Claude Sonnet 5): xác nhận qua `gh pr view 201` (`state: MERGED`) + `git log --oneline` trên `origin/master`; nội dung đã skim đầy đủ trước đó (5 file docs, số liệu 1.6.0/pytest 221/gates_remaining=1 khớp `ANCHOR_CURRENT.md`) |
-| 5 | 🟡 CLAUDE.md §5 Autonomous protocol (+ mới §5.13 Session close-out) + LESSONS P-18..21 + bootstrap `STATE/*.md` vào git | **PR DRAFT [#207](https://github.com/DataXMind/AI-Control-Plane/pull/207)** (đã đóng gói từ working tree, mở draft 2026-07-26 — cố ý để DRAFT, không phải PR thường) | Chờ Human review + quyết định (không phải merge thường) | Thay đổi process → cần duyệt (CLAUDE.md §5.9); xem `STATE/DECISIONS.md` câu hỏi mở #7. `STATE/ACP_MOAT_STRATEGY.md` đã bị loại khỏi commit (thêm vào `.gitignore`) — file đó tự ghi rõ không được publish |
+| 1 | 🟢 Fix bảo mật A1/A3/A5/A6 (role-trust, audit-trail, loader warnings) | PR [#209](https://github.com/DataXMind/AI-Control-Plane/pull/209) | **Đã merge** 2026-07-26/27 (`b69f776`) | Human-approved trực tiếp |
+| 2 | 🟢 A7 invariant test (Inv #1 no-OSS-engine, Inv #4 cli HTTP-only) | Cùng PR #209 | **Đã merge** | 21 case pass |
+| 3 | 🟢 Sửa drift timeline (PUBLIC_BETA_SPRINT_PLAN) | PR [#206](https://github.com/DataXMind/AI-Control-Plane/pull/206) | **Đã merge** 2026-07-26/27 (`be6d306`) | — |
+| 4 | 🟢 PR #201 (post-flip status ticks) | GitHub | **Đã merge** 2026-07-16 (squash `ab5a2a7`) | — |
+| 5 | 🟢 CLAUDE.md §5 (+ §5.13) + LESSONS P-18..21 + bootstrap `STATE/*.md` vào git | PR [#207](https://github.com/DataXMind/AI-Control-Plane/pull/207) | **Đã merge** 2026-07-26/27 (`a2ccc13`) — Human approve process theo §5.9 | `STATE/ACP_MOAT_STRATEGY.md` vẫn bị loại khỏi git (`.gitignore`) |
+| 14 | 🟡 Fix F-01 (xem mục 0) | PR [#210](https://github.com/DataXMind/AI-Control-Plane/pull/210) | Chờ Human merge | CRITICAL, PolicyEngine/ABAC/Invariant #1 — mục cuối cùng còn treo trong batch review 07-19 |
 
 ## B. Chờ Human QUYẾT ĐỊNH (thiết kế/sản phẩm — agent không tự quyết)
 
-| # | Việc | Ở đâu | Tại sao cần Human |
-|---|---|---|---|
-| 6 | 🔴 Vá `config/policies.yml` Q-15 (thêm `session.create` cho backend) | ACP STATE §Q-15 | CRITICAL policies.yml — Human approve trước |
-| 7 | 🔴 A2: có bật enforcement cho `requires_approval` không (breaking API contract AEOS/SACP đang phụ thuộc)? | Audit A2 | Breaking change hợp đồng live — quyết định sản phẩm |
-| 8 | 🔴 §5(c) GATE-O1: quota ACP vs budget SACP — thứ tự check | SACP STATE D-17 | Chạm luật ACP, ngoài thẩm quyền Opus |
-| 9 | 🔴 SACP LLM hot-path có bắt buộc qua ACP evaluate (Track B3) hay giữ H-1+H-3? | Brief Mục 9 | Quyết định Product, đánh đổi tốc độ/compliance |
-| 10 | 🔴 Thiết kế project `aeos` riêng trong ACP config (roles/paths/env) | Chưa có file | Quyết định thiết kế, không phải copy-paste |
-| 11 | 🔴 Q-10 AEOS: traffic-controller vs 50-agent org tự vận hành | AEOS STATE Q-10 | Định hướng chiến lược, chạm ADR charter |
+**Giải thích chung (thêm 2026-07-26 vì Human ghi "không hiểu rõ nội dung này"):** đây KHÔNG phải việc còn dang dở do thiếu code — đây là 6 câu hỏi mà chỉ Human mới trả lời được (đánh đổi sản phẩm, quyết định kiến trúc xuyên-repo, hoặc thẩm quyền vượt phạm vi 1 agent). Đã rà lại từng mục 2026-07-26, xác nhận vẫn đúng nguyên trạng, và với mục 6 đã chuẩn bị sẵn **diff cụ thể** để Human chỉ cần đọc và approve (không cần tự viết YAML).
+
+| # | Việc | Giải thích ngắn (Human đọc hiểu ngay) | Đã chuẩn bị gì cho Human | Tại sao agent không tự quyết |
+|---|---|---|---|---|
+| 6 | Vá `config/policies.yml` Q-15 — thêm `session.create` vào quyền của role `backend` | AEOS gọi ACP xin phép tạo session, nhưng role `backend` chưa được cấp quyền `session.create` trong file luật → AEOS phải tắt tạm `ACP_ENABLED` để không bị chặn. Cần thêm đúng 1 dòng vào 2 file YAML. | **Diff cụ thể đã soạn sẵn — xem ngay bên dưới**, chưa áp dụng, chỉ chờ Human đọc + approve | `policies.yml` là CRITICAL tuyệt đối theo luật ACP — bắt buộc Human duyệt TRƯỚC khi agent chạm vào, không phải sau |
+| 7 | A2: bật thật sự việc chặn (`requires_approval`) hay chỉ ghi log? | Hiện `requires_approval` có thể mới là "ghi nhận cần duyệt" chứ chưa thật sự CHẶN hành động cho tới khi duyệt — nếu bật chặn thật, AEOS/SACP đang tích hợp sẵn có thể bị lỗi vì họ đang giả định hành vi cũ | Không có gì để chuẩn bị trước — cần Human trả lời có/không trước, sau đó agent mới biết code gì | Đổi hành vi API đang chạy thật (breaking change) — quyết định sản phẩm |
+| 8 | Thứ tự kiểm tra quota ACP vs ngân sách SACP, cái nào check trước | Khi 1 request vừa tốn quota ACP vừa tốn ngân sách SACP, cần biết kiểm cái nào trước để tránh trường hợp 1 bên cho phép, bên kia từ chối, gây lẫn lộn | Không thể tự chuẩn bị — cần thiết kế phối hợp với repo SACP, ngoài phạm vi ACP một mình | Xuyên 2 repo, ngoài thẩm quyền của agent lẫn Opus (đã ghi trong Opus Review Gate 07-08) |
+| 9 | SACP có nên gọi ACP để kiểm tra mỗi tin nhắn chat hay không (thay vì tự kiểm tra bằng luật riêng)? | Đánh đổi: gọi ACP mỗi lần = chậm hơn nhưng nhất quán luật; giữ luật riêng = nhanh hơn nhưng có thể lệch luật ACP | Không thể tự chuẩn bị — đây là lựa chọn tốc độ-vs-nhất-quán, phải do người có quyền sản phẩm chọn | Đánh đổi hiệu năng/tuân thủ — quyết định Product |
+| 10 | Đăng ký `aeos` như một "dự án" riêng trong ACP (thay vì mượn tạm dự án `rust-gateway`) | AEOS hiện đang "mượn" nhận diện của dự án khác để gọi ACP — hoạt động được nhưng không đúng tên. Cần biết đường dẫn/nhánh/môi trường thật của repo `aeos` để đăng ký đúng | **Không tự soạn được** — đã xem `config/projects.yml` thật, cần thông tin cụ thể từ repo `aeos` (đường dẫn code, tên nhánh) mà agent chưa được giao nhiệm vụ đọc trong phiên này; bịa số liệu ở đây rủi ro hơn là để trống | Cần thông tin cụ thể từ repo khác + quyết định thiết kế, không phải làm theo mẫu có sẵn |
+| 11 | AEOS nên là "trạm điều phối" đơn giản hay tự vận hành cả tổ chức 50 agent? | Câu hỏi định hướng chiến lược dài hạn cho dự án `aeos`, không phải lỗi/tính năng cụ thể | Không thể chuẩn bị — cần tầm nhìn sản phẩm | Định hướng chiến lược, chạm văn kiện kiến trúc (ADR) |
+
+### Đề xuất Q-15 — diff cụ thể, chỉ chờ approve (không tự áp dụng)
+
+```diff
+--- a/config/policies.yml
++++ b/config/policies.yml
+@@ rbac.roles.backend.allowed_actions
+         - cargo.clippy
+         - admin.budget.freeze
++        - session.create
+```
+Áp dụng **giống hệt** cho `customer-bundle/production-config/policies.yml` (cùng cấu trúc, dòng tương ứng). Sau khi Human approve, verify bắt buộc trước merge: `pytest tests/test_shipped_config_parity.py -m shipped_config`, rồi chạy `scripts/sync_customer_bundle.sh` + `scripts/sync_vps_acp_admin_freeze.sh` trên VPS + AEOS re-smoke + bật lại `ACP_ENABLED`. Phần đăng ký project/agent riêng cho `aeos` (mục 10) **tách riêng**, không đi chung — vì đó cần thông tin thêm, còn phần `session.create` này tự đủ để verify.
 
 ## C. Chờ Human HÀNH ĐỘNG VẬN HÀNH (credential / thao tác thật — Tier B)
 
-| # | Việc | Ở đâu | Tại sao |
+| # | Việc | Giải thích ngắn | Tại sao |
 |---|---|---|---|
-| 12 | 🔴 Bắt đầu clock PB-10 (30d production soak) | issue #78 | Thao tác vận hành, không có code để agent chạy |
-| 13 | 🔴 Rotate NGROK token | ANCHOR_CURRENT / playbook | Credential thật trên VPS — agent không có quyền |
+| 12 | Bắt đầu đếm ngày cho giai đoạn "soak" 30 ngày trước khi lên bản Production chính thức (PB-10) | Đây là một mốc thời gian vận hành thật (theo dõi hệ thống chạy ổn định 30 ngày liên tục), không phải việc sửa code — phải do Human bấm "bắt đầu" | issue #78 — thao tác vận hành, không có lệnh nào agent chạy để "bắt đầu đếm ngày" thay Human |
+| 13 | Đổi token NGROK (một loại chứng chỉ kết nối mạng) trên VPS | Đây là thông tin đăng nhập thật trên máy chủ thật — agent không có và không nên có quyền truy cập | Credential thật trên VPS — ngoài quyền hạn agent theo thiết kế |
 
 ## D. Đã đóng gần đây (agent tự làm được — không cần Human)
 
