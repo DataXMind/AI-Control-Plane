@@ -110,6 +110,45 @@ def _deny_response(reason: str, *, latency_ms: float = 0.0) -> PolicyEvalRespons
     )
 
 
+def _emit_policy_event(
+    acp: AppState,
+    *,
+    agent_id: str,
+    project_id: str,
+    tool_name: str,
+    role: str | None,
+    allowed: bool,
+    reason: str,
+    evaluation_path: str | None,
+    policy_id: str | None = None,
+    requires_approval: bool = False,
+) -> None:
+    """Append every policy decision to the hash-chained audit store.
+
+    Fail-silent by contract (ARCHITECTURE § Telemetry): an emit failure must
+    never alter or block the policy decision returned to the caller.
+    """
+    try:
+        acp.telemetry_store.append(
+            TelemetryEvent(
+                event_type="policy.evaluate",
+                agent_id=agent_id,
+                project_id=project_id,
+                payload={
+                    "tool_name": tool_name,
+                    "role": role,
+                    "allowed": allowed,
+                    "reason": reason,
+                    "evaluation_path": evaluation_path,
+                    "policy_id": policy_id,
+                    "requires_approval": requires_approval,
+                },
+            ),
+        )
+    except Exception:  # noqa: BLE001 — audit emit is best-effort, never fatal
+        logger.warning("policy_evaluate_telemetry_emit_failed", agent_id=agent_id)
+
+
 def _project_requests_key(project_id: str) -> str:
     return f"quota:project:{project_id}:requests_today"
 
@@ -243,18 +282,33 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             )
 
 
+def _registered_roles(entry: dict[str, Any]) -> list[str]:
+    roles = entry.get("roles")
+    if isinstance(roles, list) and roles:
+        return [str(r) for r in roles]
+    single = entry.get("role")
+    return [str(single)] if single is not None else []
+
+
 def _resolve_role(
     agent_id: str,
     role: str | None,
     registry: dict[str, dict[str, Any]],
 ) -> str | None:
-    if role is not None:
-        return role
+    """Resolve the effective role for *agent_id*, never trusting a self-asserted role.
+
+    A client MAY send a ``role`` in the request body, but it is only honored when
+    the registry actually grants that role to the agent. A claimed role the agent
+    is not registered for resolves to ``None`` (deny) — closing the privilege-
+    escalation path where any agent could act as any role by asserting it.
+    """
     entry = registry.get(agent_id)
     if entry is None:
         return None
-    value = entry.get("role")
-    return str(value) if value is not None else None
+    registered = _registered_roles(entry)
+    if role is not None:
+        return role if role in registered else None
+    return registered[0] if registered else None
 
 
 def _agent_allowed_for_project(
@@ -349,14 +403,42 @@ def create_app(state: AppState | None = None) -> FastAPI:
         role = _resolve_role(body.agent_id, body.role, acp.agent_registry)
         if role is None:
             latency_ms = (time.perf_counter() - start) * 1000.0
-            return _deny_response("unknown agent or role", latency_ms=latency_ms)
+            if body.role is not None and body.agent_id in acp.agent_registry:
+                reason = (
+                    f"claimed role '{body.role}' not authorized "
+                    f"for agent '{body.agent_id}'"
+                )
+            else:
+                reason = "unknown agent or role"
+            _emit_policy_event(
+                acp,
+                agent_id=body.agent_id,
+                project_id=body.project_id,
+                tool_name=body.tool_name,
+                role=body.role,
+                allowed=False,
+                reason=reason,
+                evaluation_path="identity",
+            )
+            return _deny_response(reason, latency_ms=latency_ms)
 
         if not _agent_allowed_for_project(body.agent_id, body.project_id, acp.agent_registry):
             latency_ms = (time.perf_counter() - start) * 1000.0
-            return _deny_response(
-                f"agent '{body.agent_id}' not authorized for project '{body.project_id}'",
-                latency_ms=latency_ms,
+            reason = (
+                f"agent '{body.agent_id}' not authorized "
+                f"for project '{body.project_id}'"
             )
+            _emit_policy_event(
+                acp,
+                agent_id=body.agent_id,
+                project_id=body.project_id,
+                tool_name=body.tool_name,
+                role=role,
+                allowed=False,
+                reason=reason,
+                evaluation_path="identity",
+            )
+            return _deny_response(reason, latency_ms=latency_ms)
 
         identity = AgentIdentity(
             agent_id=body.agent_id,
@@ -407,6 +489,18 @@ def create_app(state: AppState | None = None) -> FastAPI:
             )
 
         latency_ms = (time.perf_counter() - start) * 1000.0
+        _emit_policy_event(
+            acp,
+            agent_id=body.agent_id,
+            project_id=body.project_id,
+            tool_name=body.tool_name,
+            role=role,
+            allowed=decision.allowed,
+            reason=decision.reason,
+            evaluation_path=decision.evaluation_path,
+            policy_id=decision.policy_id,
+            requires_approval=decision.requires_approval,
+        )
         return PolicyEvalResponse(
             allowed=decision.allowed,
             reason=decision.reason,

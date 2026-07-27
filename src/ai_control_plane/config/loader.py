@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from typing import Any, Literal
 
+import structlog
 import yaml  # type: ignore[import-untyped]
 
 from ai_control_plane.core.exceptions import ConfigError
@@ -17,6 +18,8 @@ from ai_control_plane.core.models import (
     ProjectConfig,
 )
 from ai_control_plane.core.tool_names import normalize_tool_name
+
+logger = structlog.get_logger(__name__)
 
 _CONFIG_FILENAMES = ("projects.yml", "agents.yml", "policies.yml")
 
@@ -240,13 +243,37 @@ def _load_abac_rules(raw: dict[str, Any]) -> list[PolicyRule]:
         mapped = _map_abac_entry(entry)
         if mapped is not None:
             rules.append(mapped)
+        else:
+            # An entry with content but no mappable/supported condition key is
+            # silently unenforceable — surface it so a typo'd key (e.g.
+            # 'enviroment') does not drop a rule without any trace.
+            logger.warning(
+                "abac_rule_dropped",
+                rule_id=str(entry.get("id") or entry.get("name", "<unnamed>")),
+                detail="no supported condition key matched — rule NOT enforced",
+            )
     return rules
 
 
 def load_policies_from_dict(raw: dict[str, Any]) -> list[PolicyRule]:
-    """Parse policies YAML root dict into PolicyRule list for PolicyEngine."""
+    """Parse policies YAML root dict into PolicyRule list for PolicyEngine.
+
+    The explicit ``rules:`` (fixture) format and the ``rbac:``/``abac:`` (shipped)
+    format are mutually exclusive: when ``rules:`` is present it wins and the
+    ``rbac``/``abac`` sections are ignored. Warn loudly if both appear, so an
+    operator who adds a ``rules:`` block to a shipped policies.yml does not
+    silently discard the whole RBAC/ABAC policy set.
+    """
     pass_through = _load_pass_through_rules(raw)
     if pass_through:
+        if "rbac" in raw or "abac" in raw:
+            logger.warning(
+                "policies_schema_conflict",
+                detail=(
+                    "both 'rules:' and 'rbac:'/'abac:' present — "
+                    "'rules:' takes precedence; rbac/abac sections IGNORED"
+                ),
+            )
         return pass_through
     return _load_rbac_rules(raw) + _load_abac_rules(raw)
 
