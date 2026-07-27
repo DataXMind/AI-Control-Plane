@@ -1,8 +1,8 @@
 # Public Beta — Sprint Plan
 
 **Document ID:** ACP-GOV-PUBLIC-BETA-001  
-**Status:** **IN PROGRESS** — prep started 2026-06-24  
-**Baseline:** `master` @ **`20e4fc3`** · catalog v1.3.3  
+**Status:** **PUBLIC BETA SHIPPED** — prep started 2026-06-24 · flipped public 2026-07-06  
+**Baseline:** `master` @ **`a5d5776`** · catalog v1.6.0 _(was `20e4fc3` / v1.3.3 — bumped 2026-07-09 drift-fix D-04)_  
 **Parent:** [`OPEN_SOURCE_READINESS.md`](../OPEN_SOURCE_READINESS.md)  
 **Go/No-Go tracker:** [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md)  
 **Claude matrix (stale):** [`CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md`](CLAUDE_RESPONSIBILITY_MATRIX_RECONCILIATION.md)
@@ -42,16 +42,16 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | PB-6 | OpenAPI spec export + doc | Technical | ✅ | Runtime + static + CI smoke; **publish on flip** @ PB-12 |
 | PB-7 | README fork path ≤15 min verified | Go/No-Go | ✅ **PASS CLEAN** | Ubuntu @ MSI 2026-06-27 — [`pb-7-clean-machine-fork/RESULTS.md`](practice-evidence/pb-7-clean-machine-fork/RESULTS.md) |
 | PB-8 | `CHANGELOG.md` + `v0.1.0-rc.1` tag | Release | ✅ tag @ `c58b4cc` · CHANGELOG #120 | Early pre–Day-14 |
-| PB-9 | Staging soak ≥2 weeks | Operational | 🔄 **IN PROGRESS** | Ticks through **2026-06-28** · [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) |
+| PB-9 | Staging soak ≥2 weeks | Operational | ✅ **PASS** | Day 14 review **2026-07-06** · [#77](https://github.com/DataXMind/AI-Control-Plane/issues/77) **CLOSED** · [`pb-9-day14-review/RESULTS.md`](practice-evidence/pb-9-day14-review/RESULTS.md) |
 | PB-10 | Production soak ≥30 days SLO | Operational | ⏳ **Deferred @ 0.x beta** | [#78](https://github.com/DataXMind/AI-Control-Plane/issues/78) — GA track; see [`PUBLIC_BETA_GO_NO_GO.md`](PUBLIC_BETA_GO_NO_GO.md) § PB-10 |
-| PB-11 | Branch protection API enforced | Platform | ❌ | [#79](https://github.com/DataXMind/AI-Control-Plane/issues/79) — 403 free tier |
-| PB-12 | Flip repo public + disclaimer | Go/No-Go | ❌ | [#80](https://github.com/DataXMind/AI-Control-Plane/issues/80) |
+| PB-11 | Branch protection API enforced | Platform | ⏳ **Deferred → PB-12/GA** | [#79](https://github.com/DataXMind/AI-Control-Plane/issues/79) — 403 free tier; process-only waiver accepted at flip |
+| PB-12 | Flip repo public + disclaimer | Go/No-Go | ✅ **GO 2026-07-06** | Catalog v1.6.0 · release `v0.1.0-beta.1` · [`pb-12-public-flip/RESULTS.md`](practice-evidence/pb-12-public-flip/RESULTS.md) |
 
 ---
 
 ## Technical gates (from OPEN_SOURCE_READINESS) — current
 
-| Gate | Status @ `de931b5` |
+| Gate | Status @ `a5d5776` _(was `de931b5`)_ |
 |------|-------------------|
 | Config-driven runtime | ✅ |
 | Policy truth (shipped parity CI) | ✅ |
@@ -60,7 +60,7 @@ Public Beta = **Phase 2 visibility** (public GitHub, `0.x` semver). **Not** PyPI
 | Observability (`/health`, structlog) | ✅ |
 | CI Smoke + Full suite | ✅ |
 | Security hygiene (Dependabot, pip-audit in CI) | ✅ |
-| Core module tests | ✅ **177** pytest |
+| Core module tests | ✅ **221** pytest _(was 177 — updated 2026-07-09)_ |
 
 ---
 
