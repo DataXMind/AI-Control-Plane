@@ -106,3 +106,52 @@ def test_shipped_restrict_pii_role_not_in_exemption(shipped_acp_config: Path) ->
 
     allow = engine.evaluate(reviewer, "git_read", pii_context, "rust-gateway")
     assert allow.allowed is True
+
+
+def test_shipped_deny_prod_k8s_blocks_k8s_apply_multi_action_rule(
+    shipped_acp_config: Path,
+) -> None:
+    """F-01 regression: shipped Deny-prod-k8s has 3 actions (multi-action ABAC
+    'actions' key) — the fixture-only test suite used a 1-action rule that maps
+    to the singular 'action' key and masked this. 'infra' is RBAC-allowed
+    k8s.apply in general; ABAC must still block it in prod without approval.
+    """
+    _ = shipped_acp_config
+    rules = load_policies(SHIPPED_CONFIG_DIR / "policies.yml")
+    engine = PolicyEngine(rules=rules)
+    infra = AgentIdentity(
+        agent_id="agent1",
+        project_id="rust-gateway",
+        role="infra",
+        jwt_claims={},
+        did=None,
+    )
+    prod_unapproved = {"environment": "prod", "approval_status": "not_approved"}
+
+    deny_apply = engine.evaluate(infra, "k8s_apply", prod_unapproved, "rust-gateway")
+    assert deny_apply.allowed is False
+    assert deny_apply.policy_id == "Deny-prod-k8s"
+    assert deny_apply.evaluation_path == "abac"
+
+    # Same rule's helm.upgrade action (RBAC-allowed for infra, same as k8s.apply)
+    # was already correctly denied before this fix (no wildcard substitution
+    # applied to it, since only "k8s_apply" triggers that in the loader) — lock
+    # in as regression cover so the fix doesn't accidentally narrow this path.
+    deny_helm = engine.evaluate(infra, "helm_upgrade", prod_unapproved, "rust-gateway")
+    assert deny_helm.allowed is False
+    assert deny_helm.policy_id == "Deny-prod-k8s"
+
+    # Same role/action outside prod, or approved, must remain allowed — the fix
+    # must not turn this into an unconditional deny.
+    allow_dev = engine.evaluate(
+        infra, "k8s_apply", {"environment": "dev"}, "rust-gateway"
+    )
+    assert allow_dev.allowed is True
+
+    allow_approved = engine.evaluate(
+        infra,
+        "k8s_apply",
+        {"environment": "prod", "approval_status": "approved"},
+        "rust-gateway",
+    )
+    assert allow_approved.allowed is True

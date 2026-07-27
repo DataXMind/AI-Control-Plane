@@ -162,7 +162,7 @@ class ConditionEvaluator:
                             return False
                 elif key == "actions":
                     if isinstance(expected, list) and expected:
-                        if context.get("action") not in expected:
+                        if not _matches_any_action(str(context.get("action", "")), expected):
                             return False
                 continue
 
