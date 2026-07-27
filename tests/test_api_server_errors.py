@@ -60,7 +60,8 @@ def test_policy_evaluate_agent_not_on_project(client: TestClient) -> None:
 
 
 def test_policy_evaluate_timeout_fail_closed(monkeypatch: pytest.MonkeyPatch) -> None:
-    async def _timeout(coro: object, timeout: float | None = None) -> object:
+    async def _timeout(coro: Any, timeout: float | None = None) -> object:
+        coro.close()  # avoid "coroutine was never awaited" warning from the patched wait_for
         raise TimeoutError
 
     monkeypatch.setattr(server_module.asyncio, "wait_for", _timeout)
